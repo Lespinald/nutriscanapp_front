@@ -12,7 +12,7 @@ Clonar
   git clone https://github.com/Lespinald/nutriscanapp_front
 ```
 
-
+![gitClone](https://github.com/Lespinald/nutriscanapp_front/assets/58563231/172d89e1-f9de-475b-ab2d-e103dcd857b7)
 
 
 
