@@ -18,11 +18,13 @@ const Scan = () => {
 
 
   const ScanImage = async (image: string) => {
-    if(!(worker.current)) worker.current = await createWorker('spa');
+    worker.current = await createWorker('spa');
 
-    const res = await worker.current.recognize(image);
+    const { data: { text } } = await worker.current.recognize(image);
 
-    return res.data.text;
+    await worker.current.terminate();
+
+    return text;
   }
 
   const enCaptura = (evento: React.ChangeEvent<HTMLInputElement>) => {
