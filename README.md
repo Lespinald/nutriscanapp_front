@@ -4,7 +4,7 @@ guia de desarrollo
 
 - Ambiente de desarrolo
 
-    npm install
+    npm install\n
     npm run dev
 
 - Testeo produccion
