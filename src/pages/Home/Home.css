@@ -13,7 +13,6 @@
 .scannerImg{
   max-height: 40vh;
   width: 100%;
-  object-fit: contain;
 
   padding: 3rem;
 }
@@ -44,7 +43,6 @@
 .homeInfo img{
   max-height: 7em;
   width: 100%;
-  object-fit: contain;
 }
 
 .homeInfo div{

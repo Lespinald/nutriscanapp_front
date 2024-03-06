@@ -1,0 +1,19 @@
+.scanMain{
+  height: 100%;
+  max-width: 100vw;
+}
+
+.scanTopImg{
+  width: 100%;
+  padding: 10%;
+  max-height: 50%;
+}
+
+.scanInput{
+  padding: 1em 5em;
+}
+
+.scanText{
+  padding: 1em;
+  font-size: 1.5em;
+}

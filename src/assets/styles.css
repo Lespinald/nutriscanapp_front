@@ -1,6 +1,11 @@
-body, #root{
+body{
   margin: 0;
-  font-family: sans-serif
+  font-family: sans-serif;
+  height: 100vh;
+}
+
+#root{
+  height: 100%;
 }
 
 *{
@@ -15,7 +20,7 @@ button:active{
   border-style: none;
 }
 
-.botonBasico{
+.basicButton{
   background-color: #005F54;
   color: white;
   border-radius: 1em;
@@ -23,10 +28,20 @@ button:active{
   transition: transform 0.05s;
 }
 
-.botonBasico:hover{
+.basicButton:hover{
   transform: scale(1.1);
 }
 
-.botonBasico:active{
+.basicButton:active{
   background-color: #54E8AE;
+}
+
+.stack{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.maintainRatio{
+  object-fit: contain;
 }

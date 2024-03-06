@@ -8,7 +8,7 @@ const Home = () => {
   return (
     <>
     <div className="homeMain">
-      <img className="scannerImg" src="/Home/scanner_.png" alt="scanner"/>
+      <img className="scannerImg maintainRatio" src="/Home/scanner_.png" alt="scanner"/>
       <div className="homeTitulo">Bienvenido a NutriScan</div>
 
       <div className="homeInfo">
@@ -18,7 +18,7 @@ const Home = () => {
         <div>Utilice su celular para escanear la tabla nutricional, procure enmarcar la imagen a la tabla que se va a usar</div>
       </div>
 
-      <button className="botonBasico" onClick={() => navigate("/Scan")}>
+      <button className="basicButton" onClick={() => navigate("/Scan")}>
         Empezar
       </button>
     </div>

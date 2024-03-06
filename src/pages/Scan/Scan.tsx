@@ -1,39 +1,76 @@
+import "./Scan.css"
+
 import React, { useEffect, useRef, useState } from "react";
+import { Worker, createWorker } from 'tesseract.js';
+
+import InputFile from "../../assets/Components/InputFile";
 
 const Scan = () => {
 
-  const navigator = window.navigator;
+  const defaultImg = "/Scan/frecuencia.png";
+  const defaultTxt = "Escaneando...";
 
-  const videoRef = useRef<HTMLVideoElement>(null);
-  const stream = useRef<MediaStream>(null);
+  const [image, setImage] = useState<string>(defaultImg);
+  const [text, setText] = useState<string>("Escaneando...");
 
-  useEffect(() => {
+  const worker = useRef<Worker | null>(null);
 
-    if(navigator.mediaDevices && !stream.current){
 
-      const constraints = {
-        audio: false,
-        video: {
-          facingMode: "environment"
-        }
-      };
 
-      navigator.mediaDevices.getDisplayMedia(constraints).then(
-        stream => {
-          if(videoRef.current) videoRef.current.srcObject = stream;
-        }
-      );
+  const ScanImage = async (image: string) => {
+    if(!(worker.current)) worker.current = await createWorker('spa');
+
+    const res = await worker.current.recognize(image);
+
+    return res.data.text;
+  }
+
+  const enCaptura = (evento: React.ChangeEvent<HTMLInputElement>) => {
+
+    const files = evento.currentTarget.files;
+    if(files && files[0].type){
+      if(files[0].type.startsWith("image/")){
+
+        const url = URL.createObjectURL(files[0]);
+
+        setText(defaultTxt);
+        ScanImage(url).then(
+          txt => setText(txt)
+        ).catch(
+          err => {
+            console.error("on scanning:", err)
+            setText(err);
+          }
+        );
+
+        setImage(url);
+
+      }else{
+        console.error("file type not supprted for this input");
+      }
+    }else{
+      console.error("file not found");
     }
+  }
 
-    
-  }, [])
+  useEffect(()=>{
+    return () => {
+      if(worker.current) worker.current.terminate()
+    }
+  })
 
   return (
-    <>
-    <video ref={videoRef} style={{width:"90vw"}} autoPlay playsInline muted>
+    <div className="stack scanMain">
+      <img className="scanTopImg maintainRatio" src={image}/>
+      <InputFile name="capturar" accept="image/*" styleClass="scanInput basicButton" onChange={enCaptura}>CAPTURAR</InputFile>
 
-    </video>
-    </>
+      <div className="scanText">
+        {(image !== defaultImg)?
+        text:
+        "captura una tabla para escanear su información"
+        }     
+      </div>
+    </div>
   );
 }
 
