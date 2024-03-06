@@ -1,0 +1,32 @@
+body, #root{
+  margin: 0;
+  font-family: sans-serif
+}
+
+*{
+  box-sizing: border-box;
+}
+
+button{
+  border-style: none;
+  padding: 1em;
+}
+button:active{
+  border-style: none;
+}
+
+.botonBasico{
+  background-color: #005F54;
+  color: white;
+  border-radius: 1em;
+
+  transition: transform 0.05s;
+}
+
+.botonBasico:hover{
+  transform: scale(1.1);
+}
+
+.botonBasico:active{
+  background-color: #54E8AE;
+}
