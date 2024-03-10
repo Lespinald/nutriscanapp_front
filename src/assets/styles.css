@@ -1,11 +1,14 @@
 body{
   margin: 0;
   font-family: sans-serif;
-  height: 100vh;
+  height: 100svh;
 }
 
 #root{
+  display: grid;
   height: 100%;
+
+  grid-template-rows: auto min-content;
 }
 
 *{

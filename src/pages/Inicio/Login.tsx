@@ -1,24 +1,26 @@
 import React, { useState } from 'react'
 import './login.css'
-import { useDispatch } from 'react-redux'
-import { chekingCredentials } from '../../redux/authSlice'
+// import { useDispatch } from 'react-redux'
+// import { chekingCredentials } from '../../redux/authSlice'
 import { signInWithEmailAndPassword } from 'firebase/auth'
 import { firebaseAuth } from '../../firebase'
 
 const Login = () => {
 
-    const dispatch = useDispatch()
+    // const dispatch = useDispatch()
 
     const [address, setAddress] = useState('')
     const [password, setPassword] = useState('')
 
-    const HandleLogIn = async (e:React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    const HandleLogIn = async (e: React.UIEvent) => {
         e.preventDefault()
-        // dispatch(chekingCredentials())
-        console.log("🚀 ~ HandleLogIn ~ password:", password)
-        console.log("🚀 ~ HandleLogIn ~ address:", address)
-        const result = await signInWithEmailAndPassword(firebaseAuth,address,password)
-        console.log("🚀 ~ HandleLogIn ~ result:", result)
+
+        if(!address || !password) return;
+
+        console.log("pages/Inicio/Login.tsx ~ address:", address, "password:", password);
+
+        const result = await signInWithEmailAndPassword(firebaseAuth, address, password);
+        console.log("pages/Inicio/Login.tsx ~ result:", result);
     }
 
 
@@ -26,10 +28,10 @@ const Login = () => {
         <div>
         <h1>BIENVENIDO DE NUEVO</h1>
         <form>
-            <input type='text' placeholder='Correo' value={address} onChange={(e) => setAddress(e.currentTarget.value)}></input>
-            <input type='password' placeholder='Contraseña' value={password} onChange={(e) => setPassword(e.currentTarget.value)}></input>
+            <input type='email' id='email' placeholder='Correo' value={address} onChange={e => setAddress(e.currentTarget.value)}></input>
+            <input type='password' id='password' placeholder='Contraseña' value={password} onChange={e => setPassword(e.currentTarget.value)}></input>
             <label>¿Sin cuenta aún? <a>Ingresa aquí</a></label>
-            <button onClick={(e) => HandleLogIn(e)}>Iniciar sesión</button>
+            <button onClick={HandleLogIn}>Iniciar sesión</button>
         </form>
         <img src='*' alt='Logo'></img>
         <label>NutriScan</label>
