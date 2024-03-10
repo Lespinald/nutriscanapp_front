@@ -33,7 +33,7 @@ const Login = () => {
             <label>¿Sin cuenta aún? <a>Ingresa aquí</a></label>
             <button onClick={HandleLogIn}>Iniciar sesión</button>
         </form>
-        <img src='*' alt='Logo'></img>
+        <img src='/WhiteBGLogo.png' alt='Logo'></img>
         <label>NutriScan</label>
         </div>
     )
