@@ -2,12 +2,14 @@ import React, { useState } from 'react'
 import './login.css'
 import { GoogleAuthProvider, signInWithEmailAndPassword, signInWithPopup } from 'firebase/auth'
 import { firebaseAuth } from '../../firebase'
+import { useDispatch } from 'react-redux';
+import { login, logout } from '../../redux/authSlice';
 
 const googleProvider = new GoogleAuthProvider();
 
 const Login = () => {
 
-    // const dispatch = useDispatch()
+    const dispatch = useDispatch()
 
     const [address, setAddress] = useState('')
     const [password, setPassword] = useState('')
@@ -28,19 +30,21 @@ const Login = () => {
             console.log("🚀 ~ HandleGoogle ~ displayName,email,uid,photoURL:", displayName,email,uid,photoURL)
             const { creationTime } = result?.user?.metadata;
             console.log("🚀 ~ HandleGoogle ~ creationTime:", creationTime)
+            dispatch(login(result.user))
         }catch (error){
             console.log("🚀 ~ HandleGoogle ~ error:", error)
+            dispatch(logout())
         }
     }
 
 
     return (
         <div className='fondoLogin'>
-            <h1 className='loginTitle'>BIENVENIDO</h1>
-            <form style={{display:'flex',flexDirection:'column'}}>
+            <h1 className='loginTitle'>BIENVENIDO DE NUEVO</h1>
+            <form className='login' style={{display:'flex',flexDirection:'column'}}>
                 <input autoComplete='true' type='email' id='email' placeholder='Correo' value={address} onChange={e => setAddress(e.currentTarget.value)}></input>
                 <input autoComplete='true' type='password' id='password' placeholder='Contraseña' value={password} onChange={e => setPassword(e.currentTarget.value)}></input>
-                <button onClick={HandleLogIn} className='button_logIn'>
+                <button onClick={HandleLogIn} className='button_logIn' style={{marginTop:'19px'}}>
                     Iniciar sesión
                 </button>
                 <div className='fondoLogin-line'></div>
@@ -49,7 +53,7 @@ const Login = () => {
                     <p>Continuar con Google</p>
                 </button>
             </form>
-            <a  className='fondoLogin_label' href='/registro'>¿No tienes cuenta? Ingresa aquí</a>
+            <a  className='fondoLogin_label' href='/Registro'>¿No tienes cuenta? Ingresa aquí</a>
             <img src='\Login\nutriscanLogo.png' alt='Logo' style={{height:'24svh',maxHeight:'200px',aspectRatio:' 1.3/1'}}></img>
         </div>
     )

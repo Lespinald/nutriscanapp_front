@@ -6,7 +6,7 @@ const authSlice = createSlice({
         status:'not-authenticated',
         uid:null,
         email:null,
-        displayName:"Guest",
+        displayName:null,
         errorMessage:null
     },
     reducers:{
@@ -22,7 +22,7 @@ const authSlice = createSlice({
             state.status = 'not-authenticated';
             state.uid = null;
             state.email = null;
-            state.displayName = "Guest";
+            state.displayName = null;
             state.errorMessage = null;
 
         },
