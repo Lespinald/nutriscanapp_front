@@ -1,31 +1,33 @@
-.marketingMain{
+.main{
   display: grid;
-
-  text-align: center;
   align-items: center;
+  text-align: center;
 
   grid-template-columns: 1fr 2fr;
 
   color: var(--color-1);
   background-color: var(--color-6);
 
-  padding: 4em;
+  padding: 4rem 2rem 4rem 5%;
 }
 
-.marketingRight p{
+.right{
+  margin-left: 5%;
+}
+.right p{
   font-size: 3rem;
 }
-.marketingRight video{
+.right video{
   width: 80%;
-  margin: 2rem 0;
+  margin: 2rem 0 2rem;
 }
 
-.marketingLogo{
+.logo{
   width: 60%;
-  margin: 3rem 0;
+  margin: 0 0 3rem 0;
 }
 
-.marketingQuote{
+.quote{
   color: white;
   font-weight: 300;
   font-style: italic;

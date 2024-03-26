@@ -1,6 +1,6 @@
 .outlet{
-  margin-top: 4em;
   overflow-y: auto;
+  scroll-behavior: smooth;
 }
 
 .layoutNav{

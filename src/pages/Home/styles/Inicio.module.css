@@ -1,21 +1,15 @@
-.inicioBG{
-  position: absolute;
-  top: 0; bottom: 0; left: 0; right: 0;
-  z-index: -1;
-}
-
-.inicioMain{
+.main{
   display: flex;
   position: relative;
 
   padding: 4rem 5rem 6rem 5%;
 }
 
-.inicioCompraImg{
+.compraImg{
   width: 50%;
 }
 
-.inicioColRigth{
+.colRigth{
   display: flex;
   flex-direction: column;
 
@@ -24,11 +18,11 @@
 
   margin: 0 0 0 2rem;
 }
-.inicioColRigth img{
+.colRigth img{
   width: 100%;
 }
 
-.inicioInfo{
+.info{
   font-size: inherit;
   font-weight: 300;
   font-style: italic;
@@ -36,7 +30,7 @@
   text-align: center;
 }
 
-.inicioButton{
+.button{
   font-size: inherit;
   color: white;
   text-decoration: none;
@@ -49,7 +43,7 @@
   border-radius: 0.5em;
   background-color: var(--color-2);
 }
-.inicioButton:hover{
+.button:hover{
   background-color: var(--color-3);
 }
 
