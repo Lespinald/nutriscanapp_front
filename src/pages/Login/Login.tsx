@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import './login.css'
+import style from './login.module.css'
 import { GoogleAuthProvider, signInWithEmailAndPassword, signInWithPopup } from 'firebase/auth'
 import { firebaseAuth } from '../../firebase'
 import { useDispatch } from 'react-redux';
@@ -30,31 +30,37 @@ const Login = () => {
             console.log("🚀 ~ HandleGoogle ~ displayName,email,uid,photoURL:", displayName,email,uid,photoURL)
             const { creationTime } = result?.user?.metadata;
             console.log("🚀 ~ HandleGoogle ~ creationTime:", creationTime)
-            dispatch(login(result.user))
+            fetch(`https://nutriscanapp-back.onrender.com/usuarios/${result?.user?.uid}`)
+            .then(respuesta => {
+                console.log("🚀 ~ HandleGoogle ~ respuesta:", respuesta)
+                return respuesta.json()
+            })
+            .then(datos => {
+                console.log("🚀 ~ HandleGoogle ~ datos:", datos)
+            });
         }catch (error){
             console.log("🚀 ~ HandleGoogle ~ error:", error)
-            dispatch(logout())
         }
     }
 
 
     return (
-        <div className='fondoLogin'>
-            <h1 className='loginTitle'>BIENVENIDO DE NUEVO</h1>
-            <form className='login' style={{display:'flex',flexDirection:'column'}}>
+        <div className={style.fondoLogin}>
+            <h1 className={style.loginTitle}>BIENVENIDO DE NUEVO</h1>
+            <form className={style.login} style={{display:'flex',flexDirection:'column'}}>
                 <input autoComplete='true' type='email' id='email' placeholder='Correo' value={address} onChange={e => setAddress(e.currentTarget.value)}></input>
                 <input autoComplete='true' type='password' id='password' placeholder='Contraseña' value={password} onChange={e => setPassword(e.currentTarget.value)}></input>
-                <button onClick={HandleLogIn} className='button_logIn' style={{marginTop:'19px'}}>
+                <button onClick={HandleLogIn} className={style.button_logIn} style={{marginTop:'19px'}}>
                     Iniciar sesión
                 </button>
                 <div className='fondoLogin-line'></div>
-                <button onClick={HandleGoogle} className='button_google'>
+                <button onClick={HandleGoogle} className={style.button_google}>
                     <img src='\Login\GoogleIcon.png'></img>
                     <p>Continuar con Google</p>
                 </button>
             </form>
-            <a  className='fondoLogin_label' href='/Registro'>¿No tienes cuenta? Ingresa aquí</a>
-            <img src='\Login\nutriscanLogo.png' alt='Logo' style={{height:'24svh',maxHeight:'200px',aspectRatio:' 1.3/1'}}></img>
+            <a  className={style.fondoLogin_label} href='/Registro'>¿No tienes cuenta? Ingresa aquí</a>
+            <img src='\Login\nutriscanLogo.png' alt='Logo' style={{height:'-webkit-fill-available',maxHeight:'150px',aspectRatio:' 1/1.5'}}></img>
         </div>
     )
 }
