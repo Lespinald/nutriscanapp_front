@@ -1,0 +1,32 @@
+.marketingMain{
+  display: grid;
+
+  text-align: center;
+  align-items: center;
+
+  grid-template-columns: 1fr 2fr;
+
+  color: var(--color-1);
+  background-color: var(--color-6);
+
+  padding: 4em;
+}
+
+.marketingRight p{
+  font-size: 3rem;
+}
+.marketingRight video{
+  width: 80%;
+  margin: 2rem 0;
+}
+
+.marketingLogo{
+  width: 60%;
+  margin: 3rem 0;
+}
+
+.marketingQuote{
+  color: white;
+  font-weight: 300;
+  font-style: italic;
+}

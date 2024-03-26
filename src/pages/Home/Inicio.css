@@ -1,0 +1,55 @@
+.inicioBG{
+  position: absolute;
+  top: 0; bottom: 0; left: 0; right: 0;
+  z-index: -1;
+}
+
+.inicioMain{
+  display: flex;
+  position: relative;
+
+  padding: 4rem 5rem 6rem 5%;
+}
+
+.inicioCompraImg{
+  width: 50%;
+}
+
+.inicioColRigth{
+  display: flex;
+  flex-direction: column;
+
+  font-size: 1.8rem;
+  text-align: center;
+
+  margin: 0 0 0 2rem;
+}
+.inicioColRigth img{
+  width: 100%;
+}
+
+.inicioInfo{
+  font-size: inherit;
+  font-weight: 300;
+  font-style: italic;
+  line-height: 1.1em;
+  text-align: center;
+}
+
+.inicioButton{
+  font-size: inherit;
+  color: white;
+  text-decoration: none;
+
+  text-overflow: clip;
+
+  margin: 4rem 2rem 0;
+  padding: 1em 2em;
+
+  border-radius: 0.5em;
+  background-color: var(--color-2);
+}
+.inicioButton:hover{
+  background-color: var(--color-3);
+}
+
