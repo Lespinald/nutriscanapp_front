@@ -1,0 +1,17 @@
+.fondoLogin form.login{
+    max-height: 400px;
+}
+
+.form_registro{
+    gap: 5px !important;
+}
+
+.form_registro label{
+    text-align: start;
+    width: 100%;
+    color: var(--color-5);
+}
+
+.form_registro button{
+    margin: 17px;
+}
