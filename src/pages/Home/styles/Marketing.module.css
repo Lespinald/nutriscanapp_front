@@ -19,6 +19,7 @@
 }
 .right video{
   width: 80%;
+  border-radius: 1rem;
   margin: 2rem 0 2rem;
 }
 

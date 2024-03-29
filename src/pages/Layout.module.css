@@ -13,6 +13,8 @@
 
   width: 100%;
 
+  padding: 0 1%;
+
   background-color: var(--color-3);
 }
 .layoutNav a:not(:first-child){
@@ -24,6 +26,7 @@
   padding: 0.8em !important;
   margin: 0 0.2em;
 
+  width: min-content;
   border-radius: 0.4em;
 }
 .layoutNav a:hover{
