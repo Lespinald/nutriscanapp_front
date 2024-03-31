@@ -1,15 +1,16 @@
 import React, { useState } from 'react'
 import style from './login.module.css'
 import { GoogleAuthProvider, signInWithEmailAndPassword, signInWithPopup } from 'firebase/auth'
-import { firebaseAuth } from '../../firebase'
-import { useDispatch } from 'react-redux';
-import { login, logout } from '../../redux/authSlice';
+import { auth } from '../../firebase'
+import { convertirUsuario } from '../../assets/models/usuario';
+// import { useDispatch } from 'react-redux';
+// import { login, logout } from '../../redux/authSlice';
 
 const googleProvider = new GoogleAuthProvider();
 
 const Login = () => {
 
-    const dispatch = useDispatch()
+    // const dispatch = useDispatch()
 
     const [address, setAddress] = useState('')
     const [password, setPassword] = useState('')
@@ -18,26 +19,38 @@ const Login = () => {
         e.preventDefault()
         if(!address || !password) return;
         console.log("pages/Inicio/Login.tsx ~ address:", address, "password:", password);
-        const result = await signInWithEmailAndPassword(firebaseAuth, address, password);
+        const result = await signInWithEmailAndPassword(auth, address, password);
         console.log("pages/Inicio/Login.tsx ~ result:", result);
     }
 
     const HandleGoogle = async(e: React.UIEvent) => {
         e.preventDefault()
         try{
-            const result = await signInWithPopup(firebaseAuth,googleProvider)
+            const result = await signInWithPopup(auth,googleProvider)
             const {displayName,email,uid,photoURL} = result?.user;        
             console.log("🚀 ~ HandleGoogle ~ displayName,email,uid,photoURL:", displayName,email,uid,photoURL)
             const { creationTime } = result?.user?.metadata;
             console.log("🚀 ~ HandleGoogle ~ creationTime:", creationTime)
-            fetch(`https://nutriscanapp-back.onrender.com/usuarios/${result?.user?.uid}`)
-            .then(respuesta => {
-                console.log("🚀 ~ HandleGoogle ~ respuesta:", respuesta)
-                return respuesta.json()
-            })
-            .then(datos => {
-                console.log("🚀 ~ HandleGoogle ~ datos:", datos)
-            });
+            // ==========================FUNCION TRAER DATOS USUARIO====================================
+            // fetch(`http://192.168.1.6:3000/api/usuarios/${123456}`)
+            // .then(respuesta => {
+            //     console.log("🚀 ~ HandleGoogle ~ respuesta:", respuesta)
+            //     return respuesta.json()
+            // })
+            // .then(datos => {
+            //     console.log("🚀 ~ HandleGoogle ~ datos:", datos)
+            //     let usuario = convertirUsuario(
+            //         datos.id,
+            //         datos.nombre,
+            //         datos.fechaSuscripcion,
+            //         datos.fechaDeNacimiento,
+            //         datos.altura/100,
+            //         datos.peso,
+            //         datos.telefono,
+            //         datos.correo
+            //         )
+            //     console.log("🚀 ~ HandleGoogle ~ usuario:", usuario)
+            // });
         }catch (error){
             console.log("🚀 ~ HandleGoogle ~ error:", error)
         }

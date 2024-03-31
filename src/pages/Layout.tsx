@@ -1,6 +1,8 @@
 import style from "./Layout.module.css"
 
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, 
+  // useMemo,
+   useRef, useState } from "react";
 
 import { Link, Outlet } from "react-router-dom";
 

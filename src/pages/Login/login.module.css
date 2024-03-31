@@ -89,10 +89,9 @@
 .button_google img{
     height: 40px;
     background: white;
-    padding: 5px;
+    padding: 0.5%;
 }
 
 .fondoLogin img{
-    height: 100%;
     aspect-ratio: 1 / 1;
 }

@@ -1,5 +1,5 @@
 import { useEffect, useRef } from "react";
-import style from "./styles/Home.module.css"
+// import style from "./styles/Home.module.css"
 import Inicio from "./Inicio";
 import Marketing from "./Marketing";
 import { useParams } from "react-router-dom";
