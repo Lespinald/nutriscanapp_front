@@ -10,7 +10,7 @@
     flex-direction: column;
 }
 
-h1{
+.back h1{
     color: white;
     font-weight: 700;
     font-size: 5svh;
