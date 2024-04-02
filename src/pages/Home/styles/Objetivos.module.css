@@ -1,0 +1,11 @@
+.main{
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+
+  color: var(--color-5);
+  
+  background-color: var(--color-5);
+}
+
+.info{
+}

@@ -110,6 +110,7 @@ const MobileLayout = () => {
       <div className={`${generalMenu? style.open: ""} ${style.menu}`} onMouseLeave={ToggleGeneral} >
           <Link to="/">Inicio</Link>
           <Link to="/equipo">¿Quienes somos?</Link>
+          <Link to="/objetivos">Mision &&nbsp;Vision</Link>
           <Link to="/servicios">Servicios</Link>
       </div>
       <div className={`${profileMenu? style.open: ""} ${style.menu}`} onMouseLeave={ToggleProfile} >
