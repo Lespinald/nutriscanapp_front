@@ -5,6 +5,7 @@ import { useEffect,
    useRef, useState } from "react";
 
 import { Link, Outlet } from "react-router-dom";
+import { IsMobile } from "../assets/Utils";
 
 const Layout = () => {
   const layout = useRef<HTMLElement>(null)
@@ -25,6 +26,7 @@ const Layout = () => {
   return (
     <>
     <nav className={style.layoutNav} ref={layout}>
+      {IsMobile}
       <DesktopLayout/>
     </nav>
     <div className={style.outlet} style={{marginTop: `${layoutHeight}px`}}>
