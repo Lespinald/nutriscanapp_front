@@ -1,0 +1,38 @@
+.main{
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 5%;
+
+  color: var(--color-6);
+
+  background-color: var(--color-6);
+
+  padding: 5rem;
+
+  text-align: center;
+}
+
+.main > div{
+  background-color: white;
+  border-radius: 0 0 1rem 1rem;
+}
+
+.main h1{
+  padding: 2rem;
+  background-color: var(--color-1);
+
+  font-size: 2rem;
+  font-weight: 800;
+}
+.main p{
+  padding: 2rem;
+  
+  font-size: 1.2rem;
+  font-weight: 300;
+}
+
+@media (max-width: 760px) {
+  .main{
+    grid-template-columns: 1fr;
+  }
+}

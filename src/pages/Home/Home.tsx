@@ -5,6 +5,7 @@ import Marketing from "./Marketing";
 import { useParams } from "react-router-dom";
 import Equipo from "./Equipo";
 import FootPage from "./FootPage";
+import Objetivos from "./Objetivos";
 import Servicio from "./Servicio";
 
 const Home = () => {
@@ -14,15 +15,19 @@ const Home = () => {
   const marketing = useRef<HTMLDivElement>(null);
   const equipo = useRef<HTMLDivElement>(null);
   const servicio = useRef<HTMLDivElement>(null);
+  const objetivos = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const scrollOpt: ScrollIntoViewOptions =  {behavior: "smooth"}
     switch(section){
       case("equipo"):
-      equipo.current?.scrollIntoView({behavior: "smooth"});
+      equipo.current?.scrollIntoView(scrollOpt);
       break;
       case("servicios"):
       servicio.current?.scrollIntoView({behavior: "smooth"});
+      break;
+      case("objetivos"):
+      objetivos.current?.scrollIntoView(scrollOpt);
       break;
       case(null || undefined):
       inicio.current?.scrollIntoView(scrollOpt);
@@ -31,9 +36,10 @@ const Home = () => {
   })
   return (
     <>
-      <Inicio ref={inicio}/>
+      <Inicio ref={inicio} />
       <Marketing ref={marketing} />
       <Equipo ref={equipo} />
+      <Objetivos ref={objetivos} />
       <Servicio ref={servicio} />
       <FootPage/>
     </>

@@ -17,23 +17,38 @@
 
   background-color: var(--color-3);
 }
-.layoutNav a:not(:first-child){
+.layoutNav > a:not(:first-child), .layoutNav > button:not(:first-child){
+  display: grid;
+  align-items: center;
+
   color: white;
   font-size: 1.2em;
   font-weight: 500;
   text-decoration: none;
 
-  padding: 0.8em !important;
+  padding: 0.8em;
   margin: 0 0.2em;
 
   border-radius: 0.4em;
 }
-.layoutNav a:hover{
+.layoutNav > a:hover, .layoutNav > button:hover{
   color: var(--color-5);
+}
+.layoutNav > button:not(:first-child){
+  min-height: 100%;
+
+  stroke: var(--color-5);
+  background-color: #FFF0;
+
+  padding: 0;
+  margin: auto 0.4rem;
+}
+.layoutNav > button:hover{
+  stroke: white;
 }
 
 .homeLogo{
-  margin-right: auto;
+  margin: 0 auto auto 0;
   display: grid;
   align-items: center;
 }
@@ -58,8 +73,48 @@
     background-color: var(--color-2);
 }
 
-@media (max-width: 800px) {
-  .layoutNav a:not(:first-child){
+.menu{
+  width: 0;
+  height: 0;
+  padding: 0;
+  margin: 0;
+  
+  background-color: var(--color-5);
+  
+  border-radius: 0.5rem;
+  
+  overflow: hidden;
+
+  transition: width 0.5s;
+}
+.menu a{
+  padding: 0.5em;
+  margin: 0.2em 0;
+
+  border-radius: 0.4em;
+
+  display: block;
+  
+  font-size: 1.2em;
+  font-weight: 500;
+  color: white;
+  text-decoration: none;
+
+  width: 100%;
+}
+.menu a:hover{
+  color: var(--color-2);
+}
+
+.open{
+  width: max-content;
+  height: fit-content;
+  padding: 2%;
+  margin: 2%;
+}
+
+@media (max-width: 910px) {
+  .layoutNav > a:not(:first-child){
     width: min-content;
   }
 }
