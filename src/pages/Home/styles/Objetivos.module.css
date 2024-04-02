@@ -1,38 +1,50 @@
 .main{
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 5%;
+  gap: 7%;
 
   color: var(--color-6);
 
   background-color: var(--color-6);
 
-  padding: 5rem;
+  padding: 5rem 7%;
 
   text-align: center;
+  justify-items: center;
+
+  height: fit-content;
 }
 
 .main > div{
   background-color: white;
+
   border-radius: 0 0 1rem 1rem;
+
+  width: fit-content;
+  min-width: 30svw;
+
+  font-size: max(1rem, 1.2svw);
 }
 
 .main h1{
-  padding: 2rem;
+  padding: 1em;
   background-color: var(--color-1);
 
-  font-size: 2rem;
+  font-size: 2em;
   font-weight: 800;
 }
 .main p{
-  padding: 2rem;
+  padding: 2em;
   
-  font-size: 1.2rem;
+  font-size: 1.2em;
   font-weight: 300;
 }
 
 @media (max-width: 760px) {
   .main{
-    grid-template-columns: 1fr;
+    grid-template-columns: auto;
+    grid-auto-rows: max-content;
+
+    gap: 3rem;
   }
 }
