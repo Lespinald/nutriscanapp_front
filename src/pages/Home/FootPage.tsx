@@ -31,24 +31,28 @@ const FootPage = () => {
         </a>
       </section>
       <section className={style.header}>
-        <div>
-            <h3>Servicio</h3>
-            <h3>Empresa</h3>
-            <h3>Recursos</h3>
-            <p>Comenzar</p>
-            <p>NutriScan</p>
-            <p>Soporte</p>
-            <p>Status</p>
-            <p>Sobre nosotros</p>
-            <p>FeedBack</p>
-            <p>Directorio</p>
-            <p>Marca</p>
-            <p>Desarrolladores</p>
-            <p>Experiencia Movil</p>
-            <p>Trabaja con nosotros</p>
-            <p>Blog</p>
-            <p>Web</p>
-        </div>
+            <div>
+                <h3>Servicio</h3>
+                <p>Comenzar</p>
+                <p>Status</p>
+                <p>Desarrolladores</p>
+                <p>Directorio</p>
+                <p>Web</p>
+            </div>
+            <div>
+                <h3>Empresa</h3>
+                <p>NutriScan</p>
+                <p>FeedBack</p>
+                <p>Sobre nosotros</p>
+                <p>Experiencia Movil</p>
+            </div>
+            <div>
+                <h3>Recursos</h3>
+                <p>Soporte</p>
+                <p>Marca</p>
+                <p>Trabaja con nosotros</p>
+                <p>Blog</p>
+            </div>
       </section>
       <section className={style.bottom}>
         <ButtonTransparent onClick={() =>{navigate('/Registro')}} >COMENZAR</ButtonTransparent>

@@ -9,7 +9,7 @@ interface Props{
 const ButtonTransparent = ({onClick,children,color}: Props) => {
   return (
     <button onClick={onClick} style={{backgroundColor: color ?? 'var(--color-2)', borderRadius:'15px',
-  color: 'var(--color-5)', border: 'none', padding: '10px 20px',cursor: 'pointer'}}>
+  color: 'var(--color-5)', border: 'none',cursor: 'pointer'}}>
       {children}
     </button>
   )

@@ -25,31 +25,40 @@ footer.back{
 
 .header{
     grid-area: header ;
-    height: 40svh;
+    height: fit-content;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(20svw, 1fr));
+    gap: 10px;
+    overflow: hidden;
 }
 
 .header div{
     height: 100%;
     width: 100%;
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
+    min-width: 30svw;
+    display: flex;
+    flex-direction: column;
     align-items: flex-start;
     color: white;
     font-weight: 500;
+    overflow: hidden;
 }
 
-.header div:nth-child(n){
+.header div p{
     height: fit-content;
+    max-width: 100%;
+    max-height: 40px;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    color: white;
+    font-weight: inherit;
+    line-height: 200%;
+    color: inherit;
 }
 
 .header h3{
     color: var(--color-2);
     margin-bottom: 6svh;
-}
-
-.header p{
-    font-weight: inherit;
-    line-height: 200%;
 }
 
 .bottom{
@@ -63,5 +72,6 @@ footer.back{
 }
 
 .bottom button{
-    width: 30%;
+    width: fit-content;
+    padding: 10px 7svw;
 }
