@@ -2,10 +2,12 @@ import React, { useState } from 'react'
 import styleLogin from '../Login/login.module.css'
 import style from './registro.module.css'
 import { Usuario, usuarioVacio } from '../../assets/models/usuario'
-import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'firebase/auth'
+import { GoogleAuthProvider, createUserWithEmailAndPassword, signInWithEmailAndPassword, signInWithPopup } from 'firebase/auth'
 import { auth } from '../../firebase'
 import { useDispatch } from 'react-redux'
 import { login, logout } from '../../redux/authSlice'
+
+const googleProvider = new GoogleAuthProvider();
 
 const Registro = () => {
   const dispatch = useDispatch()
@@ -64,9 +66,7 @@ const Registro = () => {
     return true;
   }
 
-  const ConfirmarNoVacio = (dato:Usuario) => {
-    console.log("🚀 ~ ConfirmarNoVacio ~ usuarioVacio:", usuarioVacio)
-    console.log("🚀 ~ ConfirmarNoVacio ~ dato:", dato)
+  const ConfirmarNoVacioCorreo = (dato:Usuario) => {
     if (!validarCorreo(dato.correo)) {
       alert('Ingrese un correo válido');
       return false;
@@ -75,6 +75,11 @@ const Registro = () => {
       alert('Ingrese una contraseña valida (minimo 6 caracteres)')
       return false
     }
+  }
+
+  const ConfirmarNoVacio = (dato:Usuario) => {
+    console.log("🚀 ~ ConfirmarNoVacio ~ usuarioVacio:", usuarioVacio)
+    console.log("🚀 ~ ConfirmarNoVacio ~ dato:", dato)
     if(dato.nombre === usuarioVacio.nombre){
       alert('Ingrese un nombre valido')
       return false
@@ -116,13 +121,33 @@ const Registro = () => {
     }
   }
 
+  const CrearUsuarioGoogle = async ():Promise<string> => {
+    try {
+      const result = await signInWithPopup(auth, googleProvider);
+      const user = result.user;
+      if (user) {
+          return user.uid;
+      } else {
+          dispatch(logout())
+          alert('Error al iniciar sesión con Google');
+          return'Error'
+      }
+    } catch (error) {
+      dispatch(logout())
+      console.log("🚀 ~ IniciarSesionConGoogle ~ error:", error);
+      alert('Error al iniciar sesión con Google');
+      return'Error'
+    }
+  }
+
   const CrearUsuarioBD = (uid:string) => {
     // ========EJECUTAR AL VERIFICAR NO DUPLICIDAD===========
-    var resp = fetch(`http://192.168.1.6:3000/api/usuarios`,{
+    var resp = fetch(`http://api.nutriscan.com.co:443/api/usuarios`,{
       method: 'POST',
       headers:{
           'Content-Type': 'application/json'
-      }, body: JSON.stringify({ id: uid, 
+      }, body: JSON.stringify({ 
+      id: uid, 
       nombre: user.nombre,
       fechaSuscripcion : user.fechaSuscripcion,
       fechaDeNacimiento : user.fechaDeNacimiento,
@@ -144,13 +169,22 @@ const Registro = () => {
   
   const HandleRegistro = async (e: React.UIEvent) => {
     e.preventDefault()
-    if(ConfirmarNoVacio(user)){
+    if(ConfirmarNoVacio(user) && ConfirmarNoVacioCorreo(user)){
       console.log('Empezar registro')
       var uid = await CrearUsuario()
       console.log("🚀 ~ HandleRegistro ~ uid:", uid)
       if (uid === 'Error') {return dispatch(logout())} else {CrearUsuarioBD(uid)};
     }
   }  
+  
+  const HandleRegistroGoogle = async (e: React.UIEvent) => {
+    e.preventDefault()
+    if(ConfirmarNoVacio(user)){
+      var uid = await CrearUsuarioGoogle()
+      console.log("🚀 ~ HandleRegistro ~ uid:", uid)
+      if (uid === 'Error') {return dispatch(logout())} else {CrearUsuarioBD(uid)};
+    }
+  }
 
   return (
     <div className={styleLogin.fondoLogin}>
@@ -175,7 +209,7 @@ const Registro = () => {
           Registrarse
         </button>
         <div className={styleLogin.fondoLogin_line}></div>
-        <button className={styleLogin.button_google}>
+        <button className={styleLogin.button_google} onClick={HandleRegistroGoogle}>
           <img src='\Login\GoogleIcon.png' style={{height:'100%'}}></img>
           <p>Continuar con Google</p>
         </button>
