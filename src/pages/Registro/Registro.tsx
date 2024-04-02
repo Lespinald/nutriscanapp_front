@@ -2,10 +2,13 @@ import React, { useState } from 'react'
 import styleLogin from '../Login/login.module.css'
 import style from './registro.module.css'
 import { Usuario, usuarioVacio } from '../../assets/models/usuario'
-import { signInWithEmailAndPassword } from 'firebase/auth'
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'firebase/auth'
 import { auth } from '../../firebase'
+import { useDispatch } from 'react-redux'
+import { login, logout } from '../../redux/authSlice'
 
 const Registro = () => {
+  const dispatch = useDispatch()
   const [password, setPassword] = useState('')
   const [user, setUser] = useState<Usuario>({
     id : '',
@@ -60,7 +63,6 @@ const Registro = () => {
     }
     return true;
   }
-    
 
   const ConfirmarNoVacio = (dato:Usuario) => {
     console.log("🚀 ~ ConfirmarNoVacio ~ usuarioVacio:", usuarioVacio)
@@ -94,38 +96,59 @@ const Registro = () => {
     }
     return true
   }
+
+  const CrearUsuario = async ():Promise<string> => {
+    try {
+      const resp = await createUserWithEmailAndPassword(auth, user.correo, password);
+      return resp?.user?.uid;
+    } catch (error:any) {
+      console.log("🚀 ~ HandleRegistro ~ error:", error.code);
+      if (error.message === 'Firebase: Error (auth/email-already-in-use).') {
+        alert('El correo electrónico ya está en uso');
+        return 'Error'
+      } else if (error.message === 'Firebase: Error (auth/weak-password)') {
+        alert('La contraseña es demasiado débil');
+        return 'Error'
+      } else {
+        alert('Error al crear el usuario');
+        return 'Error'
+      }
+    }
+  }
+
+  const CrearUsuarioBD = (uid:string) => {
+    // ========EJECUTAR AL VERIFICAR NO DUPLICIDAD===========
+    var resp = fetch(`http://192.168.1.6:3000/api/usuarios`,{
+      method: 'POST',
+      headers:{
+          'Content-Type': 'application/json'
+      }, body: JSON.stringify({ id: uid, 
+      nombre: user.nombre,
+      fechaSuscripcion : user.fechaSuscripcion,
+      fechaDeNacimiento : user.fechaDeNacimiento,
+      altura :  user.altura * 100,
+      peso :  user.peso,
+      telefono :  user.telefono,
+      correo :  user.correo})
+    })
+    .then(respuesta => {
+      console.log("🚀 ~ HandleRegistro ~ respuesta:", respuesta)
+      return respuesta.json()
+    })
+    .then(datos => {
+      console.log("🚀 ~ HandleRegistro ~ datos:", datos as Usuario)
+      dispatch(login({infoUsuario:datos}))
+    })
+    return resp
+  }
   
   const HandleRegistro = async (e: React.UIEvent) => {
     e.preventDefault()
     if(ConfirmarNoVacio(user)){
       console.log('Empezar registro')
-      console.log("🚀 ~ HandleRegistro ~ password:", password)
-      console.log("🚀 ~ HandleRegistro ~ user.correo:", user.correo)
-      console.log("🚀 ~ HandleRegistro ~ firebaseAuth:", auth)
-      const resp = await signInWithEmailAndPassword(auth, user.correo, password)
-      console.log("🚀 ~ HandleRegistro ~ resp:", resp)
-
-      // ========EJECUTAR AL VERIFICAR NO DUPLICIDAD===========
-      // await fetch(`http://192.168.1.6:3000/api/usuarios`,{
-      //   method: 'POST',
-      //   headers:{
-      //       'Content-Type': 'application/json'
-      //   }, body: JSON.stringify({ id: '123456', 
-      //   nombre: user.nombre,
-      //   fechaSuscripcion : user.fechaSuscripcion,
-      //   fechaDeNacimiento : user.fechaDeNacimiento,
-      //   altura :  user.altura * 100,
-      //   peso :  user.peso,
-      //   telefono :  user.telefono,
-      //   correo :  user.correo})
-      // })
-      // .then(respuesta => {
-      //   console.log("🚀 ~ HandleRegistro ~ respuesta:", respuesta)
-      //   return respuesta.json()
-      // })
-      // .then(datos => {
-      //   console.log("🚀 ~ HandleRegistro ~ datos:", datos)
-      // })
+      var uid = await CrearUsuario()
+      console.log("🚀 ~ HandleRegistro ~ uid:", uid)
+      if (uid === 'Error') {return dispatch(logout())} else {CrearUsuarioBD(uid)};
     }
   }  
 
