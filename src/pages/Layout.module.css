@@ -58,7 +58,7 @@
     background-color: var(--color-2);
 }
 
-@media (max-aspect-ratio: 1/1) {
+@media (max-width: 800px) {
   .layoutNav a:not(:first-child){
     width: min-content;
   }

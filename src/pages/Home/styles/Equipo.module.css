@@ -21,54 +21,34 @@
 .card{
   background-color: var(--color-3);
   border-radius: 1rem;
-  padding: 2rem;
+  padding: 10%;
 }
 .card img{
   aspect-ratio: 1/1;
   object-fit: cover;
   width: 100%;
   
-  margin-bottom: 2rem;
+  margin-bottom: 10%;
 
   border-radius: 99999px;
 }
 .card h1{
-  font-size: 2rem;
+  font-size: max(2svw, 2svh);
 }
 .card p{
-  font-size: 1.8rem;
+  font-size: max(1.8svw, 1.8svh);
   font-weight: 300;
 }
 
-@media (max-aspect-ratio: 3/2) {
-  .card h1{
-    font-size: 1.2rem ;
-  }
-  .card p{
-    font-size: 1rem;
-  }
-}
-@media (max-aspect-ratio: 8/7) {
+@media (max-width: 1050px) {
   .members{
   grid-template-columns: repeat(2, 1fr);
   padding: 0 3rem 3rem 3rem;
   gap: 5%;
   }
-  .card h1{
-    font-size: 2rem;
-  }
-  .card p{
-    font-size: 1.8rem;
-  }
 }
 @media (max-aspect-ratio: 1/1) {
   .main{
     padding: 5rem 3rem;
-  }
-  .card h1{
-    font-size: 1.2rem ;
-  }
-  .card p{
-    font-size: 1rem;
   }
 }
