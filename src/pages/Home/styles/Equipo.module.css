@@ -17,13 +17,6 @@
   grid-template-columns: repeat(4, 1fr);
   gap: 3%;
 }
-@media (max-aspect-ratio: 3/2) {
-  .members{
-  grid-template-columns: repeat(2, 1fr);
-  padding: 0 3rem 3rem 3rem;
-  gap: 5%;
-  }
-}
 
 .card{
   background-color: var(--color-3);
@@ -34,7 +27,7 @@
   aspect-ratio: 1/1;
   object-fit: cover;
   width: 100%;
-
+  
   margin-bottom: 2rem;
 
   border-radius: 99999px;
@@ -45,4 +38,37 @@
 .card p{
   font-size: 1.8rem;
   font-weight: 300;
+}
+
+@media (max-aspect-ratio: 3/2) {
+  .card h1{
+    font-size: 1.2rem ;
+  }
+  .card p{
+    font-size: 1rem;
+  }
+}
+@media (max-aspect-ratio: 8/7) {
+  .members{
+  grid-template-columns: repeat(2, 1fr);
+  padding: 0 3rem 3rem 3rem;
+  gap: 5%;
+  }
+  .card h1{
+    font-size: 2rem;
+  }
+  .card p{
+    font-size: 1.8rem;
+  }
+}
+@media (max-aspect-ratio: 1/1) {
+  .main{
+    padding: 5rem 3rem;
+  }
+  .card h1{
+    font-size: 1.2rem ;
+  }
+  .card p{
+    font-size: 1rem;
+  }
 }
