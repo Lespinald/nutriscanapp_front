@@ -7,6 +7,6 @@ export function GetViewportHeight(): number{
 export function GetAspectRatio(): number{
   return document.documentElement.clientWidth/document.documentElement.clientHeight;
 }
-export function IsMobile(): boolean{
-  return (GetViewportWidth() <= 730 || GetAspectRatio() <= (5/8));
+export function IsMobile(mobileWidth: number = 760): boolean{
+  return (GetViewportWidth() <= mobileWidth || GetAspectRatio() <= (5/8));
 }

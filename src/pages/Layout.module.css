@@ -34,6 +34,18 @@
 .layoutNav > a:hover, .layoutNav > button:hover{
   color: var(--color-5);
 }
+.layoutNav > button:not(:first-child){
+  min-height: 100%;
+
+  stroke: var(--color-5);
+  background-color: #FFF0;
+
+  padding: 0;
+  margin: auto 0.4rem;
+}
+.layoutNav > button:hover{
+  stroke: white;
+}
 
 .homeLogo{
   margin: 0 auto auto 0;
@@ -101,17 +113,8 @@
   margin: 2%;
 }
 
-@media (max-width: 730px), (max-aspect-ratio: 5/8) {
-  .layoutNav > a:not(:first-child), .layoutNav > button:not(:first-child){
-    min-height: 100%;
-
-    stroke: var(--color-5);
-    background-color: #FFF0;
-
-    padding: 0;
-    margin: auto 0.4rem;
-  }
-  .layoutNav > a:hover, .layoutNav > button:hover{
-    stroke: white;
+@media (max-width: 910px) {
+  .layoutNav > a:not(:first-child){
+    width: min-content;
   }
 }

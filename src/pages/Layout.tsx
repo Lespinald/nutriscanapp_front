@@ -63,6 +63,7 @@ const DesktopLayout = () => {
     <>
       <Link to="/">Inicio</Link>
       <Link to="/equipo">¿Quienes somos?</Link>
+      <Link to="/objetivos">Mision &&nbsp;Vision</Link>
       <Link to="/servicios">Servicios</Link>
       <Link className={style.loginLink} to="/Login">Ingresa</Link>
       <Link className={style.registerLink} to="/Registro">Registrate</Link>
