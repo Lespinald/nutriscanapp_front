@@ -1,16 +1,18 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import style from './login.module.css'
 import { GoogleAuthProvider, signInWithEmailAndPassword, signInWithPopup } from 'firebase/auth'
 import { auth } from '../../firebase'
 import { convertirUsuario } from '../../assets/models/usuario';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { login, logout } from '../../redux/authSlice';
 
 const googleProvider = new GoogleAuthProvider();
 
 const Login = () => {
 
-    const dispatch = useDispatch()
+    const dispatch = useDispatch();
+    const authenticated = useSelector((state:any) => state.auth.status === 'authenticated')
+    console.log("🚀 ~ Login ~ authenticated:", authenticated)
 
     const [address, setAddress] = useState('')
     const [password, setPassword] = useState('')
@@ -53,7 +55,7 @@ const Login = () => {
 
     const TraerInfoUsuario = (uid:string) => {
         // ==========================FUNCION TRAER DATOS USUARIO====================================
-        fetch(`http://192.168.1.6:3000/api/usuarios/${uid}`)
+        fetch(`http://api.nutriscan.com.co:443/api/usuarios/${uid}`)
         .then(respuesta => {
             console.log("🚀 ~ HandleGoogle ~ respuesta:", respuesta)
             return respuesta.json()
@@ -87,6 +89,25 @@ const Login = () => {
         }
     }
 
+    const PruebaToken = (e: React.UIEvent) => {
+        e.preventDefault();
+        var user = auth.currentUser;
+        if (user) {
+        user.getIdToken()
+            .then(function(idToken) {
+            console.log("Token:", idToken);
+            // Aquí puedes enviar el token a tu backend vía HTTPS si es necesario
+            })
+            .catch(function(error) {
+            console.error("Error al obtener el token:", error);
+            // Manejar el error aquí
+            });
+        } else {
+        console.error("No hay ningún usuario autenticado.");
+        // Manejar el caso donde no hay usuario autenticado
+        }
+    }
+    
 
     return (
         <div className={style.fondoLogin}>
@@ -98,7 +119,7 @@ const Login = () => {
                     Iniciar sesión
                 </button>
                 <div className='fondoLogin-line'></div>
-                <button onClick={HandleGoogle} className={style.button_google}>
+                <button onClick={PruebaToken} className={style.button_google}>
                     <img src='\Login\GoogleIcon.png'></img>
                     <p>Continuar con Google</p>
                 </button>
