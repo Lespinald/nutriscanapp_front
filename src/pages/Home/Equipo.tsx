@@ -25,8 +25,10 @@ const Card = ({image, name, info}: CardProps) => {
   return(
     <div className={style.card}>
       <img src={image} alt={name} />
-      <h1>{name}</h1>
-      <p>{info}</p>
+      <div>
+        <h1>{name}</h1>
+        <p>{info}</p>
+      </div>
     </div>
   );
 }
@@ -34,7 +36,7 @@ const Card = ({image, name, info}: CardProps) => {
 const Background = () => {
   return(
     <div className="backgroundFill">
-      <svg style={{position: "absolute", top: "-20%", left: "40%"}}
+      <svg style={{position: "absolute", top: "-10%", left: "40%"}}
        width="258" height="225" viewBox="0 0 420 365" fill="none" xmlns="http://www.w3.org/2000/svg">
         <rect x="96.7736" width="350.899" height="247.501" transform="rotate(23.0169 96.7736 0)" fill="var(--color-2)" fillOpacity="0.5"/>
       </svg>

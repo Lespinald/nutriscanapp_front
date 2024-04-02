@@ -22,6 +22,11 @@
   background-color: var(--color-3);
   border-radius: 1rem;
   padding: 10%;
+
+  font-size: 1vmax;
+}
+.card div{
+  font-size: inherit;
 }
 .card img{
   aspect-ratio: 1/1;
@@ -33,22 +38,78 @@
   border-radius: 99999px;
 }
 .card h1{
-  font-size: max(2svw, 2svh);
+  font-size: 2em;
+
+  text-overflow: ellipsis;
+
+  overflow: hidden;
+  max-width: 100%;
+
+  margin-bottom: 5%;
 }
 .card p{
-  font-size: max(1.8svw, 1.8svh);
+  font-size: 1.8em;
   font-weight: 300;
+  
+  text-overflow: ellipsis;
+
+  overflow: hidden;
+  max-width: 100%;
 }
 
 @media (max-width: 1050px) {
   .members{
   grid-template-columns: repeat(2, 1fr);
   padding: 0 3rem 3rem 3rem;
-  gap: 5%;
+  gap: 5svh;
   }
 }
 @media (max-aspect-ratio: 1/1) {
   .main{
     padding: 5rem 3rem;
+  }
+}
+@media (max-width: 760px) or (max-aspect-ratio: 5/8) {
+  .main{
+    padding: 5svh 2svw;
+  }
+  .main p{
+    font-size: 2.5rem;
+  }
+
+  .members{
+    text-align: start;
+
+    grid-template-columns: auto;
+    gap: 3svh;
+
+    padding: 0 2svw 3rem;
+  }
+
+  .card{
+    display: flex;
+
+    font-size: 2svw;
+
+    align-items: center;
+
+    padding: 2em 2.5em 2em 2em;
+  }
+  .card div{
+    max-width: 60%;
+  }
+  .card img{
+    margin-bottom: 0;
+    margin-right: 5%;
+
+    width: 40%;
+  }
+  .card h1{
+    font-size: 3em;
+    margin-bottom: 10%;
+  }
+  .card p{
+    font-size: 2.7em;
+    margin-bottom: 5%;
   }
 }
