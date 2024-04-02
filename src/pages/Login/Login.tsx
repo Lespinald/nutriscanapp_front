@@ -5,12 +5,14 @@ import { auth } from '../../firebase'
 import { convertirUsuario } from '../../assets/models/usuario';
 import { useDispatch, useSelector } from 'react-redux';
 import { login, logout } from '../../redux/authSlice';
+import { useNavigate } from 'react-router-dom';
 
 const googleProvider = new GoogleAuthProvider();
 
 const Login = () => {
 
     const dispatch = useDispatch();
+    const navigate = useNavigate();
     const authenticated = useSelector((state:any) => state.auth.status === 'authenticated')
     console.log("🚀 ~ Login ~ authenticated:", authenticated)
 
@@ -73,6 +75,7 @@ const Login = () => {
                 datos.correo
                 )
             dispatch(login({infoUsuario:usuario}))
+            navigate('/')
             console.log("🚀 ~ HandleGoogle ~ usuario:", usuario)
         });
 

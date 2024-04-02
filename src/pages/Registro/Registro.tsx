@@ -6,11 +6,13 @@ import { GoogleAuthProvider, createUserWithEmailAndPassword, signInWithEmailAndP
 import { auth } from '../../firebase'
 import { useDispatch } from 'react-redux'
 import { login, logout } from '../../redux/authSlice'
+import { useNavigate } from 'react-router-dom'
 
 const googleProvider = new GoogleAuthProvider();
 
 const Registro = () => {
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   const [password, setPassword] = useState('')
   const [user, setUser] = useState<Usuario>({
     id : '',
@@ -163,6 +165,7 @@ const Registro = () => {
     .then(datos => {
       console.log("🚀 ~ HandleRegistro ~ datos:", datos as Usuario)
       dispatch(login({infoUsuario:datos}))
+      navigate('/')
     })
     return resp
   }

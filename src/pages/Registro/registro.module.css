@@ -1,9 +1,9 @@
 .fondoLogin form.login{
-    max-height: 400px;
+    max-height: 30svh;
 }
 
 .form_registro{
-    gap: 5px !important;
+    gap: 0.6svh !important;
 }
 
 .form_registro label{
@@ -13,5 +13,6 @@
 }
 
 .form_registro button{
-    margin: 17px;
+    margin: 2%;
+    max-height: 5svh;
 }
