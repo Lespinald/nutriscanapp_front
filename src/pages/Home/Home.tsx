@@ -4,6 +4,7 @@ import Inicio from "./Inicio";
 import Marketing from "./Marketing";
 import { useParams } from "react-router-dom";
 import Equipo from "./Equipo";
+import FootPage from "./FootPage";
 
 const Home = () => {
   const section = useParams().section;
@@ -27,9 +28,10 @@ const Home = () => {
   })
   return (
     <>
-    <Inicio ref={inicio}/>
-    <Marketing ref={marketing} />
-    <Equipo ref={equipo} />
+      <Inicio ref={inicio}/>
+      <Marketing ref={marketing} />
+      <Equipo ref={equipo} />
+      <FootPage/>
     </>
   );
 }

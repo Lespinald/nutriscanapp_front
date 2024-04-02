@@ -75,6 +75,8 @@ const Login = () => {
                 datos.correo
                 )
             dispatch(login({infoUsuario:usuario}))
+            localStorage.setItem('accessToken', auth.currentUser?.accessToken);
+            console.log("🚀 ~ TraerInfoUsuario ~ auth.currentUser?.accessToken:", auth.currentUser?.accessToken)
             navigate('/')
             console.log("🚀 ~ HandleGoogle ~ usuario:", usuario)
         });
