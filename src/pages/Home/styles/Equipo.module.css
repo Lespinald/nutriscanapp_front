@@ -17,32 +17,38 @@
   grid-template-columns: repeat(4, 1fr);
   gap: 3%;
 }
-@media (max-aspect-ratio: 3/2) {
+
+.card{
+  background-color: var(--color-3);
+  border-radius: 1rem;
+  padding: 10%;
+}
+.card img{
+  aspect-ratio: 1/1;
+  object-fit: cover;
+  width: 100%;
+  
+  margin-bottom: 10%;
+
+  border-radius: 99999px;
+}
+.card h1{
+  font-size: max(2svw, 2svh);
+}
+.card p{
+  font-size: max(1.8svw, 1.8svh);
+  font-weight: 300;
+}
+
+@media (max-width: 1050px) {
   .members{
   grid-template-columns: repeat(2, 1fr);
   padding: 0 3rem 3rem 3rem;
   gap: 5%;
   }
 }
-
-.card{
-  background-color: var(--color-3);
-  border-radius: 1rem;
-  padding: 2rem;
-}
-.card img{
-  aspect-ratio: 1/1;
-  object-fit: cover;
-  width: 100%;
-
-  margin-bottom: 2rem;
-
-  border-radius: 99999px;
-}
-.card h1{
-  font-size: 2rem;
-}
-.card p{
-  font-size: 1.8rem;
-  font-weight: 300;
+@media (max-aspect-ratio: 1/1) {
+  .main{
+    padding: 5rem 3rem;
+  }
 }

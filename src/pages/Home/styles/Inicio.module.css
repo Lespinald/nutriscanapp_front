@@ -47,3 +47,8 @@
   background-color: var(--color-3);
 }
 
+@media (max-aspect-ratio: 8/7) {
+  .compraImg{
+    display: none;
+  }
+}

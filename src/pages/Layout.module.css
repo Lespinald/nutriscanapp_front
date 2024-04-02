@@ -26,7 +26,6 @@
   padding: 0.8em !important;
   margin: 0 0.2em;
 
-  width: min-content;
   border-radius: 0.4em;
 }
 .layoutNav a:hover{
@@ -57,4 +56,10 @@
 }
 .registerLink:hover{
     background-color: var(--color-2);
+}
+
+@media (max-width: 800px) {
+  .layoutNav a:not(:first-child){
+    width: min-content;
+  }
 }

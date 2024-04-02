@@ -21,9 +21,22 @@ const Layout = () => {
       observer.disconnect()
     }
   }, []);
+
   return (
     <>
     <nav className={style.layoutNav} ref={layout}>
+      <DesktopLayout/>
+    </nav>
+    <div className={style.outlet} style={{marginTop: `${layoutHeight}px`}}>
+      <Outlet/>
+    </div>
+    </>
+  );
+}
+
+const DesktopLayout = () => {
+  return (
+    <>
       <Link className={style.homeLogo} to="/">
         <img className={style.maintainRatio} src="/Layout/logo.png" alt="logo"></img>
       </Link>
@@ -32,10 +45,6 @@ const Layout = () => {
       <Link to="/servicios">Servicios</Link>
       <Link className={style.loginLink} to="/Login">Ingresa</Link>
       <Link className={style.registerLink} to="/Registro">Registrate</Link>
-    </nav>
-    <div className={style.outlet} style={{marginTop: `${layoutHeight}px`}}>
-      <Outlet/>
-    </div>
     </>
   );
 }
