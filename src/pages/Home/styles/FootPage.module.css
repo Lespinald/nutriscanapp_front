@@ -75,3 +75,21 @@ footer.back{
     width: fit-content;
     padding: 10px 7svw;
 }
+
+@media screen and (max-width: 899px) {
+    .sidebar{
+        grid-template-columns:  repeat(auto-fill, minmax(10svw, 1fr));
+    }
+
+    .header{
+        grid-template-columns: repeat(auto-fill, minmax(35svw, 1fr));
+    }
+
+    footer.back{
+        height: 85%;
+        grid-template-areas:
+        "sidebar sidebar sidebar"
+        "header header header"
+        "bottom bottom bottom";
+    }
+}
