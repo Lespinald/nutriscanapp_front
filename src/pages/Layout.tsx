@@ -75,6 +75,12 @@ const MobileLayout = () => {
   const [profileMenu, setProfileMenu] = useState<boolean>(false);
   const [generalMenu, setGeneralMenu] = useState<boolean>(false);
 
+  const profileAnchorRef = useRef<HTMLAnchorElement>(null);
+  const generalAnchorRef = useRef<HTMLAnchorElement>(null);
+
+  const profileDivRef = useRef<HTMLDivElement>(null);
+
+
   const GetStyleProfile = (): CSSProperties => {
     if(generalMenu){
       return {display: "none"};
@@ -93,28 +99,41 @@ const MobileLayout = () => {
   }
 
   const ToggleProfile = () => {
-    setProfileMenu(!profileMenu);
+    setProfileMenu(prev => !prev);
   }
   const ToggleGeneral = () => {
-    setGeneralMenu(!generalMenu);
+    setGeneralMenu(prev => !prev);
   }
+
+  useEffect(() => {
+    if(profileMenu) profileAnchorRef.current?.focus()
+  }, [profileMenu]);
+  useEffect(() => {
+    if(generalMenu) generalAnchorRef.current?.focus()
+  }, [generalMenu]);
 
   return (
     <>
-      <button style={GetStyleProfile()} onClick={ToggleProfile}>
+      <button style={GetStyleProfile()}
+        onClick={ToggleProfile}>
         <ProfileLogo style={{stroke: "inherit"}}/>
       </button>
-      <button style={GetStyleGeneral()} onClick={ToggleGeneral}>
+      <button style={GetStyleGeneral()}
+        onClick={ToggleGeneral}>
         <MenuLogo style={{stroke: "inherit"}}/>
       </button>
-      <div className={`${generalMenu? style.open: ""} ${style.menu}`} onMouseLeave={ToggleGeneral} >
-          <Link to="/">Inicio</Link>
-          <Link to="/equipo">¿Quienes somos?</Link>
-          <Link to="/objetivos">Mision &&nbsp;Vision</Link>
-          <Link to="/servicios">Servicios</Link>
+      <div className={`${generalMenu? style.openGeneral: ""} ${style.menu}`}
+        onMouseLeave={ToggleGeneral}>
+
+        <Link ref={generalAnchorRef} to="/">Inicio</Link>
+        <Link to="/equipo">¿Quienes somos?</Link>
+        <Link to="/objetivos">Mision &&nbsp;Vision</Link>
+        <Link to="/servicios">Servicios</Link>
       </div>
-      <div className={`${profileMenu? style.open: ""} ${style.menu}`} onMouseLeave={ToggleProfile} >
-        <Link to="/Login">Ingresa</Link>
+      <div ref={profileDivRef} className={`${profileMenu? style.openProfile: ""} ${style.menu}`}
+        onMouseLeave={ToggleProfile}>
+
+        <Link ref={profileAnchorRef} to="/Login">Ingresa</Link>
         <Link to="/Registro">Registrate</Link>
       </div>
     </>

@@ -47,6 +47,7 @@
 
   padding: 0;
   margin: auto 0.4rem;
+
 }
 .layoutNav > button:hover{
   stroke: white;
@@ -79,10 +80,11 @@
 }
 
 .menu{
-  width: 0;
-  height: 0;
-  padding: 0;
-  margin: 0;
+  display: none;
+  width: max-content;
+  height: 0px;
+  padding: 2%;
+  margin: 2%;
   
   background-color: var(--color-5);
   
@@ -90,7 +92,7 @@
   
   overflow: hidden;
 
-  transition: width 0.5s;
+  transition: all 0.5s allow-discrete;
 }
 .menu a{
   padding: 0.5em;
@@ -111,11 +113,22 @@
   color: var(--color-2);
 }
 
-.open{
-  width: max-content;
-  height: fit-content;
-  padding: 2%;
-  margin: 2%;
+.openProfile{
+  display: block;
+  height: 124px;
+}
+.openGeneral{
+  display: block;
+  height: 218px;
+}
+
+@starting-style {
+  .openProfile{
+    height: 0px;
+  }
+  .openGeneral{
+    height: 0px;
+  }
 }
 
 @media (max-width: 910px) {

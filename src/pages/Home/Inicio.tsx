@@ -1,17 +1,36 @@
-import { Link } from "react-router-dom";
+import { Link, useOutletContext } from "react-router-dom";
 import style from "./styles/Inicio.module.css"
 import { forwardRef } from "react";
+import { useHomeLayoutContext } from "../Layout";
 
 const Inicio = forwardRef<HTMLDivElement>(({}, ref) => {
 
+  const {size, mobile} = useHomeLayoutContext();
+
   return (
-  <div className={style.main} ref={ref}>
-    <img src="/Home/Inicio/compra.png" alt="bolsa de compra" className={`${style.compraImg} maintainRatio`} />
-    <div className={style.colRigth}>
-      <img src="/Home/Inicio/textLogo.png" alt="" className={style.logoImg} />
-      <p className={style.info}>¿Estás interesado en mejorar tu salud a través de una alimentación más equilibrada?</p>
-      <Link className={style.button} to="/registro">COMENZAR AHORA</Link>
-    </div>
+  <div className={(mobile?`${style.mainMobile} `:"") + style.main} ref={ref}>
+    {mobile?
+    <>
+      <img src="/Home/Inicio/textLogo.png" alt="nutriscan"/>
+      <p className={style.info}>
+        ¿Estás interesado en mejorar tu salud a través de una alimentación
+        más equilibrada?
+      </p>
+      <img src="/Home/Inicio/compra.png" alt="bolsa de compra" className={style.compraImgMobile}/>
+      <Link className={`${style.buttonMobile} ${style.button}`} to="/registro">COMENZAR AHORA</Link>
+    </>:
+    <>
+      <img src="/Home/Inicio/compra.png" alt="bolsa de compra" className={`${style.compraImg} maintainRatio`} />
+      <div className={style.colRigth}>
+        <img src="/Home/Inicio/textLogo.png" alt="nutriscan"/>
+        <p className={style.info}>
+          ¿Estás interesado en mejorar tu salud a través de una alimentación
+          más equilibrada?
+        </p>
+        <Link className={style.button} to="/registro">COMENZAR AHORA</Link>
+      </div>
+    </>
+    }
     <Background/>
   </div>
   );
