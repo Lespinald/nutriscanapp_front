@@ -6,22 +6,12 @@ const Servicio = forwardRef<HTMLDivElement>(({}, ref) => {
     <div className={style.back} ref={ref}>
       <h1>Servicio</h1>
       <table className={style.planes}>
-        <h3>FREE</h3>
-        <h3>STANDARD</h3>
-        <h3>ENTERPRISE</h3>
-        <div>
-          <h2>$0</h2>
-          <p>Get Started</p>
-        </div>
-        <div>
-          <h2>$7000</h2>
-          <p>Start Trial</p>
-        </div>
-        <div>
-          <h2>$50000</h2>
-          <p>Start Trial</p>
-        </div>
-        <div>
+        <div style={{background: 'var(--color-2)'}}>
+          <h3>FREE</h3>
+          <div>
+            <h2>$0</h2>
+            <p>Get Started</p>
+          </div>
           <ul>
             <li>Busquedas ilimitadas</li>
             <li>Historial limitado</li>
@@ -29,7 +19,12 @@ const Servicio = forwardRef<HTMLDivElement>(({}, ref) => {
             <li>Acceso a tiendas</li>
           </ul>
         </div>
-        <div>
+        <div className={style.white} style={{background: 'var(--color-2)'}}>
+          <h3>STANDARD</h3>
+          <div>
+            <h2>$7000</h2>
+            <p>Start Trial</p>
+          </div>
           <ul>
             <li>Busquedas infinitas</li>
             <li>Historial ilimitado</li>
@@ -37,7 +32,12 @@ const Servicio = forwardRef<HTMLDivElement>(({}, ref) => {
             <li>Acceso a tiendas</li>
           </ul>
         </div>
-        <div>
+        <div className={style.white} style={{background: 'var(--color-2)'}}>
+          <h3>ENTERPRISE</h3>
+          <div>
+            <h2>$50000</h2>
+            <p>Start Trial</p>
+          </div>
           <ul>
             <li>Alcance personalizado a clientes</li>
             <li>Patrocinio de emprendimiento</li>
