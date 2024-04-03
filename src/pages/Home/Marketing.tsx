@@ -4,7 +4,7 @@ import { forwardRef } from "react";
 const Marketing = forwardRef<HTMLDivElement>(({}, ref) => {
   return(
   <div className={style.main} ref={ref}>
-      <div>
+      <div className={style.left}>
         <img src="/Home/Marketing/logoColor1.png" alt="logo Nutriscan" className={style.logo}/>
         <p className={style.quote}>
           - "Lorem ipsum dolor sit amet, consectetur adipiscing elit,
