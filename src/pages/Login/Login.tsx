@@ -5,7 +5,7 @@ import { auth } from '../../firebase'
 import { convertirUsuario } from '../../assets/models/usuario';
 import { useDispatch, useSelector } from 'react-redux';
 import { login, logout } from '../../redux/authSlice';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 const googleProvider = new GoogleAuthProvider();
 
@@ -75,8 +75,6 @@ const Login = () => {
                 datos.correo
                 )
             dispatch(login({infoUsuario:usuario}))
-            localStorage.setItem('accessToken', auth.currentUser?.accessToken);
-            console.log("🚀 ~ TraerInfoUsuario ~ auth.currentUser?.accessToken:", auth.currentUser?.accessToken)
             navigate('/')
             console.log("🚀 ~ HandleGoogle ~ usuario:", usuario)
         });
@@ -93,29 +91,15 @@ const Login = () => {
             alert(error.message)
         }
     }
-
-    const PruebaToken = (e: React.UIEvent) => {
-        e.preventDefault();
-        var user = auth.currentUser;
-        if (user) {
-        user.getIdToken()
-            .then(function(idToken) {
-            console.log("Token:", idToken);
-            // Aquí puedes enviar el token a tu backend vía HTTPS si es necesario
-            })
-            .catch(function(error) {
-            console.error("Error al obtener el token:", error);
-            // Manejar el error aquí
-            });
-        } else {
-        console.error("No hay ningún usuario autenticado.");
-        // Manejar el caso donde no hay usuario autenticado
-        }
-    }
     
 
     return (
         <div className={style.fondoLogin}>
+            <Link className={style.backButton} to={'/Home'}>
+                <svg xmlns="http://www.w3.org/2000/svg" height="3svh" id="Layer_1" version="1.1" viewBox="0 0 512 512" width="3svh" xml:space="preserve" fill='white'>
+                    <polygon points="352,128.4 319.7,96 160,256 160,256 160,256 319.7,416 352,383.6 224.7,256 "/>
+                </svg>
+            </Link>
             <h1 className={style.loginTitle}>BIENVENIDO DE NUEVO</h1>
             <form className={style.login} style={{display:'flex',flexDirection:'column'}}>
                 <input autoComplete='true' type='email' id='email' placeholder='Correo' value={address} onChange={e => setAddress(e.currentTarget.value)}></input>
@@ -124,7 +108,7 @@ const Login = () => {
                     Iniciar sesión
                 </button>
                 <div className='fondoLogin-line'></div>
-                <button onClick={PruebaToken} className={style.button_google}>
+                <button onClick={HandleGoogle} className={style.button_google}>
                     <img src='\Login\GoogleIcon.png'></img>
                     <p>Continuar con Google</p>
                 </button>

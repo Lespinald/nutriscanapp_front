@@ -8,6 +8,13 @@
     align-items: center;
 }
 
+.backButton{
+    align-self: self-start;
+    margin-left: 3svh;
+    display: flex;
+    align-items: center;
+}
+
 .fondoLogin form.login{
     max-height: 50svh;
 }
@@ -99,4 +106,12 @@
 
 .fondoLogin img{
     aspect-ratio: 1 / 1;
+}
+
+@media screen and (max-width: 899px) {
+    .backButton::after{
+        content: 'Home';
+        text-decoration: none;
+        color: white;
+    }
 }
