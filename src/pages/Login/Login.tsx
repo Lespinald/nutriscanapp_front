@@ -76,7 +76,7 @@ const Login = () => {
                 datos.correo
                 )
             dispatch(login({infoUsuario:usuario}))
-            navigate('/')
+            navigate('/Scan')
             console.log("🚀 ~ HandleGoogle ~ usuario:", usuario)
         });
 

@@ -165,7 +165,7 @@ const Registro = () => {
     .then(datos => {
       console.log("🚀 ~ HandleRegistro ~ datos:", datos as Usuario)
       dispatch(login({infoUsuario:datos}))
-      navigate('/')
+      navigate('/Scan')
     })
     return resp
   }
