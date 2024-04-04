@@ -1,6 +1,6 @@
 
 export interface Usuario {
-    id : string;
+    uid: string;
     nombre : string;
     fechaSuscripcion : Date ;
     fechaDeNacimiento : Date;
@@ -11,7 +11,7 @@ export interface Usuario {
 }
 
 export const usuarioVacio = {
-    id : '',
+    uid: '',
     nombre : '',
     fechaSuscripcion : new Date(0),
     fechaDeNacimiento : new Date(0),

@@ -9,6 +9,7 @@ import { IsMobile } from "../assets/Utils";
 import { useViewportRezise } from "../assets/hooks";
 import ProfileLogo from "../assets/Components/ProfileLogo";
 import MenuLogo from "../assets/Components/MenuLogo";
+import { useSelector } from "react-redux";
 
 type HomeLayoutContext = {
   size: {width: number, height: number};
@@ -59,14 +60,16 @@ export function useHomeLayoutContext() {
 }
 
 const DesktopLayout = () => {
+  const authenticated = useSelector((state:any) => state.auth.status === 'authenticated')
+
   return (
     <>
       <Link to="/">Inicio</Link>
       <Link to="/equipo">¿Quienes somos?</Link>
       <Link to="/objetivos">Mision &&nbsp;Vision</Link>
       <Link to="/servicios">Servicios</Link>
-      <Link className={style.loginLink} to="/Login">Ingresa</Link>
-      <Link className={style.registerLink} to="/Registro">Registrate</Link>
+      { !authenticated ? <Link className={style.loginLink} to="/Login">Ingresa</Link> : <Link className={style.loginLink} to="/Perfil">Ver Pefil</Link>}
+      { !authenticated && <Link className={style.registerLink} to="/Registro">Registrate</Link>}
     </>
   );
 }

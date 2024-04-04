@@ -66,7 +66,7 @@ const Login = () => {
         .then(datos => {
             console.log("🚀 ~ HandleGoogle ~ datos:", datos)
             let usuario = convertirUsuario(
-                datos.id,
+                datos.uid,
                 datos.nombre,
                 datos.fechaSuscripcion,
                 datos.fechaDeNacimiento,

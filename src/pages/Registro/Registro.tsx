@@ -15,7 +15,7 @@ const Registro = () => {
   const navigate = useNavigate();
   const [password, setPassword] = useState('')
   const [user, setUser] = useState<Usuario>({
-    id : '',
+    uid : '',
     nombre : '',
     fechaSuscripcion : new Date(0),
     fechaDeNacimiento : new Date(0),
@@ -77,6 +77,7 @@ const Registro = () => {
       alert('Ingrese una contraseña valida (minimo 6 caracteres)')
       return false
     }
+    return true
   }
 
   const ConfirmarNoVacio = (dato:Usuario) => {
@@ -149,7 +150,7 @@ const Registro = () => {
       headers:{
           'Content-Type': 'application/json'
       }, body: JSON.stringify({ 
-      id: uid, 
+      uid: uid, 
       nombre: user.nombre,
       fechaSuscripcion : user.fechaSuscripcion,
       fechaDeNacimiento : user.fechaDeNacimiento,
@@ -172,6 +173,8 @@ const Registro = () => {
   
   const HandleRegistro = async (e: React.UIEvent) => {
     e.preventDefault()
+    console.log("🚀 ~ HandleRegistro ~ ConfirmarNoVacio(user):", ConfirmarNoVacio(user))
+    console.log("🚀 ~ HandleRegistro ~ ConfirmarNoVacioCorreo(user):", ConfirmarNoVacioCorreo(user))
     if(ConfirmarNoVacio(user) && ConfirmarNoVacioCorreo(user)){
       console.log('Empezar registro')
       var uid = await CrearUsuario()
