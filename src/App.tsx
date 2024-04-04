@@ -9,6 +9,7 @@ import { useSelector } from 'react-redux';
 import { auth } from './firebase';
 import { signInWithCustomToken } from 'firebase/auth';
 import AppLayout from './pages/AppLayout';
+import MenuPerfil from './pages/Personal/MenuPerfil';
 
 function App() {
   
@@ -21,6 +22,7 @@ function App() {
         </Route>
         <Route path='/app' element={<AppLayout/>}>
           <Route path='/app/Scan' element={<Scan/>}/>
+          <Route path='/app/Perfil' element={<MenuPerfil/>}/>
         </Route>
         <Route path='/Registro' element={<Registro/>}/>
         <Route path='/Login' element={<Login/>}/>

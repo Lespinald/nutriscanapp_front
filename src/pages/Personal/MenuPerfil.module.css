@@ -1,0 +1,142 @@
+.fondoPerfil{
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    overflow-y: scroll;
+}
+
+.fondoPerfil section:nth-child(1){
+    background: var(--color-2);
+    height: fit-content;
+    width: 100%;
+    display:flex;
+    flex-direction: column;
+    padding: 5svh;
+}
+
+.fondoPerfil section:nth-child(1) div.contain_img{
+    width: 17svh;
+    height: auto;
+    background: url(/public/Home/Perfil/Foto.png) top left / contain;
+    background-size: cover;
+    background-repeat: no-repeat;
+    aspect-ratio: 1 / 1;
+    align-self: center;
+    
+}
+.fondoPerfil section:nth-child(1) h1.welcome,
+.fondoPerfil section:nth-child(1) h3{
+    text-align: center;
+    padding: 2svh;
+    font-size: 2svh;
+    font-weight: 600;
+}
+.fondoPerfil section:nth-child(1) h3{
+    padding: 0;
+}
+
+
+.fondoPerfil section:nth-child(2){
+    width: 100%;
+    height: fit-content;
+    background: white;
+    display:flex;
+    flex-direction: column;
+    padding: 3svh;
+    gap: 2svh;
+}
+
+.fondoPerfil section:nth-child(2) h2.preferencias{
+    font-weight: 700;
+    color: var(--color-5);
+    font-size: 2.6svh;
+}
+
+.fondoPerfil section:nth-child(2) div.contain_preferencias{
+    display: flex;
+    justify-content: space-around;
+    gap: 2svh;
+}
+
+.fondoPerfil section:nth-child(2) div.contain_preferencias img{
+    width: 100%;
+    aspect-ratio: 1/1;
+    max-width: 25svw;
+}
+
+.fondoPerfil section:nth-child(2) div.contain_info{
+    background: url(../../../public/Home/Perfil/target.png) top 2svh right 2svh / 20%  no-repeat, var(--color-1);
+    width: 100%;
+    aspect-ratio: 2 / 1;
+    padding: 2svh;
+}
+
+.fondoPerfil section:nth-child(2) div.contain_info p:nth-child(1){
+    color: var(--color-6);
+    font-weight: 600;
+    font-size: 2svh;
+    margin-bottom: 2svh;
+}
+
+.fondoPerfil section:nth-child(3){
+    width: 100%;
+    height: fit-content;
+    padding: 2svh;
+    background: var(--color-6);
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.fondoPerfil section:nth-child(3) h1.estadistics,
+.fondoPerfil section:nth-child(4) h1.avanzado{
+    color: white;
+    font-size: 24px;
+    font-weight: 600;
+    line-height: 150%;
+}
+
+.fondoPerfil section:nth-child(3) div.contain_estadistics,
+.fondoPerfil section:nth-child(4) div.contain_avanzado{
+    position: relative;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(20svh, 1fr));
+    gap: 10px;
+}
+
+.fondoPerfil section:nth-child(3) div.contain_estadistics img:nth-child(n),
+.fondoPerfil section:nth-child(4) div.contain_avanzado img:nth-child(n){
+    width: 100%;
+    height: auto;
+}
+
+.fondoPerfil section:nth-child(4){
+    padding: 2svh;
+    gap: 20px;
+    font-size: 24px;
+    font-weight: 600;
+    line-height: 150%;
+    width: 100%;
+    background: var(--color-2);
+    display:flex;
+    flex-direction: column;
+}
+
+.fondoPerfil section:nth-child(4) h1.avanzado{
+    color: var(--color-6);
+}
+
+.fondoPerfil section:nth-child(4) div.contain_avanzado::after{
+    content: '¿Quieres Saber más? Suscríbete!';
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 4svh;
+    color: rgb(0, 0, 0, 1);
+    width: 100%;
+    height: 100%;
+    background-color: rgb(170, 244, 128, 0.51);
+    position: absolute;
+}
