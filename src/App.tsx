@@ -8,6 +8,7 @@ import { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { auth } from './firebase';
 import { signInWithCustomToken } from 'firebase/auth';
+import AppLayout from './pages/AppLayout';
 
 function App() {
   
@@ -17,7 +18,9 @@ function App() {
       <Routes>
         <Route path='/' element={<Layout/>}>
           <Route path='/:section?' element={<Home/>}/>
-          <Route path='/Scan' element={<Scan/>}/>
+        </Route>
+        <Route path='/app' element={<AppLayout/>}>
+          <Route path='/app/Scan' element={<Scan/>}/>
         </Route>
         <Route path='/Registro' element={<Registro/>}/>
         <Route path='/Login' element={<Login/>}/>
