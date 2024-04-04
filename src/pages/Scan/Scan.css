@@ -1,16 +1,42 @@
 .scanMain{
-  height: 100%;
+
+  text-align: center;
+
+  justify-content: center;
+
   max-width: 100vw;
+  padding: 4svh 0;
+
+}
+.scanMain h1{
+  color: #40B22D;
+  font-size: 1.2rem;
+  font-weight: 400;
+
+  margin-bottom: 6svh;
+}
+.scanMain p{
+  color: var(--color-3);
+  font-size: 1.1rem;
+  font-weight: 400;
+
+  margin: 4svh 0;
 }
 
 .scanTopImg{
   width: 100%;
-  padding: 2em;
   max-height: 50%;
+  width: 70%;
+
+  aspect-ratio: 1/1;
 }
 
 .scanInput{
-  padding: 1em 5em;
+  padding: 1.5em 6em;
+
+  border-radius: 0.5rem !important;
+
+  background-color: var(--color-3) !important;
 }
 
 .scanText{
