@@ -6,10 +6,10 @@ const Equipo = forwardRef<HTMLDivElement>(({}, ref) => {
     <div className={style.main} ref={ref}>
       <p>¿Quienes somos?</p>
       <div className={style.members}>
-        <Card image="/Home/Equipo/randomMan.png" name="Juan Rodriguez" info="Arquiteco de BD & Dev Frontend" />
-        <Card image="/Home/Equipo/randomMan.png" name="Juan Rodriguez" info="Arquiteco de BD & Dev Frontend" />
-        <Card image="/Home/Equipo/randomMan.png" name="Juan Rodriguez" info="Arquiteco de BD & Dev Frontend" />
-        <Card image="/Home/Equipo/randomMan.png" name="Juan Rodriguez" info="Arquiteco de BD & Dev Frontend" />
+        <Card image="/public/Home/Equipo/JuanRodriguez.png" name="Juan Rodriguez" info="Arquiteco de BD & Dev Frontend" />
+        <Card image="/public/Home/Equipo/Lina.png" name="Lina Espinal" info="UX/UI & Frontend Dev" />
+        <Card image="/public/Home/Equipo/JuanCarreño.png" name="Juan Carreño" info="DevOps BD & Backend Dev" />
+        <Card image="/public/Home/Equipo/Oscar.png" name="Oscar Martínez" info="QA & Backend Dev" />
       </div>
       <Background/>
     </div>
