@@ -1,0 +1,73 @@
+.fondo{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    align-content: center;
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100svh;
+    width: 100svw;
+    z-index: 1000;
+    flex-direction: column;
+    background-color: var(--color-4);
+}
+
+.contain_logo{
+    display: flex;
+    height: fit-content;
+    position: relative;
+    justify-content: center;
+}
+
+.contain_logo::after{
+    content: '';
+    width: 89%;
+    background-color: var(--color-4);
+    height: 4.05%;
+    display: flex;
+    z-index: 5;
+    position: absolute;
+    bottom: 31.1%;
+    border-radius: 25px;
+    animation: llenarBarra 3.5s ease forwards infinite;
+}
+
+@keyframes llenarBarra {
+    0% {
+      width: 89%;
+    }
+    100% {
+      width: 0%;
+    }
+  }
+
+.logo{
+    aspect-ratio: 1 / 1.5 !important;
+}
+
+
+.cargando{
+    color: white;
+    font-size: 5svh;
+}
+
+.cargando::after{
+    content: '';
+    animation: mostrarPuntos 4s steps(4) infinite;
+}
+
+@keyframes mostrarPuntos {
+    0% {
+      content: '';
+    }
+    25% {
+      content: '.';
+    }
+    50% {
+      content: '..';
+    }
+    75% {
+      content: '...';
+    }
+}

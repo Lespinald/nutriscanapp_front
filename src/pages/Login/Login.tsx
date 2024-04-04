@@ -6,6 +6,7 @@ import { convertirUsuario } from '../../assets/models/usuario';
 import { useDispatch, useSelector } from 'react-redux';
 import { login, logout } from '../../redux/authSlice';
 import { Link, useNavigate } from 'react-router-dom';
+import MenuCarga from '../../assets/MenuCarga/MenuCarga';
 
 const googleProvider = new GoogleAuthProvider();
 
@@ -95,6 +96,7 @@ const Login = () => {
 
     return (
         <div className={style.fondoLogin}>
+            <MenuCarga isOpen={false}/>
             <Link className={style.backButton} to={'/Home'}>
                 <svg xmlns="http://www.w3.org/2000/svg" height="3svh" id="Layer_1" version="1.1" viewBox="0 0 512 512" width="3svh" xml:space="preserve" fill='white'>
                     <polygon points="352,128.4 319.7,96 160,256 160,256 160,256 319.7,416 352,383.6 224.7,256 "/>
