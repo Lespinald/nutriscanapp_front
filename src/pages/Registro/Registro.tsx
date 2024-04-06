@@ -31,14 +31,6 @@ const Registro = () => {
     setUser({ ...user, [fieldName]: value });
   };
 
-  function ValidarAltura(altura:number) {
-    // Verificar si la altura es un número y mayor que cero
-    if (isNaN(altura) || altura <= 0) {
-      return false;
-    }
-    return true;
-  }
-
   function validarCorreo(correo:string) {
     // Expresión regular para validar correo electrónico
     const regexCorreo = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -93,14 +85,6 @@ const Registro = () => {
     if(dato.telefono === usuarioVacio.telefono){
       alert('Ingrese un telefono valido')
       return false
-    }
-    if(dato.peso <= usuarioVacio.peso){
-      alert('Ingrese un peso valido')
-      return false
-    }
-    if(!ValidarAltura(dato.altura)) {
-      alert('Ingrese una altura válida (en metros y mayor que cero)');
-      return false;
     }
     return true
   }
