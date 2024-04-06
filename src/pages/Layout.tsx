@@ -68,7 +68,7 @@ const DesktopLayout = () => {
       <Link to="/equipo">¿Quienes somos?</Link>
       <Link to="/objetivos">Mision &&nbsp;Vision</Link>
       <Link to="/servicios">Servicios</Link>
-      { !authenticated ? <Link className={style.loginLink} to="/Login">Ingresa</Link> : <Link className={style.loginLink} to="/Perfil">Ver Pefil</Link>}
+      { !authenticated ? <Link className={style.loginLink} to="/Login">Ingresa</Link> : <Link className={style.loginLink} to="app/Perfil">Ver Pefil</Link>}
       { !authenticated && <Link className={style.registerLink} to="/Registro">Registrate</Link>}
     </>
   );
