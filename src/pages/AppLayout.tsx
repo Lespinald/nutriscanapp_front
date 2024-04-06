@@ -9,6 +9,7 @@ import { IsMobile } from "../assets/Utils";
 import { useViewportRezise } from "../assets/hooks";
 import ProfileLogo from "../assets/Components/ProfileLogo";
 import MenuLogo from "../assets/Components/MenuLogo";
+import { useSelector } from "react-redux";
 
 type HomeLayoutContext = {
   size: {width: number, height: number};
@@ -56,6 +57,8 @@ export function useHomeLayoutContext() {
 }
 
 const DesktopLayout = () => {
+  
+  const authentication = useSelector((state:any) => state.auth.status !== 'not-authenticated')
   return (
     <>
       <Link to="/">Inicio</Link>
@@ -63,12 +66,15 @@ const DesktopLayout = () => {
       <Link to="/objetivos">Mision &&nbsp;Vision</Link>
       <Link to="/servicios">Servicios</Link>
       <Link className={style.loginLink} to="/Login">Ingresa</Link>
-      <Link className={style.registerLink} to="/Registro">Registrate</Link>
+      <Link className={style.registerLink} to="/Registro">Registrate</Link>  
     </>
   );
 }
 
 const MobileLayout = () => {
+
+  const authentication = useSelector((state:any) => state.auth.status !== 'not-authenticated')
+
   const [profileMenu, setProfileMenu] = useState<boolean>(false);
   const [generalMenu, setGeneralMenu] = useState<boolean>(false);
 
@@ -128,6 +134,7 @@ const MobileLayout = () => {
 
         <Link ref={profileAnchorRef} to="/Login">Ingresa</Link>
         <Link to="/Registro">Registrate</Link>
+        { authentication && <Link to="Perfil">Ver Perfil</Link>}
       </div>
     </>
   );
