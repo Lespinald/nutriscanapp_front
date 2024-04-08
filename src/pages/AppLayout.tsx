@@ -117,10 +117,9 @@ const MobileLayout = () => {
 
   return (
     <>
-      <button style={GetStyleProfile()}
-        onClick={ToggleProfile}>
+      <Link to="/app/Perfil" style={GetStyleProfile()}>
         <ProfileLogo style={{stroke: "inherit"}}/>
-      </button>
+      </Link>
       <div className={`${generalMenu? style.openGeneral: ""} ${style.menu}`}
         onMouseLeave={ToggleGeneral}>
 

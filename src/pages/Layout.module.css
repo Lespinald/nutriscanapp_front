@@ -27,6 +27,7 @@
   align-items: center;
 
   color: white;
+  stroke: var(--color-5);
   font-size: 1.2em;
   font-weight: 500;
   text-decoration: none;
@@ -37,6 +38,7 @@
   border-radius: 0.4em;
 }
 .layoutNav > a:hover, .layoutNav > button:hover{
+  stroke: white;
   color: var(--color-5);
 }
 .layoutNav > button:not(:first-child){
