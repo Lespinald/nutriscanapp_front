@@ -40,7 +40,7 @@ const AppLayout = () => {
   return (
     <>
     <nav className={style.layoutNav} ref={layout}>
-      <Link className={style.homeLogo} to="/">
+      <Link className={style.homeLogo} to="/app/Scan">
           <img className={style.maintainRatio} src="/Layout/logo.png" alt="logo"></img>
       </Link>
       <MobileLayout/>
