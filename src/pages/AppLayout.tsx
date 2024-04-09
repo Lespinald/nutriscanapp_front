@@ -11,7 +11,7 @@ import ProfileLogo from "../assets/Components/ProfileLogo";
 import MenuLogo from "../assets/Components/MenuLogo";
 import { useSelector } from "react-redux";
 
-type HomeLayoutContext = {
+type AppLayoutContext = {
   size: {width: number, height: number};
   mobile: boolean;
 }
@@ -43,17 +43,19 @@ const AppLayout = () => {
       <Link className={style.homeLogo} to="/app/Scan">
           <img className={style.maintainRatio} src="/Layout/logo.png" alt="logo"></img>
       </Link>
-      <MobileLayout/>
+      <Link to="/app/Perfil" style={{padding: "0 0.8rem"}}>
+        <ProfileLogo style={{stroke: "inherit"}}/>
+      </Link>
     </nav>
     <div className={style.outlet} style={{marginTop: `${layoutHeight}px`}}>
-      <Outlet context={{size, mobile} satisfies HomeLayoutContext} />
+      <Outlet context={{size, mobile} satisfies AppLayoutContext} />
     </div>
     </>
   );
 }
 
-export function useHomeLayoutContext() {
-  return useOutletContext<HomeLayoutContext>();
+export function useAppLayoutContext() {
+  return useOutletContext<AppLayoutContext>();
 }
 
 const DesktopLayout = () => {
