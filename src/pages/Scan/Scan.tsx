@@ -1,4 +1,4 @@
-import "./Scan.css"
+import style from "./Scan.module.css"
 
 import React, { useEffect, useRef, useState } from "react";
 import { Worker, createWorker } from 'tesseract.js';
@@ -72,13 +72,14 @@ const Scan = () => {
   })
 
   return (
-    <div className="scanMain">
-      <img className="scanTopImg maintainRatio" src={image}/>
+    <div className={style.scanMain}>
+      <img className={`${style.scanTopImg} maintainRatio`} src={image}/>
       <div className="stack" style={{height: "max-content"}}>
         <h1>
           {text}
         </h1>
-        <InputFile name="capturar" accept="image/*" styleClass="scanInput basicButton" onChange={enCaptura}>CAPTURAR</InputFile>
+        <button>CAPTURAR</button>
+        <InputFile name="capturar" accept="image/*" styleClass={`${style.scanInput} basicButton`} onChange={enCaptura}>CAPTURAR</InputFile>
 
         <p>
           Estamos preparandonos para analizar tu busqueda
