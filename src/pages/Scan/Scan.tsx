@@ -1,85 +1,47 @@
 import style from "./Scan.module.css"
 
 import React, { useEffect, useRef, useState } from "react";
-import { Worker, createWorker } from 'tesseract.js';
-
-import InputFile from "../../assets/Components/InputFile";
-import { useAppLayoutContext } from "../AppLayout";
 
 const Scan = () => {
+  const [capturando, setCapturando] = useState<boolean>(false);
 
-  const defaultImg = "/Scan/logo.png";
-  const defaultTxt = "Escaneando...";
+  const videoRef = useRef<HTMLVideoElement>(null)
 
-  // const {size, mobile} = useAppLayoutContext();
+  const IniciarCaptura = () => {
 
-  const [image, setImage] = useState<string>(defaultImg);
-  const [text, setText] = useState<string>("Tus resultados aperecerán aqui");
-
-  const index = useRef<number>(0);
-
-  const worker = useRef<Worker | null>(null);
-
-
-
-  const ScanImage = async (image: string) => {
-    // worker.current = await createWorker('spa');
-
-    // const { data: { text } } = await worker.current.recognize(image);
-
-    // await worker.current.terminate();
-    const baked = ["7702025142910", "7702189000019"]
-    const ind = index.current;
-    index.current = (index.current + 1) % 2;
-
-    await new Promise(r => setTimeout(r, 2000));
-
-    return baked[ind];
   }
 
-  const enCaptura = (evento: React.ChangeEvent<HTMLInputElement>) => {
+  useEffect(() => {
+    if(capturando){
 
-    const files = evento.currentTarget.files;
-    if(files && files[0].type){
-      if(files[0].type.startsWith("image/")){
+      navigator.mediaDevices?.getUserMedia({
+        audio: false,
+        video: {width:720, height:720, facingMode:"environment"}
+      })
+      .then(mediaStream => {
+        if(!videoRef.current) throw new Error("elemento de video no inicializado");
 
-        const url = URL.createObjectURL(files[0]);
-
-        setText(defaultTxt);
-        ScanImage(url).then(
-          txt => setText(txt)
-        ).catch(
-          err => {
-            console.error("on scanning:", err)
-            setText(err);
-          }
-        );
-
-        setImage(url);
-
-      }else{
-        console.error("file type not supprted for this input");
-      }
-    }else{
-      console.error("file not found");
+        videoRef.current.srcObject = mediaStream;
+        videoRef.current.onloadedmetadata = () => videoRef.current?.play();
+      })
+      .catch(err => console.error(err));
     }
-  }
-
-  useEffect(()=>{
-    return () => {
-      if(worker.current) worker.current.terminate()
-    }
-  })
+  }, [capturando])
 
   return (
     <div className={style.scanMain}>
-      <img className={`${style.scanTopImg} maintainRatio`} src={image}/>
+      
+      {capturando?
+        <div className={style.videoDisplay}>
+          <div></div>
+          <video id="captura" ref={videoRef}/>
+        </div>:
+        <img className={`${style.scanTopImg} maintainRatio`} src="/Scan/logo.png"/>
+      }
+
       <div className="stack" style={{height: "max-content"}}>
-        <h1>
-          {text}
-        </h1>
-        <button>CAPTURAR</button>
-        <InputFile name="capturar" accept="image/*" styleClass={`${style.scanInput} basicButton`} onChange={enCaptura}>CAPTURAR</InputFile>
+        <button className={`${style.scanInput} basicButton`} onClick={() => setCapturando(true)}>CAPTURAR</button>
+        {/* <InputFile name="capturar" accept="image/*" styleClass={`${style.scanInput} basicButton`} onChange={enCaptura}>CAPTURAR</InputFile> */}
 
         <p>
           Estamos preparandonos para analizar tu busqueda

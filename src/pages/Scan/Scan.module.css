@@ -27,14 +27,40 @@
 }
 
 .scanTopImg{
-  max-height: 50%;
+  max-height: 50svh;
   width: 70%;
 
   aspect-ratio: 1/1;
 }
 
+.videoDisplay{
+  position: relative;
+}
+.videoDisplay video {
+  max-height: 50svh;
+  width: 90%;
+
+  background-color: #0E151A;
+  
+  margin-bottom: 2svh;
+  border-radius: 1rem;
+  border: solid 0.5rem var(--color-6);
+}
+.videoDisplay div{
+  position: absolute;
+
+  background-color: red;
+
+  height: 2px;
+  left: 0;
+  right: 0;
+
+  top: 45%
+}
+
 .scanInput{
-  padding: 1.5em 6em;
+  padding: 1.5em 0;
+  width: 80%;
 
   border-radius: 0.5rem !important;
 
@@ -46,8 +72,14 @@
   font-size: 1.5em;
 }
 
-@media (min-width: 910px) or (min-aspect-ratio: 2/3) {
+@media (min-width: 910px) or (min-aspect-ratio: 1/1) {
   .scanTopImg{
+    max-height: 85svh;
+    max-width: 50%;
+
+    margin-right: 2svw;
+  }
+  .videoDisplay video {
     max-height: 85svh;
     max-width: 50%;
 
