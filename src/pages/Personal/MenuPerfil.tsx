@@ -1,10 +1,13 @@
-import React from 'react'
+import React, { useState } from 'react'
 import style from './MenuPerfil.module.css'
 import { useSelector } from 'react-redux'
 import { Usuario } from '../../assets/models/usuario'
+import InputFoto from './InputFoto'
 
 const MenuPerfil = () => {
   const infoUser:Usuario = useSelector((state:any) => state.auth.infoUsuario)
+  const [changePhoto, setChangePhoto] = useState(false)
+  const [photoPerfil, setPhotoPerfil] = useState('')
 
   const GetEstado = (imc: number) => {
     if(imc < 18.5){
@@ -23,8 +26,8 @@ const MenuPerfil = () => {
   return (
     <div className={style.fondoPerfil}>
       <section>
-        <div className={style.contain_img}>
-            {/* <img src='*' alt='foto perfil'></img> */}
+        <div className={style.contain_img} onClick={() => setChangePhoto((prev) => !prev)}>
+          {/* <img src='*' alt='foto perfil'></img> */}
         </div>
         <h1 className={style.welcome}>Bienvenido {infoUser.nombre}</h1>
         <h3>Tel: {infoUser.telefono}</h3>
@@ -61,6 +64,7 @@ const MenuPerfil = () => {
         </div>
 
       </section>
+      <InputFoto isOpen={changePhoto} setIsOpen={setChangePhoto} photoPerfil={photoPerfil} setPhotoPerfil={setPhotoPerfil}/>
     </div>
   )
 }
