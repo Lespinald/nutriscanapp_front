@@ -1,0 +1,81 @@
+.checkoutFondo{
+    width: 100svw;
+    height: 100%;
+    display: flex;
+    flex-direction: row;
+    padding: 1% 2.8%;
+    gap: 64px;
+}
+
+.box{
+    height: fit-content;
+    width: fit-content;
+    padding: 3.15svw 3.15svw 2.5svw;
+    box-shadow: -4px 8px 25px rgb(0, 0, 0, 0.25);
+    
+    display: flex;
+    flex-direction: column;
+}
+
+.box label{
+    color: var(--color-6);
+    font-size: 2.1svw;
+    line-height: 110%;
+    margin-bottom: 1svw;
+}
+.box input{
+    margin-bottom: 1.5svw;
+    width: 23.6svw;
+    height: 53px;
+    padding: 2.52% 3.35%;
+    border-radius: 15px;
+    border: 3px solid var(--color-6);
+}
+
+.video{
+    width: 39.695391svw;
+    height: auto;
+    margin: 2.56097561svw 2.56097561svw 3.231707317svw;
+    border-radius: 15px;
+}
+
+.buttonPagar{
+    grid-column: 1 / 2 span;
+    box-shadow: -2px 2px 5px rgb(0, 0, 0, 0.25);
+    height: fit-content;
+    width: fit-content;
+    border-radius: 10px;
+    padding: 1% 20%;
+    font-size: 2.1svw;
+    align-self: center;
+    justify-self: center;
+    color: var(--color-5);
+    background-color: var(--color-2);
+}
+
+.recibo{
+    height: fit-content;
+    width: 33.3svw;
+    background-color: var(--color-5);
+    color: white;
+    padding: 1.96svw;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+    gap: 1.5svh;
+}
+
+.listado{
+    grid-column: 1 / 2 span;
+}
+
+.linea{
+    grid-column: 1 / 2 span;
+    height: 2px;
+    width: 100%;
+    background-color: white;
+}
+
+.fill{
+    font-size: 2.1svw;
+}

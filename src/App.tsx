@@ -10,6 +10,7 @@ import { auth } from './firebase';
 import { signInWithCustomToken } from 'firebase/auth';
 import AppLayout from './pages/AppLayout';
 import MenuPerfil from './pages/Personal/MenuPerfil';
+import Checkout from './pages/Pasarela/Checkout';
 
 function App() {
   
@@ -19,6 +20,7 @@ function App() {
       <Routes>
         <Route path='/' element={<Layout/>}>
           <Route path='/:section?' element={<Home/>}/>
+          <Route path='/pago/:info' element={<Checkout/>}/>
         </Route>
         <Route path='/app' element={<AppLayout/>}>
           <Route path='/app/Scan' element={<Scan/>}/>
