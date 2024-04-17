@@ -1,11 +1,11 @@
-import { Link, useOutletContext } from "react-router-dom";
+import { Link} from "react-router-dom";
 import style from "./styles/Inicio.module.css"
 import { forwardRef } from "react";
 import { useHomeLayoutContext } from "../Layout";
 
 const Inicio = forwardRef<HTMLDivElement>(({}, ref) => {
 
-  const {size, mobile} = useHomeLayoutContext();
+  const {mobile} = useHomeLayoutContext();
 
   return (
   <div className={(mobile?`${style.mainMobile} `:"") + style.main} ref={ref}>

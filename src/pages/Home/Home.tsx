@@ -24,7 +24,7 @@ const Home = () => {
       equipo.current?.scrollIntoView(scrollOpt);
       break;
       case("servicios"):
-      servicio.current?.scrollIntoView({behavior: "smooth"});
+      servicio.current?.scrollIntoView(scrollOpt);
       break;
       case("objetivos"):
       objetivos.current?.scrollIntoView(scrollOpt);

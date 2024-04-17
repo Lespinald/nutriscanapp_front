@@ -12,11 +12,21 @@
 
 }
 .scanMain h1{
-  color: #40B22D;
-  font-size: 1.2rem;
-  font-weight: 400;
+  width: 80%;
+  max-width: 90svw;
 
-  margin-bottom: 6svh;
+  word-break: break-all;
+
+  margin: 2rem;
+  padding: 2rem;
+
+  border-radius: 1rem;
+
+  font-size: 2rem;
+  font-weight: 600;
+
+  color: black;
+  background-color: #2F48582F;
 }
 .scanMain p{
   color: var(--color-3);
@@ -35,14 +45,15 @@
 
 .videoDisplay{
   position: relative;
-}
-.videoDisplay video {
-  max-height: 50svh;
   width: 90%;
+  margin-bottom: 2svh;
+}
+.videoDisplay canvas{
+  max-height: 55svh;
+  width: 100%;
 
   background-color: #0E151A;
   
-  margin-bottom: 2svh;
   border-radius: 1rem;
   border: solid 0.5rem var(--color-6);
 }
@@ -55,7 +66,7 @@
   left: 0;
   right: 0;
 
-  top: 45%
+  top: 48%
 }
 
 .scanInput{
@@ -72,19 +83,23 @@
   font-size: 1.5em;
 }
 
-@media (min-width: 910px) or (min-aspect-ratio: 1/1) {
+@media (min-aspect-ratio: 9/8) {
   .scanTopImg{
     max-height: 85svh;
     max-width: 50%;
 
     margin-right: 2svw;
   }
-  .videoDisplay video {
-    max-height: 85svh;
+
+  .videoDisplay{
     max-width: 50%;
 
     margin-right: 2svw;
   }
+  .videoDisplay canvas{
+    max-height: 85svh;
+  }
+
   .scanMain{
     flex-direction: row;
   }
