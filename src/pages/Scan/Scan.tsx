@@ -5,28 +5,103 @@ import React, { useEffect, useRef, useState } from "react";
 const Scan = () => {
   const [capturando, setCapturando] = useState<boolean>(false);
 
-  const videoRef = useRef<HTMLVideoElement>(null)
+  const [codigo, setCodigo] = useState<string>("");
 
-  const IniciarCaptura = () => {
+  const worker = useRef<Worker | null>(null);
 
+  const videoRef = useRef<HTMLVideoElement>(document.createElement("video"));
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+  const ctxRef = useRef<CanvasRenderingContext2D | null>(null);
+  
+  const oldTime = useRef<number>(0);
+
+  const InitWorker = () => {
+    console.log("init worker");
+    worker.current = new Worker("/wasmWorker.js");
+    worker.current.onmessage = async ev => {
+      if(ev.data != null){
+        
+        console.log(ev);
+        if(ev.data.type === "QR-Code"){
+          return;
+        }
+
+        worker.current?.terminate();
+
+        setCodigo(`${ev.data.data} ${ev.data.type}`);
+        setCapturando(false);
+        
+      }
+    }
+  }
+
+  const tick = (time: number) => {
+    if(canvasRef.current && videoRef.current.readyState === videoRef.current.HAVE_ENOUGH_DATA){
+
+      const width = videoRef.current.videoWidth;
+      const height = videoRef.current.videoHeight;
+
+      canvasRef.current.width = width;
+      canvasRef.current.height = height;
+
+
+      if(ctxRef.current){
+        const ctx = ctxRef.current;
+
+        ctx.drawImage(videoRef.current,0, 0);
+
+        if(time - oldTime.current > 600){
+          oldTime.current = time;
+
+          const imageData = ctx.getImageData(0,0,width, height);
+
+          worker.current?.postMessage({width: imageData.width, height: imageData.height});
+          worker.current?.postMessage(imageData, [imageData.data.buffer]);
+        }
+      }
+
+    }
+
+    requestAnimationFrame(tick);
   }
 
   useEffect(() => {
+
+    console.log("videoRef:", videoRef.current, "canvasRef:", canvasRef.current);
+
     if(capturando){
+
+      InitWorker();
+
+      if(canvasRef.current){
+        ctxRef.current = canvasRef.current.getContext("2d",{
+          willReadFrequently: true
+        });
+      }
 
       navigator.mediaDevices?.getUserMedia({
         audio: false,
-        video: {width:720, height:720, facingMode:"environment"}
+        video: {
+          facingMode:"environment",
+          aspectRatio: 1
+        }
       })
       .then(mediaStream => {
-        if(!videoRef.current) throw new Error("elemento de video no inicializado");
-
         videoRef.current.srcObject = mediaStream;
-        videoRef.current.onloadedmetadata = () => videoRef.current?.play();
+        videoRef.current.onloadedmetadata = () => {
+          videoRef.current.play();
+
+          requestAnimationFrame(tick);
+        }
       })
-      .catch(err => console.error(err));
+      .catch(err => console.error(err.name, err));
+    }else{
+      videoRef.current.pause();
+      if(videoRef.current.srcObject){
+        videoRef.current.srcObject = null;
+      }
     }
-  }, [capturando])
+  }, [capturando]);
 
   return (
     <div className={style.scanMain}>
@@ -34,15 +109,25 @@ const Scan = () => {
       {capturando?
         <div className={style.videoDisplay}>
           <div></div>
-          <video id="captura" ref={videoRef}/>
+          <canvas id="captura" className="maintainRatio" ref={canvasRef}/>
         </div>:
         <img className={`${style.scanTopImg} maintainRatio`} src="/Scan/logo.png"/>
       }
 
       <div className="stack" style={{height: "max-content"}}>
-        <button className={`${style.scanInput} basicButton`} onClick={() => setCapturando(true)}>CAPTURAR</button>
-        {/* <InputFile name="capturar" accept="image/*" styleClass={`${style.scanInput} basicButton`} onChange={enCaptura}>CAPTURAR</InputFile> */}
-
+        {capturando?
+          <button className={`${style.scanInput} basicButton`} onClick={() => setCapturando(false)}>
+            PARAR
+          </button>:
+          <>
+          <h1>
+            {codigo}
+          </h1>
+          <button className={`${style.scanInput} basicButton`} onClick={() => setCapturando(true)}>
+            CAPTURAR
+          </button>
+          </>
+        }
         <p>
           Estamos preparandonos para analizar tu busqueda
         </p>
