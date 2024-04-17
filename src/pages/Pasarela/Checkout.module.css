@@ -79,3 +79,41 @@
 .fill{
     font-size: 2.1svw;
 }
+
+@media screen and (max-width:760px) {
+    .box{
+        width: 100%;
+        height: -webkit-fill-available;
+    }
+    .checkoutFondo{
+        flex-direction: column-reverse;
+        padding: 0;
+        gap: 0;
+        justify-content: flex-end;
+    }
+    .fill{
+        font-size: 3svh;
+    }
+    .buttonPagar{
+        font-size: 2.5svh;
+    }
+    .recibo{
+        width: 100%;
+        padding: 5%;
+    }
+    .titulo{
+        font-size: 20px;
+        text-align: center;
+        grid-column: 1 / 2 span;
+        padding: 5% 20%;
+    }
+    .box input{
+        width: 100%;
+    }
+    .box label{
+        font-size: 2svh;
+    }
+    .video{
+        width: -webkit-fill-available;
+    }
+}

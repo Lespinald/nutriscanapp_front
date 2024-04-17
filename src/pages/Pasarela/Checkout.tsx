@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import style from './Checkout.module.css'
 import { useParams } from 'react-router-dom'
+import { IsMobile } from '../../assets/Utils'
 
 const Checkout = () => {
   const info = useParams().info
@@ -35,8 +36,9 @@ const Checkout = () => {
         preload="metadata" controls></video>
       </div>
       <div className={style.recibo}>
-        <p className={style.a}>Nombre:</p>
-        <p className={style.a}>{nombre}</p>
+        <h1 className={style.titulo} style={IsMobile() ? {} : {display:'none'}}>LISTO PARA SUSCRIBIRTE</h1>
+        <p className={style.a} style={IsMobile() ? {display:'none'} : {}}>Nombre:</p>
+        <p className={style.a} style={IsMobile() ? {display:'none'} : {}}>{nombre}</p>
         <p className={style.a}>Suscripción:</p>
         <p className={style.a}>NUTRISCAN {info === 'market' ? 'TIENDA' : 'PLUS'}</p>
         <p className={style.a}>HASTA:</p>
