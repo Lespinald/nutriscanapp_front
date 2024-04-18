@@ -1,85 +1,143 @@
 .fondoPerfil{
-    height: 100%;
+    height: calc(100%);
+    overflow: hidden;
     width: 100%;
     display: flex;
-    flex-direction: column;
-    overflow-y: scroll;
+    flex-direction: row;
 }
 
-.fondoPerfil section:nth-child(1){
-    background: var(--color-2);
+.fondoPerfil .div1:nth-child(1){
+    width: 45.4svw;
+    display:flex;
+    flex-direction: column;
+}
+
+.photoSection{
     height: fit-content;
+    background-color: #44A9F2;
     width: 100%;
     display:flex;
     flex-direction: column;
-    padding: 5svh;
+    padding: 3svh;
 }
 
-.fondoPerfil section:nth-child(1) div.contain_img{
-    width: 17svh;
+.photoSection div.contain_img{
+    width: 10.77svh;
     height: auto;
     background: url(/public/Home/Perfil/Foto.png) top left / contain;
     background-size: cover;
     background-repeat: no-repeat;
     aspect-ratio: 1 / 1;
     align-self: center;
-    
 }
-.fondoPerfil section:nth-child(1) h1.welcome,
-.fondoPerfil section:nth-child(1) h3{
+
+.photoSection h1.welcome{
+    color: white;
     text-align: center;
-    padding: 2svh;
+    padding: 2.5svh 0 0;
     font-size: 2svh;
     font-weight: 600;
 }
-.fondoPerfil section:nth-child(1) h3{
-    padding: 0;
-}
 
-
-.fondoPerfil section:nth-child(2){
+.infoSection{
+    align-self: flex-start;
     width: 100%;
     height: fit-content;
     background: white;
     display:flex;
     flex-direction: column;
-    padding: 3svh;
+    align-items: center;
+    padding: 4.7svh 7.3svh 0;
     gap: 2svh;
 }
 
-.fondoPerfil section:nth-child(2) h2.preferencias{
+.infoSection a{
+    text-decoration: none;
+    color: var(--color-5);
+    text-align: start;
+    align-self: flex-start;
+}
+
+.infoSection .preferencias{
     font-weight: 700;
     color: var(--color-5);
-    font-size: 2.6svh;
 }
 
-.fondoPerfil section:nth-child(2) div.contain_preferencias{
-    display: flex;
-    justify-content: space-around;
-    gap: 2svh;
-}
 
-.fondoPerfil section:nth-child(2) div.contain_preferencias img{
-    width: 100%;
+.infoSection div.contain_preferencias img{
+    height: 80%;
     aspect-ratio: 1/1;
     max-width: 25svw;
+    max-height: 13svh;
+
 }
 
-.fondoPerfil section:nth-child(2) div.contain_info{
-    background: url(../../../public/Home/Perfil/target.png) top 2svh right 2svh / 20%  no-repeat, var(--color-1);
+.infoSection div.contain_info{
+    width: fit-content;
+    justify-self: center;
+    border-radius: 10px;
+    display: grid;
+    grid-template-columns: 40% 1fr;
+}
+
+.infoSection div.contain_info input{
     width: 100%;
-    aspect-ratio: 2 / 1;
-    padding: 2svh;
+    text-overflow: ellipsis;
 }
 
-.fondoPerfil section:nth-child(2) div.contain_info p:nth-child(1){
-    color: var(--color-6);
-    font-weight: 600;
-    font-size: 2svh;
-    margin-bottom: 2svh;
+.infoSection .containIMC, 
+.infoSection .contain_preferencias,
+.infoSection div.contain_info{
+    background: var(--color-1);
+    box-shadow: 0px 4px 4px rgb(0, 0, 0, 0.25);
+    padding: 2svh;
+    overflow: hidden;
+}
+
+.infoSection .containIMC, 
+.infoSection .contain_preferencias{
+    width: fit-content;
+    height: 100%;
+}
+
+.contain_preferencias div{
+    display: flex;
+    flex-direction: row;
+    max-width: 100%;
+    width: fit-content;
+    overflow-y: hidden;
+    overflow-x: scroll;
+    background: white;
+    border-radius: 15px;
+    height: 67%;
+    align-items: center;
+    gap: 10%;
+    padding: 10%;
+}
+
+.rowElements{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+}
+
+.margenes{
+    width: 100%;
+    padding: 0 10%;
+    gap: 5%;
+    height: fit-content;
+}
+
+.logoutButton{
+    background-color: var(--color-6);
+    color: white;
+    height: fit-content;
+    padding: 5% 10%;
+    border-radius: 15px;
 }
 
 .fondoPerfil section:nth-child(3){
+    grid-area: b;
     width: 100%;
     height: fit-content;
     padding: 2svh;
@@ -112,6 +170,7 @@
 }
 
 .fondoPerfil section:nth-child(4){
+    grid-area: d;
     padding: 2svh;
     gap: 20px;
     font-size: 24px;
@@ -139,4 +198,30 @@
     height: 100%;
     background-color: rgb(170, 244, 128, 0.51);
     position: absolute;
+}
+
+@media screen and ( max-width: 760px) {
+    .fondoPerfil{
+        height: 100%;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        overflow-y: scroll;
+    }
+    .fondoPerfil section:nth-child(1){
+        grid-area: a;
+        background: var(--color-2);
+        height: fit-content;
+        width: 100%;
+        display:flex;
+        flex-direction: column;
+        padding: 5svh;
+    }
+    .fondoPerfil section:nth-child(1) div.contain_img{
+        width: 17svh;
+    }
+    .fondoPerfil section:nth-child(1) h1.welcome{
+        color: var(--color-6);
+        padding: 2svh;
+    }
 }

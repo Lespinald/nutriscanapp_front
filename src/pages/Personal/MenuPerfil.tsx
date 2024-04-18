@@ -25,45 +25,65 @@ const MenuPerfil = () => {
 
   return (
     <div className={style.fondoPerfil}>
-      <section>
-        <div className={style.contain_img} onClick={() => setChangePhoto((prev) => !prev)}>
-          {/* <img src='*' alt='foto perfil'></img> */}
-        </div>
-        <h1 className={style.welcome}>Bienvenido {infoUser.nombre}</h1>
-        <h3>Tel: {infoUser.telefono}</h3>
-        <h3>{infoUser.correo}</h3>
-      </section>
-      <section>
-        <h2 className={style.preferencias}>Preferencias de anuncios</h2>
-        <div className={style.contain_preferencias}>
-            <img src='/public/Home/Perfil/muffin.png' alt='Dulce'></img>
-            <img src='/public/Home/Perfil/limon.png' alt='Amargo'></img>
-        </div>
-        <div className={style.contain_info}>
-            <p className={style.s}>Mas sobre ti</p>
-            <p className={style.s}>Altura: {infoUser.altura / 100} m</p>
-            <p className={style.s}>Peso: {infoUser.peso} Kg</p>
-            <p className={style.s}>IMC: {(infoUser.peso / (infoUser.altura^2) * 100).toFixed(1)}</p>
-            <p className={style.s}>Estado: {GetEstado(infoUser.peso / (infoUser.altura^2) * 100)}</p>
-        </div>
-      </section>
-      <section>
-        <h1 className={style.estadistics}>Estadisticas</h1>
-        <div className={style.contain_estadistics}>
-            <img src='/public/Home/Perfil/Busquedas.png' alt='Sobre tus busquedas'></img>
-            <img src='/public/Home/Perfil/Consumo.png' alt='Consumo Calorico'></img>
-            <img src='/public/Home/Perfil/Progreso.png' alt='Progreso'></img>
-        </div>
-      </section>
-      <section>
-        <h1 className={style.avanzado}>Avanzado</h1>
-        <div className={style.contain_avanzado}>
-            <img src='/public/Home/Perfil/Busquedas.png' alt='Sobre tus busquedas'></img>
-            <img src='/public/Home/Perfil/Consumo.png' alt='Consumo Calorico'></img>
-            <img src='/public/Home/Perfil/Progreso.png' alt='Progreso'></img>
-        </div>
+      <div className={style.div1}>
+        <section className={style.photoSection}>
+          <div className={style.contain_img} onClick={() => setChangePhoto((prev) => !prev)}>
+            {/* <img src='*' alt='foto perfil'></img> */}
+          </div>
+          <h1 className={style.welcome}>Bienvenido {infoUser.nombre}</h1>
+        </section>
+        <section className={style.infoSection}>
+          <a>Más sobre ti   
+            <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="15" height="15" viewBox="0 0 24 24" fill='var(--color-5)' style={{transform:'translateX(10px)'}}>
+              <path d="M14.1 5.9L3 17v4h4L18.1 9.9 14.1 5.9zM15.6 4.4L18 2l4 4-2.4 2.4L15.6 4.4z"></path>
+            </svg>
+          </a>
+          <div className={style.contain_info}>
+              <p className={style.s}>Correo:</p>
+              <input type='text' value={`${infoUser.correo}`}></input>
+              <p className={style.s}>Celular:</p>
+              <input type='text' value={`+57 ${infoUser.telefono}`}></input>
+              <p className={style.s}>Altura:</p>
+              <input type='text' value={`${infoUser.altura / 100} m`}></input>
+              <p className={style.s}>Peso: {infoUser.peso} Kg</p>
+              <input type='text' value={`${infoUser.altura / 100} m`}></input>
+          </div>
+          <div className={`${style.rowElements} ${style.margenes}`}>
+            <div className={style.contain_preferencias}>
+              <p className={style.preferencias}>Preferencias</p>
+              <div>
+                <img src='/public/Home/Perfil/muffin.png' alt='Dulce'></img>
+                <img src='/public/Home/Perfil/limon.png' alt='Amargo'></img>
+              </div>
+            </div>
+            <div className={style.containIMC}>
+              <img src='/public/Home/Perfil/target.png' alt='diana' style={{width:'100%',aspectRatio:'1 / 1'}}></img>
+              <p className={style.s}>IMC: {(infoUser.peso / (infoUser.altura^2) * 100).toFixed(1)}</p>
+              <p className={style.s}>Estado: {GetEstado(infoUser.peso / (infoUser.altura^2) * 100)}</p>
+            </div>
+          </div>
+          <button className={style.logoutButton}>Cerrar Sesión</button>
+        </section>
+      </div>
+      <div>
+        <section>
+          <h1 className={style.estadistics}>Estadisticas</h1>
+          <div className={style.contain_estadistics}>
+              <img src='/public/Home/Perfil/Busquedas.png' alt='Sobre tus busquedas'></img>
+              <img src='/public/Home/Perfil/Consumo.png' alt='Consumo Calorico'></img>
+              <img src='/public/Home/Perfil/Progreso.png' alt='Progreso'></img>
+          </div>
+        </section>
+        <section>
+          <h1 className={style.avanzado}>Avanzado</h1>
+          <div className={style.contain_avanzado}>
+              <img src='/public/Home/Perfil/Busquedas.png' alt='Sobre tus busquedas'></img>
+              <img src='/public/Home/Perfil/Consumo.png' alt='Consumo Calorico'></img>
+              <img src='/public/Home/Perfil/Progreso.png' alt='Progreso'></img>
+          </div>
 
-      </section>
+        </section>
+      </div>
       <InputFoto isOpen={changePhoto} setIsOpen={setChangePhoto} photoPerfil={photoPerfil} setPhotoPerfil={setPhotoPerfil}/>
     </div>
   )
