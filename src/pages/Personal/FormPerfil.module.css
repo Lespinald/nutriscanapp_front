@@ -73,3 +73,27 @@
 .button.desactivado{
     opacity: 0.5;
 }
+
+@media screen and ( max-width: 760px) {
+    
+    .firstColumna{
+        padding: 0;
+        padding: 0 5%;
+        margin-top: 5.385svh;
+        margin-bottom: -5.385svh;
+    }
+    .formulario{
+        padding: 0;
+        width: 100%;
+        flex: 1;
+    }
+    .formulario form{
+        padding: 20% 5% 4%;
+        height: 100%;
+        width: 100%;
+        gap: 15px;
+    }
+    .contain_img p{
+        color: white;
+    }
+}

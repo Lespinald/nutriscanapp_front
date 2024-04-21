@@ -144,6 +144,11 @@
     border-radius: 15px;
 }
 
+.containIMC img{
+    width: 100%;
+    aspect-ratio: 1 / 1;
+}
+
 .sectionEstadisticas{
     width: fit-content;
     overflow: hidden;
@@ -155,6 +160,11 @@
     justify-content: flex-start;
     gap: 20px;
     height: 100%;
+    flex: 1;
+}
+
+.sectionEstadisticas .mapa{
+    height: 35%;
 }
 
 .sectionEstadisticas h1.estadistics,
@@ -213,26 +223,94 @@
 
 @media screen and ( max-width: 760px) {
     .fondoPerfil{
-        height: 100%;
+        min-height: 100svh;
+        height: fit-content;
         width: 100%;
         display: flex;
         flex-direction: column;
-        overflow-y: scroll;
+        overflow-y: auto;
     }
     .fondoPerfil section:nth-child(1){
-        grid-area: a;
-        background: var(--color-2);
         height: fit-content;
         width: 100%;
         display:flex;
         flex-direction: column;
         padding: 5svh;
     }
-    .fondoPerfil section:nth-child(1) div.contain_img{
-        width: 17svh;
+    .fondoPerfil .div1:nth-child(1){
+        width: 100%;
+        max-width: none;
+        display:flex;
+        flex-direction: column;
     }
-    .fondoPerfil section:nth-child(1) h1.welcome{
-        color: var(--color-6);
-        padding: 2svh;
+    .contain_info{
+        width: 100% !important;
+    }
+    .margenes{
+        flex-direction: column;
+        padding: 0;
+        gap: 2svh;
+    }
+    .infoSection{
+        padding: 4.7svh 7.3svh;
+    }
+    .infoSection p{
+        align-self: flex-start;
+        color: var(--color-5);
+    }
+    .contain_preferencias{
+        border-radius: 10px;
+        height: fit-content !important;
+        width: 100% !important;
+        max-width: none;
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+    }
+    .contain_preferencias div{
+        flex: 1;
+        display: flex;
+        padding: 2%;
+        width: 100%;
+        justify-content: center;
+    }
+    .contain_preferencias img{
+        height: 100%;
+    }
+    .containIMC{
+        height: fit-content !important;
+        width: 100% !important;
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        padding: 4svh 2svh !important;
+    }
+    .containIMC img{
+        position: absolute;
+        top: 2svh;
+        right: 2svh;
+        height: calc(100% - 4svh);
+        width: auto;
+        aspect-ratio: 1 / 1;
+    }
+    .sectionEstadisticas{
+        width: 100%;
+        height: fit-content;
+    }
+    .sectionEstadisticas .mapa{
+        width: 100%;
+        height: auto;
+    }
+    .contain_estadistics{
+        display: grid !important;
+        width: 100% !important;
+        height: fit-content !important;
+        grid-template-columns: repeat(auto-fill, minmax(45%, 1fr));
+        gap: 10px !important;
+    }
+    .sectionEstadisticas div.contain_estadistics img:nth-child(n){
+        height: auto;
+        width: 100%;
     }
 }

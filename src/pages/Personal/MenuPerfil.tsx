@@ -57,7 +57,7 @@ const MenuPerfil = () => {
               </div>
             </div>
             <div className={style.containIMC}>
-              <img src='/public/Home/Perfil/target.png' alt='diana' style={{width:'100%',aspectRatio:'1 / 1'}}></img>
+              <img src='/public/Home/Perfil/target.png' alt='diana'></img>
               <p className={style.s}>IMC: {(infoUser.peso / (infoUser.altura^2) * 100).toFixed(1)}</p>
               <p className={style.s}>Estado: {GetEstado(infoUser.peso / (infoUser.altura^2) * 100)}</p>
             </div>
@@ -65,9 +65,9 @@ const MenuPerfil = () => {
           <button className={style.logoutButton}>Cerrar Sesión</button>
         </section>
       </div>
-        <section className={style.sectionEstadisticas} style={{flex:'1'}}>
+        <section className={style.sectionEstadisticas}>
           <h1 className={style.estadistics}>Estadisticas</h1>
-          <img src='/public/Home/Perfil/Mapa.png' alt='Mapa conceptual' style={{height:'35%'}}></img>
+          <img src='/public/Home/Perfil/Mapa.png' alt='Mapa conceptual' className={style.mapa}></img>
           <div className={style.contain_estadistics}>
             <img src='/public/Home/Perfil/Busquedas.png' alt='Sobre tus busquedas'></img>
             <img src='/public/Home/Perfil/Consumo.png' alt='Consumo Calorico'></img>

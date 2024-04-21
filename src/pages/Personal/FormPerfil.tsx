@@ -3,6 +3,7 @@ import InputFoto from './InputFoto'
 import styleMenuPerfil from './MenuPerfil.module.css'
 import style from './FormPerfil.module.css'
 import { Link, useNavigate } from 'react-router-dom'
+import { IsMobile } from '../../assets/Utils'
 
 const FormPerfil = () => {
   const [changePhoto, setChangePhoto] = useState(false)
@@ -12,7 +13,7 @@ const FormPerfil = () => {
   return (
     <div className={styleMenuPerfil.fondoPerfil}>
       <div className={`${styleMenuPerfil.div1} ${style.firstColumna}`}>
-        <div style={{display:'flex',gap:'7svh',alignItems:'center',color:'var(--color-5)'}}>
+        <div style={{display:'flex',gap:'7svh',alignItems:'center',color:'var(--color-5)',justifyContent:'center',transform:'translateX(-5svh)'}}>
             <p className={style.backButton} onClick={() => navigate('/app/Perfil')} >
                 <svg xmlns="http://www.w3.org/2000/svg" height="3svh" id="Layer_1" version="1.1" viewBox="0 0 512 512" width="3svh" xmlSpace="preserve" fill='var(--color-5)'>
                     <polygon points="352,128.4 319.7,96 160,256 160,256 160,256 319.7,416 352,383.6 224.7,256 "/>
@@ -22,7 +23,7 @@ const FormPerfil = () => {
         </div>
         <div className={`${styleMenuPerfil.contain_img} ${style.contain_img}`} onClick={() => setChangePhoto((prev) => !prev)}>
           <p>CAMBIAR FOTO  
-            <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="2vh" height="2vh" viewBox="0 0 24 24" fill='var(--color-5)' style={{transform:'translateX(10px)'}}>
+            <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="2vh" height="2vh" viewBox="0 0 24 24" fill={IsMobile() ? 'white' :'var(--color-5)'} style={{transform:'translateX(10px)'}}>
               <path d="M14.1 5.9L3 17v4h4L18.1 9.9 14.1 5.9zM15.6 4.4L18 2l4 4-2.4 2.4L15.6 4.4z"></path>
             </svg>
           </p>
