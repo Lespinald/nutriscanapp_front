@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import style from './login.module.css'
 import { GoogleAuthProvider, signInWithEmailAndPassword, signInWithPopup } from 'firebase/auth'
 import { auth } from '../../firebase'
-import { convertirUsuario } from '../../assets/models/usuario';
+import { convertirUsuario, usuarioVacio } from '../../assets/models/usuario';
 import { useDispatch, useSelector } from 'react-redux';
 import { login, logout } from '../../redux/authSlice';
 import { Link, useNavigate } from 'react-router-dom';
@@ -26,15 +26,18 @@ const Login = () => {
             console.log("Dirección de correo electrónico o contraseña faltante");
             return;
         }
-        try {
-            console.log("Dirección de correo electrónico:", address, "Contraseña:", password);
-            const result = await signInWithEmailAndPassword(auth, address, password);
-            console.log("Resultado del inicio de sesión:", result);
-            TraerInfoUsuario(result?.user?.uid)
-        } catch (error:any) {
-            console.error("Error al iniciar sesión:", error.message);
-            alert(error.message)
-        }
+        // try {
+        //     console.log("Dirección de correo electrónico:", address, "Contraseña:", password);
+        //     const result = await signInWithEmailAndPassword(auth, address, password);
+        //     console.log("Resultado del inicio de sesión:", result);
+        //     TraerInfoUsuario(result?.user?.uid)
+        // } catch (error:any) {
+        //     console.error("Error al iniciar sesión:", error.message);
+        //     alert(error.message)
+        // }
+        dispatch(login({infoUsuario:usuarioVacio}))
+        navigate('/app/Scan')
+
     }
 
     const HandleLogInPopup = async () => {
