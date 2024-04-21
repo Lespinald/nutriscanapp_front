@@ -7,6 +7,7 @@ import Registro from './pages/Registro/Registro';
 import AppLayout from './pages/AppLayout';
 import MenuPerfil from './pages/Personal/MenuPerfil';
 import Checkout from './pages/Pasarela/Checkout';
+import FormPerfil from './pages/Personal/FormPerfil';
 
 function App() {
   
@@ -21,6 +22,7 @@ function App() {
         <Route path='app' element={<AppLayout/>}>
           <Route path='Scan' element={<Scan/>}/>
           <Route path='Perfil' element={<MenuPerfil/>}/>
+          <Route path='EditPerfil' element={<FormPerfil/>}/>
         </Route>
         <Route path='Registro' element={<Registro/>}/>
         <Route path='Login' element={<Login/>}/>

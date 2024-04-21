@@ -3,11 +3,11 @@ import style from './MenuPerfil.module.css'
 import { useSelector } from 'react-redux'
 import { Usuario } from '../../assets/models/usuario'
 import InputFoto from './InputFoto'
+import { useNavigate } from 'react-router-dom'
 
 const MenuPerfil = () => {
   const infoUser:Usuario = useSelector((state:any) => state.auth.infoUsuario)
-  const [changePhoto, setChangePhoto] = useState(false)
-  const [photoPerfil, setPhotoPerfil] = useState('')
+  const navigate = useNavigate()
 
   const GetEstado = (imc: number) => {
     if(imc < 18.5){
@@ -27,17 +27,17 @@ const MenuPerfil = () => {
     <div className={style.fondoPerfil}>
       <div className={style.div1}>
         <section className={style.photoSection}>
-          <div className={style.contain_img} onClick={() => setChangePhoto((prev) => !prev)}>
+          <div className={style.contain_img}>
             {/* <img src='*' alt='foto perfil'></img> */}
           </div>
           <h1 className={style.welcome}>Bienvenido {infoUser.nombre}</h1>
         </section>
         <section className={style.infoSection}>
-          <a>Más sobre ti   
+          <p onClick={() => navigate('/app/EditPerfil')}>Más sobre ti   
             <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="15" height="15" viewBox="0 0 24 24" fill='var(--color-5)' style={{transform:'translateX(10px)'}}>
               <path d="M14.1 5.9L3 17v4h4L18.1 9.9 14.1 5.9zM15.6 4.4L18 2l4 4-2.4 2.4L15.6 4.4z"></path>
             </svg>
-          </a>
+          </p>
           <div className={style.contain_info}>
               <p className={style.s}>Correo:</p>
               <input type='text' value={`${infoUser.correo}`}></input>
@@ -65,26 +65,15 @@ const MenuPerfil = () => {
           <button className={style.logoutButton}>Cerrar Sesión</button>
         </section>
       </div>
-      <div>
-        <section>
+        <section className={style.sectionEstadisticas} style={{flex:'1'}}>
           <h1 className={style.estadistics}>Estadisticas</h1>
+          <img src='/public/Home/Perfil/Mapa.png' alt='Mapa conceptual' style={{height:'35%'}}></img>
           <div className={style.contain_estadistics}>
-              <img src='/public/Home/Perfil/Busquedas.png' alt='Sobre tus busquedas'></img>
-              <img src='/public/Home/Perfil/Consumo.png' alt='Consumo Calorico'></img>
-              <img src='/public/Home/Perfil/Progreso.png' alt='Progreso'></img>
+            <img src='/public/Home/Perfil/Busquedas.png' alt='Sobre tus busquedas'></img>
+            <img src='/public/Home/Perfil/Consumo.png' alt='Consumo Calorico'></img>
+            <img src='/public/Home/Perfil/Progreso.png' alt='Progreso'></img>
           </div>
         </section>
-        <section>
-          <h1 className={style.avanzado}>Avanzado</h1>
-          <div className={style.contain_avanzado}>
-              <img src='/public/Home/Perfil/Busquedas.png' alt='Sobre tus busquedas'></img>
-              <img src='/public/Home/Perfil/Consumo.png' alt='Consumo Calorico'></img>
-              <img src='/public/Home/Perfil/Progreso.png' alt='Progreso'></img>
-          </div>
-
-        </section>
-      </div>
-      <InputFoto isOpen={changePhoto} setIsOpen={setChangePhoto} photoPerfil={photoPerfil} setPhotoPerfil={setPhotoPerfil}/>
     </div>
   )
 }

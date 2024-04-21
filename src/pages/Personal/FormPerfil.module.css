@@ -1,0 +1,75 @@
+.firstColumna{
+    padding: 7svh;
+    gap: 8svh;
+    width: fit-content;
+    max-width: 45svw;
+}
+
+.contain_img{
+    display: flex;
+    position: relative;
+    white-space: nowrap;
+    justify-content: center;
+}
+
+.contain_img p{
+    color: var(--color-5);
+    white-space: nowrap;
+    font-size: 2svh;
+    height: fit-content;
+    position: relative;
+    top: 100%;
+}
+
+.formulario{
+    display: flex;
+    flex: 1;
+    justify-content: center;
+    padding: 7svh;
+}
+
+.formulario form{
+    width: 100%;
+    background-color: var(--color-6);
+    padding: 4% 5%;
+    gap: 2%;
+    display: grid;
+}
+
+.campo{
+    height: fit-content;
+    color: white;
+    display: grid;
+    grid-template-columns: 30% 1fr ;
+}
+
+.campo input{
+    border-radius: 10px;
+    border: none;
+    background-color: #D9D9D9;
+    color: var(--color-6);
+    height: fit-content;
+    padding: 1% 2%;
+}
+
+.campo input.correo{
+    background-color: transparent;
+    color: white;
+    border: 2px solid white;
+}
+
+.button{
+    color: var(--color-6);
+    height: fit-content;
+    width: fit-content;
+    align-self: center;
+    justify-self: center;
+    padding: 1% 20%;
+    background-color: var(--color-2);
+    border-radius: 15px;
+    box-shadow: 0px 4px 2px rgb(0, 0, 0, 0.25);
+}
+
+.button.desactivado{
+    opacity: 0.5;
+}

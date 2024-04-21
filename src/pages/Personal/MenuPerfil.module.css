@@ -6,8 +6,14 @@
     flex-direction: row;
 }
 
+.fondoPerfil .div2{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
 .fondoPerfil .div1:nth-child(1){
-    width: 45.4svw;
+    width: fit-content;
+    max-width: 45svw;
     display:flex;
     flex-direction: column;
 }
@@ -21,7 +27,7 @@
     padding: 3svh;
 }
 
-.photoSection div.contain_img{
+.contain_img{
     width: 10.77svh;
     height: auto;
     background: url(/public/Home/Perfil/Foto.png) top left / contain;
@@ -107,6 +113,8 @@
     width: fit-content;
     overflow-y: hidden;
     overflow-x: scroll;
+    scrollbar-width: thin;
+    scrollbar-color: white var(--color-1);
     background: white;
     border-radius: 15px;
     height: 67%;
@@ -136,40 +144,43 @@
     border-radius: 15px;
 }
 
-.fondoPerfil section:nth-child(3){
-    grid-area: b;
-    width: 100%;
-    height: fit-content;
-    padding: 2svh;
+.sectionEstadisticas{
+    width: fit-content;
+    overflow: hidden;
+    padding: 10svh 5svh;
     background: var(--color-6);
     display: flex;
     flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
     gap: 20px;
+    height: 100%;
 }
 
-.fondoPerfil section:nth-child(3) h1.estadistics,
-.fondoPerfil section:nth-child(4) h1.avanzado{
+.sectionEstadisticas h1.estadistics,
+.sectionProximamente h1.avanzado{
     color: white;
     font-size: 24px;
     font-weight: 600;
     line-height: 150%;
 }
 
-.fondoPerfil section:nth-child(3) div.contain_estadistics,
-.fondoPerfil section:nth-child(4) div.contain_avanzado{
+.sectionEstadisticas div.contain_estadistics,
+.sectionProximamente div.contain_avanzado{
     position: relative;
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(20svh, 1fr));
+    display: flex;    
+    flex: 1;
+    overflow: hidden;
     gap: 10px;
 }
 
-.fondoPerfil section:nth-child(3) div.contain_estadistics img:nth-child(n),
-.fondoPerfil section:nth-child(4) div.contain_avanzado img:nth-child(n){
-    width: 100%;
-    height: auto;
+.sectionEstadisticas div.contain_estadistics img:nth-child(n),
+.sectionProximamente div.contain_avanzado img:nth-child(n){
+    height: 100%;
+    width: auto;
 }
 
-.fondoPerfil section:nth-child(4){
+.sectionProximamente{
     grid-area: d;
     padding: 2svh;
     gap: 20px;
@@ -182,11 +193,11 @@
     flex-direction: column;
 }
 
-.fondoPerfil section:nth-child(4) h1.avanzado{
+.sectionProximamente h1.avanzado{
     color: var(--color-6);
 }
 
-.fondoPerfil section:nth-child(4) div.contain_avanzado::after{
+.sectionProximamente div.contain_avanzado::after{
     content: '¿Quieres Saber más? Suscríbete!';
     text-align: center;
     display: flex;
