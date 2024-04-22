@@ -8,6 +8,7 @@ import AppLayout from './pages/AppLayout';
 import MenuPerfil from './pages/Personal/MenuPerfil';
 import Checkout from './pages/Pasarela/Checkout';
 import FormPerfil from './pages/Personal/FormPerfil';
+import RecivePasarela from './pages/Pasarela/RecivePasarela';
 
 function App() {
   
@@ -18,6 +19,7 @@ function App() {
         <Route element={<Layout/>}>
           <Route path=':section?' element={<Home/>}/>
           <Route path='/pago/:info' element={<Checkout/>}/>
+          <Route path='/responseFactura' element={<RecivePasarela/>}/>
         </Route>
         <Route path='app' element={<AppLayout/>}>
           <Route path='Scan' element={<Scan/>}/>

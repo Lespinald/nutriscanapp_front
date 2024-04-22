@@ -1,0 +1,73 @@
+.logo{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.hoja{
+    width: 20%;
+    align-self: center;
+}
+
+.borde{
+    height: 12svh;
+    display: flex;
+    align-items: center;
+}
+
+.letra{
+    width: calc(120% + 32px);
+    background: white;
+    margin: 0 -12px;
+    text-align: center;
+    font-size: 4svh;
+}
+
+.page{
+    width: 100svw;
+    height: 100svh;
+    padding: 5%;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.factura{
+    height: fit-content;
+    padding: 5svh 3svh 7svh;
+    background-color: var(--color-5);
+    display: flex;
+    position: relative;
+    flex-direction: column;
+    color: white;
+    gap: 20px;
+}
+
+.factura::after{
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 100%;
+    height: 3svh;
+    background: url(../../../public/Pasarela/triangulo.png) bottom left / 5svh 3svh;
+}
+
+.campo{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+}
+
+.button{
+    background-color: var(--color-2);
+    color: var(--color-5);
+    border-radius: 15px;
+    width: fit-content;
+    height: fit-content;
+    padding: 5% 10%;
+    align-self: center;
+    font-weight: 700;
+    font-size: 3svh;
+    box-shadow: -2px 4px 4px rgb(0, 0, 0, 0.25);
+}
