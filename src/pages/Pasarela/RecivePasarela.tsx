@@ -1,11 +1,30 @@
 import style from './Receive.module.css'
 
 import Logo from './Logo'
+import { IsMobile } from '../../assets/Utils'
 
 const RecivePasarela = () => {
+  const condicionesTienda = [
+    "Incluye recomendaciones basadas en tus preferencias",
+    "Seguimiento de nutrición diaría",
+    "No pierdes tus registros semanalmente",
+    "Información nutricional de calidad"
+  ];
+
   return (
     <div className={style.page}>
-      <Logo color='var(--color-5)'>Bienvenido NutriScan</Logo>
+      <div className={style.contain}>
+        <Logo color='var(--color-5)'>Bienvenido NutriScan</Logo>
+        {!IsMobile() && <>
+          <p>Tu plan incluye:</p>
+          <ul className={style.listado}>
+            {condicionesTienda.map((condicion,index) => (
+                <li key={index}>{condicion}</li>
+            ))}
+          </ul>
+          <button className={style.button} >PROBAR FUNCIONES</button>
+        </>}
+      </div>
       <div className={style.factura}>
         <h1 style={{textAlign:'center',fontSize:'4svh'}}>RESUMEN</h1>
         <div style={{textWrap: 'nowrap',overflow: 'hidden'}}>----------------------------------------------------------</div>
@@ -29,7 +48,7 @@ const RecivePasarela = () => {
             <label>TIPO</label>
             <label>TIENDA</label>
         </div>
-        <button className={style.button} >PROBAR FUNCIONES</button>
+        {IsMobile() && <button className={style.button} >PROBAR FUNCIONES</button>}
       </div>
     </div>
   )
