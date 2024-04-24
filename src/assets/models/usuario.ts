@@ -2,8 +2,8 @@
 export interface Usuario {
     uid: string;
     nombre : string;
-    fechaSuscripcion : Date ;
-    fechaDeNacimiento : Date;
+    fechaSuscripcion : string ;
+    fechaDeNacimiento : string;
     altura : number;
     peso : number;
     telefono : string;
@@ -13,8 +13,8 @@ export interface Usuario {
 export const usuarioVacio = {
     uid: '',
     nombre : '',
-    fechaSuscripcion : new Date(0),
-    fechaDeNacimiento : new Date(0),
+    fechaSuscripcion : formatDate(new Date(0)),
+    fechaDeNacimiento : formatDate(new Date(0)),
     altura : 0,
     peso : 0,
     telefono : '',
@@ -32,4 +32,11 @@ export const convertirUsuario = (id:string,nombre:string,fechaSuscripcion:Date, 
         telefono: telefono,
         correo: correo,
     } as unknown as Usuario
+}
+
+export function formatDate(date:Date) {
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0'); // El mes es de 0 a 11, por lo que hay que sumar 1 y asegurarse de que tenga dos dígitos
+    const day = String(date.getDate()).padStart(2, '0'); // Asegurarse de que el día tenga dos dígitos
+    return `${year}-${month}-${day}`;
 }

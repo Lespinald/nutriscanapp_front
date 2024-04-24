@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import style from './login.module.css'
-import { GoogleAuthProvider, signInWithEmailAndPassword, signInWithPopup } from 'firebase/auth'
+import { GoogleAuthProvider, signInWithEmailAndPassword, signInWithPopup, signOut } from 'firebase/auth'
 import { auth } from '../../firebase'
 import { convertirUsuario, usuarioVacio } from '../../assets/models/usuario';
 import { useDispatch, useSelector } from 'react-redux';
@@ -26,18 +26,16 @@ const Login = () => {
             console.log("Dirección de correo electrónico o contraseña faltante");
             return;
         }
-        // try {
-        //     console.log("Dirección de correo electrónico:", address, "Contraseña:", password);
-        //     const result = await signInWithEmailAndPassword(auth, address, password);
-        //     console.log("Resultado del inicio de sesión:", result);
-        //     TraerInfoUsuario(result?.user?.uid)
-        // } catch (error:any) {
-        //     console.error("Error al iniciar sesión:", error.message);
-        //     alert(error.message)
-        // }
-        dispatch(login({infoUsuario:usuarioVacio}))
-        navigate('/app/Scan')
-
+        try {
+            console.log("Dirección de correo electrónico:", address, "Contraseña:", password);
+            const result = await signInWithEmailAndPassword(auth, address, password);
+            console.log("Resultado del inicio de sesión:", result);
+            TraerInfoUsuario(result?.user?.uid)
+        } catch (error:any) {
+            signOut(auth)
+            console.error("Error al iniciar sesión:", error.message);
+            alert(error.message)
+        }
     }
 
     const HandleLogInPopup = async () => {
@@ -64,6 +62,9 @@ const Login = () => {
         fetch(`http://api.nutriscan.com.co:443/api/usuarios/${uid}`)
         .then(respuesta => {
             console.log("🚀 ~ HandleGoogle ~ respuesta:", respuesta)
+            if (!respuesta.ok) {
+                throw new Error('Error en la solicitud');
+            }
             return respuesta.json()
         })
         .then(datos => {
@@ -77,19 +78,23 @@ const Login = () => {
                 datos.peso,
                 datos.telefono,
                 datos.correo
-                )
+            )
             dispatch(login({infoUsuario:usuario}))
             navigate('/app/Scan')
             console.log("🚀 ~ HandleGoogle ~ usuario:", usuario)
+        })
+        .catch(error => {
+            console.error('Error en la solicitud fetch:', error);
+            signOut(auth)
+            // Aquí puedes manejar el error como desees, por ejemplo, mostrar un mensaje al usuario
         });
-
     }
 
     const HandleGoogle = async(e: React.UIEvent) => {
         e.preventDefault()
         try{
             var uid = await HandleLogInPopup()
-            if (uid === 'Error') {dispatch(logout())} else {TraerInfoUsuario(uid)};
+            if (uid === 'Error') { signOut(auth); dispatch(logout())} else {TraerInfoUsuario(uid)};
         }catch (error:any){
             console.log("🚀 ~ HandleGoogle ~ error:", error)
             alert(error.message)

@@ -1,8 +1,8 @@
 import React, { useState } from 'react'
 import styleLogin from '../Login/login.module.css'
 import style from './registro.module.css'
-import { Usuario, usuarioVacio } from '../../assets/models/usuario'
-import { GoogleAuthProvider, createUserWithEmailAndPassword, signInWithPopup } from 'firebase/auth'
+import { Usuario, formatDate, usuarioVacio } from '../../assets/models/usuario'
+import { GoogleAuthProvider, createUserWithEmailAndPassword, deleteUser, signInWithPopup } from 'firebase/auth'
 import { auth } from '../../firebase'
 import { useDispatch } from 'react-redux'
 import { login, logout } from '../../redux/authSlice'
@@ -14,20 +14,11 @@ const Registro = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [password, setPassword] = useState('')
-  const [user, setUser] = useState<Usuario>({
-    uid : '',
-    nombre : '',
-    fechaSuscripcion : new Date(0),
-    fechaDeNacimiento : new Date(0),
-    altura : 0,
-    peso : 0,
-    telefono : '',
-    correo : '',
-  })
+  const [user, setUser] = useState<Usuario>({...usuarioVacio})
 
   const HandleInputChange = (fieldName: string) => (e: { target: { value: any } }) => {
     // Si el campo es 'fechaDeNacimiento', convertir el valor a un objeto Date
-    const value = fieldName === 'fechaDeNacimiento' ? new Date(e.target.value) : e.target.value;
+    const value = fieldName === 'fechaDeNacimiento' ? formatDate(new Date(e.target.value)) : e.target.value;
     setUser({ ...user, [fieldName]: value });
   };
 
@@ -37,8 +28,15 @@ const Registro = () => {
     return regexCorreo.test(correo);
   }
 
-  function ValidarEdad(fechaNacimiento:Date) {
-    fechaNacimiento = new Date(fechaNacimiento)
+  function ValidarEdad(fechaNacimientoString:string) {
+    // Convertir la cadena de fecha de nacimiento a un objeto de fecha
+    const fechaNacimiento = new Date(fechaNacimientoString);
+
+    // Verificar si la conversión fue exitosa
+    if (isNaN(fechaNacimiento.getTime())) {
+        alert('Ingrese una fecha de nacimiento válida.');
+        return false;
+    }
 
     // Obtener la fecha actual
     const fechaActual = new Date();
@@ -50,13 +48,10 @@ const Registro = () => {
   
     // Verificar si el año de nacimiento es menor al año actual menos 18
     if (añoNacimiento > hace18Anos) {
-      alert('Ingrese una fecha valida debe ser mayor de 18 años.')
-      return false;
+        alert('Ingrese una fecha de nacimiento válida, debe ser mayor de 18 años.');
+        return false;
     }
-    if(fechaNacimiento <= new Date(0)){
-      alert('Ingrese una fecha.')
-      return false;
-    }
+
     return true;
   }
 
@@ -129,7 +124,7 @@ const Registro = () => {
 
   const CrearUsuarioBD = (uid:string) => {
     // ========EJECUTAR AL VERIFICAR NO DUPLICIDAD===========
-    var resp = fetch(`http://localhost:3000/api/usuarios`,{
+    var resp = fetch(`http://api.nutriscan.com.co:443/api/usuarios`,{
       method: 'POST',
       headers:{
           'Content-Type': 'application/json'
@@ -145,6 +140,9 @@ const Registro = () => {
     })
     .then(respuesta => {
       console.log("🚀 ~ HandleRegistro ~ respuesta:", respuesta)
+      if (!respuesta.ok) {
+        throw new Error('Error en la solicitud');
+      }
       return respuesta.json()
     })
     .then(datos => {
@@ -152,6 +150,13 @@ const Registro = () => {
       dispatch(login({infoUsuario:datos}))
       navigate('/app/Scan')
     })
+    .catch(error => {
+      if (auth.currentUser !== null && auth.currentUser !== undefined) {
+        deleteUser(auth.currentUser);
+      }
+      console.error('Error en la solicitud fetch:', error);
+      // Aquí puedes manejar el error como desees, por ejemplo, mostrar un mensaje al usuario
+    });
     return resp
   }
   
@@ -163,7 +168,14 @@ const Registro = () => {
       console.log('Empezar registro')
       var uid = await CrearUsuario()
       console.log("🚀 ~ HandleRegistro ~ uid:", uid)
-      if (uid === 'Error') {return dispatch(logout())} else {CrearUsuarioBD(uid)};
+      if (uid === 'Error') {
+        if (auth.currentUser !== null && auth.currentUser !== undefined) {
+          deleteUser(auth.currentUser);
+        }
+        return dispatch(logout())
+      } else {
+        CrearUsuarioBD(uid)
+      };
     }
   }  
   
@@ -172,7 +184,14 @@ const Registro = () => {
     if(ConfirmarNoVacio(user)){
       var uid = await CrearUsuarioGoogle()
       console.log("🚀 ~ HandleRegistro ~ uid:", uid)
-      if (uid === 'Error') {return dispatch(logout())} else {CrearUsuarioBD(uid)};
+      if (uid === 'Error') {
+        if (auth.currentUser !== null && auth.currentUser !== undefined) {
+          deleteUser(auth.currentUser);
+        }
+        return dispatch(logout())
+      } else {
+        CrearUsuarioBD(uid)
+      };
     }
   }
 
