@@ -42,6 +42,9 @@ const AppLayout = () => {
       <Link to="/app/Perfil" style={{padding: "0 0.8rem"}}>
         <ProfileLogo style={{stroke: "inherit"}}/>
       </Link>
+      <Link to="/app/Tienda" style={{padding: "0 0.8rem"}}>
+        Mi Tienda
+      </Link>
     </nav>
     <div className={style.outlet} style={{marginTop: `${layoutHeight}px`}}>
       <Outlet context={{size, mobile} satisfies AppLayoutContext} />

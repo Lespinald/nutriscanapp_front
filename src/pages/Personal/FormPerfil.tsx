@@ -59,12 +59,7 @@ const FormPerfil = () => {
 
   const HandleGuardarCambios = () => {
     console.log(JSON.stringify({
-      nombre: infoPerfil?.nombre,
-      fechaSuscripcion: infoPerfil?.fechaSuscripcion,
-      fechaDeNacimiento: infoPerfil?.fechaDeNacimiento,
-      foto: infoPerfil?.foto,
-      altura: infoPerfil?.altura,
-      peso: infoPerfil?.peso
+      ...infoPerfil
     }))
     if(!areObjectsEqual(infoUser,infoPerfil)){
       var resp = fetch(`http://api.nutriscan.com.co:443/api/usuarios/${infoUser?.uid}`, {

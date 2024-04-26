@@ -9,6 +9,7 @@ import MenuPerfil from './pages/Personal/MenuPerfil';
 import Checkout from './pages/Pasarela/Checkout';
 import FormPerfil from './pages/Personal/FormPerfil';
 import RecivePasarela from './pages/Pasarela/RecivePasarela';
+import MenuTienda from './pages/Tienda/MenuTienda';
 
 function App() {
   
@@ -25,6 +26,7 @@ function App() {
           <Route path='Scan' element={<Scan/>}/>
           <Route path='Perfil' element={<MenuPerfil/>}/>
           <Route path='EditPerfil' element={<FormPerfil/>}/>
+          <Route path='Tienda' element={<MenuTienda/>}/>
         </Route>
         <Route path='Registro' element={<Registro/>}/>
         <Route path='Login' element={<Login/>}/>
