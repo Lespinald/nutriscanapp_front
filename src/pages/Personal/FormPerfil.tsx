@@ -73,12 +73,13 @@ const FormPerfil = () => {
           'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-          nombre: infoPerfil?.nombre,
-          fechaSuscripcion: infoPerfil?.fechaSuscripcion,
-          fechaDeNacimiento: infoPerfil?.fechaDeNacimiento,
-          foto: infoPerfil?.foto,
-          altura: infoPerfil?.altura,
-          peso: infoPerfil?.peso
+          nombre: infoPerfil.nombre,
+          fechaSuscripcion: infoPerfil.fechaSuscripcion,
+          fechaDeNacimiento: infoPerfil.fechaDeNacimiento,
+          foto: infoPerfil.foto,
+          telefono: infoPerfil.telefono,
+          altura: infoPerfil.altura,
+          peso: infoPerfil.peso
         })
       })
       .then(respuesta => {
