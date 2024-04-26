@@ -18,7 +18,7 @@ const Registro = () => {
 
   const HandleInputChange = (fieldName: string) => (e: { target: { value: any } }) => {
     // Si el campo es 'fechaDeNacimiento', convertir el valor a un objeto Date
-    const value = fieldName === 'fechaDeNacimiento' ? formatDate(new Date(e.target.value)) : e.target.value;
+    const value = fieldName === 'fechaDeNacimiento' ? formatDate(new Date(e.target.value)) : fieldName === 'altura' ? e.target.value * 100 : e.target.value
     setUser({ ...user, [fieldName]: value });
   };
 
@@ -123,6 +123,7 @@ const Registro = () => {
   }
 
   const CrearUsuarioBD = (uid:string) => {
+    console.log("🚀 ~ CrearUsuarioBD ~ uid:", uid)
     // ========EJECUTAR AL VERIFICAR NO DUPLICIDAD===========
     var resp = fetch(`http://api.nutriscan.com.co:443/api/usuarios`,{
       method: 'POST',
@@ -133,7 +134,7 @@ const Registro = () => {
       nombre: user.nombre,
       fechaSuscripcion : user.fechaSuscripcion,
       fechaDeNacimiento : user.fechaDeNacimiento,
-      altura :  user.altura * 100,
+      altura :  user.altura,
       peso :  user.peso,
       telefono :  user.telefono,
       correo :  user.correo})
@@ -167,7 +168,6 @@ const Registro = () => {
     if(ConfirmarNoVacio(user) && ConfirmarNoVacioCorreo(user)){
       console.log('Empezar registro')
       var uid = await CrearUsuario()
-      console.log("🚀 ~ HandleRegistro ~ uid:", uid)
       if (uid === 'Error') {
         if (auth.currentUser !== null && auth.currentUser !== undefined) {
           deleteUser(auth.currentUser);
@@ -183,7 +183,6 @@ const Registro = () => {
     e.preventDefault()
     if(ConfirmarNoVacio(user)){
       var uid = await CrearUsuarioGoogle()
-      console.log("🚀 ~ HandleRegistro ~ uid:", uid)
       if (uid === 'Error') {
         if (auth.currentUser !== null && auth.currentUser !== undefined) {
           deleteUser(auth.currentUser);
@@ -212,7 +211,7 @@ const Registro = () => {
         <input autoComplete='true' type='password' id='password' placeholder='Contraseña' value={password}
         onChange={(e) => setPassword(e.target.value)}></input>
         <label>Celular:</label>
-        <input autoComplete='true' type='tel' id='telefono' placeholder='Celular' onChange={HandleInputChange('telefono')}></input>
+        <input autoComplete='true' type='number' id='telefono' placeholder='Celular' onChange={HandleInputChange('telefono')}></input>
         <label>Fecha de nacimiento:</label>
         <input autoComplete='true' type='date' id='birthday' placeholder='Fecha de nacimiento' style={{ height: '100%' }} onChange={HandleInputChange('fechaDeNacimiento')}></input>
         <label>Altura:</label>

@@ -1,13 +1,17 @@
 import React, { useState } from 'react'
 import style from './MenuPerfil.module.css'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { Usuario } from '../../assets/models/usuario'
 import InputFoto from './InputFoto'
 import { useNavigate } from 'react-router-dom'
+import { signOut } from 'firebase/auth'
+import { auth } from '../../firebase'
+import { logout } from '../../redux/authSlice'
 
 const MenuPerfil = () => {
   const infoUser:Usuario = useSelector((state:any) => state.auth.infoUsuario)
   const navigate = useNavigate()
+  const dispatch = useDispatch()
 
   const GetEstado = (imc: number) => {
     if(imc < 18.5){
@@ -23,6 +27,12 @@ const MenuPerfil = () => {
     }
   }
 
+  const HandleSignOut = async() => {
+    await signOut(auth)
+    dispatch(logout())
+    navigate('/')
+  }
+
   return (
     <div className={style.fondoPerfil}>
       <div className={style.div1}>
@@ -30,7 +40,7 @@ const MenuPerfil = () => {
           <div className={style.contain_img}>
             {/* <img src='*' alt='foto perfil'></img> */}
           </div>
-          <h1 className={style.welcome}>Bienvenido {infoUser.nombre}</h1>
+          <h1 className={style.welcome}>Bienvenido {infoUser?.nombre}</h1>
         </section>
         <section className={style.infoSection}>
           <p onClick={() => navigate('/app/EditPerfil')}>Más sobre ti   
@@ -40,13 +50,13 @@ const MenuPerfil = () => {
           </p>
           <div className={style.contain_info}>
               <p className={style.s}>Correo:</p>
-              <input type='text' value={`${infoUser.correo}`}></input>
+              <input type='text' value={`${infoUser?.correo}`} readOnly></input>
               <p className={style.s}>Celular:</p>
-              <input type='text' value={`+57 ${infoUser.telefono}`}></input>
+              <input type='text' value={`+57 ${infoUser?.telefono}`} readOnly></input>
               <p className={style.s}>Altura:</p>
-              <input type='text' value={`${infoUser.altura / 100} m`}></input>
-              <p className={style.s}>Peso: {infoUser.peso} Kg</p>
-              <input type='text' value={`${infoUser.altura / 100} m`}></input>
+              <input type='text' value={`${infoUser?.altura / 100} m`} readOnly></input>
+              <p className={style.s}>Peso:</p>
+              <input type='text' value={`${infoUser?.peso} Kg`} readOnly></input>
           </div>
           <div className={`${style.rowElements} ${style.margenes}`}>
             <div className={style.contain_preferencias}>
@@ -58,11 +68,11 @@ const MenuPerfil = () => {
             </div>
             <div className={style.containIMC}>
               <img src='/public/Home/Perfil/target.png' alt='diana'></img>
-              <p className={style.s}>IMC: {(infoUser.peso / (infoUser.altura^2) * 100).toFixed(1)}</p>
-              <p className={style.s}>Estado: {GetEstado(infoUser.peso / (infoUser.altura^2) * 100)}</p>
+              <p className={style.s}>IMC: {(infoUser?.peso / (infoUser?.altura^2) * 100).toFixed(1)}</p>
+              <p className={style.s}>Estado: {GetEstado(infoUser?.peso / (infoUser?.altura^2) * 100)}</p>
             </div>
           </div>
-          <button className={style.logoutButton}>Cerrar Sesión</button>
+          <button className={style.logoutButton} onClick={HandleSignOut}>Cerrar Sesión</button>
         </section>
       </div>
         <section className={style.sectionEstadisticas}>

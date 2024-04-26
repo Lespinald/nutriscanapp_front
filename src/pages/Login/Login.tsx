@@ -74,7 +74,7 @@ const Login = () => {
                 datos.nombre,
                 datos.fechaSuscripcion,
                 datos.fechaDeNacimiento,
-                datos.altura/100,
+                datos.altura,
                 datos.peso,
                 datos.telefono,
                 datos.correo
