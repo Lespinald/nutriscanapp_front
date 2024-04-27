@@ -7,12 +7,15 @@ import { auth } from '../../firebase'
 import { useDispatch } from 'react-redux'
 import { login, logout } from '../../redux/authSlice'
 import { Link, useNavigate } from 'react-router-dom'
+import MenuCarga from '../../assets/MenuCarga/MenuCarga'
 
 const googleProvider = new GoogleAuthProvider();
 
 const Registro = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
+  const [loading, setLoading] = useState(false)
   const [password, setPassword] = useState('')
   const [user, setUser] = useState<Usuario>({...usuarioVacio})
 
@@ -90,6 +93,7 @@ const Registro = () => {
       return resp?.user?.uid;
     } catch (error:any) {
       console.log("🚀 ~ HandleRegistro ~ error:", error.code);
+      setLoading(false)
       if (error.message === 'Firebase: Error (auth/email-already-in-use).') {
         alert('El correo electrónico ya está en uso');
         return 'Error'
@@ -123,38 +127,42 @@ const Registro = () => {
   }
 
   const CrearUsuarioBD = (uid:string) => {
+    setLoading(true)
     console.log("🚀 ~ CrearUsuarioBD ~ uid:", uid)
     // ========EJECUTAR AL VERIFICAR NO DUPLICIDAD===========
     var resp = fetch(`http://api.nutriscan.com.co:443/api/usuarios`,{
       method: 'POST',
       headers:{
-          'Content-Type': 'application/json'
+        'Content-Type': 'application/json'
       }, body: JSON.stringify({ 
-      uid: uid, 
-      nombre: user.nombre,
-      fechaSuscripcion : user.fechaSuscripcion,
-      fechaDeNacimiento : user.fechaDeNacimiento,
-      altura :  user.altura,
-      peso :  user.peso,
-      telefono :  user.telefono,
-      correo :  user.correo})
-    })
-    .then(respuesta => {
-      console.log("🚀 ~ HandleRegistro ~ respuesta:", respuesta)
-      if (!respuesta.ok) {
-        throw new Error('Error en la solicitud');
-      }
-      return respuesta.json()
-    })
-    .then(datos => {
-      console.log("🚀 ~ HandleRegistro ~ datos:", datos as Usuario)
-      dispatch(login({infoUsuario:datos}))
-      navigate('/app/Scan')
-    })
-    .catch(error => {
-      if (auth.currentUser !== null && auth.currentUser !== undefined) {
-        deleteUser(auth.currentUser);
-      }
+        uid: uid, 
+        nombre: user.nombre,
+        fechaSuscripcion : user.fechaSuscripcion,
+        fechaDeNacimiento : user.fechaDeNacimiento,
+        altura :  user.altura,
+        peso :  user.peso,
+        telefono :  user.telefono,
+        correo :  user.correo})
+      })
+      .then(respuesta => {
+        console.log("🚀 ~ HandleRegistro ~ respuesta:", respuesta)
+        if (!respuesta.ok) {
+          throw new Error('Error en la solicitud');
+        }
+        setLoading(false)
+        return respuesta.json()
+      })
+      .then(datos => {
+        console.log("🚀 ~ HandleRegistro ~ datos:", datos as Usuario)
+        dispatch(login({infoUsuario:datos}))
+        setLoading(false)
+        navigate('/app/Scan')
+      })
+      .catch(error => {
+        if (auth.currentUser !== null && auth.currentUser !== undefined) {
+          deleteUser(auth.currentUser);
+        }
+        setLoading(false)
       console.error('Error en la solicitud fetch:', error);
       alert('Error actualizar en base de datos')
       // Aquí puedes manejar el error como desees, por ejemplo, mostrar un mensaje al usuario
@@ -164,6 +172,7 @@ const Registro = () => {
   
   const HandleRegistro = async (e: React.UIEvent) => {
     e.preventDefault()
+    setLoading(true)
     console.log("🚀 ~ HandleRegistro ~ ConfirmarNoVacio(user):", ConfirmarNoVacio(user))
     console.log("🚀 ~ HandleRegistro ~ ConfirmarNoVacioCorreo(user):", ConfirmarNoVacioCorreo(user))
     if(ConfirmarNoVacio(user) && ConfirmarNoVacioCorreo(user)){
@@ -173,6 +182,7 @@ const Registro = () => {
         if (auth.currentUser !== null && auth.currentUser !== undefined) {
           deleteUser(auth.currentUser);
         }
+        setLoading(false)
         return dispatch(logout())
       } else {
         CrearUsuarioBD(uid)
@@ -182,12 +192,14 @@ const Registro = () => {
   
   const HandleRegistroGoogle = async (e: React.UIEvent) => {
     e.preventDefault()
+    setLoading(true)
     if(ConfirmarNoVacio(user)){
       var uid = await CrearUsuarioGoogle()
       if (uid === 'Error') {
         if (auth.currentUser !== null && auth.currentUser !== undefined) {
           deleteUser(auth.currentUser);
         }
+        setLoading(false)
         return dispatch(logout())
       } else {
         CrearUsuarioBD(uid)
@@ -197,6 +209,7 @@ const Registro = () => {
 
   return (
     <div className={styleLogin.fondoLogin}>
+      <MenuCarga isOpen={loading}/>
       <Link className={styleLogin.backButton} to={'/Home'}>
         <svg xmlns="http://www.w3.org/2000/svg" height="3svh" id="Layer_1" version="1.1" viewBox="0 0 512 512" width="3svh" xmlSpace="preserve" fill='white'>
             <polygon points="352,128.4 319.7,96 160,256 160,256 160,256 319.7,416 352,383.6 224.7,256 "/>
