@@ -8,12 +8,15 @@ import { useDispatch } from 'react-redux'
 import { login, logout } from '../../redux/authSlice'
 import { Link, useNavigate } from 'react-router-dom'
 import MenuCarga from '../../assets/MenuCarga/MenuCarga'
+import useBaseDatos from '../../storage/useBaseDatos'
 
 const googleProvider = new GoogleAuthProvider();
 
 const Registro = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
+  const { crearDoc }= useBaseDatos()
 
   const [loading, setLoading] = useState(false)
   const [password, setPassword] = useState('')
@@ -169,6 +172,38 @@ const Registro = () => {
     });
     return resp
   }
+
+  const CrearUsuarioFirebase = async (uid:string) => {
+    setLoading(true)
+    await crearDoc('usuarios/'+uid,{ 
+      uid: uid, 
+      nombre: user.nombre,
+      fechaSuscripcion : user.fechaSuscripcion,
+      fechaDeNacimiento : user.fechaDeNacimiento,
+      altura :  user.altura,
+      peso :  user.peso,
+      telefono :  user.telefono,
+      correo :  user.correo} as Usuario).then(
+        () => {
+          dispatch(login({infoUsuario:{ 
+            uid: uid, 
+            nombre: user.nombre,
+            fechaSuscripcion : user.fechaSuscripcion,
+            fechaDeNacimiento : user.fechaDeNacimiento,
+            altura :  user.altura,
+            peso :  user.peso,
+            telefono :  user.telefono,
+            correo :  user.correo} as Usuario}))
+            setLoading(false)
+            navigate('/app/Scan')
+          }
+      ).catch((error: any) =>
+        {
+          setLoading(false)
+          alert(error.message)
+        }
+    )
+  }
   
   const HandleRegistro = async (e: React.UIEvent) => {
     e.preventDefault()
@@ -188,6 +223,7 @@ const Registro = () => {
         CrearUsuarioBD(uid)
       };
     }
+    setLoading(false)
   }  
   
   const HandleRegistroGoogle = async (e: React.UIEvent) => {
@@ -205,6 +241,7 @@ const Registro = () => {
         CrearUsuarioBD(uid)
       };
     }
+    setLoading(false)
   }
 
   return (

@@ -2,15 +2,18 @@ import React, { useState } from 'react'
 import style from './login.module.css'
 import { GoogleAuthProvider, signInWithEmailAndPassword, signInWithPopup, signOut } from 'firebase/auth'
 import { auth } from '../../firebase'
-import { convertirUsuario, usuarioVacio } from '../../assets/models/usuario';
+import { convertirUsuario, toUsuario, usuarioVacio } from '../../assets/models/usuario';
 import { useDispatch, useSelector } from 'react-redux';
 import { login, logout } from '../../redux/authSlice';
 import { Link, useNavigate } from 'react-router-dom';
 import MenuCarga from '../../assets/MenuCarga/MenuCarga';
+import useBaseDatos from '../../storage/useBaseDatos';
 
 const googleProvider = new GoogleAuthProvider();
 
 const Login = () => {
+
+    const { recogerDoc } = useBaseDatos();
 
     const dispatch = useDispatch();
     const navigate = useNavigate();
@@ -95,6 +98,19 @@ const Login = () => {
             alert('Error en consulta a base de datos')
             // Aquí puedes manejar el error como desees, por ejemplo, mostrar un mensaje al usuario
         });
+    }
+    
+    const TraerInfoUsuarioFirestore = async (uid:string) => {
+        setLoading(true)
+        const resp = await recogerDoc('usuarios/'+ uid)
+        if(resp !== null){
+            dispatch(login({infoUsuario:toUsuario(resp)}))
+            setLoading(false)
+            navigate('/app/Scan')
+        }else{
+            setLoading(false)
+            alert('Error en consulta a base de datos')
+        }
     }
 
     const HandleGoogle = async(e: React.UIEvent) => {

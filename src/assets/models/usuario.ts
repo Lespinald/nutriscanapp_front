@@ -1,3 +1,4 @@
+import { DocumentData, DocumentSnapshot } from "firebase/firestore";
 
 export interface Usuario {
     uid: string;
@@ -33,6 +34,17 @@ export const convertirUsuario = (id:string,nombre:string,fechaSuscripcion:Date, 
         telefono: telefono,
         correo: correo,
     } as unknown as Usuario
+}
+
+type FireBaseDocument = DocumentSnapshot<DocumentData>
+0
+export const toUsuario = (doc : FireBaseDocument) : Usuario => {    
+    if(doc.exists()){        
+        const calify = doc.data() as Usuario;
+        calify.uid = doc.id;
+        return calify
+    }
+    return usuarioVacio;
 }
 
 export function formatDate(date: Date) {
