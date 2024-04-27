@@ -66,7 +66,7 @@ const Login = () => {
     const TraerInfoUsuario = (uid:string) => {
         setLoading(true)
         // ==========================FUNCION TRAER DATOS USUARIO====================================
-        fetch(`http://api.nutriscan.com.co:443/api/usuarios/${uid}`)
+        fetch(`http://159.223.194.61:443/api/usuarios/${uid}`)
         .then(respuesta => {
             console.log("🚀 ~ HandleGoogle ~ respuesta:", respuesta)
             if (!respuesta.ok) {

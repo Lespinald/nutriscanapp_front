@@ -22,7 +22,7 @@ function App() {
           <Route path=':section?' element={<Home/>}/>
           <Route path='/pago/:info' element={<Checkout/>}/>
           <Route path='/responseFactura' element={<RecivePasarela/>}/>
-          <Route path='/app' element={<RoutasPrivadas/>}/>
+          <Route path='/app/*' element={<RoutasPrivadas/>}/>
         </Route>
         <Route path='Registro' element={<Registro/>}/>
         <Route path='Login' element={<Login/>}/>

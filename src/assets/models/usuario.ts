@@ -17,8 +17,8 @@ export const usuarioVacio = {
     nombre : '',
     fechaSuscripcion : formatDate(new Date(0)),
     fechaDeNacimiento : formatDate(new Date(0)),
-    altura : 50,
-    peso : 15,
+    altura : 51,
+    peso : 16,
     telefono : 0,
     correo : '',
 } as Usuario;
