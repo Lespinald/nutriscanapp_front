@@ -86,6 +86,7 @@ const Login = () => {
         .catch(error => {
             console.error('Error en la solicitud fetch:', error);
             signOut(auth)
+            alert('Error en consulta a base de datos')
             // Aquí puedes manejar el error como desees, por ejemplo, mostrar un mensaje al usuario
         });
     }
