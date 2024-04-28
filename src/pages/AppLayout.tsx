@@ -2,10 +2,11 @@ import style from "./Layout.module.css"
 
 import { useEffect, useRef, useState } from "react";
 
-import { Link, Outlet, useOutletContext } from "react-router-dom";
+import { Link, Outlet, useNavigate, useOutletContext } from "react-router-dom";
 import { IsMobile } from "../assets/Utils";
 import { useViewportRezise } from "../assets/hooks";
 import ProfileLogo from "../assets/Components/ProfileLogo";
+import { useSelector } from "react-redux";
 
 type AppLayoutContext = {
   size: {width: number, height: number};
@@ -13,6 +14,11 @@ type AppLayoutContext = {
 }
 
 const AppLayout = () => {
+  
+  const authenticated = useSelector((state:any) => state.auth.status === 'authenticated')
+  const infoUsuario = useSelector((state:any) => state.auth.infoUsuario)
+  const navigate = useNavigate()
+
   const layout = useRef<HTMLElement>(null)
   const [layoutHeight, setLayoutHeight] = useState<number>(64);
   const [mobile, setMobile] = useState<boolean>(IsMobile());
@@ -24,6 +30,12 @@ const AppLayout = () => {
   });
 
   useEffect(() => {
+    console.log("🚀 ~ useEffect ~ authenticated:", authenticated)
+    if(!authenticated || infoUsuario === null){
+      console.log("🚀 ~ useEffect ~ authenticated:", authenticated)
+      navigate('/')
+    }
+
     if(layout.current) observer.observe(layout.current)
     
     return () => {
