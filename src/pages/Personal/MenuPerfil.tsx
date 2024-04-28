@@ -37,8 +37,7 @@ const MenuPerfil = () => {
     <div className={style.fondoPerfil}>
       <div className={style.div1}>
         <section className={style.photoSection}>
-          <div className={style.contain_img}>
-            {/* <img src='*' alt='foto perfil'></img> */}
+          <div className={style.contain_img} style={{background:`url(${infoUser.foto ? infoUser.foto: '/Home/Perfil/Foto.png'}) top left / contain`}}>
           </div>
           <h1 className={style.welcome}>Bienvenido {infoUser?.nombre}</h1>
         </section>

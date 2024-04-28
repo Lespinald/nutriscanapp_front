@@ -8,11 +8,13 @@ import { login, logout } from '../../redux/authSlice';
 import { Link, useNavigate } from 'react-router-dom';
 import MenuCarga from '../../assets/MenuCarga/MenuCarga';
 import useBaseDatos from '../../storage/useBaseDatos';
+import { useStorge } from '../../hooks/useStorage';
 
 const googleProvider = new GoogleAuthProvider();
 
 const Login = () => {
 
+    const { obtenerURL } = useStorge();
     const { recogerDoc } = useBaseDatos();
 
     const dispatch = useDispatch();
@@ -74,8 +76,10 @@ const Login = () => {
             }
             return respuesta.json()
         })
-        .then(datos => {
+        .then(async datos => {
             console.log("🚀 ~ HandleGoogle ~ datos:", datos)
+            let resp = await obtenerURL(`gs://nutriscan-9f5cf.appspot.com/${datos.uid}/fotoPerfil.png`)
+            console.log("🚀 ~ TraerInfoUsuario ~ resp:", resp)
             let usuario = convertirUsuario(
                 datos.uid,
                 datos.nombre,
@@ -84,8 +88,9 @@ const Login = () => {
                 datos.altura,
                 datos.peso,
                 datos.telefono,
-                datos.correo
+                datos.correo,
             )
+            usuario.foto = resp,
             dispatch(login({infoUsuario:usuario}))
             setLoading(false)
             navigate('/app/Scan')
