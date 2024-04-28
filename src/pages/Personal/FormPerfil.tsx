@@ -62,7 +62,7 @@ const FormPerfil = () => {
       ...infoPerfil
     }))
     if(!areObjectsEqual(infoUser,infoPerfil)){
-      var resp = fetch(`http://api.nutriscan.com.co:443/api/usuarios/${infoUser?.uid}`, {
+      var resp = fetch(`https://api.nutriscan.com.co/api/usuarios/${infoUser?.uid}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json'

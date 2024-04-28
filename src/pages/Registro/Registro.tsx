@@ -133,7 +133,7 @@ const Registro = () => {
     setLoading(true)
     console.log("🚀 ~ CrearUsuarioBD ~ uid:", uid)
     // ========EJECUTAR AL VERIFICAR NO DUPLICIDAD===========
-    var resp = fetch(`http://159.223.194.61:443/api/usuarios`,{
+    var resp = fetch(`https://api.nutriscan.com.co/api/usuarios`,{
       method: 'POST',
       headers:{
         'Content-Type': 'application/json'

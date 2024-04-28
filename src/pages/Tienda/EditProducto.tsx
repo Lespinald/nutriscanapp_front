@@ -7,8 +7,8 @@ import { Producto, productoVacio } from '../../assets/models/tienda';
 import { IsMobile } from '../../assets/Utils';
 
 interface Props{
-    initialProducto:Producto;
-    indice:number;
+  initialProducto:Producto;
+  indice:number;
 }
 
 const EditProducto = ({initialProducto,indice}:Props) => {
@@ -64,7 +64,7 @@ const EditProducto = ({initialProducto,indice}:Props) => {
               </p>
               <h1>EDITAR PRODUCTO</h1>
             </div>
-            <div className={`${styleMenuPerfil.contain_img} ${styleFormPerfil.contain_img} ${styleMenuTienda.contain_img}`} onClick={() => setChangePhoto((prev) => !prev)} style={{background:`url(${photoPerfil ? photoPerfil: '/defaultTiendaImage.png'}) center left / cover no-repeat`,borderRadius:'100%'}}>
+            <div className={`${styleMenuPerfil.contain_img} ${styleFormPerfil.contain_img} ${styleMenuTienda.contain_img}`} onClick={() => setChangePhoto((prev) => !prev)} style={{background:`url(${photoPerfil ? photoPerfil: '/defaultTiendaImage.png'}) center left / cover no-repeat`,borderRadius:'15px'}}>
               <p>CAMBIAR FOTO  
                 <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="2vh" height="2vh" viewBox="0 0 24 24" fill={IsMobile() ? 'white' :'var(--color-5)'} style={{transform:'translateX(10px)'}}>
                   <path d="M14.1 5.9L3 17v4h4L18.1 9.9 14.1 5.9zM15.6 4.4L18 2l4 4-2.4 2.4L15.6 4.4z"></path>
