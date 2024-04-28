@@ -1,49 +1,34 @@
-import React, { useEffect, useState } from 'react'
-import style from './MenuTienda.module.css'
-import { useDispatch, useSelector } from 'react-redux'
-import { Usuario } from '../../assets/models/usuario'
-import InputFoto from './../Personal/InputFoto'
-import { useNavigate } from 'react-router-dom'
-import { signOut } from 'firebase/auth'
-import { auth } from '../../firebase'
-import { logout } from '../../redux/authSlice'
-import { Producto, Tienda, tiendaVacia } from '../../assets/models/tienda'
+import { useState } from "react";
+import { useAppLayoutContext } from "../AppLayout"
+
+interface ShopInfo{
+  name: string;
+  banner: string;
+  logo: string;
+}
 
 const MenuTienda = () => {
-  const infoUser:Usuario = useSelector((state:any) => state.auth.infoUsuario)
-  const navigate = useNavigate()
-  const dispatch = useDispatch()
-  const [currentTienda, setCurrentTienda] = useState<Tienda>(tiendaVacia)
-  const [productos, setProductos] = useState<Producto[]>([])
-
-  const HandleInputChange = (fieldName: string) => (e: { target: { value: any } }) => {
-    // Si el campo es 'fechaDeNacimiento', convertir el valor a un objeto Date
-    const value = e.target.value
-    setCurrentTienda({ ...currentTienda, [fieldName]: value });
-  };
-
-  const Consulta = () => {
-    // Consultar tienda
-    setCurrentTienda(tiendaVacia)
-  }
-
-  useEffect(() => {
-    Consulta()
-  }, [])
-  
+  const {mobile} = useAppLayoutContext();
+  const [banner, setBanner] = useState<string>("https://firebasestorage.googleapis.com/v0/b/nutriscan-9f5cf.appspot.com/o/TiendaTest%2Fimagen_2024-04-27_221044323.png?alt=media&token=ec5d519f-c9e4-4c73-94b6-38b68746af33")
 
   return (
-    <div className={style.fondoPerfil}>
-      <h2>Se tiene que verificar que el usuario ya halla tenido activada suscripcion de tienda.</h2>
-      <h1>Nombre Tienda</h1>
-      <input value={currentTienda.nombre} onChange={(e) => HandleInputChange('nombre')}></input>
-      <p>Direccion de tu Tienda</p>
-      <input value={currentTienda.direccion} onChange={(e) => HandleInputChange('direccion')}></input>
-      <p>La pagina web de tu tienda</p>
-      <input value={currentTienda.enlace} onChange={(e) => HandleInputChange('enlace')}></input>
-      {}
-    </div>
-  )
+    <>
+    {
+      mobile?
+      <></>:
+      <TiendaDesktop name="tienda" logo="" banner={banner}/>
+    }
+    </>
+  );
+}
+
+
+const TiendaDesktop = ({name, banner, logo}:ShopInfo) => {
+  return (
+    <>
+      <img src={banner} alt="banner"></img>
+    </>
+  );
 }
 
 export default MenuTienda
