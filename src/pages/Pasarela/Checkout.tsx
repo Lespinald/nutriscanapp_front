@@ -52,7 +52,7 @@ const Checkout = () => {
         <div className={style.linea}></div>
         <p className={style.a}>TOTAL</p>
         <p className={style.fill}>$ {info === 'market' ? '50.000' : '7.000'}</p>
-        <a href='https://buy.stripe.com/test_eVabKM2zkboP5VedQR'>
+        <a href='https://buy.stripe.com/test_eVabKM2zkboP5VedQR' style={{gridColumn:'1/2 span',display:'flex',justifyContent:'center'}}>
         <button className={style.buttonPagar}>Pagar</button>
         </a>
       </div>
