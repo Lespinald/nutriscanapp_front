@@ -163,7 +163,7 @@ const FormPerfil = () => {
             <button type="button" className={`${style.button} ${true ? style.desactivado : ''}`}>Cambiar Contraseña</button>
         </form>
     </div>
-      <InputFoto isOpen={changePhoto} setIsOpen={setChangePhoto} photoPerfil={photoPerfil} setPhotoPerfil={setPhotoPerfil}/>
+      <InputFoto isOpen={changePhoto} setIsOpen={setChangePhoto} photoPerfil={photoPerfil} setPhotoPerfil={setPhotoPerfil} perfil={true}/>
     </div>
   )
 }

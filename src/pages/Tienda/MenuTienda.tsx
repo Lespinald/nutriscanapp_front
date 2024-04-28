@@ -7,7 +7,8 @@ import { useNavigate } from 'react-router-dom'
 import { signOut } from 'firebase/auth'
 import { auth } from '../../firebase'
 import { logout } from '../../redux/authSlice'
-import { Producto, Tienda, tiendaVacia } from '../../assets/models/tienda'
+import { Producto, Tienda, productoVacio, tiendaVacia } from '../../assets/models/tienda'
+import EditProducto from './EditProducto'
 
 const MenuTienda = () => {
   const infoUser:Usuario = useSelector((state:any) => state.auth.infoUsuario)
@@ -41,7 +42,7 @@ const MenuTienda = () => {
       <input value={currentTienda.direccion} onChange={(e) => HandleInputChange('direccion')}></input>
       <p>La pagina web de tu tienda</p>
       <input value={currentTienda.enlace} onChange={(e) => HandleInputChange('enlace')}></input>
-      {}
+      <EditProducto initialProducto={productoVacio} indice={0}></EditProducto>
     </div>
   )
 }
