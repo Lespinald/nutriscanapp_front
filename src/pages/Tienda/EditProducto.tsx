@@ -62,7 +62,7 @@ const EditProducto = ({initialProducto,indice}:Props) => {
                   <polygon points="352,128.4 319.7,96 160,256 160,256 160,256 319.7,416 352,383.6 224.7,256 "/>
                 </svg>
               </p>
-              <h1>EDITAR PERFIL</h1>
+              <h1>EDITAR PRODUCTO</h1>
             </div>
             <div className={`${styleMenuPerfil.contain_img} ${styleFormPerfil.contain_img} ${styleMenuTienda.contain_img}`} onClick={() => setChangePhoto((prev) => !prev)} style={{background:`url(${photoPerfil ? photoPerfil: '/defaultTiendaImage.png'}) center left / cover no-repeat`,borderRadius:'100%'}}>
               <p>CAMBIAR FOTO  
