@@ -23,9 +23,9 @@ export const usuarioVacio = {
     correo : '',
 } as Usuario;
 
-export const convertirUsuario = (id:string,nombre:string,fechaSuscripcion:Date, fechaDeNacimiento:Date,altura:number, peso:number, telefono:string, correo:string) => {
+export const convertirUsuario = (uid:string,nombre:string,fechaSuscripcion:Date, fechaDeNacimiento:Date,altura:number, peso:number, telefono:string, correo:string) => {
     return {
-        id: id,
+        uid: uid,
         nombre: nombre,
         fechaSuscripcion: fechaSuscripcion,
         fechaDeNacimiento: fechaDeNacimiento,

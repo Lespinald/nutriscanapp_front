@@ -30,7 +30,6 @@
 .contain_img{
     width: 10.77svh;
     height: auto;
-    background: url(/public/Home/Perfil/Foto.png) top left / contain;
     background-size: cover;
     background-repeat: no-repeat;
     aspect-ratio: 1 / 1;
