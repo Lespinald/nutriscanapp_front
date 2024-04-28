@@ -10,9 +10,11 @@ interface Props{
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
   photoPerfil: string;
   setPhotoPerfil: (newPhoto:string) => void;
+  perfil:boolean;
+  indice?:number;
 }
 
-const InputFoto = ({isOpen, setIsOpen, photoPerfil, setPhotoPerfil}:Props) => {
+const InputFoto = ({isOpen, setIsOpen, photoPerfil, setPhotoPerfil, perfil,indice}:Props) => {
   const infoUser:Usuario = useSelector((state:any) => state.auth.infoUsuario)
     const [image, setImage] = useState(photoPerfil);
     const fileInputRef = useRef<HTMLInputElement>(null);
@@ -61,12 +63,12 @@ const InputFoto = ({isOpen, setIsOpen, photoPerfil, setPhotoPerfil}:Props) => {
         console.log("Imagen subida exitosamente");
         console.log("🚀 ~ HandleSaveImage ~ picture:", picture)
         console.log("🚀 ~ HandleSaveImage ~ image:", image)
-        setPhotoPerfil(image);
-        const resp = await obtenerURL(infoUser.uid + '/fotoPerfil.png').then(
+        const resp = await obtenerURL(perfil ? `${infoUser.uid}/fotoPerfil.png` : `${infoUser.uid}/fotoProducto${indice}.png`).then(
           (response) =>{
             let copy = {...infoUser}
             copy.foto = response
             dispatch(editPerfil({infoUsuario:copy}))
+            setPhotoPerfil(response);
           }
         )
       } catch (error) {
