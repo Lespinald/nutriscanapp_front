@@ -10,10 +10,9 @@ const Objetivos = forwardRef<HTMLDivElement>(({}, ref) => {
           VISIÓN
         </h1>
         <p>
-        Para el 2028 con más de 10 millones de usuarios activos volviéndonos
-        líderes en la industria de la información nutricional ofreciendo una
-        plataforma y servicios de alta calidad que transformen la manera en
-        que las personas interactúan con su alimentación.
+        Para el 2028 nuestra meta será contar con 10 millones de usuarios
+         registrados, volviéndonos líderes en el optimismo y la divulgación
+          de información nutricional veraz y coherente.
         </p>
       </div>
       <div>
@@ -21,10 +20,10 @@ const Objetivos = forwardRef<HTMLDivElement>(({}, ref) => {
           MISIÓN
         </h1>
         <p>
-        Nuestra misión en NutriScan es empoderar a las personas para que tomen
-        decisiones informadas y saludables sobre su alimentación. Nos
-        comprometemos a promover hábitos alimenticios equilibrados y a fomentar
-        un estilo de vida saludable.
+        Nuestra misión es empoderar a las personas para que tomen decisiones
+         veraces, coherentes y saludables sobre su alimentación, mejorando su
+         percepción de la sana nutrición al proporcionarles acceso fácil y rápido
+         a información precisa y personalizada sobre nutrición.
         </p>
       </div>
     </div>
