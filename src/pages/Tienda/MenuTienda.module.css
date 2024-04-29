@@ -1,25 +1,105 @@
-.contain_img{
-    border-radius: 15px;
-    border: 2px solid var(--color-5);
+.main{
+    text-align: center;
+}
+
+.bannerDesk{
     width: 100%;
-    aspect-ratio: 2/1;
+    height: 20rem;
+    object-fit: cover;
 }
 
-.formulario{
-    height: -webkit-fill-available;
-}
-.formulario form{
+.logoSection{
     display: flex;
-    flex-direction: column;
-    height: 100%;
+    justify-content: center;
+    margin-top: -10rem;
+}
+.logoSection > div {
+    width: min-content;
+    background-color: white;
+
+    padding: 2.5rem;
+
+    border-radius: 9999999px;
+    border: 8px solid #2F4858;
+}
+.logoSection > div > img {
+    aspect-ratio: 1 / 1;
+    object-fit: contain;
+    width: 8rem;
 }
 
-@media screen and ( max-width: 760px) {
+
+.titulo{
+    width: 100%;
+    margin: 0.5rem 0 2rem;
     
-    .formulario{
-        height: -webkit-fill-available;
-    }
-    .formulario form{
-        height: auto;
-    }
+    text-align: center;
+}
+.titulo a{
+    font-size: 6rem;
+    color: #272F35;
+
+    text-decoration: underline;
+}
+
+.descripcion{
+    font-size: 1.2rem;
+    font-weight: 400;
+
+    text-align: center;
+    
+    color: #272F35;
+    margin: 0 3rem;
+}
+
+.buscador{
+    margin: 3rem;
+    padding: 0.5rem 3rem;
+
+    width: 70%;
+
+    font-size: 1.3rem;
+    color: #272F35;
+
+    border: 3px solid #AAF480;
+    border-radius: 0.8rem;
+}
+
+.presentacion{
+    display: grid;
+    margin: 3rem;
+    gap: 2rem;
+    grid-template-columns: 1fr 1fr 1fr;
+}
+
+.producto{
+    width: 50%;
+    display: flex;
+    align-items: center;
+
+    padding: 1rem;
+
+    border: 3px solid #2F4858;
+    border-radius: 1rem; width: fit-content;
+}
+
+.producto > img {
+    width: 30%;
+    height: 30%;
+    object-fit: cover;
+}
+
+.name{
+    font-size: 1.5rem;
+    color: #272F35;
+
+}
+.desc{
+    color: #272F35;
+
+    width: max-content;
+    max-width: 20svw;
+    max-height: 10svh;
+    text-overflow: ellipsis;
+    overflow: hidden;
 }
