@@ -1,3 +1,4 @@
+import { useNavigate } from 'react-router-dom';
 import ButtonTransparent from '../../assets/Components/ButtonTransparent';
 import TiendaLogo from '../../assets/Components/TiendaLogo';
 import { IsMobile } from '../../assets/Utils'
@@ -5,6 +6,7 @@ import style from './PublicidadTienda.module.css'
 import ReactDOMServer from 'react-dom/server';
 
 const PublicidadTienda:React.FC = () => {
+  const navigate = useNavigate()
 
   return (
     <div className={style.page}>
@@ -12,7 +14,7 @@ const PublicidadTienda:React.FC = () => {
         <div style={{width:'40svw',height:'fit-content',display:'flex',flexDirection:'column'}}>
           <img src="/Home/Inicio/textLogo.png" alt="nutriscan" style={{width:'100%'}}/>
           <div style={{width:'70%',aspectRatio:'3/0.5',display:'flex',justifyContent:'center',alignSelf:'center'}}>
-            <ButtonTransparent onClick={() => {}} color='var(--color-2)'>COMENZAR AHORA</ButtonTransparent>
+            <button className={style.button} onClick={() => navigate('/pago/tienda')}>COMENZAR AHORA</button>
           </div>
         </div>
         <div style={{flex:'1',display:'flex',flexDirection:'column'}}>
@@ -29,6 +31,10 @@ const PublicidadTienda:React.FC = () => {
           </div>
           <p className={`${style.italic} ${style.italic_little}`}>Publicita tus productos a quienes mas los quieren</p>
         </div>
+      </div>
+      <div className={style.backDark}>
+        <h2 className={style.subtitule}>Muestra lo que ofreces y encuentra nuevos clientes</h2>
+        <img src='/Publicidad/screenTienda.png' style={{width:'100%',borderRadius:'15px',margin:'7svh 0'}}></img>
       </div>
     </div>
   )
