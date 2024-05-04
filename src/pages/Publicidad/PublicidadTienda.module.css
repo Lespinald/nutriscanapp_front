@@ -2,8 +2,6 @@
     max-height: 100svh;
     height: fit-content;
     width: 100svw;
-    overflow-y: auto;
-    overflow-x: hidden;
 }
 
 .backTriangulos{
@@ -92,6 +90,17 @@
     top: 0;
     right: 2%;
     font-weight: 400;
+    font-size: 1.5svw;
+}
+
+.foot p{
+    font-weight: 400;
+    font-size: 2svw;
+}
+
+.foot p span{
+    font-weight: 700;
+    font-size: 3svw;
 }
 
 .backDark{
@@ -128,7 +137,19 @@
     .italic_little{
         font-size: 2.5svw;
     }
+    .screenDesktop{
+        display: block;
+    }
     .screenMobile{
         display: none;
     }    
+    .foot::after{
+        font-size: 1.5svh;
+    }
+    .foot p{
+        font-size: 2svh;
+    }
+    .foot p span{
+        font-size: 3svh;
+    }
 }
