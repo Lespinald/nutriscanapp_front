@@ -14,6 +14,8 @@
     flex-direction: row;
     flex-wrap: wrap;
     align-items: center;
+    justify-content: center;
+    gap: 15px;
     background: 
         url(../../../public/Publicidad/TrAmarillo.svg) top -3% left / 16% 19% no-repeat,
         url(../../../public/Publicidad/TrAmarillo.svg) top 5% left 60% / 16% 19% no-repeat,
@@ -52,7 +54,7 @@
 .italic{
     font-family:'inter';
     font-style: italic;
-    font-size: 2.5svw;
+    font-size: 2.5svh;
     font-weight: 300;
     text-align: center;
     max-width: 80%;
@@ -60,7 +62,7 @@
 }
 
 .italic_little{
-    font-size: 2.2svw;
+    font-size: 2.2svh;
     max-width: 50%;
 }
 
@@ -97,6 +99,9 @@
     width: 100%;
     padding: 5% 10%;
     background-color: var(--color-6);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 .subtitule{
@@ -105,4 +110,25 @@
     height: fit-content;
     font-size: 5svw;
     text-align: center;
+}
+
+.screenDesktop{
+    display: none;
+}
+
+.screenMobile{
+    height: 80svh;
+    width: auto;
+}
+
+@media screen and (min-width:780px) {
+    .italic{
+        font-size: 3svw;
+    }
+    .italic_little{
+        font-size: 2.5svw;
+    }
+    .screenMobile{
+        display: none;
+    }    
 }

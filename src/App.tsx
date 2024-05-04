@@ -11,6 +11,8 @@ import FormPerfil from './pages/Personal/FormPerfil';
 import RecivePasarela from './pages/Pasarela/RecivePasarela';
 import MenuTienda from './pages/Tienda/MenuTienda';
 import PublicidadTienda from './pages/Publicidad/PublicidadTienda';
+import Inicio from './pages/Home/Inicio';
+import InicioLoggin from './pages/InicioLoggin/InicioLoggin';
 
 function App() {
   
@@ -22,8 +24,8 @@ function App() {
         <Route element={<Layout/>}>
           <Route path=':section?' element={<Home/>}/>
           <Route path='/pago/:info' element={<Checkout/>}/>
-          {/* <Route path='/responseFactura' element={<RecivePasarela/>}/> */}
-          <Route path='/responseFactura' element={<PublicidadTienda/>}/>
+          <Route path='/responseFactura' element={<RecivePasarela/>}/>
+          <Route path='/publicidad' element={<PublicidadTienda/>}/>
         </Route>
         <Route path='Registro' element={<Registro/>}/>
         <Route path='Login' element={<Login/>}/>
@@ -32,6 +34,7 @@ function App() {
         <Route path="Home" element={<Navigate to="/" replace/>} />
 
         <Route path='app' element={<AppLayout/>}>
+          <Route path='Home' element={<InicioLoggin/>}/>
           <Route path='Scan' element={<Scan/>}/>
           <Route path='Perfil' element={<MenuPerfil/>}/>
           <Route path='EditPerfil' element={<FormPerfil/>}/>

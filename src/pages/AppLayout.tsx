@@ -51,6 +51,9 @@ const AppLayout = () => {
       <Link className={style.homeLogo} to="/app/Scan">
           <img className={style.maintainRatio} src="/Layout/logo.png" alt="logo"></img>
       </Link>
+      <Link to="/app/Home" style={{padding: "0 0.8rem"}}>
+        Inicio
+      </Link>
       <Link to="/app/Perfil" style={{padding: "0 0.8rem"}}>
         <ProfileLogo style={{stroke: "inherit"}}/>
       </Link>
