@@ -39,6 +39,7 @@ function App() {
           <Route path='Perfil' element={<MenuPerfil/>}/>
           <Route path='EditPerfil' element={<FormPerfil/>}/>
           <Route path='Tienda' element={<MenuTienda/>}/>
+          <Route path='Publicidad' element={<PublicidadTienda/>}/>
         </Route>
       </Routes>
     </BrowserRouter>

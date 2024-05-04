@@ -92,8 +92,7 @@ const MobileLayout = () => {
   const [generalMenu, setGeneralMenu] = useState<boolean>(false);
 
   const generalAnchorRef = useRef<HTMLAnchorElement>(null);
-
-
+  const navigate = useNavigate()
 
   const GetStylePerfil = (): CSSProperties => {
     if(generalMenu){
@@ -129,19 +128,18 @@ const MobileLayout = () => {
         onClick={ToggleGeneral}>
         <MenuLogo style={{stroke: "inherit"}}/>
       </button>
-      <button style={GetStylePerfil()}>
+      <button style={GetStylePerfil()} onClick={() => navigate('/app/Perfil')}>
         <ProfileLogo style={{stroke: "inherit"}}/>
       </button>
-      <button style={GetStyleTienda()} className={style.registerLink}>
+      <button style={GetStyleTienda()} className={style.registerLink} onClick={() => navigate('/app/Publicidad')}>
         <TiendaLogo height="40" width="40"/>
       </button>
       <div className={`${generalMenu? style.openGeneral: ""} ${style.menu}`}
         onMouseLeave={ToggleGeneral}>
-
-        <Link ref={generalAnchorRef} to="/">Inicio</Link>
-        <Link to="/equipo">¿Quienes somos?</Link>
-        <Link to="/objetivos">Mision &&nbsp;Vision</Link>
-        <Link to="/servicios">Servicios</Link>
+        <Link ref={generalAnchorRef} to="/app/Inicio">Inicio</Link>
+        <Link to="/app/Scan">Buscar Producto</Link>
+        <Link to="/app/Perfil">Ver Perfil</Link>
+        <Link to="/app/Tienda">Ver Mi Tienda</Link>
       </div>
     </>
   );
