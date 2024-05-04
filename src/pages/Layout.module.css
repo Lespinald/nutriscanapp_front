@@ -76,10 +76,23 @@
 
 .registerLink{
   background-color: var(--color-1);
+  padding: 2%;
   color: var(--color-6) !important;
+  margin: 0 !important;
 }
 .registerLink:hover{
-    background-color: var(--color-2);
+  background-color: var(--color-2);
+}
+
+.miTienda{
+  height: fit-content;
+  display: flex !important;
+  flex-direction: row;
+  width: 27svh !important;
+  gap: 5%;
+  justify-content: center;
+  font-size: 3svh;
+  margin: 15px;
 }
 
 .menu{

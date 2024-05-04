@@ -22,7 +22,7 @@ const PublicidadTienda:React.FC = () => {
           <div className={style.promotion}>
             <img src='https://firebasestorage.googleapis.com/v0/b/nutriscan-9f5cf.appspot.com/o/TiendaTest%2Fimagen_2024-04-27_221044323.png?alt=media&token=ec5d519f-c9e4-4c73-94b6-38b68746af33' alt='default tienda' style={{width:'100%'}}></img>
             <div className={style.foot}>
-              <TiendaLogo></TiendaLogo>
+              <TiendaLogo width='30%' height='80%'></TiendaLogo>
               <p>
                 <span>TU TIENDA</span><br></br>
                 Productos saludables para todos
