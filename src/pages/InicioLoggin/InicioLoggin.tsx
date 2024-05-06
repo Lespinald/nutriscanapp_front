@@ -16,10 +16,6 @@ const InicioLoggin = () => {
     setLimites((_prev) => { return {startIndex:_prev.endIndex,endIndex:productosPrueba.length} as Limit})
   }
 
-  const DisminuirIndice = () => {
-
-  }
-
   const producto = {
     ID_producto:'123456',
     referencia:'none',
@@ -27,6 +23,16 @@ const InicioLoggin = () => {
     descripcion:'Lorem ipsum dolor sit, amet consectetur adipisicing elit. Alias, mollitia aliquam? Incidunt vero repellendus quo eligendi illo, dicta voluptates magnam id impedit quibusdam assumenda earum aperiam. Deserunt laborum nostrum asperiores.',
     titulo:'Prueba 1'
   } as Producto
+
+  useEffect(() => {
+    setLimites({startIndex:0,endIndex:7})
+    const PRODCUTOSPRUEBA:Producto[] = []
+    
+    for (let i = 0; i < 20; i++) {
+      PRODCUTOSPRUEBA.push({...producto});
+    }
+    setProductosPrueba(PRODCUTOSPRUEBA)
+  }, [])
   
   const GetOpciones = () => {
     return(
@@ -60,16 +66,6 @@ const InicioLoggin = () => {
     )
   }
 
-  useEffect(() => {
-    setLimites({startIndex:0,endIndex:7})
-    const PRODCUTOSPRUEBA:Producto[] = []
-    
-    for (let i = 0; i < 10; i++) {
-      PRODCUTOSPRUEBA.push({...producto});
-    }
-    setProductosPrueba(PRODCUTOSPRUEBA)
-  }, [])
-  
 
   return (
     <div className={style.backCirculo}>
