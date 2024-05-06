@@ -1,0 +1,75 @@
+.backCirculo{
+    height: fit-content;
+    min-height: 100%;
+    background: 
+    url(../../../public/InicioLoggin/CirculoVerde.svg) top -4svw left / 15svw no-repeat,
+    url(../../../public/InicioLoggin/CirculoVerde.svg) bottom -10svw right / 20svw no-repeat,
+    url(../../../public/InicioLoggin/CirculoAmarillo.svg) bottom -5svw right -10svw / 20svw no-repeat,
+    url(../../../public/InicioLoggin/CirculoAmarillo.svg) bottom 10svw left 20svw / 15svw no-repeat,
+    white;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    padding: 10svh 5svw;
+    gap: 20px;
+    justify-content: center;
+    align-items: center;
+    align-content: flex-start;
+    position: relative;
+}
+
+.wrap_item{
+    width: 51svh;
+    height: fit-content;
+    min-height: 100%;
+    background-color: transparent;
+    border-bottom: 1px solid rgb(0, 95, 84, 0.5);
+    display: flex;
+    flex-wrap: wrap;
+    overflow: hidden;
+    align-items: center;
+    padding: 1%;
+    align-self: flex-end;
+}
+
+.textoInicial{
+    font-size: 134%;
+    max-width: 40%;
+    height: fit-content;
+    color: var(--color-5);
+    text-align: center;
+    font-weight: 400;
+}
+
+.imagenContain{
+    border-radius: 100%;
+    width: 10%;
+    aspect-ratio: 1 / 1;
+    overflow: hidden;
+    border: 1px solid;
+}
+
+.textoInicial span{
+    font-size: 110%;
+    font-weight: 700;
+}
+
+.textoProducto{
+    max-width: 80%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+}
+
+.flecha{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    position: absolute;
+    bottom: 10svh;
+}
+.flecha:hover{
+    bottom: 11svh;
+}

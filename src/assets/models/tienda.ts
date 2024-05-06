@@ -10,6 +10,7 @@ export interface Tienda {
 export interface Producto {
     ID_producto: string;
     referencia: string;
+    titulo: string;
     descripcion: string;
     foto:string;
 }

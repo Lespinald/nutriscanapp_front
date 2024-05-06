@@ -195,7 +195,7 @@ const Registro = () => {
             telefono :  user.telefono,
             correo :  user.correo} as Usuario}))
             setLoading(false)
-            navigate('/app/Scan')
+            navigate('/app/Inicio')
           }
       ).catch((error: any) =>
         {
