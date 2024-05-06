@@ -93,7 +93,7 @@ const Login = () => {
             usuario.foto = resp,
             dispatch(login({infoUsuario:usuario}))
             setLoading(false)
-            navigate('/app/Inicio')
+            navigate('/app/Perfil')
             console.log("🚀 ~ HandleGoogle ~ usuario:", usuario)
         })
         .catch(error => {
