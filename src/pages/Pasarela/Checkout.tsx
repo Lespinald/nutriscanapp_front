@@ -3,11 +3,11 @@ import style from './Checkout.module.css'
 import { useParams } from 'react-router-dom'
 import { IsMobile } from '../../assets/Utils'
 
+
 const Checkout = () => {
   const info = useParams().info
   const [nombre, setNombre] = useState('')
   const [correo, setCorreo] = useState('')
-
 
   const condicionesTienda = [
     "Incluye recomendaciones basadas en tus preferencias",
@@ -61,3 +61,4 @@ const Checkout = () => {
 }
 
 export default Checkout
+
