@@ -7,8 +7,12 @@ import Equipo from "./Equipo";
 import FootPage from "./FootPage";
 import Objetivos from "./Objetivos";
 import Servicio from "./Servicio";
+import { auth } from "../../firebase";
+import { useDispatch } from "react-redux";
+import { signInWithCustomToken } from "firebase/auth";
 
 const Home = () => {
+  const dispatch = useDispatch();
   const section = useParams().section;
 
   const inicio = useRef<HTMLDivElement>(null);
@@ -34,6 +38,7 @@ const Home = () => {
       break
     }
   })
+
   return (
     <>
       <Inicio ref={inicio} />

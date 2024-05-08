@@ -1,13 +1,16 @@
 .scanMain{
+  background-color: white;
+
   display: flex;
   flex-direction: column;
   text-align: center;
 
-  justify-content: center;
+  justify-content: start;
   align-items: center;
 
   max-width: 100vw;
-  min-height: 90svh;
+  height: 100%;
+
   padding: 4svh 0;
 
 }
@@ -83,12 +86,93 @@
   font-size: 1.5em;
 }
 
+.barraBuscador{
+  width: 100%;
+  padding: 2%;
+  background-color: #44A9F2;
+  border-radius: 15px;
+  display: flex;
+  flex-wrap: wrap;
+  position: sticky;
+  box-shadow: -3px 3px 5px rgb(0, 0, 0, 0.5);
+}
+
+.barraBuscador input{
+  width: 100%;
+  border-radius: 15px;
+  color: rgb(0, 95, 84, 0.5);
+  padding: 1.5%;
+  font-size: 100%;
+  border: none;
+}
+
+.barraBuscador ul{
+  height: 0;
+  overflow: hidden;
+  color: white;
+  text-align: start;
+  gap: 10px;
+  display: grid;
+  width: 60%;
+}
+
+.barraBuscador ul li:hover{
+  background-color: rgb(70, 180, 256, 1);
+}
+.barraBuscador ul li{
+  cursor: pointer;
+}
+
+.barraBuscador div{
+  height: 0;
+  overflow: hidden;
+  color: white;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+  max-width: 40%;
+}
+
+.barraBuscador div p{
+  color: inherit;
+  text-align: center;
+}
+
+.barraBuscador:hover ul,
+.barraBuscador:hover div,
+.barraBuscador input:focus + div,
+.barraBuscador input:focus + div + ul{
+  height: fit-content;
+  padding: 2%;
+  padding-left: 5%;
+}
+
+.answerOption{
+  width: 100%;
+  background-color: white;
+  box-shadow: -3px 3px 5px rgb(0, 0, 0, 0.5);
+  padding: 2%;
+}
+
 @media (min-aspect-ratio: 9/8) {
+  .scanMain{
+    background-color: var(--color-2);
+    align-items: flex-start;
+    padding: 4svh 3svw;
+    position: relative;
+    height: fit-content;
+    min-height: 100% ;
+    overflow-y: auto;
+    overflow-x: hidden;
+    gap: 20px;
+  }
+
   .scanTopImg{
     max-height: 85svh;
     max-width: 50%;
 
-    margin-right: 2svw;
+    /* margin-right: 2svw; */
   }
 
   .videoDisplay{
@@ -100,7 +184,4 @@
     max-height: 85svh;
   }
 
-  .scanMain{
-    flex-direction: row;
-  }
 }

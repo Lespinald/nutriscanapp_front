@@ -1,0 +1,27 @@
+.backCirculo{
+    height: fit-content;
+    min-height: 100%;
+    background: 
+    url(../../../public/InicioLoggin/CirculoVerde.svg) top -4svw left / 15svw no-repeat,
+    url(../../../public/InicioLoggin/CirculoVerde.svg) bottom -10svw right / 20svw no-repeat,
+    url(../../../public/InicioLoggin/CirculoAmarillo.svg) bottom -5svw right -10svw / 20svw no-repeat,
+    url(../../../public/InicioLoggin/CirculoAmarillo.svg) bottom 10svw left 20svw / 15svw no-repeat,
+    white;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    padding: 10svh 5svw;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
+    position: relative;
+    color: var(--color-5);
+    line-height: 100%;
+}
+
+.button{
+    background: var(--color-3);
+    border-radius: 15px;
+    padding: 2% 6%;
+    color: var(--color-6);
+}

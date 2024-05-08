@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import style from './login.module.css'
 import { GoogleAuthProvider, signInWithEmailAndPassword, signInWithPopup, signOut } from 'firebase/auth'
 import { auth } from '../../firebase'
@@ -72,6 +72,8 @@ const Login = () => {
         .then(respuesta => {
             console.log("🚀 ~ HandleGoogle ~ respuesta:", respuesta)
             if (!respuesta.ok) {
+                signOut(auth)
+                setLoading(false)
                 throw new Error('Error en la solicitud');
             }
             return respuesta.json()
@@ -93,7 +95,7 @@ const Login = () => {
             usuario.foto = resp,
             dispatch(login({infoUsuario:usuario}))
             setLoading(false)
-            navigate('/app/Perfil')
+            navigate('/app/Home')
             console.log("🚀 ~ HandleGoogle ~ usuario:", usuario)
         })
         .catch(error => {
@@ -130,6 +132,18 @@ const Login = () => {
             alert(error.message)
         }
     }
+
+    useEffect(() => {
+        if (auth.currentUser) {
+          // Ejecutar la función para traer la información del usuario
+          TraerInfoUsuario(auth.currentUser.uid);
+        } else {
+          // No hay usuario autenticado, realizar alguna acción, como redirigir al usuario a la página de inicio de sesión
+          console.log('No hay usuario autenticado.');
+          // navigate('/login'); // Redirigir al usuario a la página de inicio de sesión, si es necesario
+        }
+      }, []);
+    
     
 
     return (

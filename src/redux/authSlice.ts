@@ -1,4 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
+import { auth } from '../firebase';
 
 const authSlice = createSlice({
     name:'auth',
@@ -17,7 +18,7 @@ const authSlice = createSlice({
         logout:(state) =>{
             state.status = 'not-authenticated';
             state.infoUsuario = null;
-            localStorage.removeItem('accessToken'); 
+            localStorage.removeItem('accessToken');    
         },
         chekingCredentials:(state)=>{
             state.status = 'checking';
