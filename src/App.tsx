@@ -17,22 +17,30 @@ import NotFound from './pages/404/NotFound';
 import { useEffect, useState } from 'react';
 import { onAuthStateChanged } from 'firebase/auth';
 import { auth } from './firebase';
+import { useSelector } from 'react-redux';
 
 function App() {
   const navigate = useNavigate(); // Aquí usamos useNavigate
+  const authenticated = useSelector((state:any) => state.auth.status === 'authenticated')
   
   const [redirect, setRedirect] = useState(false);
 
   useEffect(() => {
     if (auth.currentUser) {
       // Indicar que se debe redirigir al usuario
-      RedirecLoggeoAutomatico()
+      RedirecLoggeoAutomatico('/login')
+    }
+
+    console.log("🚀 ~ useEffect ~ window.location.pathname.startsWith('/app'):", window.location.pathname.startsWith('/app'))
+    console.log("🚀 ~ useEffect ~ authenticated:", authenticated)
+    if(window.location.pathname.startsWith('/app') && !authenticated){
+      RedirecLoggeoAutomatico('/Home')
     }
   }, []);
 
-  const RedirecLoggeoAutomatico = () => {
+  const RedirecLoggeoAutomatico = (ruta:string) => {
     // Redirigir al usuario a la página de inicio de sesión usando navigate
-    navigate('/login', { replace: true });
+    navigate(ruta, { replace: true });
   }
 
   return (
