@@ -9,7 +9,11 @@ const RecivePasarela = () => {
     "Seguimiento de nutrición diaría",
     "No pierdes tus registros semanalmente",
     "Información nutricional de calidad"
-  ];
+  ];// Obtiene la fecha actual
+  const currentDate = new Date();
+
+  // Formatea la fecha en formato DD/MM/YYYY
+  const formattedDate = currentDate.toLocaleDateString('es-ES');
 
   return (
     <div className={style.page}>
@@ -34,7 +38,7 @@ const RecivePasarela = () => {
         </div>
         <div className={style.campo}>
             <label>FECHA</label>
-            <label>23-4-2024</label>
+            <label>{formattedDate}</label>
         </div>
         <div className={style.campo}>
             <label>ESTADO</label>
@@ -42,11 +46,11 @@ const RecivePasarela = () => {
         </div>
         <div className={style.campo}>
             <label>VALOR</label>
-            <label>$ 50.000</label>
+            <label>$ 7.000</label>
         </div>
         <div className={style.campo}>
             <label>TIPO</label>
-            <label>TIENDA</label>
+            <label>Premiun</label>
         </div>
         {IsMobile() && <button className={style.button} >PROBAR FUNCIONES</button>}
       </div>
