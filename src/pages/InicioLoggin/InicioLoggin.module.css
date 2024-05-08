@@ -19,7 +19,7 @@
 }
 
 .wrap_item{
-    width: 51svh;
+    width: 49svh;
     height: fit-content;
     min-height: 100%;
     background-color: transparent;
@@ -72,4 +72,26 @@
 }
 .flecha:hover{
     bottom: 11svh;
+}
+
+.containOpciones{
+    height: 100%;
+    overflow: hidden;
+    max-height: 67svh;
+    gap: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+@media screen and (max-width: 680px) {
+    .wrap_item{
+        width: 100%;
+    }
+
+    .containOpciones{
+
+    }
 }

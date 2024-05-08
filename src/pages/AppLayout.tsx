@@ -136,7 +136,7 @@ const MobileLayout = () => {
       </button>
       <div className={`${generalMenu? style.openGeneral: ""} ${style.menu}`}
         onMouseLeave={ToggleGeneral}>
-        <Link ref={generalAnchorRef} to="/app/Inicio">Inicio</Link>
+        <Link ref={generalAnchorRef} to="/app/Home">Inicio</Link>
         <Link to="/app/Scan">Buscar Producto</Link>
         <Link to="/app/Perfil">Ver Perfil</Link>
         <Link to="/app/Tienda">Ver Mi Tienda</Link>

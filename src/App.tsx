@@ -18,6 +18,7 @@ import { useEffect, useState } from 'react';
 import { onAuthStateChanged } from 'firebase/auth';
 import { auth } from './firebase';
 import { useSelector } from 'react-redux';
+import BusquedaDesktop from './pages/Scan/BusquedaDesktop';
 
 function App() {
   const navigate = useNavigate(); // Aquí usamos useNavigate
@@ -61,6 +62,7 @@ function App() {
       <Route path='app' element={<AppLayout/>}>
         <Route path='Home' element={<InicioLoggin/>}/>
         <Route path='Scan' element={<Scan/>}/>
+        <Route path='Busqueda' element={<BusquedaDesktop/>}/>
         <Route path='Perfil' element={<MenuPerfil/>}/>
         <Route path='EditPerfil' element={<FormPerfil/>}/>
         <Route path='Tienda' element={<MenuTienda/>}/>
