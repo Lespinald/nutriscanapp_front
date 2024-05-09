@@ -55,29 +55,31 @@ function App() {
 
   return (
     <Routes>
-      <Route path='Registro' element={<Registro/>}/>
-      <Route path='Login' element={<Login/>}/>
-      <Route element={<AppLayout/>}>
+      <Route element={authenticated?<AppLayout/>:<Layout/>}>
         <Route path=':section?' element={<Home/>}/>
         <Route path='/pago/:info' element={<Checkout/>}/>
         <Route path='/responseFactura' element={<RecivePasarela/>}/>
         <Route path='/ComprarTienda' element={<ComprarTienda/>}/>
+      </Route>
+      <Route path='Registro' element={<Registro/>}/>
+      <Route path='Login' element={<Login/>}/>
       
 
-        <Route path="Home" element={<Navigate to="/" replace/>} />
+      <Route path="Home" element={<Navigate to="/" replace/>} />
 
-        <Route path='/app/Home' element={<InicioLoggin/>}/>
-        <Route path='/app/Pago/:info' element={<Checkout/>}/>
-        <Route path='/app/Scan' element={<Scan/>}/>
-        <Route path='/app/Busqueda' element={<BusquedaDesktop/>}/>
-        <Route path='/app/Perfil' element={<MenuPerfil/>}/>
-        <Route path='/app/EditPerfil' element={<FormPerfil/>}/>
-        <Route path='/app/Tienda' element={<MenuTienda/>}/>
-        <Route path='/app/ComprarTienda' element={<ComprarTienda/>}/>
+      <Route path='app' element={<AppLayout/>}>
+        <Route path='Home' element={<InicioLoggin/>}/>
+        <Route path='Pago/:info' element={<Checkout/>}/>
+        <Route path='Scan' element={<Scan/>}/>
+        <Route path='Busqueda' element={<BusquedaDesktop/>}/>
+        <Route path='Perfil' element={<MenuPerfil/>}/>
+        <Route path='EditPerfil' element={<FormPerfil/>}/>
+        <Route path='Tienda' element={<MenuTienda/>}/>
+        <Route path='ComprarTienda' element={<ComprarTienda/>}/>
       </Route>
 
       <Route path="*" element={<NotFound/>}/>
-    </Routes>        
+    </Routes>  
   );
 }
 

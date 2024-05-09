@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import style from './MenuPerfil.module.css'
 import { useDispatch, useSelector } from 'react-redux'
 import { Usuario } from '../../assets/models/usuario'
@@ -12,6 +12,11 @@ const MenuPerfil = () => {
   const infoUser:Usuario = useSelector((state:any) => state.auth.infoUsuario)
   const navigate = useNavigate()
   const dispatch = useDispatch()
+
+  useEffect(() => {
+    console.log("user:",infoUser);
+    
+  })
 
   const GetEstado = (imc: number) => {
     if(imc < 18.5){
