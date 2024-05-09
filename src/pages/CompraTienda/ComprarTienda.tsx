@@ -2,10 +2,10 @@ import { useNavigate } from 'react-router-dom';
 import ButtonTransparent from '../../assets/Components/ButtonTransparent';
 import TiendaLogo from '../../assets/Components/TiendaLogo';
 import { IsMobile } from '../../assets/Utils'
-import style from './PublicidadTienda.module.css'
+import style from './ComprarTienda.module.css'
 import ReactDOMServer from 'react-dom/server';
 
-const PublicidadTienda:React.FC = () => {
+const ComprarTienda:React.FC = () => {
   const navigate = useNavigate()
 
   return (
@@ -34,11 +34,11 @@ const PublicidadTienda:React.FC = () => {
       </div>
       <div className={style.backDark}>
         <h2 className={style.subtitule}>Muestra lo que ofreces y encuentra nuevos clientes</h2>
-        <img src='/Publicidad/screenTienda.png' style={{width:'100%',borderRadius:'15px',margin:'7svh 0'}} className={style.screenDesktop}></img>
-        <img src='/Publicidad/screenMobile.png' style={{borderRadius:'15px',margin:'7svh 0'}} className={style.screenMobile}></img>
+        <img src='/ComprarTienda/screenTienda.png' style={{width:'100%',borderRadius:'15px',margin:'7svh 0'}} className={style.screenDesktop}></img>
+        <img src='/ComprarTienda /screenMobile.png' style={{borderRadius:'15px',margin:'7svh 0'}} className={style.screenMobile}></img>
       </div>
     </div>
   )
 }
 
-export default PublicidadTienda
+export default ComprarTienda

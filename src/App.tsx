@@ -10,7 +10,7 @@ import Checkout from './pages/Pasarela/Checkout';
 import FormPerfil from './pages/Personal/FormPerfil';
 import RecivePasarela from './pages/Pasarela/RecivePasarela';
 import MenuTienda from './pages/Tienda/MenuTienda';
-import PublicidadTienda from './pages/Publicidad/PublicidadTienda';
+import ComprarTienda from './pages/CompraTienda/ComprarTienda';
 import Inicio from './pages/Home/Inicio';
 import InicioLoggin from './pages/InicioLoggin/InicioLoggin';
 import NotFound from './pages/404/NotFound';
@@ -50,7 +50,7 @@ function App() {
         <Route path=':section?' element={<Home/>}/>
         <Route path='/pago/:info' element={<Checkout/>}/>
         <Route path='/responseFactura' element={<RecivePasarela/>}/>
-        <Route path='/publicidad' element={<PublicidadTienda/>}/>
+        <Route path='/ComprarTienda' element={<ComprarTienda/>}/>
       </Route>
       <Route path='Registro' element={<Registro/>}/>
       <Route path='Login' element={<Login/>}/>
@@ -66,7 +66,7 @@ function App() {
         <Route path='Perfil' element={<MenuPerfil/>}/>
         <Route path='EditPerfil' element={<FormPerfil/>}/>
         <Route path='Tienda' element={<MenuTienda/>}/>
-        <Route path='Publicidad' element={<PublicidadTienda/>}/>
+        <Route path='ComprarTienda' element={<ComprarTienda/>}/>
       </Route>
 
       <Route path="*" element={<NotFound/>}/>
