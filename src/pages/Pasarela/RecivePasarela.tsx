@@ -3,8 +3,14 @@ import style from './Receive.module.css'
 
 import Logo from './Logo'
 import { IsMobile } from '../../assets/Utils'
+import { useSearchParams } from 'react-router-dom'
+import { useState } from 'react'
 
 const RecivePasarela = () => {
+
+  const [searchParams] = useSearchParams()
+  const [nombre, setNombre] = useState(searchParams.get('nombre'))
+
   const condicionesTienda = [
     "Incluye recomendaciones basadas en tus preferencias",
     "Seguimiento de nutrición diaría",
@@ -37,7 +43,7 @@ const RecivePasarela = () => {
         <div style={{textWrap: 'nowrap',overflow: 'hidden'}}>----------------------------------------------------------</div>
         <div className={style.campo}>
             <label>NOMBRE</label>
-            <label>nombre</label>
+            <label>{nombre}</label>
         </div>
         <div className={style.campo}>
             <label>FECHA</label>
