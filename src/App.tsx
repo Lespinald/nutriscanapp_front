@@ -17,27 +17,36 @@ import NotFound from './pages/404/NotFound';
 import { useEffect, useState } from 'react';
 import { onAuthStateChanged } from 'firebase/auth';
 import { auth } from './firebase';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import BusquedaDesktop from './pages/Scan/BusquedaDesktop';
+import { TraerInfoUsuario } from './assets/Utils';
+import { login } from './redux/authSlice';
+import { Usuario } from './assets/models/usuario';
 
 function App() {
+  const dispatch = useDispatch(); // Aquí usamos useNavigate
   const navigate = useNavigate(); // Aquí usamos useNavigate
   const authenticated = useSelector((state:any) => state.auth.status === 'authenticated')
-  
-  const [redirect, setRedirect] = useState(false);
 
   useEffect(() => {
     if (auth.currentUser) {
       // Indicar que se debe redirigir al usuario
-      RedirecLoggeoAutomatico('/Login')
+      GetInfoUser(auth.currentUser.uid)
     }
-
+    
     console.log("🚀 ~ useEffect ~ window.location.pathname.startsWith('/app'):", window.location.pathname.startsWith('/app'))
     console.log("🚀 ~ useEffect ~ authenticated:", authenticated)
     if(window.location.pathname.startsWith('/app') && !authenticated){
       RedirecLoggeoAutomatico('/Home')
     }
   }, []);
+  
+  const GetInfoUser = async(uid:string) => {
+    let resp = await TraerInfoUsuario(uid)
+    if(resp){
+      dispatch(login({infoUsuario:resp}))
+    }
+  }
 
   const RedirecLoggeoAutomatico = (ruta:string) => {
     // Redirigir al usuario a la página de inicio de sesión usando navigate
@@ -46,27 +55,25 @@ function App() {
 
   return (
     <Routes>
-      <Route element={<Layout/>}>
+      <Route path='Registro' element={<Registro/>}/>
+      <Route path='Login' element={<Login/>}/>
+      <Route element={<AppLayout/>}>
         <Route path=':section?' element={<Home/>}/>
         <Route path='/pago/:info' element={<Checkout/>}/>
         <Route path='/responseFactura' element={<RecivePasarela/>}/>
         <Route path='/ComprarTienda' element={<ComprarTienda/>}/>
-      </Route>
-      <Route path='Registro' element={<Registro/>}/>
-      <Route path='Login' element={<Login/>}/>
       
 
-      <Route path="Home" element={<Navigate to="/" replace/>} />
+        <Route path="Home" element={<Navigate to="/" replace/>} />
 
-      <Route path='app' element={<AppLayout/>}>
-        <Route path='Home' element={<InicioLoggin/>}/>
-        <Route path='Pago/:info' element={<Checkout/>}/>
-        <Route path='Scan' element={<Scan/>}/>
-        <Route path='Busqueda' element={<BusquedaDesktop/>}/>
-        <Route path='Perfil' element={<MenuPerfil/>}/>
-        <Route path='EditPerfil' element={<FormPerfil/>}/>
-        <Route path='Tienda' element={<MenuTienda/>}/>
-        <Route path='ComprarTienda' element={<ComprarTienda/>}/>
+        <Route path='/app/Home' element={<InicioLoggin/>}/>
+        <Route path='/app/Pago/:info' element={<Checkout/>}/>
+        <Route path='/app/Scan' element={<Scan/>}/>
+        <Route path='/app/Busqueda' element={<BusquedaDesktop/>}/>
+        <Route path='/app/Perfil' element={<MenuPerfil/>}/>
+        <Route path='/app/EditPerfil' element={<FormPerfil/>}/>
+        <Route path='/app/Tienda' element={<MenuTienda/>}/>
+        <Route path='/app/ComprarTienda' element={<ComprarTienda/>}/>
       </Route>
 
       <Route path="*" element={<NotFound/>}/>
