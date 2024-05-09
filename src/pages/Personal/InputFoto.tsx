@@ -68,6 +68,7 @@ const InputFoto = ({isOpen, setIsOpen, photoPerfil, setPhotoPerfil, perfil,indic
             let copy = {...infoUser}
             copy.foto = response
             dispatch(editPerfil({infoUsuario:copy}))
+            HandleGuardarCambios(copy)
             setPhotoPerfil(response);
           }
         )
@@ -78,6 +79,45 @@ const InputFoto = ({isOpen, setIsOpen, photoPerfil, setPhotoPerfil, perfil,indic
       // copy.foto = blob
       // dispatch(editPerfil(infoUsuario: copy))
       setIsOpen(false);
+    }
+
+    const HandleGuardarCambios = (infoPerfil:Usuario) => {
+      console.log(JSON.stringify({
+        ...infoPerfil
+      }))
+      var resp = fetch(`https://api.nutriscan.com.co/api/usuarios/${infoUser?.uid}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          nombre: infoPerfil.nombre,
+          fechaSuscripcion: infoPerfil.fechaSuscripcion,
+          fechaDeNacimiento: infoPerfil.fechaDeNacimiento,
+          foto: infoPerfil.foto,
+          telefono: infoPerfil.telefono,
+          altura: infoPerfil.altura,
+          peso: infoPerfil.peso
+        })
+      })
+      .then(respuesta => {
+        console.log("🚀 ~ HandleRegistro ~ respuesta:", respuesta)
+        if (!respuesta.ok) {
+          throw new Error('Error en la solicitud');
+        }
+        return respuesta.json()
+      })
+      .then(async(datos) => {
+        console.log("🚀 ~ HandleRegistro ~ datos:", datos as Usuario)
+        console.log("🚀 ~ HandleGuardarCambios ~ infoPerfil:", infoPerfil)
+        alert('Guardado Foto Exitosamente')
+      })
+      .catch(error => {
+        console.error('Error en la solicitud fetch:', error);
+        alert('Error actualizar en base de datos')
+        // Aquí puedes manejar el error como desees, por ejemplo, mostrar un mensaje al usuario
+      });
+      return resp
     }
 
     useEffect(() => {
