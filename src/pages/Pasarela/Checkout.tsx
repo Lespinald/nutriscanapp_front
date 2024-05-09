@@ -2,12 +2,15 @@ import { useState } from 'react'
 import style from './Checkout.module.css'
 import { useParams } from 'react-router-dom'
 import { IsMobile } from '../../assets/Utils'
+import Stripe from 'stripe'
 
 
 const Checkout = () => {
   const info = useParams().info
   const [nombre, setNombre] = useState('')
   const [correo, setCorreo] = useState('')
+
+  const stripe = new Stripe('sk_test_51PANts06rYdnPSbTI5dy2sGkBMm8ipqD35dgnZVhlGrO0EwdMPhLlHsvw0FqP7VdLbw7N1iSjP4XM9KH4NZSGXzE00pLlIHxUM')
 
   const condicionesTienda = [
     "Incluye recomendaciones basadas en tus preferencias",
@@ -16,10 +19,32 @@ const Checkout = () => {
     "Información nutricional de calidad"
   ];
 
+    // Obtiene la fecha actual
+    const expiraDate = new Date();
+    expiraDate.setDate(expiraDate.getDate()+7);
+
+    // Formatea la fecha en formato DD/MM/YYYY
+    const formattedDate = expiraDate.toLocaleDateString('es-ES');
+    const handleClickPagar = async () => {
+      const session = await stripe.checkout.sessions.create({
+        success_url: 'http://localhost:5173/responseFactura?nombre=lina', 
+        cancel_url: 'http://localhost:5173',
+        line_items: [
+          {
+            price: 'price_1PAOQS06rYdnPSbTQIx40jAo',
+            quantity: 1,
+          },
+        ],
+        mode: 'subscription',
+      });
+      if (session.url) {
+        window.location.href = session.url;
+      }
+    } 
   return (
     <div className={style.checkoutFondo}>
       <div className={style.box}>
-        <label>Nombre</label>
+        <label>Nombre completo</label>
         <input 
         type='text' 
         placeholder='Ingrese su nombre' 
@@ -43,7 +68,7 @@ const Checkout = () => {
         <p className={style.a}>Suscripción:</p>
         <p className={style.a}>NUTRISCAN {info === 'market' ? 'TIENDA' : 'PLUS'}</p>
         <p className={style.a}>HASTA:</p>
-        <p className={style.a}>20-04-2024</p>
+        <p className={style.a}>{formattedDate}</p>
         <ul className={style.listado}>
             {condicionesTienda.map((condicion,index) => (
                 <li key={index}>{condicion}</li>
@@ -52,9 +77,7 @@ const Checkout = () => {
         <div className={style.linea}></div>
         <p className={style.a}>TOTAL</p>
         <p className={style.fill}>$ {info === 'market' ? '50.000' : '7.000'}</p>
-        <a href='https://buy.stripe.com/test_eVabKM2zkboP5VedQR' style={{gridColumn:'1/2 span',display:'flex',justifyContent:'center'}}>
-        <button className={style.buttonPagar}>Pagar</button>
-        </a>
+        <button className={style.buttonPagar} onClick={handleClickPagar} >Pagar</button>
       </div>
     </div>
   )

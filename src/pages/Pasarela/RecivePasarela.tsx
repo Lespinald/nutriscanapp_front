@@ -1,5 +1,6 @@
 import style from './Receive.module.css'
 
+
 import Logo from './Logo'
 import { IsMobile } from '../../assets/Utils'
 
@@ -9,7 +10,9 @@ const RecivePasarela = () => {
     "Seguimiento de nutrición diaría",
     "No pierdes tus registros semanalmente",
     "Información nutricional de calidad"
-  ];// Obtiene la fecha actual
+  ];
+
+  // Obtiene la fecha actual
   const currentDate = new Date();
 
   // Formatea la fecha en formato DD/MM/YYYY
