@@ -131,7 +131,7 @@ const MobileLayout = () => {
       <button style={GetStylePerfil()} onClick={() => navigate('/app/Perfil')}>
         <ProfileLogo style={{stroke: "inherit"}}/>
       </button>
-      <button style={GetStyleTienda()} className={style.registerLink} onClick={() => navigate('/app/Publicidad')}>
+      <button style={GetStyleTienda()} className={style.registerLink} onClick={() => navigate('/app/ComprarTienda')}>
         <TiendaLogo height="40" width="40"/>
       </button>
       <div className={`${generalMenu? style.openGeneral: ""} ${style.menu}`}

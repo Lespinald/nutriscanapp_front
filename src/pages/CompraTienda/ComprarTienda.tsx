@@ -35,7 +35,7 @@ const ComprarTienda:React.FC = () => {
       <div className={style.backDark}>
         <h2 className={style.subtitule}>Muestra lo que ofreces y encuentra nuevos clientes</h2>
         <img src='/ComprarTienda/screenTienda.png' style={{width:'100%',borderRadius:'15px',margin:'7svh 0'}} className={style.screenDesktop}></img>
-        <img src='/ComprarTienda /screenMobile.png' style={{borderRadius:'15px',margin:'7svh 0'}} className={style.screenMobile}></img>
+        <img src='/ComprarTienda/screenMobile.png' style={{borderRadius:'15px',margin:'7svh 0'}} className={style.screenMobile}></img>
       </div>
     </div>
   )
