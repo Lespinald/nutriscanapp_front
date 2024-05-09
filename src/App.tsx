@@ -29,7 +29,7 @@ function App() {
   useEffect(() => {
     if (auth.currentUser) {
       // Indicar que se debe redirigir al usuario
-      RedirecLoggeoAutomatico('/login')
+      RedirecLoggeoAutomatico('/Login')
     }
 
     console.log("🚀 ~ useEffect ~ window.location.pathname.startsWith('/app'):", window.location.pathname.startsWith('/app'))
@@ -48,7 +48,6 @@ function App() {
     <Routes>
       <Route element={<Layout/>}>
         <Route path=':section?' element={<Home/>}/>
-        <Route path='/Scan' element={<Scan/>}/>
         <Route path='/pago/:info' element={<Checkout/>}/>
         <Route path='/responseFactura' element={<RecivePasarela/>}/>
         <Route path='/publicidad' element={<PublicidadTienda/>}/>
@@ -61,6 +60,7 @@ function App() {
 
       <Route path='app' element={<AppLayout/>}>
         <Route path='Home' element={<InicioLoggin/>}/>
+        <Route path='Pago/:info' element={<Checkout/>}/>
         <Route path='Scan' element={<Scan/>}/>
         <Route path='Busqueda' element={<BusquedaDesktop/>}/>
         <Route path='Perfil' element={<MenuPerfil/>}/>
