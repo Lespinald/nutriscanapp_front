@@ -72,7 +72,7 @@ const Scan = () => {
 
   useEffect(() => {
 
-    if(IsMobile()){
+    if(!IsMobile()){
       navigate('/app/Busqueda')
     }
 
@@ -114,7 +114,7 @@ const Scan = () => {
 
   
   return (
-    <div className={style.scanMain} style={{flexDirection:'row',background:'white',alignItems:'center'}}>
+    <div className={style.scanMain} style={{background:'white',alignItems:'center'}}>
       {capturando?
         <div className={style.videoDisplay}>
           <div></div>
