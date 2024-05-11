@@ -85,6 +85,7 @@ const Login = () => {
             let usuario = convertirUsuario(
                 datos.uid,
                 datos.nombre,
+                datos.tipoSuscripcion,
                 datos.fechaSuscripcion,
                 datos.fechaDeNacimiento,
                 datos.altura,

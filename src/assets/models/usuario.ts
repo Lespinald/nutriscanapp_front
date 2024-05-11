@@ -3,6 +3,7 @@ import { DocumentData, DocumentSnapshot } from "firebase/firestore";
 export interface Usuario {
     uid: string;
     nombre : string;
+    tipoSuscripcion : string;
     fechaSuscripcion : string ;
     fechaDeNacimiento : string;
     altura : number;
@@ -15,6 +16,7 @@ export interface Usuario {
 export const usuarioVacio = {
     uid: '',
     nombre : '',
+    tipoSuscripcion : '',
     fechaSuscripcion : formatDate(new Date(0)),
     fechaDeNacimiento : formatDate(new Date(0)),
     altura : 51,
@@ -23,10 +25,11 @@ export const usuarioVacio = {
     correo : '',
 } as Usuario;
 
-export const convertirUsuario = (uid:string,nombre:string,fechaSuscripcion:Date, fechaDeNacimiento:Date,altura:number, peso:number, telefono:string, correo:string) => {
+export const convertirUsuario = (uid:string,nombre:string,tipoSuscripcion:string,fechaSuscripcion:Date, fechaDeNacimiento:Date,altura:number, peso:number, telefono:string, correo:string) => {
     return {
         uid: uid,
         nombre: nombre,
+        tipoSuscripcion: tipoSuscripcion,
         fechaSuscripcion: fechaSuscripcion,
         fechaDeNacimiento: fechaDeNacimiento,
         altura: altura,

@@ -31,6 +31,18 @@ const AppLayout = () => {
     setLayoutHeight(entries[0].target.clientHeight)
   });
 
+  const GetTipoSuscripcion = ():string => {
+    if(infoUsuario.tipoSuscripcion === 'gratis'){
+      console.log("🚀 ~ GetTipoSuscripcion ~ FREE:")
+      return 'FREE'
+    }else{
+      if(infoUsuario.fechaSuscripcion < new Date()){
+        return infoUsuario.tipoSuscripcion 
+      }
+      return 'FREE'
+    }
+  }
+
   useEffect(() => {
     console.log("🚀 ~ useEffect ~ authenticated:", authenticated)
     if(!authenticated || infoUsuario === null){
@@ -54,8 +66,8 @@ const AppLayout = () => {
           <img className={style.maintainRatio} src="/Layout/logo.png" alt="logo"></img>
       </Link>
       { mobile?
-        <MobileLayout/>:
-        <DesktopLayout/>
+        <MobileLayout tipoSuscripcion={GetTipoSuscripcion()}/>:
+        <DesktopLayout tipoSuscripcion={GetTipoSuscripcion()}/>
       }
     </nav>
     <div className={style.outlet} style={{marginTop: `${layoutHeight}px`}}>
@@ -65,8 +77,11 @@ const AppLayout = () => {
   );
 }
 
+interface Props{
+  tipoSuscripcion:string;
+}
 
-const DesktopLayout = () => {
+const DesktopLayout = ({tipoSuscripcion}:Props) => {
   const authenticated = useSelector((state:any) => state.auth.status === 'authenticated')
 
   return (
@@ -80,7 +95,7 @@ const DesktopLayout = () => {
       <Link to="/app/Perfil" style={{padding: "0 0.8rem"}}>
         <ProfileLogo style={{stroke: "inherit"}}/>
       </Link>
-      <Link to="/app/Tienda" className={`${style.registerLink} ${style.miTienda}`}>
+      <Link to={tipoSuscripcion === 'tienda' ? "/app/Tienda" : "/app/ComprarTienda"} className={`${style.registerLink} ${style.miTienda}`}>
         <TiendaLogo height="auto" width="3svh"></TiendaLogo>
         <p style={{width:'max-content'}}>Mi Tienda</p>
       </Link>
@@ -88,8 +103,9 @@ const DesktopLayout = () => {
   );
 }
 
-const MobileLayout = () => {
+const MobileLayout = ({tipoSuscripcion}:Props) => {
   const [generalMenu, setGeneralMenu] = useState<boolean>(false);
+  const infoUsuario = useSelector((state:any) => state.auth.infoUsuario)
 
   const generalAnchorRef = useRef<HTMLAnchorElement>(null);
   const navigate = useNavigate()
@@ -131,7 +147,7 @@ const MobileLayout = () => {
       <button style={GetStylePerfil()} onClick={() => navigate('/app/Perfil')}>
         <ProfileLogo style={{stroke: "inherit"}}/>
       </button>
-      <button style={GetStyleTienda()} className={style.registerLink} onClick={() => navigate('/app/ComprarTienda')}>
+      <button style={GetStyleTienda()} className={style.registerLink} onClick={() => navigate(tipoSuscripcion === 'tienda' ? "/app/Tienda" : "/app/ComprarTienda")}>
         <TiendaLogo height="40" width="40"/>
       </button>
       <div className={`${generalMenu? style.openGeneral: ""} ${style.menu}`}
@@ -139,7 +155,7 @@ const MobileLayout = () => {
         <Link ref={generalAnchorRef} to="/app/Home">Inicio</Link>
         <Link to="/app/Scan">Buscar Producto</Link>
         <Link to="/app/Perfil">Ver Perfil</Link>
-        <Link to="/app/Tienda">Ver Mi Tienda</Link>
+        <Link to={tipoSuscripcion === 'tienda' ? "/app/Tienda" : "/app/ComprarTienda"}>Ver Mi Tienda</Link>
       </div>
     </>
   );
