@@ -70,3 +70,9 @@ button:active{
   z-index: -1;
 }
 
+.estiloButton{
+  cursor: pointer;
+}
+.estiloButton:hover{
+  transform: scale(1.1);
+}

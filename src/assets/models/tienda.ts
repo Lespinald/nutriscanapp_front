@@ -2,15 +2,17 @@
 export interface Tienda {
     ID_tienda: string;
     nombre : string;
-    fechaSuscripcion : string ;
+    fechaSuscripcion? : string ;
     direccion : string;
     enlace : string;
+    foto? : string;
+    descripcion? : string;
 }
 
 export interface Producto {
     ID_producto: string;
     referencia: string;
-    titulo: string;
+    nombre: string;
     descripcion: string;
     foto:string;
 }
@@ -18,13 +20,16 @@ export interface Producto {
 export const tiendaVacia = {
     ID_tienda: '',
     nombre : '',
-    fechaSuscripcion : '',
+    fechaSuscripcion : formatDate(new Date(0)),
     direccion : '',
     enlace : '',
+    descripcion : '',
+    foto : '',
 } as Tienda;
 
 export const productoVacio = {
     ID_producto: '',
+    nombre: '',
     referencia: '',
     descripcion: '',
     foto:'',

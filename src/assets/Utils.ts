@@ -53,21 +53,27 @@ export async function TraerInfoUsuario(uid: string): Promise<Usuario | null> {
 export async function TraerInfoTienda(uid: string): Promise<Tienda | null> {
 
   try {
-    const respuesta = await fetch(`https://api.nutriscan.com.co/api/tienda/${uid}`);
+    const respuesta = await fetch(`https://api.nutriscan.com.co/api/tiendasusuario/${uid}`);
     if (!respuesta.ok) {
       throw new Error('Error en la solicitud');
     }
 
     const datos = await respuesta.json();
-    console.log("🚀 ~ TraerInfoUsuario ~ datos:", datos)
+    console.log("🚀 ~ TraerInfoTienda ~ datos:", datos)
     
-    const usuario =
-      {ID_tienda: datos.ID_tienda,
-      nombre: datos.nombre,
-      direccion: datos.direccion,
-      enlace: datos.enlace} as Tienda;
-
-    return usuario;
+    if (datos.length !== 0) {
+      const tienda = {
+        ID_tienda: datos[0].ID_tienda,
+        nombre: datos[0].nombre,
+        direccion: datos[0].direccion,
+        enlace: datos[0].enlace
+      };
+      console.log("🚀 ~ TraerInfoTienda ~ tienda:", tienda);
+      return tienda;
+    } else {
+      console.log("🚀 ~ TraerInfoTienda ~ Datos de tienda incompletos:", datos);
+      return null;
+    }
   } catch (error) {
     console.error('Error en la solicitud fetch:', error);
     alert('Error en consulta a base de datos');

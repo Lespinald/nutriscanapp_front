@@ -19,9 +19,10 @@ import { onAuthStateChanged } from 'firebase/auth';
 import { auth } from './firebase';
 import { useDispatch, useSelector } from 'react-redux';
 import BusquedaDesktop from './pages/Scan/BusquedaDesktop';
-import { TraerInfoUsuario } from './assets/Utils';
+import { TraerInfoTienda, TraerInfoUsuario } from './assets/Utils';
 import { login } from './redux/authSlice';
 import { Usuario } from './assets/models/usuario';
+import { setTienda } from './redux/tiendaSlice';
 
 function App() {
   const dispatch = useDispatch(); // Aquí usamos useNavigate
@@ -36,7 +37,7 @@ function App() {
     
     console.log("🚀 ~ useEffect ~ window.location.pathname.startsWith('/app'):", window.location.pathname.startsWith('/app'))
     console.log("🚀 ~ useEffect ~ authenticated:", authenticated)
-    if(window.location.pathname.startsWith('/app') && !authenticated){
+    if(window.location.pathname.startsWith('/app')){
       RedirecLoggeoAutomatico('/Home')
     }
   }, []);
@@ -46,6 +47,12 @@ function App() {
     if(resp){
       dispatch(login({infoUsuario:resp}))
     }
+    let resps = await TraerInfoTienda(uid)
+    if(resps){
+      console.log("🚀 ~ GetInfoUser ~ resps:", resps)
+      dispatch(setTienda({tienda:resps}))
+    }
+
   }
 
   const RedirecLoggeoAutomatico = (ruta:string) => {
