@@ -18,7 +18,7 @@ interface Props{
 const EditTienda = ({initialTienda: initialProducto,indice,setOpen}:Props) => {
   const [currentTienda, setCurrentProducto] = useState(initialProducto);
   const [changePhoto, setChangePhoto] = useState(false);
-  const [photoPerfil, setPhotoPerfil] = useState(initialProducto.foto ?? '');
+  const [photoPerfil, setPhotoPerfil] = useState(initialProducto.fotos ?? '');
 
   const infoUser = useSelector((state:any) => state.auth.infoUsuario);
   const dispatch = useDispatch();
@@ -79,7 +79,7 @@ const EditTienda = ({initialTienda: initialProducto,indice,setOpen}:Props) => {
         await obtenerURL(`${infoUser.uid}/fotoTienda.png`).then(
           (response) => {
             console.log("🚀 ~ HandleSaveImage ~ response:", response)
-            const handleChange = HandleInputChange('foto',response);
+            const handleChange = HandleInputChange('fotos',response);
             handleChange({ target: { value: response } });
             setPhotoPerfil(response);
           }
@@ -112,6 +112,8 @@ const EditTienda = ({initialTienda: initialProducto,indice,setOpen}:Props) => {
             fechaSuscripcion: currentTienda.fechaSuscripcion,
             direccion: currentTienda.direccion,
             enlace: currentTienda.enlace,
+            descripcion: currentTienda.descripcion,
+            fotos: currentTienda.fotos,
           })
         })
         .then(respuesta => {
@@ -176,7 +178,7 @@ const EditTienda = ({initialTienda: initialProducto,indice,setOpen}:Props) => {
                 <button type="button" className={`${styleFormPerfil.button}`} onClick={() => setOpen(false)}>CANCELAR</button>
             </form>
         </div>
-          <InputFoto isOpen={changePhoto} setIsOpen={setChangePhoto} photoPerfil={currentTienda.foto ?? ''} setPhotoPerfil={setPhotoPerfil} perfil={false} indice={indice} HandleSaveImage={HandleSaveImage}/>
+          <InputFoto isOpen={changePhoto} setIsOpen={setChangePhoto} photoPerfil={currentTienda.fotos ?? ''} setPhotoPerfil={setPhotoPerfil} perfil={false} indice={indice} HandleSaveImage={HandleSaveImage}/>
         </div>
       )
 }

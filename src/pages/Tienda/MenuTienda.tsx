@@ -22,7 +22,7 @@ const tiendaDefault: Tienda =
     ID_tienda: 'tienda_prueba',
     nombre : 'Nombre Tienda',
     descripcion: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Unde quo, quae aliquam delectus, non ab molestiae nam perspiciatis sapiente esse vero ullam ducimus totam, molestias enim qui. A, quidem ullam?',
-    foto: "https://firebasestorage.googleapis.com/v0/b/nutriscan-9f5cf.appspot.com/o/TiendaTest%2Fimagen_2024-04-27_221044323.png?alt=media&token=ec5d519f-c9e4-4c73-94b6-38b68746af33",
+    fotos: "https://firebasestorage.googleapis.com/v0/b/nutriscan-9f5cf.appspot.com/o/TiendaTest%2Fimagen_2024-04-27_221044323.png?alt=media&token=ec5d519f-c9e4-4c73-94b6-38b68746af33",
     direccion : 'Cll siempreviva 52',
     enlace : 'https://www.google.com/webhp?hl=es&sa=X&ved=0ahUKEwjUn62l5YuGAxU4TTABHX8tAK0QPAgJ',
   } as Tienda
@@ -46,7 +46,7 @@ const MenuTienda = () => {
 
   return (
     <>
-      <TiendaDesktop name="tienda" logo="" banner={tienda.foto ?? tiendaDefault.foto}
+      <TiendaDesktop name="tienda" logo="" banner={tienda.foto ?? tiendaDefault.fotos}
         busqueda={busqueda} setBusqueda={setBusqueda}
         productos={productosRedux}
         tienda={tienda}
@@ -83,7 +83,7 @@ const TiendaDesktop = ({name, banner, logo, busqueda, setBusqueda, productos,tie
         <img src={banner} alt="banner" className={style.bannerDesk} onClick={() => {setEditTienda(true)}}></img>
         <div className={style.logoSection}>
           <div>
-            <img src={infoUser?.foto ? infoUser.foto : tiendaDefault.foto} alt='logo tienda'/>
+            <img src={infoUser?.foto ? infoUser.foto : tiendaDefault.fotos} alt='logo tienda'/>
           </div>
         </div>
         { tienda ? 

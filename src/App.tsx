@@ -23,6 +23,7 @@ import { TraerInfoTienda, TraerInfoUsuario, TraerProductosTienda } from './asset
 import { login } from './redux/authSlice';
 import { Usuario } from './assets/models/usuario';
 import { setProductos, setTienda } from './redux/tiendaSlice';
+import MenuCarga from './assets/MenuCarga/MenuCarga';
 
 function App() {
   const dispatch = useDispatch(); // Aquí usamos useNavigate
@@ -43,6 +44,7 @@ function App() {
   }, []);
   
   const GetInfoUser = async(uid:string) => {
+    RedirecLoggeoAutomatico('/Cargando')
     let resp = await TraerInfoUsuario(uid)
     if(resp){
       dispatch(login({infoUsuario:resp}))
@@ -57,7 +59,7 @@ function App() {
         dispatch(setProductos({productos:products}))
       }
     }
-
+    RedirecLoggeoAutomatico('/Home')
   }
 
   const RedirecLoggeoAutomatico = (ruta:string) => {
@@ -75,6 +77,7 @@ function App() {
       </Route>
       <Route path='Registro' element={<Registro/>}/>
       <Route path='Login' element={<Login/>}/>
+      <Route path='Cargando' element={<MenuCarga isOpen={true}/>}/>
       
 
       <Route path="Home" element={<Navigate to="/" replace/>} />

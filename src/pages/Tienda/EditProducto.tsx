@@ -3,7 +3,7 @@ import InputFoto from '../Personal/InputFoto';
 import styleMenuTienda from './MenuTienda.module.css'
 import styleMenuPerfil from '../Personal/MenuPerfil.module.css'
 import styleFormPerfil from '../Personal/FormPerfil.module.css'
-import { Producto, productoVacio } from '../../assets/models/tienda';
+import { Producto, productoVacio, tiendaVacia } from '../../assets/models/tienda';
 import { IsMobile } from '../../assets/Utils';
 import { useDispatch, useSelector } from 'react-redux';
 import { useStorge } from '../../hooks/useStorage';
@@ -159,7 +159,7 @@ const EditProducto = ({initialProducto,indice,setOpen}:Props) => {
             </div>
             <div className={``} onClick={() => setChangePhoto((prev) => !prev)} >
               <div className={styleMenuTienda.producto}>
-                <img src={currentProducto.foto}></img>
+                <img src={currentProducto.foto} alt='Foto de producto'></img>
                 <div>
                   <p className={styleMenuTienda.name}>{currentProducto.nombre}</p>
                   <p className={styleMenuTienda.desc}>{currentProducto.descripcion}</p>
@@ -176,15 +176,15 @@ const EditProducto = ({initialProducto,indice,setOpen}:Props) => {
             <form>
                 <div className={styleFormPerfil.campo}>
                   <label htmlFor="nombre">Nombre:</label>
-                  <input type="text" id="nombre" name="nombre" onChange={HandleInputChange('nombre')} value={currentProducto?.nombre}/>
+                  <input type="text" id="nombre" name="nombre" onChange={HandleInputChange('nombre')} value={currentProducto?.nombre} placeholder='Ingrese un nombre'/>
                 </div>
                 <div className={styleFormPerfil.campo}>
                   <label htmlFor="Descripción">Descripción:</label>
-                  <textarea rows={4} id="Descripción" name="Descripción" onChange={HandleInputChange('descripcion')} value={currentProducto?.descripcion}/>
+                  <textarea rows={4} id="Descripción" name="Descripción" onChange={HandleInputChange('descripcion')} value={currentProducto?.descripcion} placeholder='Ingrese una descipcion'/>
                 </div>
                 <div className={styleFormPerfil.campo}>
                   <label htmlFor="Categoría">Categoría:</label>
-                  <input type="text" id="Categoría" name="Categoría" onChange={HandleInputChange('categorias')} value={currentProducto?.referencia}/>
+                  <input type="text" id="Categoría" name="Categoría" onChange={HandleInputChange('categorias')} value={currentProducto?.referencia} placeholder='Ingrese una categoria'/>
                 </div>
                 <button type="button" className={`${styleFormPerfil.button} ${areObjectsEqual(initialProducto,currentProducto) ? styleFormPerfil.desactivado : ''}`}
                 onClick={HandleGuardarCambios}>{areObjectsEqual(productoVacio,initialProducto)?'Crear Producto':'Guardar Cambios'}</button>

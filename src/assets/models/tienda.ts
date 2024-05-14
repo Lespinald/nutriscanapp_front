@@ -5,7 +5,7 @@ export interface Tienda {
     fechaSuscripcion? : string ;
     direccion : string;
     enlace : string;
-    foto? : string;
+    fotos? : string;
     descripcion? : string;
 }
 
@@ -24,7 +24,7 @@ export const tiendaVacia = {
     direccion : '',
     enlace : '',
     descripcion : '',
-    foto : '',
+    fotos : '',
 } as Tienda;
 
 export const productoVacio = {

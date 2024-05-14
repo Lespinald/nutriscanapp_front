@@ -66,7 +66,9 @@ export async function TraerInfoTienda(uid: string): Promise<Tienda | null> {
         ID_tienda: datos[0].ID_tienda,
         nombre: datos[0].nombre,
         direccion: datos[0].direccion,
-        enlace: datos[0].enlace
+        enlace: datos[0].enlace,
+        descripcion: datos[0].descripcion,
+        fotos: datos[0].fotos,
       };
       console.log("🚀 ~ TraerInfoTienda ~ tienda:", tienda);
       return tienda;
