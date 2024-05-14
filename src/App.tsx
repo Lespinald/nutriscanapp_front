@@ -19,10 +19,10 @@ import { onAuthStateChanged } from 'firebase/auth';
 import { auth } from './firebase';
 import { useDispatch, useSelector } from 'react-redux';
 import BusquedaDesktop from './pages/Scan/BusquedaDesktop';
-import { TraerInfoTienda, TraerInfoUsuario } from './assets/Utils';
+import { TraerInfoTienda, TraerInfoUsuario, TraerProductosTienda } from './assets/Utils';
 import { login } from './redux/authSlice';
 import { Usuario } from './assets/models/usuario';
-import { setTienda } from './redux/tiendaSlice';
+import { setProductos, setTienda } from './redux/tiendaSlice';
 
 function App() {
   const dispatch = useDispatch(); // Aquí usamos useNavigate
@@ -51,6 +51,11 @@ function App() {
     if(resps){
       console.log("🚀 ~ GetInfoUser ~ resps:", resps)
       dispatch(setTienda({tienda:resps}))
+      let products = await TraerProductosTienda(resps?.ID_tienda)
+      if(products){
+        console.log("🚀 ~ GetInfoUser ~ resps:", products)
+        dispatch(setProductos({productos:products}))
+      }
     }
 
   }

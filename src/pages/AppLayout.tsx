@@ -154,7 +154,7 @@ const MobileLayout = ({tipoSuscripcion}:Props) => {
         <Link ref={generalAnchorRef} to="/app/Home">Inicio</Link>
         <Link to="/app/Scan">Buscar Producto</Link>
         <Link to="/app/Perfil">Ver Perfil</Link>
-        <Link to={tipoSuscripcion !== 'tienda' ? "/app/Tienda" : "/app/ComprarTienda"}>Ver Mi Tienda</Link>
+        <Link to={tipoSuscripcion === 'tienda' ? "/app/Tienda" : "/app/ComprarTienda"}>Ver Mi Tienda</Link>
       </div>
     </>
   );

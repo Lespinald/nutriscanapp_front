@@ -4,7 +4,7 @@ import { login } from "../redux/authSlice";
 import { Usuario, convertirUsuario } from "./models/usuario";
 import { useDispatch } from "react-redux";
 import { useStorge } from "../hooks/useStorage";
-import { Tienda } from "./models/tienda";
+import { Producto, Tienda } from "./models/tienda";
 
 export function GetViewportWidth(): number{
   return document.documentElement.clientWidth;
@@ -74,6 +74,38 @@ export async function TraerInfoTienda(uid: string): Promise<Tienda | null> {
       console.log("🚀 ~ TraerInfoTienda ~ Datos de tienda incompletos:", datos);
       return null;
     }
+  } catch (error) {
+    console.error('Error en la solicitud fetch:', error);
+    alert('Error en consulta a base de datos');
+    return null;
+  }
+}
+export async function TraerProductosTienda(idTienda: string): Promise<Producto[] | null> {
+  try {
+    const respuesta = await fetch(`https://api.nutriscan.com.co/api/productostienda/${idTienda}`);
+    if (!respuesta.ok) {
+      throw new Error('Error en la solicitud');
+    }
+
+    const datos = await respuesta.json();
+    console.log("🚀 ~ TraerProductosTienda ~ datos:", datos);
+
+    const productos: Producto[] = [];
+
+    // Assuming datos is an array of product data objects
+    datos.forEach((productoData: any) => {
+      const producto: Producto = {
+        ID_producto: productoData.ID_producto,
+        referencia: productoData.referencia,
+        nombre: productoData.nombre,
+        descripcion: productoData.descripcion,
+        foto: productoData.foto
+      };
+      productos.push(producto);
+    });
+
+    console.log("🚀 ~ TraerProductosTienda ~ productos:", productos);
+    return productos;
   } catch (error) {
     console.error('Error en la solicitud fetch:', error);
     alert('Error en consulta a base de datos');

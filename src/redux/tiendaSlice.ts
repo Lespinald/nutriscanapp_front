@@ -18,6 +18,10 @@ const tiendaSlice = createSlice({
         setTienda:(state,action: PayloadAction<{tienda:Tienda}>) =>{
             state.currentTienda = action.payload.tienda;
         },
+        setProductos: (state, action: PayloadAction<{ productos: Producto[] }>) => {
+            const { productos} = action.payload;
+            state.productos = productos
+        },
         agregarProducto: (state, action: PayloadAction<{ producto: Producto }>) => {
             state.productos.push(action.payload.producto);
         },
@@ -36,5 +40,5 @@ const tiendaSlice = createSlice({
     }
 });
 
-export const { setTienda, agregarProducto, modificarProducto, clean } = tiendaSlice.actions;
+export const { setTienda, setProductos, agregarProducto, modificarProducto, clean } = tiendaSlice.actions;
 export default tiendaSlice.reducer;
