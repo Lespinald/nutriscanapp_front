@@ -8,6 +8,8 @@ import { IsMobile } from '../../assets/Utils';
 import { useDispatch, useSelector } from 'react-redux';
 import { useStorge } from '../../hooks/useStorage';
 import { agregarProducto, modificarProducto } from '../../redux/tiendaSlice';
+import SelectorArray from '../../assets/Components/SelectorArray';
+import { categorias } from '../../assets/categorias';
 
 interface Props{
   initialProducto:Producto;
@@ -29,7 +31,7 @@ const EditProducto = ({initialProducto,indice,setOpen}:Props) => {
       obtenerURL
     } = useStorge();
 
-    const HandleInputChange = (fieldName: string,response?: string) => (e: { target: { value: any } }) => {
+    const HandleInputChange = (fieldName: string,response?: string|string[]) => (e: { target: { value: any } }) => {
       // Si el campo es 'fechaDeNacimiento', convertir el valor a un objeto Date
       const value = response ? response : e.target.value
       setCurrentProducto({ ...currentProducto, [fieldName]: value });
@@ -165,7 +167,7 @@ const EditProducto = ({initialProducto,indice,setOpen}:Props) => {
                   <p className={styleMenuTienda.desc}>{currentProducto.descripcion}</p>
                 </div>
               </div>
-              <p>CAMBIAR FOTO  
+              <p className={styleMenuTienda.editarText}>CAMBIAR FOTO  
                 <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="2vh" height="2vh" viewBox="0 0 24 24" fill={IsMobile() ? 'white' :'var(--color-5)'} style={{transform:'translateX(10px)'}}>
                   <path d="M14.1 5.9L3 17v4h4L18.1 9.9 14.1 5.9zM15.6 4.4L18 2l4 4-2.4 2.4L15.6 4.4z"></path>
                 </svg>
@@ -184,11 +186,11 @@ const EditProducto = ({initialProducto,indice,setOpen}:Props) => {
                 </div>
                 <div className={styleFormPerfil.campo}>
                   <label htmlFor="Categoría">Categoría:</label>
-                  <input type="text" id="Categoría" name="Categoría" onChange={HandleInputChange('categorias')} value={currentProducto?.referencia} placeholder='Ingrese una categoria'/>
+                  <SelectorArray opciones={categorias} current={currentProducto.categorias?? []} setCurrent={HandleInputChange}/>
                 </div>
                 <button type="button" className={`${styleFormPerfil.button} ${areObjectsEqual(initialProducto,currentProducto) ? styleFormPerfil.desactivado : ''}`}
-                onClick={HandleGuardarCambios}>{areObjectsEqual(productoVacio,initialProducto)?'Crear Producto':'Guardar Cambios'}</button>
-                <button type="button" className={`${styleFormPerfil.button}`} onClick={() => setOpen(false)}>CANCELAR</button>
+                onClick={HandleGuardarCambios} style={{alignSelf:'flex-end'}}>{areObjectsEqual(productoVacio,initialProducto)?'Crear Producto':'Guardar Cambios'}</button>
+                <button type="button" className={`${styleFormPerfil.button}`} onClick={() => setOpen(false)} style={{alignSelf:'flex-start'}}>CANCELAR</button>
             </form>
         </div>
           <InputFoto isOpen={changePhoto} setIsOpen={setChangePhoto} photoPerfil={photoPerfil} setPhotoPerfil={setPhotoPerfil} perfil={false} indice={indice} HandleSaveImage={HandleSaveImage}/>

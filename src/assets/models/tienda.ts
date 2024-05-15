@@ -15,6 +15,7 @@ export interface Producto {
     nombre: string;
     descripcion: string;
     foto:string;
+    categorias:string[];
 }
 
 export const tiendaVacia = {
@@ -33,6 +34,7 @@ export const productoVacio = {
     referencia: '',
     descripcion: '',
     foto:'',
+    categorias:[],
 } as Producto;
 
 

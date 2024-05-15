@@ -101,7 +101,8 @@ export async function TraerProductosTienda(idTienda: string): Promise<Producto[]
         referencia: productoData.referencia,
         nombre: productoData.nombre,
         descripcion: productoData.descripcion,
-        foto: productoData.foto
+        foto: productoData.foto,
+        categorias: productoData.categorias ?? [],
       };
       productos.push(producto);
     });
