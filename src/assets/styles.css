@@ -70,3 +70,72 @@ button:active{
   z-index: -1;
 }
 
+.estiloButton{
+  cursor: pointer;
+}
+.estiloButton:hover{
+  transform: scale(1.1);
+}
+
+.selectorArray{
+  width: 100%;
+  max-height: calc(2 * (2svh + 18px));
+  height: fit-content;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+.selectorArray p,
+.opcionesSelector{
+  border: 1px solid var(--color-2);
+  background: transparent;
+  border-radius: 15px;
+  padding: 4px;
+  color: white;
+}
+
+.contain_busquedas{
+  max-height: 20svh;
+  overflow: hidden auto;
+  gap: 10px;
+  display: flex;
+  flex-wrap: wrap;
+  margin: 2% 0;
+}
+
+.opcionesSelector{
+  color: var(--color-6);
+}
+
+.opcionesSelector:hover,
+.opcionesSelector_active{
+  background-color: var(--color-6);
+  color: white;
+}
+
+.modal_background{
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100svw;
+  height: 100svh;
+  background-color: rgb(0, 0, 0, 0.5);
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal_content{
+  padding: 2%;
+  max-height: 50svh;
+  height: fit-content;
+  width: 40svw;
+  overflow: hidden;
+  overflow-y: auto;
+  background-color: white;
+  border-radius: 15px;
+}

@@ -19,9 +19,11 @@ import { onAuthStateChanged } from 'firebase/auth';
 import { auth } from './firebase';
 import { useDispatch, useSelector } from 'react-redux';
 import BusquedaDesktop from './pages/Scan/BusquedaDesktop';
-import { TraerInfoUsuario } from './assets/Utils';
+import { TraerInfoTienda, TraerInfoUsuario, TraerProductosTienda } from './assets/Utils';
 import { login } from './redux/authSlice';
 import { Usuario } from './assets/models/usuario';
+import { setProductos, setTienda } from './redux/tiendaSlice';
+import MenuCarga from './assets/MenuCarga/MenuCarga';
 
 function App() {
   const dispatch = useDispatch(); // Aquí usamos useNavigate
@@ -36,16 +38,28 @@ function App() {
     
     console.log("🚀 ~ useEffect ~ window.location.pathname.startsWith('/app'):", window.location.pathname.startsWith('/app'))
     console.log("🚀 ~ useEffect ~ authenticated:", authenticated)
-    if(window.location.pathname.startsWith('/app') && !authenticated){
+    if(window.location.pathname.startsWith('/app')){
       RedirecLoggeoAutomatico('/Home')
     }
   }, []);
   
   const GetInfoUser = async(uid:string) => {
+    RedirecLoggeoAutomatico('/Cargando')
     let resp = await TraerInfoUsuario(uid)
     if(resp){
       dispatch(login({infoUsuario:resp}))
     }
+    let resps = await TraerInfoTienda(uid)
+    if(resps){
+      console.log("🚀 ~ GetInfoUser ~ resps:", resps)
+      dispatch(setTienda({tienda:resps}))
+      let products = await TraerProductosTienda(resps?.ID_tienda)
+      if(products){
+        console.log("🚀 ~ GetInfoUser ~ resps:", products)
+        dispatch(setProductos({productos:products}))
+      }
+    }
+    RedirecLoggeoAutomatico('/Home')
   }
 
   const RedirecLoggeoAutomatico = (ruta:string) => {
@@ -63,6 +77,7 @@ function App() {
       </Route>
       <Route path='Registro' element={<Registro/>}/>
       <Route path='Login' element={<Login/>}/>
+      <Route path='Cargando' element={<MenuCarga isOpen={true}/>}/>
       
 
       <Route path="Home" element={<Navigate to="/" replace/>} />

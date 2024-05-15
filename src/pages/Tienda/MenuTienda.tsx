@@ -1,8 +1,11 @@
 import style from './MenuTienda.module.css'
 import { useState } from "react";
 import { useAppLayoutContext } from "../AppLayout"
-import { Producto } from '../../assets/models/tienda';
+import { Producto, Tienda, productoVacio, tiendaVacia } from '../../assets/models/tienda';
 import EditProducto from './EditProducto';
+import { useSelector } from 'react-redux';
+import Agregar from '../../assets/Components/Agregar';
+import EditTienda from './EditTienda';
 
 interface ShopInfo{
   name: string;
@@ -11,95 +14,121 @@ interface ShopInfo{
   busqueda: string;
   setBusqueda: React.Dispatch<React.SetStateAction<string>>;
   productos: Producto[];
+  tienda: Tienda;
 }
+
+const tiendaDefault: Tienda = 
+  {
+    ID_tienda: 'tienda_prueba',
+    nombre : 'Nombre Tienda',
+    descripcion: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Unde quo, quae aliquam delectus, non ab molestiae nam perspiciatis sapiente esse vero ullam ducimus totam, molestias enim qui. A, quidem ullam?',
+    fotos: "https://firebasestorage.googleapis.com/v0/b/nutriscan-9f5cf.appspot.com/o/TiendaTest%2Fimagen_2024-04-27_221044323.png?alt=media&token=ec5d519f-c9e4-4c73-94b6-38b68746af33",
+    direccion : 'Cll siempreviva 52',
+    enlace : 'https://www.google.com/webhp?hl=es&sa=X&ved=0ahUKEwjUn62l5YuGAxU4TTABHX8tAK0QPAgJ',
+  } as Tienda
 
 const prods: Producto[] = [
   {
     ID_producto: "1",
     referencia: "Producto",
     foto: "https://firebasestorage.googleapis.com/v0/b/nutriscan-9f5cf.appspot.com/o/TiendaTest%2Fimagen_2024-04-27_221044323.png?alt=media&token=ec5d519f-c9e4-4c73-94b6-38b68746af33",
-    titulo:'Titutlo Prueba',
+    nombre:'Titutlo Prueba',
     descripcion: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat"
   }
 ]
 
 const MenuTienda = () => {
   const {mobile} = useAppLayoutContext();
-  const [banner, setBanner] = useState<string>("https://firebasestorage.googleapis.com/v0/b/nutriscan-9f5cf.appspot.com/o/TiendaTest%2Fimagen_2024-04-27_221044323.png?alt=media&token=ec5d519f-c9e4-4c73-94b6-38b68746af33")
+  const tienda = useSelector((state:any) => state.tienda.currentTienda)
+  const productosRedux = useSelector((state:any) => state.tienda.productos)
 
   const [busqueda, setBusqueda] = useState<string>("");
-  const [productos, setProductos] = useState<Producto[]>(Array(9).fill(prods[0]));
 
   return (
     <>
-    {
-      mobile?
-      <></>:
-      <TiendaDesktop name="tienda" logo="" banner={banner}
+      <TiendaDesktop name="tienda" logo="" banner={tienda.foto ?? tiendaDefault.fotos}
         busqueda={busqueda} setBusqueda={setBusqueda}
-        productos={productos}
-      />
-    }
+        productos={productosRedux}
+        tienda={tienda}
+        />
     </>
   );
 }
 
+const TiendaDesktop = ({name, banner, logo, busqueda, setBusqueda, productos,tienda}:ShopInfo) => {
 
-
-
-const TiendaDesktop = ({name, banner, logo, busqueda, setBusqueda, productos}:ShopInfo) => {
-
+  const infoUser = useSelector((state:any) => state.auth.infoUsuario)
   const [editProd, setEditProd] = useState<boolean>(false);
+  const [editTienda, setEditTienda] = useState<boolean>(false);
+  const [indice, setIndice] = useState<number>(0);
+  const [currentTienda, setCurrentTienda] = useState<Tienda>(tienda);
+  const [currentProduct, setCurrentProduct] = useState<Producto>(productoVacio);
 
-  const onProducto = () => {
-    setEditProd(prev => !prev);
+  const onProducto = (element:Producto,indice:number) => {
+    setCurrentProduct(element)
+    setIndice(indice)
+    setEditProd((prev) => !prev);
   }
+
   
   return (
     <>{
-      editProd?
-      <EditProducto initialProducto={productos[0]} indice={0}/>
+      editProd ?
+      <EditProducto initialProducto={currentProduct} setOpen={setEditProd} indice={indice}/>
       :
-    <div className={style.main}>
-      <img src={banner} alt="banner" className={style.bannerDesk}></img>
-      <div className={style.logoSection}>
-        <div>
-          <img src='https://firebasestorage.googleapis.com/v0/b/nutriscan-9f5cf.appspot.com/o/TiendaTest%2Fimagen_2024-04-27_230305436.png?alt=media&token=6fc31812-b323-4ebd-8e72-015ceabc5d0a'
-            alt='logo tienda'/>
+      editTienda ?
+      <EditTienda initialTienda={currentTienda} setOpen={setEditTienda} indice={0}/>
+      :
+      <div className={style.main}>
+        <img src={banner} alt="banner" className={style.bannerDesk} onClick={() => {setEditTienda(true)}}></img>
+        <div className={style.logoSection}>
+          <div>
+            <img src={infoUser?.foto ? infoUser.foto : tiendaDefault.fotos} alt='logo tienda'/>
+          </div>
         </div>
-      </div>
-      <div className={style.titulo}><a >Tienda</a></div>
-      <p className={style.descripcion}>
-      Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-      incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis
-      nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-      Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore
-      eu fugiat 
-      </p>
-
-      <input type='text' value={busqueda} placeholder='Buscar producto' className={style.buscador}
-        onChange={e => setBusqueda(e.currentTarget.value)}>
-      </input>
-
-      <div className={style.presentacion}>
+        { tienda ? 
         <>
-        {
-          productos.map((v, i) => 
-            <div className={style.producto} onClick={onProducto} key={i}>
-              <img src={v.foto}></img>
-              <div>
-                <p className={style.name}>{v.referencia}</p>
-                <p className={style.desc}>{v.descripcion}</p>
+          <div className={style.titulo}><a >{tienda?.nombre ? tienda.nombre : tiendaDefault.nombre}</a></div>
+          <p className={style.descripcion}>
+            {tienda?.descripcion ? tienda.descripcion : tiendaDefault.descripcion}
+          </p>
+          <input type='text' value={busqueda} placeholder='Buscar producto' className={style.buscador} onChange={e => setBusqueda(e.currentTarget.value)}/>
+          {productos.length !== 0 && <Agregar color={'white'} background={'var(--color-5)'} style={{width: '3rem',marginLeft: 'calc(-3rem - 3px - 1.5rem)',alignSelf: 'center',top: '1rem',position: 'relative'}} className={`estiloButton`} onClick={() => onProducto(productoVacio,0)}></Agregar>}
+          <div className={style.presentacion}>
+            <>
+            {
+              productos.map((v, i) => 
+                <div className={style.producto} onClick={() => onProducto(v,i)} key={i}>
+                  <img src={v.foto}></img>
+                  <div>
+                    <p className={style.name}>{v.nombre}</p>
+                    <p className={style.desc}>{v.descripcion}</p>
+                  </div>
+                </div>
+              )
+            }
+            {productos.length === 0 && 
+              <div className={style.producto} style={{gridColumn:'2'}} onClick={() => onProducto(productoVacio,0)}>
+                <Agregar color='red' background='var(--color-2)' style={{maxWidth:'30%'}}/>
+                <div>
+                  <p className={style.name}>Agregar un producto</p>
+                  <p className={style.desc}>Click Aquí</p>
+                </div>
               </div>
-            </div>
-          )
-        }
-        </>
+            }
+            </>
+          </div>
+        </>:
+        <div className={`${style.producto} ${style.alone} estiloButton`} onClick={() => setEditTienda(true)}>
+          <Agregar color='red' background='var(--color-2)' style={{maxWidth:'30%'}}/>
+          <div>
+            <p className={style.name}>Crea tu tienda</p>
+            <p className={style.desc}>Click Aquí</p>
+          </div>
+        </div>}
       </div>
-    </div>
     }
-    </>
-  );
+    </>);
 }
 
-export default MenuTienda
+export default MenuTienda;
