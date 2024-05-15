@@ -116,6 +116,10 @@
     margin: 3svh auto;
 }
 
+.editarText{
+    text-align: center;
+}
+
 @media screen and (max-width: 768px) {
     .presentacion{
         display: flex;

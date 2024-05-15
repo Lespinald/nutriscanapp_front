@@ -3505,3 +3505,13 @@ export const categorias = [
 'Comida para perros',
 'Paquetes variados de alimentos',
 'Paquetes variados de alimentos en preparados',]
+
+
+export const nutriscoreImgs = {
+    "a": "/Scan/NutriscoreLogos/Nutri-score-A.svg",
+    "b": "/Scan/NutriscoreLogos/Nutri-score-B.svg",
+    "c": "/Scan/NutriscoreLogos/Nutri-score-C.svg",
+    "d": "/Scan/NutriscoreLogos/Nutri-score-D.svg",
+    "e": "/Scan/NutriscoreLogos/Nutri-score-E.svg",
+    "unknown": "/Scan/NutriscoreLogos/nutriscore-unknown.svg"
+  }

@@ -10,6 +10,7 @@ import { useStorge } from '../../hooks/useStorage';
 import { agregarProducto, modificarProducto } from '../../redux/tiendaSlice';
 import SelectorArray from '../../assets/Components/SelectorArray';
 import { categorias } from '../../assets/categorias';
+import Modal from '../../assets/Components/Modal';
 
 interface Props{
   initialProducto:Producto;
@@ -19,6 +20,7 @@ interface Props{
 
 const EditProducto = ({initialProducto,indice,setOpen}:Props) => {
     const [currentProducto, setCurrentProducto] = useState(initialProducto)
+    const [scan, setScan] = useState(false)
     const [changePhoto, setChangePhoto] = useState(false)
     const [photoPerfil, setPhotoPerfil] = useState(initialProducto.foto)
 
@@ -110,6 +112,7 @@ const EditProducto = ({initialProducto,indice,setOpen}:Props) => {
           },
           body: JSON.stringify({
             ID_producto: currentProducto.ID_producto,
+            referencia: currentProducto.ID_producto,
             ID_tienda: infoTienda.ID_tienda,
             nombre: currentProducto.nombre,
             descripcion: currentProducto.descripcion,
@@ -173,6 +176,9 @@ const EditProducto = ({initialProducto,indice,setOpen}:Props) => {
                 </svg>
               </p>
             </div>
+            <div className={styleMenuTienda.producto} onClick={() => setScan((prev) => !prev)} style={{width:'100%'}}>
+              <h1>Si tu producto tiene codigo de barras</h1>
+            </div>
           </div>
           <div className={`${styleFormPerfil.formulario} ${styleMenuTienda.formulario}`}>
             <form>
@@ -193,7 +199,12 @@ const EditProducto = ({initialProducto,indice,setOpen}:Props) => {
                 <button type="button" className={`${styleFormPerfil.button}`} onClick={() => setOpen(false)} style={{alignSelf:'flex-start'}}>CANCELAR</button>
             </form>
         </div>
+          {/* 2000900000000 */}
           <InputFoto isOpen={changePhoto} setIsOpen={setChangePhoto} photoPerfil={photoPerfil} setPhotoPerfil={setPhotoPerfil} perfil={false} indice={indice} HandleSaveImage={HandleSaveImage}/>
+          <Modal isOpen={scan} setIsOpen={setScan}>
+            h
+            {/* <input type='text' value={codigoBarras} placeholder='Ingrese el codigo de barras'></input> */}
+          </Modal>
         </div>
       )
 }

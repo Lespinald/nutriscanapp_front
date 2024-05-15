@@ -16,6 +16,7 @@ export interface Producto {
     descripcion: string;
     foto:string;
     categorias:string[];
+    nutriscore?:string;
 }
 
 export const tiendaVacia = {

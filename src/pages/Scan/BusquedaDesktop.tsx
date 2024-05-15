@@ -2,12 +2,20 @@ import { useNavigate } from "react-router-dom";
 import style from "./Scan.module.css"
 
 import React, { useEffect, useRef, useState } from "react";
-import { IsMobile } from "../../assets/Utils";
+import { GuardarHistorial, GuardarRegistro, IsMobile } from "../../assets/Utils";
+import { Producto } from "../../assets/models/tienda";
+import Modal from "../../assets/Components/Modal";
+import { nutriscoreImgs } from "../../assets/categorias";
+import { useSelector } from "react-redux";
 
 const BusquedaDesktop = () => {
   const [openProducto, setOpenProducto] = useState<boolean>(false);
   const [capturando, setCapturando] = useState<boolean>(false);
   const [busqueda, setBusqueda] = useState<string>('');
+  const [nutriscore, setNutriscore] = useState<string>("unknown");
+  const [notFound, setNotFound] = useState<boolean>(false);
+  const [currentProducto, setCurrentProducto] = useState<Producto>();
+  const [productos, setProductos] = useState<Producto[]>([]);
 
   const [codigo, setCodigo] = useState<string>("");
 
@@ -16,9 +24,45 @@ const BusquedaDesktop = () => {
   const videoRef = useRef<HTMLVideoElement>(document.createElement("video"));
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const ctxRef = useRef<CanvasRenderingContext2D | null>(null);
-  const navigate = useNavigate();
-  
   const oldTime = useRef<number>(0);
+  const navigate = useNavigate();
+
+  const infoUser = useSelector((state:any) => state.auth.infoUsuario)
+  
+
+  const HandleSearch = () => {
+    if(busqueda){
+      setProductos([])
+      fetch(`https://world.openfoodfacts.net/api/v2/product/${busqueda}`)
+      .then(res => {
+        if(res.ok){
+          setNotFound(false);
+          return res.json();
+        }
+        if(res.status === 404){
+          setNotFound(true);
+          return Promise.reject("404 not found");
+        }
+        return Promise.reject(res.statusText);
+      }).then(res => {
+        if(res.product){
+          console.log("🚀 ~ HandleSearch ~ res:", res)
+          let newProduct:Producto = {
+            ID_producto: res.product.categories_tags,
+            referencia: res.product.id,
+            nombre: res.product.abbreviated_product_name,
+            descripcion: "",
+            foto: res.product.image_url,
+            categorias: res.product.categories_tags,
+            nutriscore: res.product.nutriscore_grade
+          }
+          setProductos((prev) => [...prev,newProduct])
+          GuardarRegistro(newProduct)
+          GuardarHistorial(newProduct,infoUser.uid,res.product.nutriments)
+        }
+      }).catch(err => console.error(err));
+    }
+  }
 
   const InitWorker = () => {
     console.log("init worker");
@@ -112,7 +156,7 @@ const BusquedaDesktop = () => {
   return (
     <div className={style.scanMain}>
       <div className={style.barraBuscador}>
-        <input placeholder="Ingresa tu busqueda" value={busqueda} onChange={(e) => setBusqueda(e.target.value)}></input>
+        <input placeholder="Ingresa tu busqueda" value={busqueda} onChange={(e) => setBusqueda(e.target.value)} onKeyDown={(e) => {if(e.key === 'Enter'){HandleSearch()} }}></input>
         <div>
           <img className={`${style.scanTopImg} maintainRatio`} src="\Login\nutriscanLogo.png"/>
           <p>Para escanear alimentos ingresa al navegador desde un dispositivo móvi</p>
@@ -124,14 +168,26 @@ const BusquedaDesktop = () => {
           <li onClick={() => setBusqueda('aopcion')}>a</li>
         </ul>
       </div>
-      <div className={style.answerOption}>
+      {productos.map((element) => (
+        <div className={style.answerOption} key={element.ID_producto} onClick={() => {setCurrentProducto(element);setOpenProducto(true)}}>
+          <img src={element.foto} alt="Foto producto" style={{height:'15svh'}}/>
+          <h3 style={{textAlign:'start'}}>{element.nombre}</h3>
+        </div>
+      ))}
+      {productos.length === 0 && <div className={style.answerOption}>
         <h3 style={{textAlign:'start'}}>Resultado de busqueda</h3>
         <p style={{color:'black',margin:'0',textAlign:'start'}}>No se han encontrado coincidencias</p>
-      </div>
-      {openProducto && <div className={style.modal_back}>
-        <div className={style.modal_content}>
-        </div>
       </div>}
+      {openProducto && 
+        <Modal isOpen={openProducto} setIsOpen={setOpenProducto}>
+          <div>
+            <img src={currentProducto?.foto} style={{width:'100%'}}></img>
+            <h1>{currentProducto?.nombre}</h1>
+            <p>{currentProducto?.descripcion}</p>
+            <img src={nutriscoreImgs[nutriscore]} alt={`nutriscore grado ${nutriscore}`} style={{width:'100%'}}></img>
+          </div>
+        </Modal>
+      }
     </div>
   );
 }

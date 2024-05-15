@@ -3,16 +3,9 @@ import style from "./Scan.module.css"
 
 import React, { useEffect, useRef, useState } from "react";
 import { IsMobile } from "../../assets/Utils";
+import { nutriscoreImgs } from "../../assets/categorias";
 
 const Scan = () => {
-  const nutriscoreImgs = {
-    "a": "/Scan/NutriscoreLogos/Nutri-score-A.svg",
-    "b": "/Scan/NutriscoreLogos/Nutri-score-B.svg",
-    "c": "/Scan/NutriscoreLogos/Nutri-score-C.svg",
-    "d": "/Scan/NutriscoreLogos/Nutri-score-D.svg",
-    "e": "/Scan/NutriscoreLogos/Nutri-score-E.svg",
-    "unknown": "/Scan/NutriscoreLogos/nutriscore-unknown.svg"
-  }
 
   const [capturando, setCapturando] = useState<boolean>(false);
 
@@ -122,6 +115,7 @@ const Scan = () => {
   }, [capturando]);
 
   useEffect(() => {
+    console.log("🚀 ~ useEffect ~ codigo:", codigo)
     if(codigo){
       fetch(`https://world.openfoodfacts.net/api/v2/product/${codigo.split(" ")[0]}`)/*${codigo.split(" ")[0]} */
       .then(res => {
