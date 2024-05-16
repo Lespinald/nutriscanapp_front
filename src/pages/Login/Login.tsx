@@ -9,6 +9,8 @@ import { Link, useNavigate } from 'react-router-dom';
 import MenuCarga from '../../assets/MenuCarga/MenuCarga';
 import useBaseDatos from '../../storage/useBaseDatos';
 import { useStorge } from '../../hooks/useStorage';
+import { TraerInfoTienda, TraerProductosTienda } from '../../assets/Utils';
+import { setProductos, setTienda } from '../../redux/tiendaSlice';
 
 const googleProvider = new GoogleAuthProvider();
 
@@ -95,6 +97,18 @@ const Login = () => {
             )
             usuario.foto = resp,
             dispatch(login({infoUsuario:usuario}))
+            
+            let resps = await TraerInfoTienda(usuario.uid);
+            if(resps){
+            console.log("🚀 ~ GetInfoUser ~ resps:", resps);
+            dispatch(setTienda({tienda:resps}));
+            let products = await TraerProductosTienda(resps?.ID_tienda);
+            if(products){
+                console.log("🚀 ~ GetInfoUser ~ resps:", products);
+                dispatch(setProductos({productos:products}));
+            }
+            }
+
             setLoading(false)
             navigate('/app/Home')
             console.log("🚀 ~ HandleGoogle ~ usuario:", usuario)
