@@ -183,8 +183,8 @@
     gap: 10px;
 }
 
-.sectionEstadisticas div.contain_estadistics img:nth-child(n),
-.sectionProximamente div.contain_avanzado img:nth-child(n){
+.sectionEstadisticas div.contain_estadistics img,
+.sectionProximamente div.contain_avanzado img{
     height: 100%;
     width: auto;
 }
@@ -308,7 +308,7 @@
         grid-template-columns: repeat(auto-fill, minmax(45%, 1fr));
         gap: 10px !important;
     }
-    .sectionEstadisticas div.contain_estadistics img:nth-child(n){
+    .sectionEstadisticas div.contain_estadistics button:nth-child(n){
         height: auto;
         width: 100%;
     }

@@ -9,6 +9,7 @@ import { auth } from '../../firebase'
 import { logout } from '../../redux/authSlice'
 
 const MenuPerfil = () => {
+  const [showGraph, setShowGraph] = useState(false); // Estado para controlar la visualización de la gráfica de barras
   const infoUser:Usuario = useSelector((state:any) => state.auth.infoUsuario)
   const navigate = useNavigate()
   const dispatch = useDispatch()
@@ -37,6 +38,12 @@ const MenuPerfil = () => {
     dispatch(logout())
     navigate('/')
   }
+
+  const handleImageButtonClick = () => {
+    // Cambiar el estado para mostrar la gráfica de barras
+    setShowGraph(true);
+  }
+  
 
   return (
     <div className={style.fondoPerfil}>
@@ -81,15 +88,27 @@ const MenuPerfil = () => {
       </div>
         <section className={style.sectionEstadisticas}>
           <h1 className={style.estadistics}>Estadisticas</h1>
+          {showGraph ? (
+          // Mostrar la gráfica de barras si showGraph es true
+          <img src='/public/Home/Perfil/Consumo.png' alt='Gráfica de barras' className={style.mapa}></img>
+        ) : (
+          // Mostrar la imagen del mapa conceptual si showGraph es false
           <img src='/public/Home/Perfil/Mapa.png' alt='Mapa conceptual' className={style.mapa}></img>
+        )}
           <div className={style.contain_estadistics}>
-            <img src='/public/Home/Perfil/Busquedas.png' alt='Sobre tus busquedas'></img>
-            <img src='/public/Home/Perfil/Consumo.png' alt='Consumo Calorico'></img>
-            <img src='/public/Home/Perfil/Progreso.png' alt='Progreso'></img>
+            <button id="imageButton" onClick={handleImageButtonClick}>
+              <img src='/public/Home/Perfil/Busquedas.png' alt='Sobre tus busquedas'></img>
+            </button>
+            <button>
+              <img src='/public/Home/Perfil/Consumo.png' alt='Consumo Calorico'></img>
+            </button>
+            <button>
+              <img src='/public/Home/Perfil/Progreso.png' alt='Progreso'></img>
+            </button>
           </div>
         </section>
     </div>
   )
 }
 
-export default MenuPerfil
+export default MenuPerfil 
