@@ -2,8 +2,10 @@ import { useNavigate } from "react-router-dom";
 import style from "./Scan.module.css"
 
 import React, { useEffect, useRef, useState } from "react";
-import { IsMobile } from "../../assets/Utils";
+import { GuardarHistorial, GuardarRegistro, IsMobile } from "../../assets/Utils";
 import { nutriscoreImgs } from "../../assets/categorias";
+import { Producto } from "../../assets/models/tienda";
+import { useSelector } from "react-redux";
 
 const Scan = () => {
 
@@ -20,6 +22,7 @@ const Scan = () => {
   const ctxRef = useRef<CanvasRenderingContext2D | null>(null);
   const navigate = useNavigate();
   
+  const infoUser = useSelector((state:any) => state.auth.infoUsuario)
   const oldTime = useRef<number>(0);
 
   const InitWorker = () => {
@@ -128,8 +131,23 @@ const Scan = () => {
           return Promise.reject("404 not found");
         }
         return Promise.reject(res.statusText);
-      }).then(res => {
-        console.log(res);
+      }).then(async res => {
+        if(res.product){
+          console.log(res);
+          let newProduct:Producto = {
+            ID_producto: res.product.id,
+            referencia: res.product.id,
+            nombre: res.product.product_name,
+            descripcion: "",
+            foto: res.product.image_url,
+            categorias: res.product.categories_tags,
+            nutriscore: res.product.nutriscore_grade
+          }
+          GuardarRegistro(newProduct).then((ID) => {
+            console.log("🚀 ~ GuardarRegistro Then ~ ID:", ID)
+            GuardarHistorial(newProduct,infoUser.uid,res.product.nutriments,ID)
+          })
+        }
         if(res.product && res.product.nutriscore_grade){
           setNutriscore(res.product.nutriscore_grade);
         }else{

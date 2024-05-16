@@ -118,99 +118,111 @@ export async function TraerProductosTienda(idTienda: string): Promise<Producto[]
 
 export const GuardarRegistro = async (newProduct: Producto) => {
   try {
-    const respuesta = await fetch(`https://api.nutriscan.com.co/api/productos/${newProduct.ID_producto}`);
+    const respuesta = await fetch(`https://api.nutriscan.com.co/api/productosreferencia/${newProduct.referencia}`);
+    console.log("🚀 ~ GuardarRegistro ~ respuesta:", respuesta)
     if (!respuesta.ok) {
-      console.log("No existe este producto");
-      CrearProducto(newProduct)
-      return ''
+      console.error("No existe este producto");
+      let datos:any = await CrearProducto(newProduct);
+      console.log("🚀 ~ GuardarRegistro ~ datos:", datos)
+      return datos
     }
 
     const datos = await respuesta.json();
     
     if (datos.length !== 0) {
-      return datos.ID_producto;
+      console.log("🚀 ~ GuardarRegistro ~ datos:", datos)
+      console.log("🚀 ~ GuardarRegistro ~ datos.ID_producto:", datos[0].ID_producto)
+      return datos[0].ID_producto;
     } else {
-      console.log("No existe este producto");
-      CrearProducto(newProduct)
-      return '';
+      console.error("No existe este producto");
+      let datos:any = await CrearProducto(newProduct);
+      console.log("🚀 ~ GuardarRegistro ~ datos:", datos)
+      return datos
     }
   } catch (error) {
     console.error('No existe este producto');
-    CrearProducto(newProduct)
-    return '';
+    let datos:any = await CrearProducto(newProduct);
+    console.log("🚀 ~ GuardarRegistro ~ datos:", datos)
+    return datos
   }
 }
 
-export const CrearProducto = (newProduct:Producto) => {
-  console.log("🚀 ~ CrearProducto:", JSON.stringify({
-    ID_producto: 8,
+export async function CrearProducto(newProduct: Producto): Promise<string | null> {
+  console.log("🚀 ~ CrearProducto ~ JSON.stringify:", JSON.stringify({
     referencia: newProduct.referencia,
     nombre: newProduct.nombre,
     descripcion: newProduct.descripcion,
     foto: newProduct.foto,
   }))
-  fetch( `https://api.nutriscan.com.co/api/productos`, {
+  try {
+    const respuesta = await fetch(`https://api.nutriscan.com.co/api/productos`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-        ID_producto: 8,
         referencia: newProduct.referencia,
         nombre: newProduct.nombre,
         descripcion: newProduct.descripcion,
         foto: newProduct.foto,
       })
-    })
-    .then(respuesta => {
-      console.log("🚀 ~ HandleRegistro ~ respuesta:", respuesta)
-      if (!respuesta.ok) {
-        throw new Error('Error en la solicitud');
-      }
-      return respuesta.json()
-    })
-    .then(async(datos) => {
-      alert('Modificado Exitosamente')
-    })
-    .catch(error => {
-      console.error('Error en la solicitud fetch:', error);
-      // Aquí puedes manejar el error como desees, por ejemplo, mostrar un mensaje al usuario
     });
-}
 
-export const GuardarHistorial = (newProduct:Producto,uid:string,nutriments:any) => {
-  console.log("🚀 ~ GuardarHistorial ~ JSON.stringify:", JSON.stringify({
-    ID_dia: 1,
-    uid: uid,
-    ID_producto: newProduct.nombre,
-    fecha: new Date(),
-    comido: false,
-    calorias: nutriments.energy,
-  }))
-  fetch( `https://api.nutriscan.com.co/api/historiales`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({
-      ID_dia: 1,
-      uid: uid,
-      ID_producto: 8,
-      fecha: new Date(),
-      comido: false,
-      calorias: nutriments.energy,
-    })
-  })
-  .then(respuesta => {
-    console.log("🚀 ~ HandleRegistro ~ respuesta:", respuesta)
     if (!respuesta.ok) {
       throw new Error('Error en la solicitud');
     }
-    alert('Guardado historial')
-    return respuesta.json()
-  })
-  .catch(error => {
+
+    const datos = await respuesta.json();
+    console.log("🚀 ~ CrearProducto ~ datos:", datos);
+    
+    if (datos && datos.ID_producto) {
+      console.log('Producto creado exitosamente');
+      return datos.ID_producto;
+    } else {
+      console.error('El ID del producto no se encontró en los datos devueltos');
+      return null;
+    }
+  } catch (error) {
     console.error('Error en la solicitud fetch:', error);
+    return null;
     // Aquí puedes manejar el error como desees, por ejemplo, mostrar un mensaje al usuario
-  });
+  }
 }
+
+export const GuardarHistorial = async (newProduct: Producto, uid: string, nutriments: any, ID: string) => {
+  console.log("🚀 ~ GuardarHistorial ~ ID:", ID);
+  console.log("🚀 ~ GuardarHistorial ~ JSON.stringify:", JSON.stringify({
+    uid: uid,
+    ID_producto: ID,
+    fecha: new Date(),
+    comido: false,
+    calorias: nutriments.energy,
+  }));
+  try {
+    const respuesta = await fetch(`https://api.nutriscan.com.co/api/historiales`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        uid: uid,
+        ID_producto: ID,
+        fecha: new Date(),
+        comido: false,
+        calorias: nutriments.energy,
+      })
+    });
+
+    if (!respuesta.ok) {
+      throw new Error('Error en la solicitud');
+    }
+
+    alert('Guardado historial');
+
+    return respuesta.json();
+  } catch (error) {
+    console.error('Error en la solicitud fetch:', error);
+    // Here you can handle the error as you wish, for example, displaying a message to the user
+    return null;
+  }
+};

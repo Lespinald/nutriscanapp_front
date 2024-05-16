@@ -28,9 +28,44 @@ const BusquedaDesktop = () => {
   const navigate = useNavigate();
 
   const infoUser = useSelector((state:any) => state.auth.infoUsuario)
-  
 
   const HandleSearch = () => {
+    if (!(/^\d+$/.test(busqueda))) {
+      // Busqueda contains only numeric characters
+      console.log("Consulta por nombre.");
+      fetch(`https://api.nutriscan.com.co/api/productosnombre/${busqueda}`).
+      then(res => {
+        if(res.ok){
+          setNotFound(false);
+          return res.json();
+        }
+        if(res.status === 404){
+          setNotFound(true);
+          return Promise.reject("404 not found");
+        }
+        return Promise.reject(res.statusText);
+      }).then(res => {
+        console.log("🚀 ~ HandleSearch ~ res:", res);
+        const productos: Producto[] = res.map((item: any) => {
+          const { ID_producto, referencia, nombre, descripcion, foto, categorias, nutriscore } = item;
+          return {
+            ID_producto,
+            referencia,
+            nombre,
+            descripcion,
+            foto,
+            categorias,
+            nutriscore
+          } as Producto;
+        });
+        console.log("Productos:", productos);
+        
+        // Set the productos array to the state
+        setProductos(productos);
+      }).catch(err => console.error(err));
+      return;
+    }
+	
     if(busqueda){
       setProductos([])
       fetch(`https://world.openfoodfacts.net/api/v2/product/${busqueda}`)
@@ -48,17 +83,19 @@ const BusquedaDesktop = () => {
         if(res.product){
           console.log("🚀 ~ HandleSearch ~ res:", res)
           let newProduct:Producto = {
-            ID_producto: res.product.categories_tags,
+            ID_producto: res.product.id,
             referencia: res.product.id,
-            nombre: res.product.abbreviated_product_name,
+            nombre: res.product.product_name,
             descripcion: "",
             foto: res.product.image_url,
             categorias: res.product.categories_tags,
             nutriscore: res.product.nutriscore_grade
           }
           setProductos((prev) => [...prev,newProduct])
-          GuardarRegistro(newProduct)
-          GuardarHistorial(newProduct,infoUser.uid,res.product.nutriments)
+          GuardarRegistro(newProduct).then((ID) => {
+            console.log("🚀 ~ GuardarRegistro Then ~ ID:", ID)
+            GuardarHistorial(newProduct,infoUser.uid,res.product.nutriments,ID)
+          })
         }
       }).catch(err => console.error(err));
     }

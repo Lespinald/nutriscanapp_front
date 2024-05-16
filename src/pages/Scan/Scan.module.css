@@ -98,7 +98,7 @@
 }
 
 .barraBuscador{
-  width: 100%;
+  width: 100% !important;
   padding: 2%;
   background-color: #44A9F2;
   border-radius: 15px;
@@ -160,7 +160,7 @@
 }
 
 .answerOption{
-  width: 100%;
+  width: 100% !important;
   background-color: white;
   box-shadow: -3px 3px 5px rgb(0, 0, 0, 0.5);
   padding: 2%;
