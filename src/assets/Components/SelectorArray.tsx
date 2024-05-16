@@ -8,9 +8,10 @@ interface Props{
             value: any;
         };
     }) => void;
+    placeholder?:string;
 }
 
-const SelectorArray = ({opciones,current,setCurrent}:Props) => {
+const SelectorArray = ({opciones,current,setCurrent,placeholder}:Props) => {
   const [open, setOpen] = useState(false);
   const [busqueda, setBusqueda] = useState('');
 
@@ -36,7 +37,7 @@ const SelectorArray = ({opciones,current,setCurrent}:Props) => {
             {current.map((current) => (
                 <p>{current}</p>
             ))}
-            {current.length === 0 && <label style={{width:'100%',background:'rgb(0,0,0,0.5)'}}>Elije una categoria</label>}
+            {current.length === 0 && <label style={{width:'100%',background:'rgb(0,0,0,0.25)'}}>{placeholder ?? 'Elije una categoria'}</label>}
         </div>
         <div className="modal_background" style={!open ? {display:'none'}:{}} onClick={() => setOpen(false)}>
             <div className="modal_content" onClick={(e) => {e.stopPropagation()}}>

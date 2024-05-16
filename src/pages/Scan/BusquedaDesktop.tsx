@@ -1,5 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import style from "./Scan.module.css"
+import styleFormPerfil from "../Personal/FormPerfil.module.css"
 
 import React, { useEffect, useRef, useState } from "react";
 import { GuardarHistorial, GuardarRegistro, IsMobile } from "../../assets/Utils";
@@ -7,6 +8,7 @@ import { Producto } from "../../assets/models/tienda";
 import Modal from "../../assets/Components/Modal";
 import { nutriscoreImgs } from "../../assets/categorias";
 import { useSelector } from "react-redux";
+import SelectorArray from "../../assets/Components/SelectorArray";
 
 const BusquedaDesktop = () => {
   const [openProducto, setOpenProducto] = useState<boolean>(false);
@@ -59,8 +61,6 @@ const BusquedaDesktop = () => {
           } as Producto;
         });
         console.log("Productos:", productos);
-        
-        // Set the productos array to the state
         setProductos(productos);
       }).catch(err => console.error(err));
       return;
@@ -196,7 +196,7 @@ const BusquedaDesktop = () => {
         <input placeholder="Ingresa tu busqueda" value={busqueda} onChange={(e) => setBusqueda(e.target.value)} onKeyDown={(e) => {if(e.key === 'Enter'){HandleSearch()} }}></input>
         <div>
           <img className={`${style.scanTopImg} maintainRatio`} src="\Login\nutriscanLogo.png"/>
-          <p>Para escanear alimentos ingresa al navegador desde un dispositivo móvi</p>
+          <p>Para escanear alimentos ingresa al navegador desde un dispositivo móvil</p>
         </div>
         <ul>
           <li onClick={() => setBusqueda('aopcion')}>a</li>
@@ -208,7 +208,10 @@ const BusquedaDesktop = () => {
       {productos.map((element) => (
         <div className={style.answerOption} key={element.ID_producto} onClick={() => {setCurrentProducto(element);setOpenProducto(true)}}>
           <img src={element.foto} alt="Foto producto" style={{height:'15svh'}}/>
-          <h3 style={{textAlign:'start'}}>{element.nombre}</h3>
+          <h2 style={{textAlign:'start',alignSelf:'flex-start'}}>
+            {element.nombre} <br></br>
+            <span style={{fontWeight:'400'}}>{element.descripcion}</span>
+          </h2>
         </div>
       ))}
       {productos.length === 0 && <div className={style.answerOption}>
@@ -217,11 +220,25 @@ const BusquedaDesktop = () => {
       </div>}
       {openProducto && 
         <Modal isOpen={openProducto} setIsOpen={setOpenProducto}>
-          <div>
-            <img src={currentProducto?.foto} style={{width:'100%'}}></img>
-            <h1>{currentProducto?.nombre}</h1>
-            <p>{currentProducto?.descripcion}</p>
-            <img src={nutriscoreImgs[nutriscore]} alt={`nutriscore grado ${nutriscore}`} style={{width:'100%'}}></img>
+          <div className={style.answerOption} style={{justifyContent:'flex-start', boxShadow:'none'}}>
+            <img src={currentProducto?.foto} style={{height:'15svh'}}></img>
+            <h2 style={{textAlign:'start',alignSelf:'flex-start', flex:'1'}}>
+              {currentProducto?.nombre} <br></br>
+              <span style={{fontWeight:'400'}}>{currentProducto?.descripcion}</span>
+            </h2>
+            <div className={style.answerOption} style={{boxShadow:'none',padding:'5% 0',justifyContent:'flex-start',alignItems:'flex-start'}}>
+              <img src={nutriscoreImgs[nutriscore]} alt={`nutriscore grado ${nutriscore}`} style={{width:'30%'}}></img>
+              <div style={{flex:'1'}}>
+                <p className={style.infoExtra}>Nutriscore: <span style={{fontWeight:'600'}}>{currentProducto?.nutriscore}</span></p>
+                <p className={style.infoExtra}>Referencia: <span style={{fontWeight:'600'}}>{currentProducto?.referencia}</span></p>
+                <div className={styleFormPerfil.campo} style={{gridTemplateColumns:'none'}}>
+                  <label htmlFor="Categoría" style={{color:'var(--color-6)',marginRight:'10px',textAlign:'start',fontSize:'3svh',fontWeight:'400'}}> Categoría: </label>
+                  <SelectorArray placeholder='No hay categorias' opciones={currentProducto?.categorias ?? []} current={currentProducto?.categorias ?? []} setCurrent={function (fieldName: string, response?: string | string[] | undefined): (e: { target: { value: any; }; }) => void {
+                    throw new Error("Function not implemented.");
+                  } } />
+                </div>
+              </div>
+            </div>
           </div>
         </Modal>
       }
