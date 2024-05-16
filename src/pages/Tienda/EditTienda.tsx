@@ -91,25 +91,23 @@ const EditTienda = ({initialTienda: initialProducto,indice,setOpen}:Props) => {
     }
 
     const HandleGuardarCambios = () => {
-      console.log(JSON.stringify({
-        ID_tienda: currentTienda.nombre,
+      console.log({
         uid: infoUser?.uid,
         nombre: currentTienda.nombre,
         fechaSuscripcion: currentTienda.fechaSuscripcion,
         direccion: currentTienda.direccion,
         enlace: currentTienda.enlace,
-      }))
+      })
       if(!areObjectsEqual(tiendaVacia,currentTienda)){
-        var resp = fetch( areObjectsEqual(tiendaVacia,initialProducto) ? `https://api.nutriscan.com.co/api/tiendas` : `https://api.nutriscan.com.co/api/tiendas/${currentTienda.ID_tienda}`, {
-          method: areObjectsEqual(tiendaVacia,initialProducto) ? 'POST': 'PUT',
+        var resp = fetch(`https://api.nutriscan.com.co/api/tiendas`, {
+          method: 'POST',
           headers: {
             'Content-Type': 'application/json'
           },
           body: JSON.stringify({
-            ID_tienda: 1,
             uid: infoUser?.uid,
             nombre: currentTienda.nombre,
-            fechaSuscripcion: currentTienda.fechaSuscripcion,
+            fechaSuscripcion: infoUser.fechaSuscripcion,
             direccion: currentTienda.direccion,
             enlace: currentTienda.enlace,
             descripcion: currentTienda.descripcion,
@@ -119,7 +117,7 @@ const EditTienda = ({initialTienda: initialProducto,indice,setOpen}:Props) => {
         .then(respuesta => {
           console.log("🚀 ~ HandleRegistro ~ respuesta:", respuesta)
           if (!respuesta.ok) {
-            throw new Error('Error en la solicitud');
+            throw respuesta.json();
           }
           return respuesta.json()
         })
@@ -128,8 +126,10 @@ const EditTienda = ({initialTienda: initialProducto,indice,setOpen}:Props) => {
           dispatch(setTienda({tienda:currentTienda}))
         })
         .catch(error => {
-          console.error('Error en la solicitud fetch:', error);
-          alert('Error actualizar en base de datos')
+          error.then(res => {
+            console.error('Error en la solicitud fetch:', res);
+            alert('Error actualizar en base de datos')
+          })
           // Aquí puedes manejar el error como desees, por ejemplo, mostrar un mensaje al usuario
         });
         return resp
