@@ -107,6 +107,7 @@ const MenuPerfil = () => {
       </div>
         <section className={style.sectionEstadisticas}>
           <h1 className={style.estadistics}>Estadisticas</h1>
+          <div>
           {showGraph ? (
             // Si showGraph es verdadero, mostrar la gráfica correspondiente
             bandera === 'busquedas' ? (
@@ -115,11 +116,12 @@ const MenuPerfil = () => {
             <GraphCalorias />
           ) : bandera === 'progreso' ? (
             <GraphProgreso />
-        ) : null // No se renderiza nada si bandera no es busquedas ni calorias ni progreso
-      ) : (
+          ) : null // No se renderiza nada si bandera no es busquedas ni calorias ni progreso
+        ) : (
         // Mostrar la imagen del mapa conceptual si showGraph es falso
-        <img src='/public/Home/Perfil/Mapa.png' alt='Mapa conceptual' className={style.mapa}></img>
-        )}
+          <img src='/public/Home/Perfil/Mapa.png' alt='Mapa conceptual' className={style.mapa}></img>
+          )}
+          </div>
           <div className={style.contain_estadistics}>
             <button id="BusquedaButton" onClick={handleBusquedaButtonClick}>
               <img src='/public/Home/Perfil/Busquedas.png' alt='Sobre tus busquedas'></img>
