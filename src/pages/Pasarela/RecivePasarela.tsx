@@ -10,6 +10,7 @@ const RecivePasarela = () => {
 
   const [searchParams] = useSearchParams()
   const [nombre, setNombre] = useState(searchParams.get('nombre'))
+  const [id, setID] = useState(searchParams.get('id'))
 
   const condicionesTienda = [
     "Incluye recomendaciones basadas en tus preferencias",

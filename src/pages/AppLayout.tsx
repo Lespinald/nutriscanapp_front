@@ -9,6 +9,7 @@ import ProfileLogo from "../assets/Components/ProfileLogo";
 import { useSelector } from "react-redux";
 import TiendaLogo from "../assets/Components/TiendaLogo";
 import MenuLogo from "../assets/Components/MenuLogo";
+import { auth } from "../firebase";
 
 type AppLayoutContext = {
   size: {width: number, height: number};
@@ -17,9 +18,8 @@ type AppLayoutContext = {
 
 const AppLayout = () => {
   
-  const authenticated = useSelector((state:any) => state.auth.status === 'authenticated')
-  const infoUsuario = useSelector((state:any) => state.auth.infoUsuario)
-  const navigate = useNavigate()
+  const infoUsuario = useSelector((state:any) => state.auth.infoUsuario);
+  const navigate = useNavigate();
 
   const layout = useRef<HTMLElement>(null)
   const [layoutHeight, setLayoutHeight] = useState<number>(64);
@@ -43,10 +43,9 @@ const AppLayout = () => {
   }
 
   useEffect(() => {
-    console.log("🚀 ~ useEffect ~ authenticated:", authenticated)
-    if(!authenticated || infoUsuario === null){
-      console.log("🚀 ~ useEffect ~ authenticated:", authenticated)
-      navigate('/')
+
+    if(!auth.currentUser){
+      navigate("/")
     }
 
     if(layout.current) observer.observe(layout.current)
@@ -70,7 +69,9 @@ const AppLayout = () => {
       }
     </nav>
     <div className={style.outlet} style={{marginTop: `${layoutHeight}px`}}>
-      <Outlet context={{size, mobile} satisfies AppLayoutContext} />
+      {infoUsuario &&
+        <Outlet context={{size, mobile} satisfies AppLayoutContext} />
+      }
     </div>
     </>
   );
