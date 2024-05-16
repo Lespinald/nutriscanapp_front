@@ -194,7 +194,7 @@ const Scan = () => {
         {codigo?
         <>
         {notFound?
-        <p>No tenemos datos de este producto aun</p>
+        <p className={style.textoVerde}>No tenemos datos de este producto aun</p>
         :
         <img src={nutriscoreImgs[nutriscore]} alt={`nutriscore grado ${nutriscore}`}></img>
         }

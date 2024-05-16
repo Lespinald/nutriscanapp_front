@@ -134,7 +134,7 @@ button:active{
   max-height: 50svh;
   height: fit-content;
   width: fit-content;
-  max-width: 40svw;
+  max-width: 80svw;
   overflow: hidden;
   overflow-y: auto;
   background-color: white;

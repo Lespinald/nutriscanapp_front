@@ -31,7 +31,7 @@
   color: black;
   background-color: #2F48582F;
 }
-.scanMain p{
+.scanMain p.textoVerde{
   color: var(--color-3);
   font-size: 1.1rem;
   font-weight: 400;
@@ -163,7 +163,12 @@
   width: 100% !important;
   background-color: white;
   box-shadow: -3px 3px 5px rgb(0, 0, 0, 0.5);
-  padding: 2%;
+  padding: 5%;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: center;
+  justify-content: center;
 }
 
 .modal_back{
@@ -193,6 +198,13 @@
   color: white;
 }
 
+.infoExtra{
+  color: var(--color-6);
+  font-weight: 400;
+  font-size: 3svh;
+  text-align: start;
+}
+
 @media (min-aspect-ratio: 9/8) {
   .scanMain{
     align-items: flex-start;
@@ -220,6 +232,10 @@
   }
   .videoDisplay canvas{
     max-height: 85svh;
+  }
+
+  .answerOption{
+    justify-content: flex-start;
   }
 
 }
