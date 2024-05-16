@@ -181,6 +181,8 @@
     flex: 1;
     overflow: hidden;
     gap: 10px;
+    width: 100%;
+    justify-content: center;
 }
 
 .sectionEstadisticas div.contain_estadistics img,
@@ -308,7 +310,7 @@
         grid-template-columns: repeat(auto-fill, minmax(45%, 1fr));
         gap: 10px !important;
     }
-    .sectionEstadisticas div.contain_estadistics button:nth-child(n){
+    .sectionEstadisticas div.contain_estadistics img{
         height: auto;
         width: 100%;
     }
