@@ -13,7 +13,7 @@
 }
 .fondoPerfil .div1:nth-child(1){
     width: fit-content;
-    max-width: 45svw;
+    max-width: 35svw;
     display:flex;
     flex-direction: column;
 }

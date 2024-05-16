@@ -2,32 +2,40 @@
 export interface Tienda {
     ID_tienda: string;
     nombre : string;
-    fechaSuscripcion : string ;
+    fechaSuscripcion? : string ;
     direccion : string;
     enlace : string;
+    fotos? : string;
+    descripcion? : string;
 }
 
 export interface Producto {
     ID_producto: string;
     referencia: string;
-    titulo: string;
+    nombre: string;
     descripcion: string;
     foto:string;
+    categorias:string[];
+    nutriscore?:string;
 }
 
 export const tiendaVacia = {
     ID_tienda: '',
     nombre : '',
-    fechaSuscripcion : '',
+    fechaSuscripcion : formatDate(new Date(0)),
     direccion : '',
     enlace : '',
+    descripcion : '',
+    fotos : '',
 } as Tienda;
 
 export const productoVacio = {
     ID_producto: '',
+    nombre: '',
     referencia: '',
     descripcion: '',
     foto:'',
+    categorias:[],
 } as Producto;
 
 

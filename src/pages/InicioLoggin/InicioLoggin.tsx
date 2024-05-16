@@ -21,7 +21,7 @@ const InicioLoggin = () => {
     referencia:'none',
     foto:'https://firebasestorage.googleapis.com/v0/b/nutriscan-9f5cf.appspot.com/o/TiendaTest%2Fimagen_2024-04-27_221044323.png?alt=media&token=ec5d519f-c9e4-4c73-94b6-38b68746af33',
     descripcion:'Lorem ipsum dolor sit, amet consectetur adipisicing elit. Alias, mollitia aliquam? Incidunt vero repellendus quo eligendi illo, dicta voluptates magnam id impedit quibusdam assumenda earum aperiam. Deserunt laborum nostrum asperiores.',
-    titulo:'Prueba 1'
+    nombre:'Prueba 1'
   } as Producto
 
   useEffect(() => {
@@ -50,7 +50,7 @@ const InicioLoggin = () => {
               <img src={product.foto} style={{width:'100%'}}/>
             </div>
             <p className={style.textoProducto}>
-              <span>{product.titulo}</span><br></br>
+              <span>{product.nombre}</span><br></br>
               {product.descripcion}
             </p>
           </div>

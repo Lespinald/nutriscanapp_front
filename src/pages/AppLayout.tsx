@@ -32,12 +32,11 @@ const AppLayout = () => {
   });
 
   const GetTipoSuscripcion = ():string => {
-    if(infoUsuario.tipoSuscripcion === 'gratis'){
-      console.log("🚀 ~ GetTipoSuscripcion ~ FREE:")
+    if(infoUsuario?.tipoSuscripcion === 'gratis'){
       return 'FREE'
     }else{
-      if(infoUsuario.fechaSuscripcion < new Date()){
-        return infoUsuario.tipoSuscripcion 
+      if(infoUsuario?.fechaSuscripcion < new Date()){
+        return infoUsuario?.tipoSuscripcion 
       }
       return 'FREE'
     }
@@ -95,7 +94,7 @@ const DesktopLayout = ({tipoSuscripcion}:Props) => {
       <Link to="/app/Perfil" style={{padding: "0 0.8rem"}}>
         <ProfileLogo style={{stroke: "inherit"}}/>
       </Link>
-      <Link to={tipoSuscripcion === 'tienda' ? "/app/Tienda" : "/app/ComprarTienda"} className={`${style.registerLink} ${style.miTienda}`}>
+      <Link to={tipoSuscripcion !== 'tienda' ? "/app/Tienda" : "/app/ComprarTienda"} className={`${style.registerLink} ${style.miTienda}`}>
         <TiendaLogo height="auto" width="3svh"></TiendaLogo>
         <p style={{width:'max-content'}}>Mi Tienda</p>
       </Link>

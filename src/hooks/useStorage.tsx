@@ -5,8 +5,8 @@ import { UploadTaskSnapshot, getDownloadURL, ref, uploadBytes } from 'firebase/s
 
 export const useStorge = () => {
 
-    const agregarImg = async (ruta: string, file: Blob): Promise<void> => {
-        const storageRef = ref(storage, ruta + '/fotoPerfil.png');
+    const agregarImg = async (ruta: string, file: Blob,name:string): Promise<void> => {
+        const storageRef = ref(storage, ruta + `/${name}.png`);
         const uploadTask = uploadBytes(storageRef, file);
     
         try {

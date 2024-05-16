@@ -7,6 +7,7 @@ import { IsMobile } from '../../assets/Utils'
 import { useDispatch, useSelector } from 'react-redux'
 import { Usuario, formatDate } from '../../assets/models/usuario'
 import { editPerfil, login } from '../../redux/authSlice'
+import { useStorge } from '../../hooks/useStorage'
 
 const FormPerfil = () => {
   const infoUser:Usuario = useSelector((state:any) => state.auth.infoUsuario)
@@ -16,6 +17,11 @@ const FormPerfil = () => {
   const [changePhoto, setChangePhoto] = useState(false)
   const [photoPerfil, setPhotoPerfil] = useState('')
   const navigate = useNavigate()
+  
+  const {
+    agregarImg,
+    obtenerURL
+  } = useStorge();
 
   const HandleInputChange = (fieldName: string) => (e: { target: { value: any } }) => {
     // Si el campo es 'fechaDeNacimiento', convertir el valor a un objeto Date
@@ -100,6 +106,77 @@ const FormPerfil = () => {
     }
   }
 
+  
+  const HandleSaveImage = async (image) => {
+      const response = await fetch(image);
+      if (!response.ok) {
+          throw new Error('Error al descargar la imagen');
+      }
+      
+      // Convierte la respuesta en un blob
+      const blob = await response.blob();
+      
+      // Sube la imagen a Firebase Storage usando la función agregarImg
+      try {
+        const picture = await agregarImg(infoUser.uid, blob, 'fotoPerfil');
+        console.log("🚀 ~ HandleSaveImage ~ infoUser.uid:", infoUser.uid)
+        console.log("Imagen subida exitosamente");
+        console.log("🚀 ~ HandleSaveImage ~ picture:", picture)
+        console.log("🚀 ~ HandleSaveImage ~ image:", image)
+        const resp = await obtenerURL(`${infoUser.uid}/fotoPerfil.png`).then(
+          (response) =>{
+            let copy = {...infoUser}
+            copy.foto = response
+            dispatch(editPerfil({infoUsuario:copy}))
+            HandleGuardarCambioImagen(copy)
+            setPhotoPerfil(response);
+          }
+        )
+      } catch (error) {
+        console.error('Error al subir la imagen a Firebase:', error);
+      }
+      setChangePhoto(false);
+  }
+
+  const HandleGuardarCambioImagen = (infoPerfil:Usuario) => {
+    console.log(JSON.stringify({
+      ...infoPerfil
+    }))
+    var resp = fetch(`https://api.nutriscan.com.co/api/usuarios/${infoUser?.uid}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        nombre: infoPerfil.nombre,
+        fechaSuscripcion: infoPerfil.fechaSuscripcion,
+        fechaDeNacimiento: infoPerfil.fechaDeNacimiento,
+        foto: infoPerfil.foto,
+        telefono: infoPerfil.telefono,
+        altura: infoPerfil.altura,
+        peso: infoPerfil.peso
+      })
+    })
+    .then(respuesta => {
+      console.log("🚀 ~ HandleRegistro ~ respuesta:", respuesta)
+      if (!respuesta.ok) {
+        throw new Error('Error en la solicitud');
+      }
+      return respuesta.json()
+    })
+    .then(async(datos) => {
+      console.log("🚀 ~ HandleRegistro ~ datos:", datos as Usuario)
+      console.log("🚀 ~ HandleGuardarCambios ~ infoPerfil:", infoPerfil)
+      alert('Guardado Foto Exitosamente')
+    })
+    .catch(error => {
+      console.error('Error en la solicitud fetch:', error);
+      alert('Error actualizar en base de datos')
+      // Aquí puedes manejar el error como desees, por ejemplo, mostrar un mensaje al usuario
+    });
+    return resp
+  }
+
   return (
     <div className={styleMenuPerfil.fondoPerfil}>
       <div className={`${styleMenuPerfil.div1} ${style.firstColumna}`}>
@@ -163,7 +240,7 @@ const FormPerfil = () => {
             <button type="button" className={`${style.button} ${true ? style.desactivado : ''}`}>Cambiar Contraseña</button>
         </form>
     </div>
-      <InputFoto isOpen={changePhoto} setIsOpen={setChangePhoto} photoPerfil={photoPerfil} setPhotoPerfil={setPhotoPerfil} perfil={true}/>
+      <InputFoto isOpen={changePhoto} setIsOpen={setChangePhoto} photoPerfil={photoPerfil} setPhotoPerfil={setPhotoPerfil} perfil={true} HandleSaveImage={HandleSaveImage}/>
     </div>
   )
 }

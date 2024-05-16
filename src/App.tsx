@@ -19,13 +19,16 @@ import { onAuthStateChanged } from 'firebase/auth';
 import { auth } from './firebase';
 import { useDispatch, useSelector } from 'react-redux';
 import BusquedaDesktop from './pages/Scan/BusquedaDesktop';
-import { TraerInfoUsuario } from './assets/Utils';
+import { TraerInfoTienda, TraerInfoUsuario, TraerProductosTienda } from './assets/Utils';
 import { login } from './redux/authSlice';
 import { Usuario } from './assets/models/usuario';
+import { setProductos, setTienda } from './redux/tiendaSlice';
+import MenuCarga from './assets/MenuCarga/MenuCarga';
 
 function App() {
   const dispatch = useDispatch(); // Aquí usamos useNavigate
   const navigate = useNavigate(); // Aquí usamos useNavigate
+  const [loading, setLoading] = useState(false)
   const authenticated = useSelector((state:any) => state.auth.status === 'authenticated')
 
   useEffect(() => {
@@ -34,52 +37,63 @@ function App() {
       GetInfoUser(auth.currentUser.uid)
     }
     
-    console.log("🚀 ~ useEffect ~ window.location.pathname.startsWith('/app'):", window.location.pathname.startsWith('/app'))
-    console.log("🚀 ~ useEffect ~ authenticated:", authenticated)
-    if(window.location.pathname.startsWith('/app') && !authenticated){
-      RedirecLoggeoAutomatico('/Home')
-    }
   }, []);
   
   const GetInfoUser = async(uid:string) => {
-    let resp = await TraerInfoUsuario(uid)
+    setLoading(true)
+    let resp = await TraerInfoUsuario(uid);
     if(resp){
-      dispatch(login({infoUsuario:resp}))
+      dispatch(login({infoUsuario:resp}));
     }
+    let resps = await TraerInfoTienda(uid);
+    if(resps){
+      console.log("🚀 ~ GetInfoUser ~ resps:", resps);
+      dispatch(setTienda({tienda:resps}));
+      let products = await TraerProductosTienda(resps?.ID_tienda);
+      if(products){
+        console.log("🚀 ~ GetInfoUser ~ resps:", products);
+        dispatch(setProductos({productos:products}));
+      }
+    }
+    setLoading(false)
   }
-
+  
   const RedirecLoggeoAutomatico = (ruta:string) => {
     // Redirigir al usuario a la página de inicio de sesión usando navigate
     navigate(ruta, { replace: true });
   }
 
   return (
-    <Routes>
-      <Route element={authenticated?<AppLayout/>:<Layout/>}>
-        <Route path=':section?' element={<Home/>}/>
-        <Route path='/pago/:info' element={<Checkout/>}/>
-        <Route path='/responseFactura' element={<RecivePasarela/>}/>
-        <Route path='/ComprarTienda' element={<ComprarTienda/>}/>
-      </Route>
-      <Route path='Registro' element={<Registro/>}/>
-      <Route path='Login' element={<Login/>}/>
-      
+    <>
+      <MenuCarga isOpen={loading}/>
+      <Routes>
+        <Route element={authenticated?<AppLayout/>:<Layout/>}>
+          <Route path=':section?' element={<Home/>}/>
+          <Route path='/pago/:info' element={<Checkout/>}/>
+          <Route path='/responseFactura' element={<RecivePasarela/>}/>
+          <Route path='/ComprarTienda' element={<ComprarTienda/>}/>
+        </Route>
+        <Route path='Registro' element={<Registro/>}/>
+        <Route path='Login' element={<Login/>}/>
+        <Route path='Cargando' element={<MenuCarga isOpen={true}/>}/>
+        
 
-      <Route path="Home" element={<Navigate to="/" replace/>} />
+        <Route path="Home" element={<Navigate to="/" replace/>} />
 
-      <Route path='app' element={<AppLayout/>}>
-        <Route path='Home' element={<InicioLoggin/>}/>
-        <Route path='Pago/:info' element={<Checkout/>}/>
-        <Route path='Scan' element={<Scan/>}/>
-        <Route path='Busqueda' element={<BusquedaDesktop/>}/>
-        <Route path='Perfil' element={<MenuPerfil/>}/>
-        <Route path='EditPerfil' element={<FormPerfil/>}/>
-        <Route path='Tienda' element={<MenuTienda/>}/>
-        <Route path='ComprarTienda' element={<ComprarTienda/>}/>
-      </Route>
+        <Route path='app' element={<AppLayout/>}>
+          <Route path='Home' element={<InicioLoggin/>}/>
+          <Route path='Pago/:info' element={<Checkout/>}/>
+          <Route path='Scan' element={<Scan/>}/>
+          <Route path='Busqueda' element={<BusquedaDesktop/>}/>
+          <Route path='Perfil' element={<MenuPerfil/>}/>
+          <Route path='EditPerfil' element={<FormPerfil/>}/>
+          <Route path='Tienda' element={<MenuTienda/>}/>
+          <Route path='ComprarTienda' element={<ComprarTienda/>}/>
+        </Route>
 
-      <Route path="*" element={<NotFound/>}/>
-    </Routes>  
+        <Route path="*" element={<NotFound/>}/>
+      </Routes>  
+    </>
   );
 }
 
