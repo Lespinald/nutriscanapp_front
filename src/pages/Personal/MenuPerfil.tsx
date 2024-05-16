@@ -8,11 +8,18 @@ import { signOut } from 'firebase/auth'
 import { auth } from '../../firebase'
 import { logout } from '../../redux/authSlice'
 
+import { GraphBusquedas } from './GraphBusquedas.jsx';
+import { GraphCalorias } from './GraphCalorias.jsx';
+import { GraphProgreso } from './GraphProgreso.jsx'
+
 const MenuPerfil = () => {
   const [showGraph, setShowGraph] = useState(false); // Estado para controlar la visualización de la gráfica de barras
+  const [bandera, setBandera] = useState<string>(''); // Estado para almacenar la bandera de qué gráfica mostrar
   const infoUser:Usuario = useSelector((state:any) => state.auth.infoUsuario)
   const navigate = useNavigate()
   const dispatch = useDispatch()
+
+
 
   useEffect(() => {
     console.log("user:",infoUser);
@@ -39,11 +46,23 @@ const MenuPerfil = () => {
     navigate('/')
   }
 
-  const handleImageButtonClick = () => {
-    // Cambiar el estado para mostrar la gráfica de barras
+  const handleBusquedaButtonClick = () => {
+    // Cambiar el estado para mostrar la gráfica de busquedas
     setShowGraph(true);
-  }
-  
+    setBandera('busquedas');
+  };
+
+  const handleCaloriaButtonClick = () => {
+    // Cambiar el estado para mostrar la gráfica de calorias
+    setShowGraph(true);
+    setBandera('calorias');
+  };
+
+  const handleProgresoButtonClick = () => {
+    // Cambiar el estado para mostrar la gráfica de calorias
+    setShowGraph(true);
+    setBandera('progreso');
+  };
 
   return (
     <div className={style.fondoPerfil}>
@@ -88,21 +107,29 @@ const MenuPerfil = () => {
       </div>
         <section className={style.sectionEstadisticas}>
           <h1 className={style.estadistics}>Estadisticas</h1>
+          <div>
           {showGraph ? (
-          // Mostrar la gráfica de barras si showGraph es true
-          <img src='/public/Home/Perfil/Consumo.png' alt='Gráfica de barras' className={style.mapa}></img>
+            // Si showGraph es verdadero, mostrar la gráfica correspondiente
+            bandera === 'busquedas' ? (
+            <GraphBusquedas />
+          ) : bandera === 'calorias' ? (
+            <GraphCalorias />
+          ) : bandera === 'progreso' ? (
+            <GraphProgreso />
+          ) : null // No se renderiza nada si bandera no es busquedas ni calorias ni progreso
         ) : (
-          // Mostrar la imagen del mapa conceptual si showGraph es false
+        // Mostrar la imagen del mapa conceptual si showGraph es falso
           <img src='/public/Home/Perfil/Mapa.png' alt='Mapa conceptual' className={style.mapa}></img>
-        )}
+          )}
+          </div>
           <div className={style.contain_estadistics}>
-            <button id="imageButton" onClick={handleImageButtonClick}>
+            <button id="BusquedaButton" onClick={handleBusquedaButtonClick}>
               <img src='/public/Home/Perfil/Busquedas.png' alt='Sobre tus busquedas'></img>
             </button>
-            <button>
+            <button id="CaloriaButton" onClick={handleCaloriaButtonClick}>
               <img src='/public/Home/Perfil/Consumo.png' alt='Consumo Calorico'></img>
             </button>
-            <button>
+            <button id="ProgresoButton" onClick={handleProgresoButtonClick}>
               <img src='/public/Home/Perfil/Progreso.png' alt='Progreso'></img>
             </button>
           </div>
