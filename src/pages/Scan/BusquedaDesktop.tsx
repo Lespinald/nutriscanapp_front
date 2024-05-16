@@ -208,20 +208,33 @@ const BusquedaDesktop = () => {
         }
         return Promise.reject(res.statusText);
       }).then(res => {
-        const historials: Historial[] = res.slice(-5).map((item: any) => {
-          const { ID_dia, ID_producto, calorias, comido, createdAt, fecha, uid, updatedAt } = item;
-          return {
-            ID_dia,
-            ID_producto,
-            calorias,
-            comido,
-            createdAt,
-            fecha,
-            uid,
-            updatedAt
+        const historials: Historial[] = [];
+        const referenciaSet = new Set();
+
+        res.slice(-5).forEach((item: any) => {
+          const { ID_dia, producto, calorias, comido, createdAt, fecha, uid, updatedAt } = item;
+          const referencia = producto.nombre; // Cambia producto.nombre por el atributo correcto que contiene la referencia
+
+          // Verificar si la referencia ya existe en el conjunto
+          if (!referenciaSet.has(referencia)) {
+            historials.push({
+              ID_dia,
+              ID_producto: referencia,
+              calorias,
+              comido,
+              createdAt,
+              fecha,
+              uid,
+              updatedAt
+            });
+
+            // Agregar la referencia al conjunto
+            referenciaSet.add(referencia);
           }
-        })
-        setHistorial(historials)
+        });
+
+        console.log("🚀 ~ consthistorials:Historial[]=res.slice ~ historials:", historials);
+        setHistorial(historials);
       }).catch(err => console.error(err));
   }, [])
   
@@ -235,7 +248,7 @@ const BusquedaDesktop = () => {
         </div>
         <ul>
           {historial.map((h) => (
-            <li onClick={() => setBusqueda(h.ID_producto.toString())}>{h.ID_producto}</li>
+            <li key={h.ID_producto} onClick={() => setBusqueda(h.ID_producto.toString())}>{h.ID_producto}</li>
           ))}
         </ul>
       </div>
@@ -265,13 +278,15 @@ const BusquedaDesktop = () => {
               className={`${style.scanButton} ${style.codigoButton} basicButton`}>Sumar calorias</button>
             </div>
             <div className={style.answerOption} style={{boxShadow:'none',padding:'5% 0',justifyContent:'flex-start',alignItems:'flex-start'}}>
-              <img src={nutriscoreImgs[nutriscore]} alt={`nutriscore grado ${nutriscore}`} style={{width:'30%'}}></img>
+              <img src={nutriscoreImgs[currentProducto?.nutriscore]} alt={`nutriscore grado ${nutriscore}`} style={{width:'30%'}}></img>
               <div style={{flex:'1'}}>
                 <p className={style.infoExtra}>Nutriscore: <span style={{fontWeight:'600'}}>{currentProducto?.nutriscore}</span></p>
                 <p className={style.infoExtra}>Referencia: <span style={{fontWeight:'600'}}>{currentProducto?.referencia}</span></p>
                 <div className={styleFormPerfil.campo} style={{gridTemplateColumns:'none'}}>
                   <label htmlFor="Categoría" style={{color:'var(--color-6)',marginRight:'10px',textAlign:'start',fontSize:'3svh',fontWeight:'400'}}> Categoría: </label>
-                  <SelectorArray placeholder='No hay categorias' opciones={currentProducto?.categorias ?? []} current={currentProducto?.categorias ?? []} setCurrent={function (fieldName: string, response?: string | string[] | undefined): (e: { target: { value: any; }; }) => void {
+                  <SelectorArray placeholder='No hay categorias' color="var(--color-6)"
+                  opciones={currentProducto?.categorias ?? []} current={currentProducto?.categorias ?? []} 
+                  setCurrent={function (fieldName: string, response?: string | string[] | undefined): (e: { target: { value: any; }; }) => void {
                     throw new Error("Function not implemented.");
                   } } />
                 </div>
