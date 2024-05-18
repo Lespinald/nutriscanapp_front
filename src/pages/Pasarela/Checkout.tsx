@@ -8,10 +8,10 @@ import { useSelector } from 'react-redux'
 
 const Checkout = () => {
   const info = useParams().info
-  const [nombre, setNombre] = useState('')
-  const [correo, setCorreo] = useState('')
   
   const infoUser = useSelector((state:any) => state.auth.infoUsuario)
+  const [nombre, setNombre] = useState(infoUser?.nombre??'')
+  const [correo, setCorreo] = useState(infoUser?.correo??'')
 
   const stripe = new Stripe('sk_test_51PANts06rYdnPSbTI5dy2sGkBMm8ipqD35dgnZVhlGrO0EwdMPhLlHsvw0FqP7VdLbw7N1iSjP4XM9KH4NZSGXzE00pLlIHxUM')
 

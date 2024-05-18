@@ -2,7 +2,7 @@ import { signOut } from "firebase/auth";
 import { auth } from "../firebase";
 import { login } from "../redux/authSlice";
 import { Usuario, convertirUsuario } from "./models/usuario";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useStorge } from "../hooks/useStorage";
 import { Producto, Tienda } from "./models/tienda";
 
@@ -225,3 +225,17 @@ export const GuardarHistorial = async (newProduct: Producto, uid: string, nutrim
     return null;
   }
 };
+
+export const GetTipoSuscripcion = (infoUsuario:Usuario):string => {
+
+  if(infoUsuario?.tipoSuscripcion === 'gratis'){
+    return 'FREE'
+  }else{
+    let fecha1 = new Date(infoUsuario?.fechaSuscripcion)
+    let fecha2 = new Date()
+    if(fecha1.getTime() > fecha2.getTime()){
+      return infoUsuario?.tipoSuscripcion 
+    }
+    return 'FREE'
+  }
+}

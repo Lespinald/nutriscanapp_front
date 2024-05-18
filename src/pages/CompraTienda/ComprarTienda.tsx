@@ -1,20 +1,32 @@
 import { useNavigate } from 'react-router-dom';
 import ButtonTransparent from '../../assets/Components/ButtonTransparent';
 import TiendaLogo from '../../assets/Components/TiendaLogo';
-import { IsMobile } from '../../assets/Utils'
+import { GetTipoSuscripcion, IsMobile } from '../../assets/Utils'
 import style from './ComprarTienda.module.css'
-import ReactDOMServer from 'react-dom/server';
+import { useEffect, useLayoutEffect } from 'react';
+import { useSelector } from 'react-redux';
 
 const ComprarTienda:React.FC = () => {
   const navigate = useNavigate()
-
+  const infoUsuario = useSelector((state:any) => state.infoUsuario)
+  
+  const RedirectionBarril = () => {
+    console.log("🚀 ~ RedirectionBarril ~ GetTipoSuscripcion(infoUsuario):", GetTipoSuscripcion(infoUsuario))
+    if(GetTipoSuscripcion(infoUsuario) === 'tienda'){
+      navigate('/app/Tienda')
+    }
+  }
+  useEffect(() => {
+    RedirectionBarril()
+  },[])
+  
   return (
     <div className={style.page}>
       <div className={style.backTriangulos}> 
         <div style={{width:'60svh',height:'fit-content',display:'flex',flexDirection:'column',gap:'15px'}}>
           <img src="/Home/Inicio/textLogo.png" alt="nutriscan" style={{width:'100%'}}/>
           <div style={{width:'70%',aspectRatio:'3/0.5',display:'flex',justifyContent:'center',alignSelf:'center'}}>
-            <button className={style.button} onClick={() => navigate('/pago/tienda')}>COMENZAR AHORA</button>
+            <button className={style.button} onClick={() => navigate('/pago/market')}>COMENZAR AHORA</button>
           </div>
         </div>
         <div style={{flex:'1',display:'flex',flexDirection:'column',minWidth:'40svh',justifyContent:'center',gap:'15px'}}>
