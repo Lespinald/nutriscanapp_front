@@ -23,7 +23,7 @@ const app = initializeApp(firebaseConfig);
 
 const auth = getAuth(app);
 
-await setPersistence(auth, browserLocalPersistence);
+setPersistence(auth, browserLocalPersistence);
 
 const storage = getStorage(app);
 
