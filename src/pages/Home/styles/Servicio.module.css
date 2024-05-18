@@ -22,35 +22,21 @@
     border: 4.5svh solid rgba(255, 255, 255, 0.5);
     border-left-width: 7svw;
     border-right-width: 7svw;
-    background-color: var(--color-2);
+    background-color: rgba(255, 255, 255, 0.5);
     border-radius: 25px;
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: stretch;
+    justify-content: center;
     color: white;
     background-clip: padding-box, content-box;
     gap: 0.35svw;
 }
 
 .planes :nth-child(n) li {
-    color: black;
+    color: var(--color-6);
     font-size: 1.44svw;
     font-weight: 400;
-}
-
-.planes :nth-child(n){
-    font-weight: 700;
-    background-color: white;
-}
-
-.planes h3:nth-child(1){
-    background-color: transparent;
-    color: white;
-    height: fit-content;
-}
-
-.planes h3:nth-child(2),
-.planes h3:nth-child(3){
-    height: fit-content;
 }
 
 .planes h3{
@@ -64,36 +50,33 @@
 
 .planes h2{
     text-align: center;
-    color: var(--color-6);
+    color: var(--color-4);
     font-size: 3.34574svw;
     line-height: 100%;
     display: flex;
     flex-direction: column;
 }
-
-.planes h2::after{
-    color: var(--color-5);
-    height: 1svw;
-    content: 'per month';
-    font-size: 1svw;
-    line-height: 100%;
-    
-}
-
 .planes p{
-    color: black;
+    color: var(--color-4);
     font-size: 2svw;
     height: fit-content;
     text-align: center;
     align-items: flex-start;
     justify-content: center;
+    margin-bottom: 2svh;
 }
-
-.planes div{
-    padding: 2.1svw;
-    gap: 0.7svw;
-    display: flex;
-    flex-direction: column;
+.plan{
+    width: fit-content;
+    max-width: 22svw;
+    border-radius: 15px;
+    border: 1px solid rgba(255, 255, 255, 0.7);
+    background-color: var(--color-2);
+    font-weight: 700;
+    padding: 5%;
+    gap: 2svw;
+}
+.plan:hover{
+    transform: scale(1.125);
 }
 
 @media screen and (max-width: 899px) {
