@@ -189,13 +189,13 @@ export async function CrearProducto(newProduct: Producto): Promise<string | null
   }
 }
 
-export const GuardarHistorial = async (newProduct: Producto, uid: string, nutriments: any, ID: string) => {
+export const GuardarHistorial = async (newProduct: Producto, uid: string, nutriments: any, ID: string,comido?:boolean) => {
   console.log("🚀 ~ GuardarHistorial ~ ID:", ID);
   console.log("🚀 ~ GuardarHistorial ~ JSON.stringify:", JSON.stringify({
     uid: uid,
     ID_producto: ID,
     fecha: new Date(),
-    comido: false,
+    comido: comido ?? false,
     calorias: nutriments.energy,
   }));
   try {
@@ -208,7 +208,7 @@ export const GuardarHistorial = async (newProduct: Producto, uid: string, nutrim
         uid: uid,
         ID_producto: ID,
         fecha: new Date(),
-        comido: false,
+        comido: comido ?? false,
         calorias: nutriments.energy,
       })
     });
@@ -217,8 +217,7 @@ export const GuardarHistorial = async (newProduct: Producto, uid: string, nutrim
       throw new Error('Error en la solicitud');
     }
 
-    alert('Guardado historial');
-
+    console.log('Guardado historial');
     return respuesta.json();
   } catch (error) {
     console.error('Error en la solicitud fetch:', error);

@@ -9,9 +9,10 @@ interface Props{
         };
     }) => void;
     placeholder?:string;
+    color?:string;
 }
 
-const SelectorArray = ({opciones,current,setCurrent,placeholder}:Props) => {
+const SelectorArray = ({opciones,current,setCurrent,placeholder,color}:Props) => {
   const [open, setOpen] = useState(false);
   const [busqueda, setBusqueda] = useState('');
 
@@ -35,7 +36,7 @@ const SelectorArray = ({opciones,current,setCurrent,placeholder}:Props) => {
     <>
         <div className="selectorArray" onClick={() => setOpen(true)}>
             {current.map((current) => (
-                <p>{current}</p>
+                <p style={color?{color:`${color}`}:{}}>{current}</p>
             ))}
             {current.length === 0 && <label style={{width:'100%',background:'rgb(0,0,0,0.25)'}}>{placeholder ?? 'Elije una categoria'}</label>}
         </div>

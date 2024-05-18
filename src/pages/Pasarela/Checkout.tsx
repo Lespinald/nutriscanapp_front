@@ -3,12 +3,15 @@ import style from './Checkout.module.css'
 import { useParams } from 'react-router-dom'
 import { IsMobile } from '../../assets/Utils'
 import Stripe from 'stripe'
+import { useSelector } from 'react-redux'
 
 
 const Checkout = () => {
   const info = useParams().info
   const [nombre, setNombre] = useState('')
   const [correo, setCorreo] = useState('')
+  
+  const infoUser = useSelector((state:any) => state.auth.infoUsuario)
 
   const stripe = new Stripe('sk_test_51PANts06rYdnPSbTI5dy2sGkBMm8ipqD35dgnZVhlGrO0EwdMPhLlHsvw0FqP7VdLbw7N1iSjP4XM9KH4NZSGXzE00pLlIHxUM')
 
@@ -27,7 +30,7 @@ const Checkout = () => {
     const formattedDate = expiraDate.toLocaleDateString('es-ES');
     const handleClickPagar = async () => {
       const session = await stripe.checkout.sessions.create({
-        success_url: 'http://localhost:5173/responseFactura?nombre=lina', 
+        success_url: `http://localhost:5173/responseFactura?nombre=${infoUser?.nombre}&id=${infoUser?.uid}`, 
         cancel_url: 'http://localhost:5173',
         line_items: [
           {

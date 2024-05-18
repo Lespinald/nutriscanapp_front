@@ -9,6 +9,7 @@ import Modal from "../../assets/Components/Modal";
 import { nutriscoreImgs } from "../../assets/categorias";
 import { useSelector } from "react-redux";
 import SelectorArray from "../../assets/Components/SelectorArray";
+import { Historial } from "../../assets/models/historial";
 
 const BusquedaDesktop = () => {
   const [openProducto, setOpenProducto] = useState<boolean>(false);
@@ -17,6 +18,7 @@ const BusquedaDesktop = () => {
   const [nutriscore, setNutriscore] = useState<string>("unknown");
   const [notFound, setNotFound] = useState<boolean>(false);
   const [currentProducto, setCurrentProducto] = useState<Producto>();
+  const [historial, setHistorial] = useState<Historial[]>([]);
   const [productos, setProductos] = useState<Producto[]>([]);
 
   const [codigo, setCodigo] = useState<string>("");
@@ -30,6 +32,13 @@ const BusquedaDesktop = () => {
   const navigate = useNavigate();
 
   const infoUser = useSelector((state:any) => state.auth.infoUsuario)
+
+  const HandleClickProduct = (producto:Producto) => {
+    let res = {product: { nutriments: {energy: 69}}}
+    GuardarHistorial(producto,infoUser.uid,res.product.nutriments,producto.ID_producto)
+    setCurrentProducto(producto)
+    setOpenProducto(true)
+  }
 
   const HandleSearch = () => {
     if (!(/^\d+$/.test(busqueda))) {
@@ -152,9 +161,6 @@ const BusquedaDesktop = () => {
   }
 
   useEffect(() => {
-
-    console.log("videoRef:", videoRef.current, "canvasRef:", canvasRef.current);
-
     if(capturando){
 
       InitWorker();
@@ -189,6 +195,48 @@ const BusquedaDesktop = () => {
     }
   }, [capturando]);
 
+  useEffect(() => {
+    fetch(`https://api.nutriscan.com.co/api/historialusuario/${infoUser.uid}`)
+      .then(res => {
+        if(res.ok){
+          setNotFound(false);
+          return res.json();
+        }
+        if(res.status === 404){
+          setNotFound(true);
+          return Promise.reject("404 not found");
+        }
+        return Promise.reject(res.statusText);
+      }).then(res => {
+        const historials: Historial[] = [];
+        const referenciaSet = new Set();
+
+        res.slice(-5).forEach((item: any) => {
+          const { ID_dia, producto, calorias, comido, createdAt, fecha, uid, updatedAt } = item;
+          const referencia = producto.nombre; // Cambia producto.nombre por el atributo correcto que contiene la referencia
+
+          // Verificar si la referencia ya existe en el conjunto
+          if (!referenciaSet.has(referencia)) {
+            historials.push({
+              ID_dia,
+              ID_producto: referencia,
+              calorias,
+              comido,
+              createdAt,
+              fecha,
+              uid,
+              updatedAt
+            });
+
+            // Agregar la referencia al conjunto
+            referenciaSet.add(referencia);
+          }
+        });
+
+        console.log("🚀 ~ consthistorials:Historial[]=res.slice ~ historials:", historials);
+        setHistorial(historials);
+      }).catch(err => console.error(err));
+  }, [])
   
   return (
     <div className={style.scanMain}>
@@ -199,14 +247,13 @@ const BusquedaDesktop = () => {
           <p>Para escanear alimentos ingresa al navegador desde un dispositivo móvil</p>
         </div>
         <ul>
-          <li onClick={() => setBusqueda('aopcion')}>a</li>
-          <li onClick={() => setBusqueda('aopcion')}>a</li>
-          <li onClick={() => setBusqueda('aopcion')}>a</li>
-          <li onClick={() => setBusqueda('aopcion')}>a</li>
+          {historial.map((h) => (
+            <li key={h.ID_producto} onClick={() => setBusqueda(h.ID_producto.toString())}>{h.ID_producto}</li>
+          ))}
         </ul>
       </div>
       {productos.map((element) => (
-        <div className={style.answerOption} key={element.ID_producto} onClick={() => {setCurrentProducto(element);setOpenProducto(true)}}>
+        <div className={style.answerOption} key={element.ID_producto} onClick={() => {HandleClickProduct(element)}}>
           <img src={element.foto} alt="Foto producto" style={{height:'15svh'}}/>
           <h2 style={{textAlign:'start',alignSelf:'flex-start'}}>
             {element.nombre} <br></br>
@@ -222,18 +269,24 @@ const BusquedaDesktop = () => {
         <Modal isOpen={openProducto} setIsOpen={setOpenProducto}>
           <div className={style.answerOption} style={{justifyContent:'flex-start', boxShadow:'none'}}>
             <img src={currentProducto?.foto} style={{height:'15svh'}}></img>
-            <h2 style={{textAlign:'start',alignSelf:'flex-start', flex:'1'}}>
-              {currentProducto?.nombre} <br></br>
-              <span style={{fontWeight:'400'}}>{currentProducto?.descripcion}</span>
-            </h2>
+            <div style={{flex:'1'}}>
+              <h2 style={{textAlign:'start',alignSelf:'flex-start',width:'100%'}}>
+                {currentProducto?.nombre} <br></br>
+                <span style={{fontWeight:'400'}}>{currentProducto?.descripcion}</span>
+              </h2>
+              <button onClick={() => {currentProducto && GuardarHistorial(currentProducto,infoUser.uid,{energy: 69},currentProducto?.ID_producto,true)}}
+              className={`${style.scanButton} ${style.codigoButton} basicButton`}>Sumar calorias</button>
+            </div>
             <div className={style.answerOption} style={{boxShadow:'none',padding:'5% 0',justifyContent:'flex-start',alignItems:'flex-start'}}>
-              <img src={nutriscoreImgs[nutriscore]} alt={`nutriscore grado ${nutriscore}`} style={{width:'30%'}}></img>
+              <img src={nutriscoreImgs[currentProducto?.nutriscore]} alt={`nutriscore grado ${nutriscore}`} style={{width:'30%'}}></img>
               <div style={{flex:'1'}}>
                 <p className={style.infoExtra}>Nutriscore: <span style={{fontWeight:'600'}}>{currentProducto?.nutriscore}</span></p>
                 <p className={style.infoExtra}>Referencia: <span style={{fontWeight:'600'}}>{currentProducto?.referencia}</span></p>
                 <div className={styleFormPerfil.campo} style={{gridTemplateColumns:'none'}}>
                   <label htmlFor="Categoría" style={{color:'var(--color-6)',marginRight:'10px',textAlign:'start',fontSize:'3svh',fontWeight:'400'}}> Categoría: </label>
-                  <SelectorArray placeholder='No hay categorias' opciones={currentProducto?.categorias ?? []} current={currentProducto?.categorias ?? []} setCurrent={function (fieldName: string, response?: string | string[] | undefined): (e: { target: { value: any; }; }) => void {
+                  <SelectorArray placeholder='No hay categorias' color="var(--color-6)"
+                  opciones={currentProducto?.categorias ?? []} current={currentProducto?.categorias ?? []} 
+                  setCurrent={function (fieldName: string, response?: string | string[] | undefined): (e: { target: { value: any; }; }) => void {
                     throw new Error("Function not implemented.");
                   } } />
                 </div>
