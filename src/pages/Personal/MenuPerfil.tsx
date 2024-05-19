@@ -120,7 +120,7 @@ const MenuPerfil = () => {
           ) : null // No se renderiza nada si bandera no es busquedas ni calorias ni progreso
         ) : (
         // Mostrar la imagen del mapa conceptual si showGraph es falso
-          <img src='/Home/Perfil/Mapa.png' alt='Mapa conceptual' className={style.mapa}></img>
+        <GraphBusquedas />
           )}
           </div>
           <div className={style.contain_estadistics}>
