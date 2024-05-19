@@ -16,7 +16,6 @@ const BusquedaDesktop = () => {
   const [capturando, setCapturando] = useState<boolean>(false);
   const [busqueda, setBusqueda] = useState<string>('');
   const [nutriscore, setNutriscore] = useState<string>("unknown");
-  const [notFound, setNotFound] = useState<boolean>(false);
   const [currentProducto, setCurrentProducto] = useState<Producto>();
   const [historial, setHistorial] = useState<Historial[]>([]);
   const [productos, setProductos] = useState<Producto[]>([]);
@@ -47,11 +46,9 @@ const BusquedaDesktop = () => {
       fetch(`https://api.nutriscan.com.co/api/productosnombre/${busqueda}`).
       then(res => {
         if(res.ok){
-          setNotFound(false);
           return res.json();
         }
         if(res.status === 404){
-          setNotFound(true);
           return Promise.reject("404 not found");
         }
         return Promise.reject(res.statusText);
@@ -80,11 +77,9 @@ const BusquedaDesktop = () => {
       fetch(`https://world.openfoodfacts.net/api/v2/product/${busqueda}`)
       .then(res => {
         if(res.ok){
-          setNotFound(false);
           return res.json();
         }
         if(res.status === 404){
-          setNotFound(true);
           return Promise.reject("404 not found");
         }
         return Promise.reject(res.statusText);
@@ -200,25 +195,27 @@ const BusquedaDesktop = () => {
   }, [capturando]);
 
   useEffect(() => {
+    ConsultarHistorial()
+  }, [])
+  
+  const ConsultarHistorial = () => {
     fetch(`https://api.nutriscan.com.co/api/historialusuario/${infoUser.uid}`)
       .then(res => {
         if(res.ok){
-          setNotFound(false);
           return res.json();
         }
         if(res.status === 404){
-          setNotFound(true);
           return Promise.reject("404 not found");
         }
         return Promise.reject(res.statusText);
       }).then(res => {
         const historials: Historial[] = [];
         const referenciaSet = new Set();
-
+  
         res.slice(-5).forEach((item: any) => {
           const { ID_dia, producto, calorias, comido, createdAt, fecha, uid, updatedAt } = item;
           const referencia = producto.nombre; // Cambia producto.nombre por el atributo correcto que contiene la referencia
-
+  
           // Verificar si la referencia ya existe en el conjunto
           if (!referenciaSet.has(referencia)) {
             historials.push({
@@ -231,17 +228,17 @@ const BusquedaDesktop = () => {
               uid,
               updatedAt
             });
-
+  
             // Agregar la referencia al conjunto
             referenciaSet.add(referencia);
           }
         });
-
+  
         console.log("🚀 ~ consthistorials:Historial[]=res.slice ~ historials:", historials);
         setHistorial(historials);
       }).catch(err => console.error(err));
-  }, [])
-  
+  }
+
   return (
     <div className={style.scanMain}>
       <div className={style.barraBuscador}>
