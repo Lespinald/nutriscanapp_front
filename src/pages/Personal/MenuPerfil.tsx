@@ -11,6 +11,7 @@ import { logout } from '../../redux/authSlice'
 import { GraphBusquedas } from './GraphBusquedas.jsx';
 import { GraphCalorias } from './GraphCalorias.jsx';
 import { GraphProgreso } from './GraphProgreso.jsx'
+import { nutriscoreImgs } from '../../assets/categorias.js'
 
 const MenuPerfil = () => {
   const [showGraph, setShowGraph] = useState(false); // Estado para controlar la visualización de la gráfica de barras
@@ -92,12 +93,12 @@ const MenuPerfil = () => {
             <div className={style.contain_preferencias}>
               <p className={style.preferencias}>Preferencias</p>
               <div>
-                <img src='/public/Home/Perfil/muffin.png' alt='Dulce'></img>
-                <img src='/public/Home/Perfil/limon.png' alt='Amargo'></img>
+                <img src='/Home/Perfil/muffin.png' alt='Dulce'></img>
+                <img src='/Home/Perfil/limon.png' alt='Amargo'></img>
               </div>
             </div>
             <div className={style.containIMC}>
-              <img src='/public/Home/Perfil/target.png' alt='diana'></img>
+              <img src='/Home/Perfil/target.png' alt='diana'></img>
               <p className={style.s}>IMC: {(infoUser?.peso / (infoUser?.altura^2) * 100).toFixed(1)}</p>
               <p className={style.s}>Estado: {GetEstado(infoUser?.peso / (infoUser?.altura^2) * 100)}</p>
             </div>
@@ -119,18 +120,18 @@ const MenuPerfil = () => {
           ) : null // No se renderiza nada si bandera no es busquedas ni calorias ni progreso
         ) : (
         // Mostrar la imagen del mapa conceptual si showGraph es falso
-          <img src='/public/Home/Perfil/Mapa.png' alt='Mapa conceptual' className={style.mapa}></img>
+          <img src='/Home/Perfil/Mapa.png' alt='Mapa conceptual' className={style.mapa}></img>
           )}
           </div>
           <div className={style.contain_estadistics}>
             <button id="BusquedaButton" onClick={handleBusquedaButtonClick}>
-              <img src='/public/Home/Perfil/Busquedas.png' alt='Sobre tus busquedas'></img>
+              <img src='/Home/Perfil/Busquedas.png' alt='Sobre tus busquedas'></img>
             </button>
             <button id="CaloriaButton" onClick={handleCaloriaButtonClick}>
-              <img src='/public/Home/Perfil/Consumo.png' alt='Consumo Calorico'></img>
+              <img src='/Home/Perfil/Consumo.png' alt='Consumo Calorico'></img>
             </button>
             <button id="ProgresoButton" onClick={handleProgresoButtonClick}>
-              <img src='/public/Home/Perfil/Progreso.png' alt='Progreso'></img>
+              <img src='/Home/Perfil/Progreso.png' alt='Progreso'></img>
             </button>
           </div>
         </section>

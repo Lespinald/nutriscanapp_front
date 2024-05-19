@@ -161,6 +161,10 @@ const BusquedaDesktop = () => {
   }
 
   useEffect(() => {
+    console.log("🚀 ~ BusquedaDesktop ~ currentProducto:", currentProducto)
+  }, [currentProducto]);
+
+  useEffect(() => {
     if(capturando){
 
       InitWorker();
@@ -278,9 +282,9 @@ const BusquedaDesktop = () => {
               className={`${style.scanButton} ${style.codigoButton} basicButton`}>Sumar calorias</button>
             </div>
             <div className={style.answerOption} style={{boxShadow:'none',padding:'5% 0',justifyContent:'flex-start',alignItems:'flex-start'}}>
-              <img src={nutriscoreImgs[currentProducto?.nutriscore]} alt={`nutriscore grado ${nutriscore}`} style={{width:'30%'}}></img>
+              <img src={nutriscoreImgs[currentProducto?.nutriscore ?? 'unknown']} alt={`nutriscore grado ${currentProducto?.nutriscore}`} style={{width:'30%'}}></img>
               <div style={{flex:'1'}}>
-                <p className={style.infoExtra}>Nutriscore: <span style={{fontWeight:'600'}}>{currentProducto?.nutriscore}</span></p>
+                <p className={style.infoExtra}>Nutriscore: <span style={{fontWeight:'600'}}>{currentProducto?.nutriscore ?? 'unknown'}</span></p>
                 <p className={style.infoExtra}>Referencia: <span style={{fontWeight:'600'}}>{currentProducto?.referencia}</span></p>
                 <div className={styleFormPerfil.campo} style={{gridTemplateColumns:'none'}}>
                   <label htmlFor="Categoría" style={{color:'var(--color-6)',marginRight:'10px',textAlign:'start',fontSize:'3svh',fontWeight:'400'}}> Categoría: </label>

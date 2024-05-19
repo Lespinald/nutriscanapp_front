@@ -1,15 +1,17 @@
 import { forwardRef } from "react";
 import style from "./styles/Servicio.module.css"
 import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 const Servicio = forwardRef<HTMLDivElement>(({}, ref) => {
   const navigate = useNavigate();
-  
+  const authenticated = useSelector((state:any) => state.auth.status === 'authenticated')
+
   return (
     <div className={style.back} ref={ref}>
       <h1>Servicio</h1>
       <div className={style.planes}>
-        <div className={style.plan}>
+        <div className={style.plan} onClick={() => { authenticated ? navigate('app/home') : navigate('registro')}}>
           <h3>FREE</h3>
           <div>
             <h2>$0</h2>
