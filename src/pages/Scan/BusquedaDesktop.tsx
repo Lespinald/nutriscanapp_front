@@ -3,7 +3,7 @@ import style from "./Scan.module.css"
 import styleFormPerfil from "../Personal/FormPerfil.module.css"
 
 import React, { useEffect, useRef, useState } from "react";
-import { GuardarHistorial, GuardarRegistro, IsMobile } from "../../assets/Utils";
+import { ConsultarOpenFoodFact, GuardarHistorial, GuardarRegistro, IsMobile } from "../../assets/Utils";
 import { Producto } from "../../assets/models/tienda";
 import Modal from "../../assets/Components/Modal";
 import { nutriscoreImgs } from "../../assets/categorias";
@@ -32,10 +32,13 @@ const BusquedaDesktop = () => {
 
   const infoUser = useSelector((state:any) => state.auth.infoUsuario)
 
-  const HandleClickProduct = (producto:Producto) => {
-    let res = {product: { nutriments: {energy: 69}}}
-    GuardarHistorial(producto,infoUser.uid,res.product.nutriments,producto.ID_producto)
-    setCurrentProducto(producto)
+  const HandleClickProduct = async (producto:Producto) => {
+    let res = await ConsultarOpenFoodFact(producto.referencia,infoUser.uid)
+    if(res){
+      setCurrentProducto(res)
+    }else{
+      setCurrentProducto(producto)
+    }
     setOpenProducto(true)
   }
 
@@ -73,35 +76,15 @@ const BusquedaDesktop = () => {
     }
 	
     if(busqueda){
-      setProductos([])
-      fetch(`https://world.openfoodfacts.net/api/v2/product/${busqueda}`)
-      .then(res => {
-        if(res.ok){
-          return res.json();
-        }
-        if(res.status === 404){
-          return Promise.reject("404 not found");
-        }
-        return Promise.reject(res.statusText);
-      }).then(res => {
-        if(res.product){
-          console.log("🚀 ~ HandleSearch ~ res:", res)
-          let newProduct:Producto = {
-            ID_producto: res.product.id,
-            referencia: res.product.id,
-            nombre: res.product.product_name,
-            descripcion: "",
-            foto: res.product.image_url,
-            categorias: res.product.categories_tags,
-            nutriscore: res.product.nutriscore_grade
-          }
-          setProductos((prev) => [...prev,newProduct])
-          GuardarRegistro(newProduct).then((ID) => {
-            console.log("🚀 ~ GuardarRegistro Then ~ ID:", ID)
-            GuardarHistorial(newProduct,infoUser.uid,res.product.nutriments,ID)
-          })
-        }
-      }).catch(err => console.error(err));
+      BarrilConsultarOpenFood(busqueda)
+    }
+  }
+
+  const BarrilConsultarOpenFood = async (referencia:string)=> {
+    setProductos([])
+    let resp = await ConsultarOpenFoodFact(referencia,infoUser.uid)
+    if(resp){
+      setProductos([resp])   
     }
   }
 
