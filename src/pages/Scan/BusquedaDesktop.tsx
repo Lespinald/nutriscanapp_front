@@ -10,6 +10,7 @@ import { nutriscoreImgs } from "../../assets/categorias";
 import { useSelector } from "react-redux";
 import SelectorArray from "../../assets/Components/SelectorArray";
 import { Historial } from "../../assets/models/historial";
+import { current } from "@reduxjs/toolkit";
 
 const BusquedaDesktop = () => {
   const [openProducto, setOpenProducto] = useState<boolean>(false);
@@ -23,6 +24,7 @@ const BusquedaDesktop = () => {
   const [codigo, setCodigo] = useState<string>("");
 
   const worker = useRef<Worker | null>(null);
+  const modal = useRef<HTMLDivElement>(null);
 
   const videoRef = useRef<HTMLVideoElement>(document.createElement("video"));
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -139,10 +141,6 @@ const BusquedaDesktop = () => {
   }
 
   useEffect(() => {
-    console.log("🚀 ~ BusquedaDesktop ~ currentProducto:", currentProducto)
-  }, [currentProducto]);
-
-  useEffect(() => {
     if(capturando){
 
       InitWorker();
@@ -250,7 +248,7 @@ const BusquedaDesktop = () => {
         <p style={{color:'black',margin:'0',textAlign:'start'}}>No se han encontrado coincidencias</p>
       </div>}
       {openProducto && 
-        <Modal isOpen={openProducto} setIsOpen={setOpenProducto}>
+        <Modal isOpen={openProducto} setIsOpen={setOpenProducto} ref={modal}>
           <div className={style.answerOption} style={{justifyContent:'flex-start', boxShadow:'none'}}>
             <img src={currentProducto?.foto} style={{height:'15svh'}}></img>
             <div style={{flex:'1'}}>

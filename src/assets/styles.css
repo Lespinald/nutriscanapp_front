@@ -130,8 +130,10 @@ button:active{
 }
 
 .modal_content{
+  position: fixed;
+  top: 15svh;
   padding: 2%;
-  max-height: 50svh;
+  max-height: 70svh;
   height: fit-content;
   width: fit-content;
   max-width: 80svw;
