@@ -2,10 +2,10 @@
     height: fit-content;
     min-height: 100%;
     background: 
-    url(../../../public/InicioLoggin/CirculoVerde.svg) top -4svw left / 15svw no-repeat,
-    url(../../../public/InicioLoggin/CirculoVerde.svg) bottom -10svw right / 20svw no-repeat,
-    url(../../../public/InicioLoggin/CirculoAmarillo.svg) bottom -5svw right -10svw / 20svw no-repeat,
-    url(../../../public/InicioLoggin/CirculoAmarillo.svg) bottom 10svw left 20svw / 15svw no-repeat,
+    url(/InicioLoggin/CirculoVerde.svg) top -4svw left / 15svw no-repeat,
+    url(/InicioLoggin/CirculoVerde.svg) bottom -10svw right / 20svw no-repeat,
+    url(/InicioLoggin/CirculoAmarillo.svg) bottom -5svw right -10svw / 20svw no-repeat,
+    url(/InicioLoggin/CirculoAmarillo.svg) bottom 10svw left 20svw / 15svw no-repeat,
     white;
     display: flex;
     flex-wrap: wrap;
