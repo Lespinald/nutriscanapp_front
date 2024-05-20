@@ -297,3 +297,7 @@ export async function ConsultarOpenFoodFact(referencia: string, uid: string): Pr
     return null;
   }
 }
+
+export function CalcularIMC(peso:number, altura:number){
+  return peso/(altura/100)**2;
+}
