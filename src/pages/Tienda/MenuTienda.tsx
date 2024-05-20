@@ -1,5 +1,5 @@
 import style from './MenuTienda.module.css'
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useAppLayoutContext } from "../AppLayout"
 import { Producto, Tienda, productoVacio, tiendaVacia } from '../../assets/models/tienda';
 import EditProducto from './EditProducto';
@@ -65,12 +65,44 @@ const TiendaDesktop = ({name, banner, logo, busqueda, setBusqueda, productos,tie
   const [currentTienda, setCurrentTienda] = useState<Tienda>(tienda);
   const [currentProduct, setCurrentProduct] = useState<Producto>(productoVacio);
 
+  const back = useRef(null);
+
   const onProducto = (element:Producto,indice:number) => {
     setCurrentProduct(element)
     setIndice(indice)
     setEditProd((prev) => !prev);
   }
 
+  const svg = `
+    <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="15" height="15" viewBox="0 0 24 24" fill="#F9F870">
+      <path d="M14.1 5.9L3 17v4h4L18.1 9.9 14.1 5.9zM15.6 4.4L18 2l4 4-2.4 2.4L15.6 4.4z"></path>
+    </svg>
+  `;
+
+  const svgDataUri = `data:image/svg+xml,${encodeURIComponent(svg)}`;
+
+  useEffect(() => {
+    if (back.current) {
+      const pseudoElementStyle = `
+        .${style.main}::after {
+          content: "";
+          background: url('${svgDataUri}') center / 100% no-repeat;
+          width: 10%;
+          aspect-ratio: 1 / 1;
+          display: block; /* Asegúrate de que se renderice */
+          position: absolute;
+          top: 0;
+          left: 0;
+          /* ajusta las posiciones según sea necesario */
+        }
+      `;
+      const styleSheet = document.createElement("style");
+      styleSheet.type = "text/css";
+      styleSheet.innerText = pseudoElementStyle;
+      document.head.appendChild(styleSheet);
+    }
+  }, []);
+  
   
   return (
     <>{
@@ -80,8 +112,8 @@ const TiendaDesktop = ({name, banner, logo, busqueda, setBusqueda, productos,tie
       editTienda ?
       <EditTienda initialTienda={currentTienda} setOpen={setEditTienda} indice={0}/>
       :
-      <div className={style.main}>
-        <img src={banner} alt="banner" className={style.bannerDesk} onClick={() => {setEditTienda(true)}}></img>
+      <div className={style.main} ref={back}>
+        <img src={banner} alt="banner" className={style.bannerDesk} onClick={() => {setEditTienda(true)}} ></img>
         <div className={style.logoSection}>
           <div>
             <img src={infoUser?.foto ? infoUser.foto : tiendaDefault.fotos} alt='logo tienda'/>

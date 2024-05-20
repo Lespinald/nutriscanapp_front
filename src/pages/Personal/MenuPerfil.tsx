@@ -99,7 +99,7 @@ const MenuPerfil = () => {
             </div>
             <div className={style.containIMC}>
               <img src='/Home/Perfil/target.png' alt='diana'></img>
-              <p className={style.s}>IMC: {(infoUser?.peso / (infoUser?.altura^2) * 100).toFixed(1)}</p>
+              <p className={style.s}>IMC: {(infoUser?.peso / Math.pow(infoUser?.altura / 100, 2)).toFixed(1)}</p>
               <p className={style.s}>Estado: {GetEstado(infoUser?.peso / (infoUser?.altura^2) * 100)}</p>
             </div>
           </div>
