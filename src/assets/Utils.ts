@@ -2,7 +2,7 @@ import { User, onAuthStateChanged, signOut } from "firebase/auth";
 import { auth } from "../firebase";
 import { login } from "../redux/authSlice";
 import { Usuario, convertirUsuario } from "./models/usuario";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useStorge } from "../hooks/useStorage";
 import { Producto, Tienda } from "./models/tienda";
 
@@ -236,4 +236,64 @@ export function onUserLoad(accept:(user:User)=>void = user=>{},reject:()=>void =
     complete();
     unsuscribe();
   })
+}
+
+
+export const GetTipoSuscripcion = (infoUsuario:Usuario):string => {
+
+  if(infoUsuario?.tipoSuscripcion === 'gratis'){
+    return 'FREE'
+  }else{
+    let fecha1 = new Date(infoUsuario?.fechaSuscripcion)
+    let fecha2 = new Date()
+    if(fecha1.getTime() > fecha2.getTime()){
+      return infoUsuario?.tipoSuscripcion 
+    }
+    return 'FREE'
+  }
+}
+
+export async function ConsultarOpenFoodFact(referencia: string, uid: string): Promise<Producto | null> {
+  try {
+    const res = await fetch(`https://world.openfoodfacts.net/api/v2/product/${referencia}`);
+    
+    if (!res.ok) {
+      if (res.status === 404) {
+        console.log("🚀 ~ ConsultarOpenFoodFact ~ 404 not found");
+        return null;
+      }
+      console.log("🚀 ~ ConsultarOpenFoodFact ~ Error:", res.statusText);
+      throw new Error(res.statusText);
+    }
+
+    const data = await res.json();
+
+    if (!data.product) {
+      console.log("🚀 ~ ConsultarOpenFoodFact ~ Product not found");
+      return null;
+    }
+
+    console.log("🚀 ~ HandleSearch ~ data:", data);
+
+    let newProduct: Producto = {
+      ID_producto: data.product.id,
+      referencia: data.product.id,
+      nombre: data.product.product_name,
+      descripcion: "",
+      foto: data.product.image_url,
+      categorias: data.product.categories_tags,
+      nutriscore: data.product.nutriscore_grade
+    };
+
+    GuardarRegistro(newProduct).then((ID) => {
+      console.log("🚀 ~ GuardarRegistro Then ~ ID:", ID)
+      GuardarHistorial(newProduct,uid,data.product.nutriments,ID)
+    })
+
+    return newProduct;
+
+  } catch (err) {
+    console.error("🚀 ~ ConsultarOpenFoodFact ~ Error:", err);
+    return null;
+  }
 }

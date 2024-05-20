@@ -28,7 +28,7 @@ export const options = {
     },
     title: {
       display: true,
-      text: 'Dias utilizando la app vs busquedas',
+      text: 'Sobre tus busquedas',
     },
   },
 };

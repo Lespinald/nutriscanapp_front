@@ -17,10 +17,14 @@ footer.back{
     max-height: calc(4svw * 2);
 }
 
-.sidebar a{
+.sidebar div{
     display: flex;
     align-items: center;
     justify-content: center;
+}
+
+.sidebar div:hover{
+    transform: scale(1.25);
 }
 
 .header{

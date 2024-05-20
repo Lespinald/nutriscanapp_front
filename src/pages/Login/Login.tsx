@@ -22,7 +22,6 @@ const Login = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const authenticated = useSelector((state:any) => state.auth.status === 'authenticated')
-    console.log("🚀 ~ Login ~ authenticated:", authenticated)
 
     const [loading, setLoading] = useState(false)
     const [address, setAddress] = useState('')

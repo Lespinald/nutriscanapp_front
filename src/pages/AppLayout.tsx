@@ -3,7 +3,7 @@ import style from "./Layout.module.css"
 import { CSSProperties, useEffect, useLayoutEffect, useRef, useState } from "react";
 
 import { Link, Outlet, useNavigate, useOutletContext } from "react-router-dom";
-import { IsMobile, TraerInfoTienda, TraerInfoUsuario, TraerProductosTienda, onUserLoad } from "../assets/Utils";
+import { GetTipoSuscripcion, IsMobile } from "../assets/Utils";
 import { useViewportRezise } from "../assets/hooks";
 import ProfileLogo from "../assets/Components/ProfileLogo";
 import { useDispatch, useSelector } from "react-redux";
@@ -34,19 +34,6 @@ const AppLayout = () => {
     setLayoutHeight(entries[0].target.clientHeight)
   });
 
-
-
-  const GetTipoSuscripcion = ():string => {
-    if(infoUsuario?.tipoSuscripcion === 'gratis'){
-      return 'FREE'
-    }else{
-      if(new Date(infoUsuario?.fechaSuscripcion).getTime() < new Date().getTime()){
-        return infoUsuario?.tipoSuscripcion 
-      }
-      return 'FREE'
-    }
-  }
-
   useLayoutEffect(() =>{
     if(!auth.currentUser) navigate("/");
 
@@ -66,8 +53,8 @@ const AppLayout = () => {
           <img className={style.maintainRatio} src="/Layout/logo.png" alt="logo"></img>
       </Link>
       { mobile?
-        <MobileLayout tipoSuscripcion={GetTipoSuscripcion()}/>:
-        <DesktopLayout tipoSuscripcion={GetTipoSuscripcion()}/>
+        <MobileLayout tipoSuscripcion={GetTipoSuscripcion(infoUsuario)}/>:
+        <DesktopLayout tipoSuscripcion={GetTipoSuscripcion(infoUsuario)}/>
       }
     </nav>
     <div className={style.outlet} style={{marginTop: `${layoutHeight}px`}}>

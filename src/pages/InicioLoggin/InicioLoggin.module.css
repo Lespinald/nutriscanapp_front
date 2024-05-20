@@ -30,11 +30,12 @@
     align-items: center;
     padding: 1%;
     align-self: flex-end;
+    gap: 2svh;
 }
 
 .textoInicial{
     font-size: 134%;
-    max-width: 40%;
+    max-width: 50%;
     height: fit-content;
     color: var(--color-5);
     text-align: center;
@@ -47,6 +48,8 @@
     aspect-ratio: 1 / 1;
     overflow: hidden;
     border: 1px solid;
+    display: flex;
+    align-items: center;
 }
 
 .textoInicial span{
@@ -55,7 +58,7 @@
 }
 
 .textoProducto{
-    max-width: 80%;
+    flex: 1;
     overflow: hidden;
     text-overflow: ellipsis;
     display: -webkit-box;
