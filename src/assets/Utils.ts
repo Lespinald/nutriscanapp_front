@@ -1,4 +1,4 @@
-import { signOut } from "firebase/auth";
+import { User, onAuthStateChanged, signOut } from "firebase/auth";
 import { auth } from "../firebase";
 import { login } from "../redux/authSlice";
 import { Usuario, convertirUsuario } from "./models/usuario";
@@ -226,6 +226,19 @@ export const GuardarHistorial = async (newProduct: Producto, uid: string, nutrim
   }
 };
 
+export function onUserLoad(accept:(user:User)=>void = user=>{},reject:()=>void = ()=>{},complete:()=>void = ()=>{}){
+  const unsuscribe = onAuthStateChanged(auth, user => {
+    if(user){
+      accept(user);
+    }else{
+      reject();
+    }
+    complete();
+    unsuscribe();
+  })
+}
+
+
 export const GetTipoSuscripcion = (infoUsuario:Usuario):string => {
 
   if(infoUsuario?.tipoSuscripcion === 'gratis'){
@@ -283,4 +296,8 @@ export async function ConsultarOpenFoodFact(referencia: string, uid: string): Pr
     console.error("🚀 ~ ConsultarOpenFoodFact ~ Error:", err);
     return null;
   }
+}
+
+export function CalcularIMC(peso:number, altura:number){
+  return peso/(altura/100)**2;
 }

@@ -1,15 +1,18 @@
 import style from "./Layout.module.css"
 
-import { CSSProperties, useEffect, useRef, useState } from "react";
+import { CSSProperties, useEffect, useLayoutEffect, useRef, useState } from "react";
 
 import { Link, Outlet, useNavigate, useOutletContext } from "react-router-dom";
 import { GetTipoSuscripcion, IsMobile } from "../assets/Utils";
 import { useViewportRezise } from "../assets/hooks";
 import ProfileLogo from "../assets/Components/ProfileLogo";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import TiendaLogo from "../assets/Components/TiendaLogo";
 import MenuLogo from "../assets/Components/MenuLogo";
 import { auth } from "../firebase";
+import { onAuthStateChanged } from "firebase/auth";
+import { login } from "../redux/authSlice";
+import { setProductos, setTienda } from "../redux/tiendaSlice";
 
 type AppLayoutContext = {
   size: {width: number, height: number};
@@ -31,11 +34,8 @@ const AppLayout = () => {
     setLayoutHeight(entries[0].target.clientHeight)
   });
 
-  useEffect(() => {
-
-    if(!auth.currentUser){
-      navigate("/")
-    }
+  useLayoutEffect(() =>{
+    if(!auth.currentUser) navigate("/");
 
     if(layout.current) observer.observe(layout.current)
     
@@ -44,7 +44,7 @@ const AppLayout = () => {
     }
   }, []);
 
-  useEffect(() => setMobile(IsMobile()), [size]);
+  useLayoutEffect(() => setMobile(IsMobile()), [size]);
 
   return (
     <>
