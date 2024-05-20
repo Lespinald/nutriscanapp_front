@@ -1,4 +1,4 @@
-import { signOut } from "firebase/auth";
+import { User, onAuthStateChanged, signOut } from "firebase/auth";
 import { auth } from "../firebase";
 import { login } from "../redux/authSlice";
 import { Usuario, convertirUsuario } from "./models/usuario";
@@ -225,3 +225,15 @@ export const GuardarHistorial = async (newProduct: Producto, uid: string, nutrim
     return null;
   }
 };
+
+export function onUserLoad(accept:(user:User)=>void = user=>{},reject:()=>void = ()=>{},complete:()=>void = ()=>{}){
+  const unsuscribe = onAuthStateChanged(auth, user => {
+    if(user){
+      accept(user);
+    }else{
+      reject();
+    }
+    complete();
+    unsuscribe();
+  })
+}
