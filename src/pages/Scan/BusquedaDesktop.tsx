@@ -3,20 +3,20 @@ import style from "./Scan.module.css"
 import styleFormPerfil from "../Personal/FormPerfil.module.css"
 
 import React, { useEffect, useRef, useState } from "react";
-import { GuardarHistorial, GuardarRegistro, IsMobile } from "../../assets/Utils";
+import { ConsultarOpenFoodFact, GuardarHistorial, GuardarRegistro, IsMobile } from "../../assets/Utils";
 import { Producto } from "../../assets/models/tienda";
 import Modal from "../../assets/Components/Modal";
 import { nutriscoreImgs } from "../../assets/categorias";
 import { useSelector } from "react-redux";
 import SelectorArray from "../../assets/Components/SelectorArray";
 import { Historial } from "../../assets/models/historial";
+import { current } from "@reduxjs/toolkit";
 
 const BusquedaDesktop = () => {
   const [openProducto, setOpenProducto] = useState<boolean>(false);
   const [capturando, setCapturando] = useState<boolean>(false);
   const [busqueda, setBusqueda] = useState<string>('');
   const [nutriscore, setNutriscore] = useState<string>("unknown");
-  const [notFound, setNotFound] = useState<boolean>(false);
   const [currentProducto, setCurrentProducto] = useState<Producto>();
   const [historial, setHistorial] = useState<Historial[]>([]);
   const [productos, setProductos] = useState<Producto[]>([]);
@@ -24,6 +24,7 @@ const BusquedaDesktop = () => {
   const [codigo, setCodigo] = useState<string>("");
 
   const worker = useRef<Worker | null>(null);
+  const modal = useRef<HTMLDivElement>(null);
 
   const videoRef = useRef<HTMLVideoElement>(document.createElement("video"));
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -33,10 +34,13 @@ const BusquedaDesktop = () => {
 
   const infoUser = useSelector((state:any) => state.auth.infoUsuario)
 
-  const HandleClickProduct = (producto:Producto) => {
-    let res = {product: { nutriments: {energy: 69}}}
-    GuardarHistorial(producto,infoUser.uid,res.product.nutriments,producto.ID_producto)
-    setCurrentProducto(producto)
+  const HandleClickProduct = async (producto:Producto) => {
+    let res = await ConsultarOpenFoodFact(producto.referencia,infoUser.uid)
+    if(res){
+      setCurrentProducto(res)
+    }else{
+      setCurrentProducto(producto)
+    }
     setOpenProducto(true)
   }
 
@@ -47,11 +51,9 @@ const BusquedaDesktop = () => {
       fetch(`https://api.nutriscan.com.co/api/productosnombre/${busqueda}`).
       then(res => {
         if(res.ok){
-          setNotFound(false);
           return res.json();
         }
         if(res.status === 404){
-          setNotFound(true);
           return Promise.reject("404 not found");
         }
         return Promise.reject(res.statusText);
@@ -76,37 +78,15 @@ const BusquedaDesktop = () => {
     }
 	
     if(busqueda){
-      setProductos([])
-      fetch(`https://world.openfoodfacts.net/api/v2/product/${busqueda}`)
-      .then(res => {
-        if(res.ok){
-          setNotFound(false);
-          return res.json();
-        }
-        if(res.status === 404){
-          setNotFound(true);
-          return Promise.reject("404 not found");
-        }
-        return Promise.reject(res.statusText);
-      }).then(res => {
-        if(res.product){
-          console.log("🚀 ~ HandleSearch ~ res:", res)
-          let newProduct:Producto = {
-            ID_producto: res.product.id,
-            referencia: res.product.id,
-            nombre: res.product.product_name,
-            descripcion: "",
-            foto: res.product.image_url,
-            categorias: res.product.categories_tags,
-            nutriscore: res.product.nutriscore_grade
-          }
-          setProductos((prev) => [...prev,newProduct])
-          GuardarRegistro(newProduct).then((ID) => {
-            console.log("🚀 ~ GuardarRegistro Then ~ ID:", ID)
-            GuardarHistorial(newProduct,infoUser.uid,res.product.nutriments,ID)
-          })
-        }
-      }).catch(err => console.error(err));
+      BarrilConsultarOpenFood(busqueda)
+    }
+  }
+
+  const BarrilConsultarOpenFood = async (referencia:string)=> {
+    setProductos([])
+    let resp = await ConsultarOpenFoodFact(referencia,infoUser.uid)
+    if(resp){
+      setProductos([resp])   
     }
   }
 
@@ -161,10 +141,6 @@ const BusquedaDesktop = () => {
   }
 
   useEffect(() => {
-    console.log("🚀 ~ BusquedaDesktop ~ currentProducto:", currentProducto)
-  }, [currentProducto]);
-
-  useEffect(() => {
     if(capturando){
 
       InitWorker();
@@ -200,25 +176,27 @@ const BusquedaDesktop = () => {
   }, [capturando]);
 
   useEffect(() => {
+    ConsultarHistorial()
+  }, [])
+  
+  const ConsultarHistorial = () => {
     fetch(`https://api.nutriscan.com.co/api/historialusuario/${infoUser.uid}`)
       .then(res => {
         if(res.ok){
-          setNotFound(false);
           return res.json();
         }
         if(res.status === 404){
-          setNotFound(true);
           return Promise.reject("404 not found");
         }
         return Promise.reject(res.statusText);
       }).then(res => {
         const historials: Historial[] = [];
         const referenciaSet = new Set();
-
+  
         res.slice(-5).forEach((item: any) => {
           const { ID_dia, producto, calorias, comido, createdAt, fecha, uid, updatedAt } = item;
           const referencia = producto.nombre; // Cambia producto.nombre por el atributo correcto que contiene la referencia
-
+  
           // Verificar si la referencia ya existe en el conjunto
           if (!referenciaSet.has(referencia)) {
             historials.push({
@@ -231,17 +209,17 @@ const BusquedaDesktop = () => {
               uid,
               updatedAt
             });
-
+  
             // Agregar la referencia al conjunto
             referenciaSet.add(referencia);
           }
         });
-
+  
         console.log("🚀 ~ consthistorials:Historial[]=res.slice ~ historials:", historials);
         setHistorial(historials);
       }).catch(err => console.error(err));
-  }, [])
-  
+  }
+
   return (
     <div className={style.scanMain}>
       <div className={style.barraBuscador}>
@@ -270,7 +248,7 @@ const BusquedaDesktop = () => {
         <p style={{color:'black',margin:'0',textAlign:'start'}}>No se han encontrado coincidencias</p>
       </div>}
       {openProducto && 
-        <Modal isOpen={openProducto} setIsOpen={setOpenProducto}>
+        <Modal isOpen={openProducto} setIsOpen={setOpenProducto} ref={modal}>
           <div className={style.answerOption} style={{justifyContent:'flex-start', boxShadow:'none'}}>
             <img src={currentProducto?.foto} style={{height:'15svh'}}></img>
             <div style={{flex:'1'}}>

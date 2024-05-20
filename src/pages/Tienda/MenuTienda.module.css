@@ -1,5 +1,6 @@
 .main{
     text-align: center;
+    position: relative;
 }
 
 .bannerDesk{    
@@ -8,6 +9,10 @@
     max-height: 30svh;
     object-fit: cover;
     background: var(--color-5);
+}
+
+.bannerDesk:hover{
+    cursor: pointer;
 }
 
 .logoSection{

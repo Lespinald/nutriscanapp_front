@@ -9,7 +9,7 @@ interface Limit{
 
 const InicioLoggin = () => {
   const [viewMore, setViewMore] = useState(0)
-  const [productosPrueba, setProductosPrueba] = useState<Producto[]>([])
+  const [productos, setProductos] = useState<Producto[]>([])
   const [limites, setLimites] = useState(false)
 
   const AumentarIndice = () => {
@@ -25,18 +25,45 @@ const InicioLoggin = () => {
   } as Producto
 
   useEffect(() => {
-    const PRODCUTOSPRUEBA:Producto[] = []
-    
-    for (let i = 0; i < 20; i++) {
-      PRODCUTOSPRUEBA.push({...producto});
-    }
-    setProductosPrueba(PRODCUTOSPRUEBA)
+    ConsultarProductosAleatorios()
   }, [])
+
+  
+  const ConsultarProductosAleatorios = () => {
+    fetch(`https://api.nutriscan.com.co/api/productosaleatorios/21`)
+      .then(res => {
+        if(res.ok){
+          return res.json();
+        }
+        if(res.status === 404){
+          return Promise.reject("404 not found");
+        }
+        return Promise.reject(res.statusText);
+      }).then(res => {
+        const productos: Producto[] = [];
+
+        // Assuming datos is an array of product data objects
+        res.forEach((productoData: any) => {
+          const producto: Producto = {
+            ID_producto: productoData.ID_producto,
+            referencia: productoData.referencia,
+            nombre: productoData.nombre,
+            descripcion: productoData.descripcion,
+            foto: productoData.foto,
+            categorias: productoData.categorias ?? [],
+          };
+          productos.push(producto);
+        });
+
+        console.log("🚀 ~ TraerProductosTienda ~ productos:", productos);
+        setProductos(productos);
+      }).catch(err => console.error(err));
+  }
   
   const GetOpciones = () => {
     return(
       <>
-      {productosPrueba.map((product,index) => (
+      {productos.map((product,index) => (
         index === 0 ? 
         <div className={style.wrap_item}>
           <p className={style.textoInicial}><span>ENCUENTRA</span> la alternativa que estabas buscando</p>
@@ -44,14 +71,16 @@ const InicioLoggin = () => {
         </div>
         :        
         <div className={style.wrap_item}>
-          <img src={product.foto} style={{width:'100%',padding:'0 2%'}}/>
-          <div style={{display:'flex',flexDirection:'row',justifyContent:'space-around'}}>
+          <div style={{width:'100%',display:'flex',justifyContent:'center',background:'var(--color-6)'}}>
+            <img src={product.foto} style={{height:'13svh',padding:'0 2%'}}/>
+          </div>
+          <div style={{display:'flex',flexDirection:'row',justifyContent:'space-around',gap:'5%'}}>
             <div className={style.imagenContain}>
-              <img src={product.foto} style={{width:'100%'}}/>
+              <img src={product.foto} style={{width:'100%',maxHeight:'100%'}}/>
             </div>
             <p className={style.textoProducto}>
               <span>{product.nombre}</span><br></br>
-              {product.descripcion}
+              {product.descripcion !== "" ? product.descripcion : 'From Open Food Facts' }
             </p>
           </div>
         </div>

@@ -14,33 +14,34 @@ import ComprarTienda from './pages/CompraTienda/ComprarTienda';
 import Inicio from './pages/Home/Inicio';
 import InicioLoggin from './pages/InicioLoggin/InicioLoggin';
 import NotFound from './pages/404/NotFound';
-import { useEffect, useState } from 'react';
+import { useEffect, useLayoutEffect, useState } from 'react';
 import { onAuthStateChanged } from 'firebase/auth';
 import { auth } from './firebase';
 import { useDispatch, useSelector } from 'react-redux';
 import BusquedaDesktop from './pages/Scan/BusquedaDesktop';
-import { TraerInfoTienda, TraerInfoUsuario, TraerProductosTienda } from './assets/Utils';
+import { TraerInfoTienda, TraerInfoUsuario, TraerProductosTienda, onUserLoad } from './assets/Utils';
 import { login } from './redux/authSlice';
 import { Usuario } from './assets/models/usuario';
 import { setProductos, setTienda } from './redux/tiendaSlice';
 import MenuCarga from './assets/MenuCarga/MenuCarga';
 
 function App() {
-  const dispatch = useDispatch(); // Aquí usamos useNavigate
+  const dispatch = useDispatch();
   const navigate = useNavigate(); // Aquí usamos useNavigate
-  const [loading, setLoading] = useState(false)
-  const authenticated = useSelector((state:any) => state.auth.status === 'authenticated')
+  const [loading, setLoading] = useState(true)
+  const infoUsuario = useSelector((state:any) => state.auth.infoUsuario)
 
-  useEffect(() => {
-    if (auth.currentUser) {
-      // Indicar que se debe redirigir al usuario
-      GetInfoUser(auth.currentUser.uid)
-    }
-    
+  useLayoutEffect(() => {
+      onUserLoad(
+        user => {
+          GetInfoUser(user.uid)
+            .then(() => setLoading(false));
+        },
+        () => setLoading(false)
+      );
   }, []);
   
   const GetInfoUser = async(uid:string) => {
-    setLoading(true)
     let resp = await TraerInfoUsuario(uid);
     if(resp){
       dispatch(login({infoUsuario:resp}));
@@ -55,7 +56,6 @@ function App() {
         dispatch(setProductos({productos:products}));
       }
     }
-    setLoading(false)
   }
   
   const RedirecLoggeoAutomatico = (ruta:string) => {
@@ -66,8 +66,9 @@ function App() {
   return (
     <>
       <MenuCarga isOpen={loading}/>
+      {!loading &&
       <Routes>
-        <Route element={authenticated?<AppLayout/>:<Layout/>}>
+        <Route element={infoUsuario?<AppLayout/>:<Layout/>}>
           <Route path=':section?' element={<Home/>}/>
           <Route path='/pago/:info' element={<Checkout/>}/>
           <Route path='/responseFactura' element={<RecivePasarela/>}/>
@@ -93,6 +94,7 @@ function App() {
 
         <Route path="*" element={<NotFound/>}/>
       </Routes>  
+      }
     </>
   );
 }

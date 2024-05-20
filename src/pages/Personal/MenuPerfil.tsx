@@ -12,6 +12,7 @@ import { GraphBusquedas } from './GraphBusquedas.jsx';
 import { GraphCalorias } from './GraphCalorias.jsx';
 import { GraphProgreso } from './GraphProgreso.jsx'
 import { nutriscoreImgs } from '../../assets/categorias.js'
+import { CalcularIMC } from '../../assets/Utils.js'
 
 const MenuPerfil = () => {
   const [showGraph, setShowGraph] = useState(false); // Estado para controlar la visualización de la gráfica de barras
@@ -99,8 +100,8 @@ const MenuPerfil = () => {
             </div>
             <div className={style.containIMC}>
               <img src='/Home/Perfil/target.png' alt='diana'></img>
-              <p className={style.s}>IMC: {(infoUser?.peso / (infoUser?.altura^2) * 100).toFixed(1)}</p>
-              <p className={style.s}>Estado: {GetEstado(infoUser?.peso / (infoUser?.altura^2) * 100)}</p>
+              <p className={style.s}>IMC: {CalcularIMC(infoUser?.peso, infoUser?.altura).toFixed(1)}</p>
+              <p className={style.s}>Estado: {GetEstado(CalcularIMC(infoUser?.peso, infoUser?.altura))}</p>
             </div>
           </div>
           <button className={style.logoutButton} onClick={HandleSignOut}>Cerrar Sesión</button>

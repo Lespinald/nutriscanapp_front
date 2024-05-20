@@ -1,4 +1,4 @@
-import { signOut } from "firebase/auth";
+import { User, onAuthStateChanged, signOut } from "firebase/auth";
 import { auth } from "../firebase";
 import { login } from "../redux/authSlice";
 import { Usuario, convertirUsuario } from "./models/usuario";
@@ -226,6 +226,19 @@ export const GuardarHistorial = async (newProduct: Producto, uid: string, nutrim
   }
 };
 
+export function onUserLoad(accept:(user:User)=>void = user=>{},reject:()=>void = ()=>{},complete:()=>void = ()=>{}){
+  const unsuscribe = onAuthStateChanged(auth, user => {
+    if(user){
+      accept(user);
+    }else{
+      reject();
+    }
+    complete();
+    unsuscribe();
+  })
+}
+
+
 export const GetTipoSuscripcion = (infoUsuario:Usuario):string => {
 
   if(infoUsuario?.tipoSuscripcion === 'gratis'){
@@ -238,4 +251,53 @@ export const GetTipoSuscripcion = (infoUsuario:Usuario):string => {
     }
     return 'FREE'
   }
+}
+
+export async function ConsultarOpenFoodFact(referencia: string, uid: string): Promise<Producto | null> {
+  try {
+    const res = await fetch(`https://world.openfoodfacts.net/api/v2/product/${referencia}`);
+    
+    if (!res.ok) {
+      if (res.status === 404) {
+        console.log("🚀 ~ ConsultarOpenFoodFact ~ 404 not found");
+        return null;
+      }
+      console.log("🚀 ~ ConsultarOpenFoodFact ~ Error:", res.statusText);
+      throw new Error(res.statusText);
+    }
+
+    const data = await res.json();
+
+    if (!data.product) {
+      console.log("🚀 ~ ConsultarOpenFoodFact ~ Product not found");
+      return null;
+    }
+
+    console.log("🚀 ~ HandleSearch ~ data:", data);
+
+    let newProduct: Producto = {
+      ID_producto: data.product.id,
+      referencia: data.product.id,
+      nombre: data.product.product_name,
+      descripcion: "",
+      foto: data.product.image_url,
+      categorias: data.product.categories_tags,
+      nutriscore: data.product.nutriscore_grade
+    };
+
+    GuardarRegistro(newProduct).then((ID) => {
+      console.log("🚀 ~ GuardarRegistro Then ~ ID:", ID)
+      GuardarHistorial(newProduct,uid,data.product.nutriments,ID)
+    })
+
+    return newProduct;
+
+  } catch (err) {
+    console.error("🚀 ~ ConsultarOpenFoodFact ~ Error:", err);
+    return null;
+  }
+}
+
+export function CalcularIMC(peso:number, altura:number){
+  return peso/(altura/100)**2;
 }
