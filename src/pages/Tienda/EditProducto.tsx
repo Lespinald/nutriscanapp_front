@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import InputFoto from '../Personal/InputFoto';
+import style from './EditProducto.module.css'
 import styleMenuTienda from './MenuTienda.module.css'
 import styleMenuPerfil from '../Personal/MenuPerfil.module.css'
 import styleFormPerfil from '../Personal/FormPerfil.module.css'
@@ -11,6 +12,8 @@ import { agregarProducto, modificarProducto } from '../../redux/tiendaSlice';
 import SelectorArray from '../../assets/Components/SelectorArray';
 import { categorias } from '../../assets/categorias';
 import Modal from '../../assets/Components/Modal';
+import { useAppLayoutContext } from '../AppLayout';
+import InputImagen from '../../assets/Components/InputImagen';
 
 interface Props{
   initialProducto:Producto;
@@ -18,15 +21,35 @@ interface Props{
   indice:number;
 }
 
+interface DatosForm{
+  nombre: string;
+  descripcion: string;
+  enlaceDeCompra: string;
+  categorias: string[];
+  imagenFrontal: File;
+  denominacion: string;
+  cantidad: {valor:number, unidad:string};
+  imagenNutricional?: File;
+  energia: {valor:number, unidad:string};
+  grasaTotal: {valor:number, unidad:string};
+  grasaSaturada: {valor:number, unidad:string};
+  carbohidratos: {valor:number, unidad:string};
+  Azucar: {valor:number, unidad:string};
+  Fibra: {valor:number, unidad:string};
+  Proteina: {valor:number, unidad:string};
+  Sodio: {valor:number, unidad:string};
+}
+
 const EditProducto = ({initialProducto,indice,setOpen}:Props) => {
-    const [currentProducto, setCurrentProducto] = useState(initialProducto)
-    const [scan, setScan] = useState(false)
-    const [changePhoto, setChangePhoto] = useState(false)
-    const [photoPerfil, setPhotoPerfil] = useState(initialProducto.foto)
+    const [currentProducto, setCurrentProducto] = useState(initialProducto);
+    const [scan, setScan] = useState(false);
+    const [changePhoto, setChangePhoto] = useState(false);
 
     const infoTienda = useSelector((state:any) => state.tienda.currentTienda);
     const infoUser = useSelector((state:any) => state.auth.infoUsuario);
     const dispatch = useDispatch();
+
+    const {mobile} = useAppLayoutContext();
 
     const {
       agregarImg,
@@ -84,7 +107,7 @@ const EditProducto = ({initialProducto,indice,setOpen}:Props) => {
         console.log("🚀 ~ HandleSaveImage ~ image:", image)
         await obtenerURL(`${infoUser.uid}/fotoProducto${currentProducto.ID_producto}.png`).then(
           (response) => {
-            setPhotoPerfil(response);
+            // setPhotoPerfil(response);
             const handleChange = HandleInputChange('foto',response);
             handleChange({ target: { value: response } });
             console.log("🚀 ~ HandleSaveImage ~ response:", response)
@@ -143,10 +166,15 @@ const EditProducto = ({initialProducto,indice,setOpen}:Props) => {
       }
     }
 
-    useEffect(() => {
-      HandleInputChange('foto',photoPerfil)
-      console.log("🚀 ~ EditProducto ~ photoPerfil:", photoPerfil)
-    }, [photoPerfil])
+
+
+
+
+
+
+
+
+
     useEffect(() => {
       console.log("🚀 ~ EditProducto ~ currentProducto:", currentProducto)
     }, [currentProducto])
@@ -180,31 +208,145 @@ const EditProducto = ({initialProducto,indice,setOpen}:Props) => {
               <h1>Si tu producto tiene codigo de barras</h1>
             </div>
           </div>
-          <div className={`${styleFormPerfil.formulario} ${styleMenuTienda.formulario}`}>
-            <form>
-                <div className={styleFormPerfil.campo}>
+          <div className={`${styleFormPerfil.formulario}`}>
+            <form className={style.infoForm}>
+              <div className={styleFormPerfil.campo}>
+                <label htmlFor='nombre'>Nombre:</label>
+                <input name='nombre' id='nombre' type='text' placeholder='Ingrese el nombre'></input>
+              </div>
+              <div className={styleFormPerfil.campo}>
+                <label htmlFor='descripcion'>Descripción:</label>
+                <textarea rows={4} id="descripcion" name="descripcion" placeholder='Ingrese una descipcion'/>
+              </div>
+              <div className={styleFormPerfil.campo}>
+                <label htmlFor='enlaceCompra'>Enlace de compra:</label>
+                <input name='enlaceCompra' id='enlaceCompra' type='url' placeholder='Ingrese el enlace de compra'></input>
+              </div>
+              <div className={styleFormPerfil.campo}>
+                <label htmlFor="Categoría">Categoría:</label>
+                <SelectorArray opciones={categorias} current={currentProducto.categorias?? []} setCurrent={HandleInputChange}/>
+              </div>
+              <div className={styleFormPerfil.campo}>
+                <label>Imagen Frontal:</label>
+                <InputImagen name='imagenFrontal' isMobile={mobile} styleClass={style.inputImagen}/> 
+              </div>
+              <table className={style.infoTable}>
+                <thead>  
+                  <tr>
+                    <th>Información</th>
+                    <th>cantidad (en 100 g o ml)</th>
+                    <th>Información</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><label htmlFor='energia'>Energia / Calorias</label></td>
+                    <td><input name='energia' id='energia' type='number'></input></td>
+                    <td>
+                      <select name='unidadEnergia' id='unidadEnergia'>
+                        <option value={"kcal"}>Kcal</option>
+                        <option value={"kj"}>Kjoules</option>
+                      </select>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td><label htmlFor='grasaSaturada'>Grasa total</label></td>
+                    <td><input name='grasaSaturada' id='grasaSaturada' type='number'></input></td>
+                    <td>
+                      <select name='unidadGrasaSaturada' id='unidadGrasaSaturada'>
+                        <option value={"g"}>g</option>
+                        <option value={"mg"}>mg</option>
+                        <option value={"μg"}>mcg / μg</option>
+                      </select>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td><label htmlFor='grasas'>Grasa Saturada</label></td>
+                    <td><input name='grasas' id='grasas' type='number'></input></td>
+                    <td>
+                      <select name='unidadGrasas' id='unidadGrasas'>
+                        <option value={"g"}>g</option>
+                        <option value={"mg"}>mg</option>
+                        <option value={"μg"}>mcg / μg</option>
+                      </select>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td><label htmlFor='carbohidratos'>Carbohidratos totales</label></td>
+                    <td><input name='carbohidratos' id='carbohidratos' type='number'></input></td>
+                    <td>
+                      <select name='unidadCarbohidratos' id='unidadCarbohidratos'>
+                        <option value={"g"}>g</option>
+                        <option value={"mg"}>mg</option>
+                        <option value={"μg"}>mcg / μg</option>
+                      </select>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td><label htmlFor='fibra'>Fibra dietaria</label></td>
+                    <td><input name='fibra' id='fibra' type='number'></input></td>
+                    <td>
+                      <select name='unidadFibra' id='unidadFibra'>
+                        <option value={"g"}>g</option>
+                        <option value={"mg"}>mg</option>
+                        <option value={"μg"}>mcg / μg</option>
+                      </select>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td><label htmlFor='azucar'>Azúcares totales</label></td>
+                    <td><input name='azucar' id='azucar' type='number'></input></td>
+                    <td>
+                      <select name='unidadAzucar' id='unidadAzucar'>
+                        <option value={"g"}>g</option>
+                        <option value={"mg"}>mg</option>
+                        <option value={"μg"}>mcg / μg</option>
+                      </select>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td><label htmlFor='proteina'>Proteína</label></td>
+                    <td><input name='proteina' id='proteina' type='number'></input></td>
+                    <td>
+                      <select name='unidadProteina' id='unidadProteina'>
+                        <option value={"g"}>g</option>
+                        <option value={"mg"}>mg</option>
+                        <option value={"μg"}>mcg / μg</option>
+                      </select>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td><label htmlFor='sodio'>Sodio</label></td>
+                    <td><input name='sodio' id='sodio' type='number'></input></td>
+                    <td>
+                      <select name='unidadSodio' id='unidadSodio'>
+                        <option value={"mg"}>mg</option>
+                        <option value={"g"}>g</option>
+                        <option value={"μg"}>mcg / μg</option>
+                      </select>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+                      {/* <select name='unidadEnergia' id='unidadEnergia'>
+                        <option value={"g"}>g</option>
+                        <option value={"mg"}>mg</option>
+                        <option value={"μg"}>μg</option>
+                        <option value={"cl"}>cl</option>
+                        <option value={"ml"}>ml</option>
+                        <option value={"dv"}>dv</option>
+                        <option value={"% vol"}>% de alcohol</option>
+                      </select> */}
+                {/* <div className={styleFormPerfil.campo}>
                   <label htmlFor="nombre">Nombre:</label>
                   <input type="text" id="nombre" name="nombre" onChange={HandleInputChange('nombre')} value={currentProducto?.nombre} placeholder='Ingrese un nombre'/>
                 </div>
-                <div className={styleFormPerfil.campo}>
-                  <label htmlFor="Descripción">Descripción:</label>
-                  <textarea rows={4} id="Descripción" name="Descripción" onChange={HandleInputChange('descripcion')} value={currentProducto?.descripcion} placeholder='Ingrese una descipcion'/>
-                </div>
-                <div className={styleFormPerfil.campo}>
-                  <label htmlFor="Categoría">Categoría:</label>
-                  <SelectorArray opciones={categorias} current={currentProducto.categorias?? []} setCurrent={HandleInputChange}/>
-                </div>
                 <button type="button" className={`${styleFormPerfil.button} ${areObjectsEqual(initialProducto,currentProducto) ? styleFormPerfil.desactivado : ''}`}
                 onClick={HandleGuardarCambios} style={{alignSelf:'flex-end'}}>{areObjectsEqual(productoVacio,initialProducto)?'Crear Producto':'Guardar Cambios'}</button>
-                <button type="button" className={`${styleFormPerfil.button}`} onClick={() => setOpen(false)} style={{alignSelf:'flex-start'}}>CANCELAR</button>
+                <button type="button" className={`${styleFormPerfil.button}`} onClick={() => setOpen(false)} style={{alignSelf:'flex-start'}}>CANCELAR</button> */}
             </form>
         </div>
           {/* 2000900000000 */}
-          <InputFoto isOpen={changePhoto} setIsOpen={setChangePhoto} photoPerfil={photoPerfil} setPhotoPerfil={setPhotoPerfil} perfil={false} indice={indice} HandleSaveImage={HandleSaveImage}/>
-          <Modal isOpen={scan} setIsOpen={setScan}>
-            h
-            {/* <input type='text' value={codigoBarras} placeholder='Ingrese el codigo de barras'></input> */}
-          </Modal>
         </div>
       )
 }

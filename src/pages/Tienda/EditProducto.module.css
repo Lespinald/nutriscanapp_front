@@ -1,0 +1,46 @@
+.infoForm{
+  overflow-y: auto;
+}
+.infoForm > div, .infoForm > table{
+  margin-bottom: 1rem;
+}
+
+.inputImagen img{
+  width: 100%;
+}
+
+.infoTable{
+  width: 95%;
+  color: white;
+}
+.infoTable td, .infoTable th{
+  text-align: center;
+
+  padding: 0.5rem;
+}
+.infoTable th{
+  text-decoration: underline;
+}
+.infoTable input, .infoTable select{
+  border-radius: 0.4rem;
+  border: none;
+  background-color: #D9D9D9;
+  color: var(--color-6);
+  height: fit-content;
+  padding: 0.4rem 1rem;
+}
+
+.infoTable select{
+  appearance: none;
+  padding-right: 2.2rem;
+  
+
+  background-image: url(/Tienda/flechaSelector.svg);
+  background-position: right;
+  background-repeat: no-repeat;
+  background-size: auto 100%;
+}
+
+.infoTable select{
+  width: 80%;
+}
