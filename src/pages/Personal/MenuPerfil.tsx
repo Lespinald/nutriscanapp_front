@@ -12,33 +12,90 @@ import { GraphBusquedas } from './GraphBusquedas.jsx';
 import { GraphCalorias } from './GraphCalorias.jsx';
 import { GraphProgreso } from './GraphProgreso.jsx'
 import { nutriscoreImgs } from '../../assets/categorias.js'
-import { CalcularIMC } from '../../assets/Utils.js'
+import { CalcularIMC, ConsultarOpenFoodFact } from '../../assets/Utils.js'
+import { Historial } from '../../assets/models/historial.js'
+import { Producto } from '../../assets/models/tienda.js'
 
 const MenuPerfil = () => {
+  const [productosHistorial, setProductosHistorial] = useState<Producto[]>([])
   const [showGraph, setShowGraph] = useState(false); // Estado para controlar la visualización de la gráfica de barras
   const [bandera, setBandera] = useState<string>(''); // Estado para almacenar la bandera de qué gráfica mostrar
   const infoUser:Usuario = useSelector((state:any) => state.auth.infoUsuario)
   const navigate = useNavigate()
   const dispatch = useDispatch()
 
+  const GetHistorial = async () => {
+    try {
+      const response = await fetch(`https://api.nutriscan.com.co/api/historialusuario/${infoUser.uid}`);
+      if (!response.ok) {
+        if (response.status === 404) {
+          throw new Error("404 not found");
+        }
+        throw new Error(response.statusText);
+      }
+  
+      const data = await response.json();
+      const historials = data.filter((item) => item.comido).map((item) => ({
+        ID_dia: item.ID_dia,
+        ID_producto: item.producto.referencia,
+        calorias: item.calorias,
+        comido: item.comido,
+        createdAt: item.createdAt,
+        fecha: item.fecha,
+        uid: item.uid,
+        updatedAt: item.updatedAt
+      }));
+  
+      console.log("🚀 ~ consthistorials:Historial[]=res.slice ~ historials:", historials);
+      return historials;
+    } catch (error) {
+      console.error(error);
+      return []; // Retornar un array vacío en caso de error
+    }
+  }
 
+  async function obtenerProductosHistorial(historials:Historial[]) {
+    const productosHistorial: Producto[] = [];
+  
+    const consultas = historials.map((currentHistorial) =>
+      ConsultarOpenFoodFact(currentHistorial.ID_producto.toString()).then((res) => {
+        if (res) {
+          // setProductosHistorial((prev) => [...prev,res])
+          productosHistorial.push(res)
+        }
+      })
+    );
+  
+    await Promise.all(consultas);
+    console.log("🚀 ~ obtenerProductosHistorial ~ productosHistorial:", productosHistorial)
+    return productosHistorial;
+  }
+
+  const fetchHistorial = async () => {
+    const historials:Historial[] = await GetHistorial();
+    if (historials.length > 0) { // Verificar si hay historiales antes de proceder
+      const productos = await obtenerProductosHistorial(historials);
+      console.log("🚀 ~ fetchHistorial ~ productos:", productos)
+      // setProductosHistorial(productos);
+    }
+  };
 
   useEffect(() => {
-    console.log("user:",infoUser);
-    
+    // setProductosHistorial([])
+    // fetchHistorial();
   })
 
   const GetEstado = (imc: number) => {
     if(imc < 18.5){
-        return 'Bajo'
+      return 'Bajo'
     }
     if(imc < 24.9){
-        return 'Normal'
+      return 'Normal'
     }
     if(imc < 29.9){
-        return 'Sobrepeso'
+      return 'Sobrepeso'
     }else{
-        return 'Obeso'
+      return 'Obeso'
     }
   }
 
