@@ -301,3 +301,28 @@ export async function ConsultarOpenFoodFact(referencia: string, uid: string): Pr
 export function CalcularIMC(peso:number, altura:number){
   return peso/(altura/100)**2;
 }
+
+export function areObjectsEqual(obj1: any, obj2: any): boolean {
+  // Verifica si ambos son objetos
+  if (typeof obj1 !== 'object' || typeof obj2 !== 'object') {
+      return false;
+  }
+  
+  // Obtiene las claves de ambos objetos
+  const keysObj1 = Object.keys(obj1);
+  const keysObj2 = Object.keys(obj2);
+  
+  // Verifica si tienen la misma cantidad de claves
+  if (keysObj1.length !== keysObj2.length) {
+      return false;
+  }
+  
+  // Verifica si los valores de las claves son iguales
+  for (const key of keysObj1) {
+      if (obj1[key] !== obj2[key]) {
+      return false;
+      }
+  }
+  
+  return true;
+}
