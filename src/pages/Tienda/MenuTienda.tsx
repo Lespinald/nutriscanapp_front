@@ -114,14 +114,14 @@ const TiendaDesktop = ({name, banner, logo, busqueda, setBusqueda, productos,tie
       :
       <div className={style.main} ref={back}>
         <img src={banner} alt="banner" className={style.bannerDesk} onClick={() => {setEditTienda(true)}} ></img>
-        <div className={style.logoSection}>
+        <div className={style.logoSection} onClick={() => {setEditTienda(true)}}>
           <div>
             <img src={infoUser?.foto ? infoUser.foto : tiendaDefault.fotos} alt='logo tienda'/>
           </div>
         </div>
         { tienda !== tiendaDefault ? 
         <>
-          <div className={style.titulo}><a >{tienda?.nombre ? tienda.nombre : tiendaDefault.nombre}</a></div>
+          <div className={style.titulo} onClick={() => {setEditTienda(true)}}><a >{tienda?.nombre ? tienda.nombre : tiendaDefault.nombre}</a></div>
           <p className={style.descripcion}>
             {tienda?.descripcion ? tienda.descripcion : tiendaDefault.descripcion}
           </p>

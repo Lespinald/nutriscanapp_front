@@ -253,7 +253,7 @@ export const GetTipoSuscripcion = (infoUsuario:Usuario):string => {
   }
 }
 
-export async function ConsultarOpenFoodFact(referencia: string, uid: string): Promise<Producto | null> {
+export async function ConsultarOpenFoodFact(referencia: string, uid?: string): Promise<Producto | null> {
   try {
     const res = await fetch(`https://world.openfoodfacts.net/api/v2/product/${referencia}`);
     
@@ -285,10 +285,12 @@ export async function ConsultarOpenFoodFact(referencia: string, uid: string): Pr
       nutriscore: data.product.nutriscore_grade
     };
 
-    GuardarRegistro(newProduct).then((ID) => {
-      console.log("🚀 ~ GuardarRegistro Then ~ ID:", ID)
-      GuardarHistorial(newProduct,uid,data.product.nutriments,ID)
-    })
+    if(uid){
+      GuardarRegistro(newProduct).then((ID) => {
+        console.log("🚀 ~ GuardarRegistro Then ~ ID:", ID)
+        GuardarHistorial(newProduct,uid,data.product.nutriments,ID)
+      })
+    }
 
     return newProduct;
 
