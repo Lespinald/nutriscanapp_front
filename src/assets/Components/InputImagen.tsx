@@ -1,14 +1,13 @@
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 
 interface Props{
   name: string;
-  getFile?: (file: File | undefined) => void;
-  callGetFile?: number;
+  setFile?: (file: File) => void;
   isMobile?: boolean;
   styleClass?: string;
 }
 
-const InputImagen = ({name, getFile, callGetFile, isMobile, styleClass}: Props) => {
+const InputImagen = ({name, setFile, isMobile, styleClass}: Props) => {
   const [imagen, setImagen] = useState<string>("");
 
   const inputFiles = useRef<File>();
@@ -32,12 +31,9 @@ const InputImagen = ({name, getFile, callGetFile, isMobile, styleClass}: Props) 
     if(blob){
       setImagen(URL.createObjectURL(blob));
       inputFiles.current = blob;
+      if(setFile) setFile(blob);
     }
   };
-
-  useEffect(() => {
-    if(callGetFile && getFile) getFile(inputFiles.current);
-  }, [callGetFile])
 
   return(
     <>
@@ -48,12 +44,12 @@ const InputImagen = ({name, getFile, callGetFile, isMobile, styleClass}: Props) 
         {isMobile &&
         <label htmlFor={`${name}Captura`}>
           Captura la imagen con tu camara
-          <input ref={inputCaptura} id={`${name}Captura`} name={`${name} captura`} type="file" accept="image/*" capture="environment" hidden onChange={onChange}/>
+          <input ref={inputCaptura} id={`${name}Captura`} name={`${name}Captura`} type="file" accept="image/*" capture="environment" hidden onChange={onChange}/>
         </label>
         }
         <label htmlFor={`${name}Escoger`}>
           Escoge el archivo de imagen
-          <input ref={inputArchivo} id={`${name}Escoger`} name={`${name} escoger`} type="file" accept="image/*" hidden onChange={onChange}/>
+          <input ref={inputArchivo} id={`${name}Escoger`} name={`${name}Escoger`} type="file" accept="image/*" hidden onChange={onChange}/>
         </label>
       </div>
     </>

@@ -1,6 +1,12 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { Producto } from '../../assets/models/tienda'
 import style from './InicioLoggin.module.css'
+import styleFormPerfil from "../Personal/FormPerfil.module.css"
+import SelectorArray from '../../assets/Components/SelectorArray';
+import { nutriscoreImgs } from '../../assets/categorias';
+import Modal from '../../assets/Components/Modal';
+import { ConsultarOpenFoodFact } from '../../assets/Utils';
+import { useSelector } from 'react-redux';
 
 interface Limit{
   startIndex: number;
@@ -10,7 +16,12 @@ interface Limit{
 const InicioLoggin = () => {
   const [viewMore, setViewMore] = useState(0)
   const [productos, setProductos] = useState<Producto[]>([])
+  const [currentProducto, setCurrentProducto] = useState<Producto>()
   const [limites, setLimites] = useState(false)
+  const [openProducto, setOpenProducto] = useState(false)
+
+  const infoUser = useSelector((state:any) => state.auth.infoUsuario)
+  const modal = useRef(null)
 
   const AumentarIndice = () => {
     setLimites(true)
@@ -24,10 +35,19 @@ const InicioLoggin = () => {
     nombre:'Prueba 1'
   } as Producto
 
+  const HandleClickProduct = async (producto:Producto) => {
+    let res = await ConsultarOpenFoodFact(producto.referencia,infoUser.uid)
+    if(res){
+      setCurrentProducto(res)
+    }else{
+      setCurrentProducto(producto)
+    }
+    setOpenProducto(true)
+  }
+
   useEffect(() => {
     ConsultarProductosAleatorios()
   }, [])
-
   
   const ConsultarProductosAleatorios = () => {
     fetch(`https://api.nutriscan.com.co/api/productosaleatorios/21`)
@@ -70,7 +90,7 @@ const InicioLoggin = () => {
           <img style={{width:'40%',aspectRatio:'1 / 1'}} src='/InicioLoggin/fotoOne.png' alt='Primera Imagen'/>
         </div>
         :        
-        <div className={style.wrap_item}>
+        <div className={style.wrap_item} onClick={() => {HandleClickProduct(product)}}>
           <div style={{width:'100%',display:'flex',justifyContent:'center',background:'var(--color-6)'}}>
             <img src={product.foto} style={{height:'13svh',padding:'0 2%'}}/>
           </div>
@@ -98,6 +118,35 @@ const InicioLoggin = () => {
       <div className={style.containOpciones} style={limites ? {flexDirection:'row',maxHeight:'none'} : {flexDirection:'row'}}>
         {GetOpciones()}
       </div>
+      
+      {openProducto && 
+        <Modal isOpen={openProducto} setIsOpen={setOpenProducto} ref={modal}>
+          <div className={style.answerOption} style={{justifyContent:'flex-start', boxShadow:'none'}}>
+            <img src={currentProducto?.foto} style={{height:'15svh'}}></img>
+            <div style={{flex:'1'}}>
+              <h2 style={{textAlign:'start',alignSelf:'flex-start',width:'100%'}}>
+                {currentProducto?.nombre} <br></br>
+                <span style={{fontWeight:'400'}}>{currentProducto?.descripcion}</span>
+              </h2>
+            </div>
+            <div className={style.answerOption} style={{boxShadow:'none',padding:'5% 0',justifyContent:'flex-start',alignItems:'flex-start'}}>
+              <img src={nutriscoreImgs[currentProducto?.nutriscore ?? 'unknown']} alt={`nutriscore grado ${currentProducto?.nutriscore}`} style={{width:'30%'}}></img>
+              <div style={{flex:'1'}}>
+                <p className={style.infoExtra}>Nutriscore: <span style={{fontWeight:'600'}}>{currentProducto?.nutriscore ?? 'unknown'}</span></p>
+                <p className={style.infoExtra}>Referencia: <span style={{fontWeight:'600'}}>{currentProducto?.referencia}</span></p>
+                <div className={styleFormPerfil.campo} style={{gridTemplateColumns:'none'}}>
+                  <label htmlFor="Categoría" style={{color:'var(--color-6)',marginRight:'10px',textAlign:'start',fontSize:'3svh',fontWeight:'400'}}> Categoría: </label>
+                  <SelectorArray placeholder='No hay categorias' color="var(--color-6)"
+                  opciones={currentProducto?.categorias ?? []} current={currentProducto?.categorias ?? []} 
+                  setCurrent={function (fieldName: string, response?: string | string[] | undefined): (e: { target: { value: any; }; }) => void {
+                    throw new Error("Function not implemented.");
+                  } } />
+                </div>
+              </div>
+            </div>
+          </div>
+        </Modal>
+      }
     </div>
   )
 }

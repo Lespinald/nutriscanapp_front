@@ -63,11 +63,11 @@ const TiendaDesktop = ({name, banner, logo, busqueda, setBusqueda, productos,tie
   const [editTienda, setEditTienda] = useState<boolean>(false);
   const [indice, setIndice] = useState<number>(0);
   const [currentTienda, setCurrentTienda] = useState<Tienda>(tienda);
-  const [currentProduct, setCurrentProduct] = useState<Producto>(productoVacio);
+  const [currentProduct, setCurrentProduct] = useState<Producto | undefined>();
 
   const back = useRef(null);
 
-  const onProducto = (element:Producto,indice:number) => {
+  const onProducto = (indice:number, element?:Producto) => {
     setCurrentProduct(element)
     setIndice(indice)
     setEditProd((prev) => !prev);
@@ -107,31 +107,31 @@ const TiendaDesktop = ({name, banner, logo, busqueda, setBusqueda, productos,tie
   return (
     <>{
       editProd ?
-      <EditProducto initialProducto={currentProduct} setOpen={setEditProd} indice={indice}/>
+      <EditProducto initialProducto={currentProduct} tienda={currentTienda} setOpen={setEditProd} indice={indice}/>
       :
       editTienda ?
       <EditTienda initialTienda={currentTienda} setOpen={setEditTienda} indice={0}/>
       :
       <div className={style.main} ref={back}>
         <img src={banner} alt="banner" className={style.bannerDesk} onClick={() => {setEditTienda(true)}} ></img>
-        <div className={style.logoSection}>
+        <div className={style.logoSection} onClick={() => {setEditTienda(true)}}>
           <div>
             <img src={infoUser?.foto ? infoUser.foto : tiendaDefault.fotos} alt='logo tienda'/>
           </div>
         </div>
         { tienda !== tiendaDefault ? 
         <>
-          <div className={style.titulo}><a >{tienda?.nombre ? tienda.nombre : tiendaDefault.nombre}</a></div>
+          <div className={style.titulo} onClick={() => {setEditTienda(true)}}><a >{tienda?.nombre ? tienda.nombre : tiendaDefault.nombre}</a></div>
           <p className={style.descripcion}>
             {tienda?.descripcion ? tienda.descripcion : tiendaDefault.descripcion}
           </p>
           <input type='text' value={busqueda} placeholder='Buscar producto' className={style.buscador} onChange={e => setBusqueda(e.currentTarget.value)}/>
-          {productos.length !== 0 && <Agregar color={'white'} background={'var(--color-5)'} style={{width: '3rem',marginLeft: 'calc(-3rem - 3px - 1.5rem)',alignSelf: 'center',top: '1rem',position: 'relative'}} className={`estiloButton`} onClick={() => onProducto(productoVacio,0)}></Agregar>}
+          {productos.length !== 0 && <Agregar color={'white'} background={'var(--color-5)'} style={{width: '3rem',marginLeft: 'calc(-3rem - 3px - 1.5rem)',alignSelf: 'center',top: '1rem',position: 'relative'}} className={`estiloButton`} onClick={() => onProducto(productos.length)}></Agregar>}
           <div className={style.presentacion}>
             <>
             {
               productos.map((v, i) => 
-                <div className={style.producto} onClick={() => onProducto(v,i)} key={i}>
+                <div className={style.producto} onClick={() => onProducto(i, v)} key={i}>
                   <img src={v.foto}></img>
                   <div>
                     <p className={style.name}>{v.nombre}</p>
@@ -141,7 +141,7 @@ const TiendaDesktop = ({name, banner, logo, busqueda, setBusqueda, productos,tie
               )
             }
             {productos.length === 0 && 
-              <div className={style.producto} style={{gridColumn:'2'}} onClick={() => onProducto(productoVacio,0)}>
+              <div className={style.producto} style={{gridColumn:'2'}} onClick={() => onProducto(0)}>
                 <Agregar color='red' background='var(--color-2)' style={{maxWidth:'30%'}}/>
                 <div>
                   <p className={style.name}>Agregar un producto</p>
