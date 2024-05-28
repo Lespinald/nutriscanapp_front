@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -9,7 +9,6 @@ import {
   Legend,
 } from 'chart.js';
 import { Bar } from 'react-chartjs-2';
-import {faker} from '@faker-js/faker';
 
 ChartJS.register(
   CategoryScale,
@@ -28,25 +27,39 @@ export const options = {
     },
     title: {
       display: true,
-      text: 'Sobre tus busquedas',
+      text: 'Sobre tus búsquedas',
     },
   },
 };
 
-const labels = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio'];
+// Función para generar las últimas 7 fechas en formato 'DD/MM/YYYY'
+const generateLast7Dates = () => {
+  const dates : string[] = [];
+  const currentDate = new Date();
+
+  for (let i = 0; i < 7; i++) {
+    const date = new Date(currentDate);
+    date.setDate(currentDate.getDate() - i);
+    dates.push(date.toLocaleDateString('es-ES'));
+  }
+
+  return dates.reverse();
+};
+
+const labels = generateLast7Dates();
+
+// Simulando datos de clics en el botón buscar para los últimos 7 días
+const generateMockedClicks = () => {
+  return labels.map(() => Math.floor(Math.random() * 10));
+};
 
 export const data = {
   labels,
   datasets: [
     {
-      label: 'Dataset 1',
-      data: labels.map(() => faker.datatype.number({ min: 0, max: 1000 })),
+      label: 'Busquedas',
+      data: generateMockedClicks(),
       backgroundColor: 'rgba(255, 99, 132, 0.5)',
-    },
-    {
-      label: 'Dataset 2',
-      data: labels.map(() => faker.datatype.number({ min: 0, max: 1000 })),
-      backgroundColor: 'rgba(53, 162, 235, 0.5)',
     },
   ],
 };

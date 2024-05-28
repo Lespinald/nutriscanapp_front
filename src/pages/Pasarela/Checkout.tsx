@@ -39,7 +39,7 @@ const Checkout = () => {
 
     if (priceId) {
       const session = await stripe.checkout.sessions.create({
-        success_url: `http://localhost:5173/responseFactura?nombre=${infoUser?.nombre}&id=${infoUser?.uid}`, 
+        success_url: `http://localhost:5173/responseFactura?nombre=${infoUser?.nombre}&id=${infoUser?.uid}&selectedSubscription=${selectedSubscription}`, 
         cancel_url: 'http://localhost:5173',
         line_items: [
           {

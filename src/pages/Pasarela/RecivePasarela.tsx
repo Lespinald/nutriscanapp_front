@@ -13,6 +13,7 @@ const RecivePasarela = () => {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams()
   const [nombre, setNombre] = useState(searchParams.get('nombre'))
+  const [selectedSubscription, setSelectedSubscription] = useState(searchParams.get('selectedSubscription'))
   const [id, setID] = useState(searchParams.get('id'))
   
   const infoUser = useSelector((state:any) => state.auth.infoUsuario)
@@ -61,6 +62,15 @@ const RecivePasarela = () => {
       
   }}, [])
   
+  const getTipoLabel = (valor) => {
+    if (valor === '7000') {
+      return 'Premiun'
+    } else if (valor === '50000') {
+      return 'Tienda'
+    } else {
+      return 'Error'
+    }
+  };
 
   return (
     <div className={style.page}>
@@ -93,11 +103,11 @@ const RecivePasarela = () => {
         </div>
         <div className={style.campo}>
             <label>VALOR</label>
-            <label>$ 7.000</label>
+            <label>{selectedSubscription}</label>
         </div>
         <div className={style.campo}>
-            <label>TIPO</label>
-            <label>Premiun</label>
+          <label>TIPO</label>
+          <label>{getTipoLabel(selectedSubscription)}</label>
         </div>
         {IsMobile() && <button className={style.button} >PROBAR FUNCIONES</button>}
       </div>
