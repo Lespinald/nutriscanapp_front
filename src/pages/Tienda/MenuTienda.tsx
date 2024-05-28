@@ -126,7 +126,7 @@ const TiendaDesktop = ({name, banner, logo, busqueda, setBusqueda, productos,tie
             {tienda?.descripcion ? tienda.descripcion : tiendaDefault.descripcion}
           </p>
           <input type='text' value={busqueda} placeholder='Buscar producto' className={style.buscador} onChange={e => setBusqueda(e.currentTarget.value)}/>
-          {productos.length !== 0 && <Agregar color={'white'} background={'var(--color-5)'} style={{width: '3rem',marginLeft: 'calc(-3rem - 3px - 1.5rem)',alignSelf: 'center',top: '1rem',position: 'relative'}} className={`estiloButton`} onClick={() => onProducto(0)}></Agregar>}
+          {productos.length !== 0 && <Agregar color={'white'} background={'var(--color-5)'} style={{width: '3rem',marginLeft: 'calc(-3rem - 3px - 1.5rem)',alignSelf: 'center',top: '1rem',position: 'relative'}} className={`estiloButton`} onClick={() => onProducto(productos.length)}></Agregar>}
           <div className={style.presentacion}>
             <>
             {

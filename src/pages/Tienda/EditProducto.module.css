@@ -1,8 +1,17 @@
+.page{
+  position: initial !important;
+}
+
+.formulario{
+  padding-top: 0;
+  padding-bottom: 0;
+}
+
 .infoForm{
   overflow-y: auto;
 }
 .infoForm > div, .infoForm > table{
-  margin-bottom: 1rem;
+  margin-bottom: 0.8rem;
 }
 
 .inputImagen img{

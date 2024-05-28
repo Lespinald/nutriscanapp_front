@@ -82,6 +82,9 @@ button:active{
   max-height: calc(2 * (2svh + 18px));
   height: fit-content;
   display: flex;
+  padding: 0.5rem;
+  border: 3px solid #fff3;
+  border-radius: 0.3rem;
   flex-wrap: wrap;
   gap: 10px;
   overflow-x: hidden;
