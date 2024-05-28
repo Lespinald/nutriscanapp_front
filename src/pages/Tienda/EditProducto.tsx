@@ -239,6 +239,8 @@ const EditProducto = ({initialProducto,tienda,indice,setOpen}:Props) => {
 
       if(validateForm(datos)){
         GuardarProducto(datos);
+      }else{
+        alert("campos incompletos");
       }
     }
 
