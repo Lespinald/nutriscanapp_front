@@ -24,21 +24,43 @@
     content: '';
     width: 89%;
     background-color: var(--color-4);
-    height: 4.05%;
+    height: 4.25%;
     display: flex;
     z-index: 5;
     position: absolute;
-    bottom: 31.1%;
+    bottom: 31.275%;
     border-radius: 25px;
-    animation: llenarBarra 3.5s ease forwards infinite;
+    animation: llenarBarra 3.5s ease-in-out none infinite;
+}
+
+.contain_logo--color-1::after{
+  background-color: var(--color-1);
+}
+.contain_logo--color-2::after{
+  background-color: var(--color-2);
+}
+.contain_logo--color-3::after{
+  background-color: var(--color-3);
+}
+.contain_logo--color-4::after{
+  background-color: var(--color-4);
+}
+.contain_logo--color-5::after{
+  background-color: var(--color-5);
+}
+.contain_logo--color-6::after{
+  background-color: var(--color-6);
 }
 
 @keyframes llenarBarra {
     0% {
       width: 89%;
     }
+    50% {
+      width: 7%;
+    }
     100% {
-      width: 0%;
+      width: 89%;
     }
   }
 
@@ -53,19 +75,19 @@
 }
 
 .cargando::after{
-    content: '';
+    content: '\00a0\00a0\00a0';
     animation: mostrarPuntos 4s steps(4) infinite;
 }
 
 @keyframes mostrarPuntos {
     0% {
-      content: '';
+      content: '\00a0\00a0\00a0';
     }
     25% {
-      content: '.';
+      content: '.\00a0\00a0';
     }
     50% {
-      content: '..';
+      content: '..\00a0';
     }
     75% {
       content: '...';

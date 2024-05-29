@@ -18,6 +18,13 @@ export function GetAspectRatio(): number{
 export function IsMobile(mobileWidth: number = 760): boolean{
   return (GetViewportWidth() <= mobileWidth || GetAspectRatio() <= (5/8));
 }
+export function merge (a: any[], b: any[], predicate = (a: any[], b: any[]) => a === b) {
+  const c = [...a]; // copy to avoid side effects
+  // add all items from B to copy C if they're not already present
+  b.forEach((bItem) => (c.some((cItem) => predicate(bItem, cItem)) ? null : c.push(bItem)))
+  return c;
+}
+
 export async function TraerInfoUsuario(uid: string): Promise<Usuario | null> {
 
   try {
@@ -281,7 +288,7 @@ export async function ConsultarOpenFoodFact(referencia: string, uid?: string): P
       nombre: data.product.product_name,
       descripcion: "",
       foto: data.product.image_url,
-      categorias: data.product.categories_tags,
+      categorias: (data.product.categories as string).split(",").map(s => s.trim()),
       nutriscore: data.product.nutriscore_grade
     };
 
@@ -328,3 +335,5 @@ export function areObjectsEqual(obj1: any, obj2: any): boolean {
   
   return true;
 }
+
+

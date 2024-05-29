@@ -44,11 +44,14 @@ const BusquedaDesktop = () => {
     setOpenProducto(true)
   }
 
-  const HandleSearch = () => {
-    if (!(/^\d+$/.test(busqueda))) {
+  const HandleSearch = (busquedaNueva?: string) => {
+
+    if(!busquedaNueva) busquedaNueva = busqueda;
+
+    if (!(/^\d+$/.test(busquedaNueva))) {
       // Busqueda contains only numeric characters
       console.log("Consulta por nombre.");
-      fetch(`https://api.nutriscan.com.co/api/productosnombre/${busqueda}`).
+      fetch(`https://api.nutriscan.com.co/api/productosnombre/${busquedaNueva}`).
       then(res => {
         if(res.ok){
           return res.json();
@@ -77,8 +80,8 @@ const BusquedaDesktop = () => {
       return;
     }
 	
-    if(busqueda){
-      BarrilConsultarOpenFood(busqueda)
+    if(busquedaNueva){
+      BarrilConsultarOpenFood(busquedaNueva)
     }
   }
 
@@ -223,14 +226,14 @@ const BusquedaDesktop = () => {
   return (
     <div className={style.scanMain}>
       <div className={style.barraBuscador}>
-        <input placeholder="Ingresa tu busqueda" value={busqueda} onChange={(e) => setBusqueda(e.target.value)} onKeyDown={(e) => {if(e.key === 'Enter'){HandleSearch()} }}></input>
+        <input placeholder="Ingresa tu busqueda" value={busqueda} onChange={(e) => setBusqueda(e.target.value)} onBlur={e => HandleSearch()} onKeyDown={(e) => {if(e.key === 'Enter'){HandleSearch()} }}></input>
         <div>
           <img className={`${style.scanTopImg} maintainRatio`} src="\Login\nutriscanLogo.png"/>
           <p>Para escanear alimentos ingresa al navegador desde un dispositivo móvil</p>
         </div>
         <ul>
           {historial.map((h) => (
-            <li key={h.ID_producto} onClick={() => setBusqueda(h.ID_producto.toString())}>{h.ID_producto}</li>
+            <li key={h.ID_producto} onClick={() => {setBusqueda(h.ID_producto.toString()); HandleSearch(h.ID_producto.toString())}}>{h.ID_producto}</li>
           ))}
         </ul>
       </div>

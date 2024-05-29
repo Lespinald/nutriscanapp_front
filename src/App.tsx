@@ -24,6 +24,7 @@ import { login } from './redux/authSlice';
 import { Usuario } from './assets/models/usuario';
 import { setProductos, setTienda } from './redux/tiendaSlice';
 import MenuCarga from './assets/MenuCarga/MenuCarga';
+import DialogCarga from './assets/MenuCarga/DialogCarga';
 
 function App() {
   const dispatch = useDispatch();
@@ -76,7 +77,7 @@ function App() {
         </Route>
         <Route path='Registro' element={<Registro/>}/>
         <Route path='Login' element={<Login/>}/>
-        <Route path='Cargando' element={<MenuCarga isOpen={true}/>}/>
+        <Route path='Cargando' element={<DialogCarga isOpen={true} color='--color-5'/>}/>
         
 
         <Route path="Home" element={<Navigate to="/" replace/>} />

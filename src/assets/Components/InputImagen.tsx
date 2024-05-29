@@ -2,13 +2,14 @@ import { useRef, useState } from "react";
 
 interface Props{
   name: string;
+  defaultSrc?: string
   setFile?: (file: File) => void;
   isMobile?: boolean;
   styleClass?: string;
 }
 
-const InputImagen = ({name, setFile, isMobile, styleClass}: Props) => {
-  const [imagen, setImagen] = useState<string>("");
+const InputImagen = ({name, defaultSrc, setFile, isMobile, styleClass}: Props) => {
+  const [imagen, setImagen] = useState<string>(defaultSrc ?? "");
 
   const inputFiles = useRef<File>();
 
