@@ -281,7 +281,7 @@ const EditProducto = ({ initialProducto, tienda, indice, setOpen }: Props) => {
     <>
     <DialogCarga isOpen={loading} color='--color-1'/>
     <div className={`${styleMenuPerfil.fondoPerfil} ${style.page}`} style={{ position: 'fixed', background: 'white', top: '6%' }}>
-      <div className={`${styleMenuPerfil.div1} ${styleFormPerfil.firstColumna}`}>
+      <div className={`${styleMenuPerfil.div1} ${styleFormPerfil.firstColumna}`} style={{zIndex:'1',alignItems:'center'}}>
         <div style={{ display: 'flex', gap: '7svh', alignItems: 'center', color: 'var(--color-5)', justifyContent: 'center', transform: 'translateX(-5svh)' }} onClick={() => setOpen((prev) => !prev)}>
           <p className={styleFormPerfil.backButton} onClick={() => { }} >
             <svg xmlns="http://www.w3.org/2000/svg" height="3svh" id="Layer_1" version="1.1" viewBox="0 0 512 512" width="3svh" xmlSpace="preserve" fill='var(--color-5)'>
