@@ -36,7 +36,6 @@ export const options = {
   },
 };
 
-// Función para generar los días de la semana
 const generateWeekDaysArray = () => {
   const daysArray : string[] = [];
   const currentDate = new Date();
@@ -51,29 +50,11 @@ const generateWeekDaysArray = () => {
   return daysArray.reverse();
 };
 
-// Simulando datos de horas de permanencia en los últimos 7 días
-const getMockedHoursSpent = () => {
-  return [3, 5, 2, 4, 6, 1, 7]; // Aquí puedes reemplazar con datos reales
-};
-
 const labels = generateWeekDaysArray();
-const dataPoints = getMockedHoursSpent();
-
-export const data = {
-  labels,
-  datasets: [
-    {
-      fill: true,
-      label: 'Rancha',
-      data: dataPoints,
-      borderColor: 'rgb(53, 162, 235)',
-      backgroundColor: 'rgba(53, 162, 235, 0.5)',
-    },
-  ],
-};
 
 export function GraphProgreso() {
   const [timeSpent, setTimeSpent] = useState(0);
+  const [dataPoints, setDataPoints] = useState<number[]>(Array(7).fill(0));
 
   useEffect(() => {
     const startTime = Date.now();
@@ -88,6 +69,28 @@ export function GraphProgreso() {
 
     return () => clearInterval(intervalId);
   }, []);
+
+  useEffect(() => {
+    // Actualizar el valor del día actual en los dataPoints
+    setDataPoints(prevDataPoints => {
+      const newDataPoints = [...prevDataPoints];
+      newDataPoints[newDataPoints.length - 1] = timeSpent;
+      return newDataPoints;
+    });
+  }, [timeSpent]);
+
+  const data = {
+    labels,
+    datasets: [
+      {
+        fill: true,
+        label: 'Rancha',
+        data: dataPoints,
+        borderColor: 'rgb(53, 162, 235)',
+        backgroundColor: 'rgba(53, 162, 235, 0.5)',
+      },
+    ],
+  };
 
   return (
     <>
