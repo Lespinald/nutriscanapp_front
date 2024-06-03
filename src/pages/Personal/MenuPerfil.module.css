@@ -262,6 +262,7 @@ text-align: left;
 }
 
 .containPagination {
+    min-width: 100%;
     max-width: 50svw;
     margin: 2svh 0;
     height: fit-content;
@@ -376,14 +377,14 @@ text-align: left;
         height: auto;
     }
     .contain_estadistics{
-        display: grid !important;
+        display: flex !important;
+        flex-wrap: wrap;
         width: 100% !important;
         height: fit-content !important;
         grid-template-columns: repeat(auto-fill, minmax(45%, 1fr));
         gap: 10px !important;
     }
-    .sectionEstadisticas div.contain_estadistics img{
-        height: auto;
+    div.contain_estadistics button{
         width: 100%;
     }
 }

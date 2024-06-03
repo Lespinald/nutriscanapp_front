@@ -37,8 +37,8 @@ const InicioLoggin = () => {
 
   const HandleClickProduct = async (producto:Producto) => {
     let res = await ConsultarOpenFoodFact(producto.referencia,infoUser.uid)
-    if(res){
-      setCurrentProducto(res)
+    if(res.product){
+      setCurrentProducto(res.product)
     }else{
       setCurrentProducto(producto)
     }
