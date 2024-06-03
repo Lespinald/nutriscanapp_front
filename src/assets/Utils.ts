@@ -5,6 +5,7 @@ import { Usuario, convertirUsuario } from "./models/usuario";
 import { useDispatch, useSelector } from "react-redux";
 import { useStorge } from "../hooks/useStorage";
 import { Producto, Tienda } from "./models/tienda";
+import { OffData } from "../pages/Tienda/utilTienda";
 
 export function GetViewportWidth(): number{
   return document.documentElement.clientWidth;
@@ -260,14 +261,14 @@ export const GetTipoSuscripcion = (infoUsuario:Usuario):string => {
   }
 }
 
-export async function ConsultarOpenFoodFact(referencia: string, uid?: string): Promise<Producto | null> {
+export async function ConsultarOpenFoodFact(ID_producto:string,referencia: string, uid?: string): Promise<{ product: Producto | null; offData: OffData | undefined }> {
   try {
     const res = await fetch(`https://world.openfoodfacts.net/api/v2/product/${referencia}`);
     
     if (!res.ok) {
       if (res.status === 404) {
         console.log("🚀 ~ ConsultarOpenFoodFact ~ 404 not found");
-        return null;
+        return { product: null, offData: undefined };
       }
       console.log("🚀 ~ ConsultarOpenFoodFact ~ Error:", res.statusText);
       throw new Error(res.statusText);
@@ -277,13 +278,13 @@ export async function ConsultarOpenFoodFact(referencia: string, uid?: string): P
 
     if (!data.product) {
       console.log("🚀 ~ ConsultarOpenFoodFact ~ Product not found");
-      return null;
+      return { product: null, offData: undefined };
     }
 
     console.log("🚀 ~ HandleSearch ~ data:", data);
 
     let newProduct: Producto = {
-      ID_producto: data.product.id,
+      ID_producto: ID_producto,
       referencia: data.product.id,
       nombre: data.product.product_name,
       descripcion: "",
@@ -292,6 +293,8 @@ export async function ConsultarOpenFoodFact(referencia: string, uid?: string): P
       nutriscore: data.product.nutriscore_grade
     };
 
+    let productoInformation = OffData(data)
+
     if(uid){
       GuardarRegistro(newProduct).then((ID) => {
         console.log("🚀 ~ GuardarRegistro Then ~ ID:", ID)
@@ -299,11 +302,11 @@ export async function ConsultarOpenFoodFact(referencia: string, uid?: string): P
       })
     }
 
-    return newProduct;
+    return { product: newProduct, offData: productoInformation };
 
   } catch (err) {
     console.error("🚀 ~ ConsultarOpenFoodFact ~ Error:", err);
-    return null;
+    return { product: null, offData: undefined };
   }
 }
 

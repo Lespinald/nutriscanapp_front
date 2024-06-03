@@ -15,11 +15,13 @@ import { nutriscoreImgs } from '../../assets/categorias.js'
 import { CalcularIMC, ConsultarOpenFoodFact } from '../../assets/Utils.js'
 import { Historial } from '../../assets/models/historial.js'
 import { Producto } from '../../assets/models/tienda.js'
+import HistorialGrafica from './HistorialGrafica.jsx'
 
 const MenuPerfil = () => {
   const [productosHistorial, setProductosHistorial] = useState<Producto[]>([])
   const [showGraph, setShowGraph] = useState(false); // Estado para controlar la visualización de la gráfica de barras
   const [bandera, setBandera] = useState<string>(''); // Estado para almacenar la bandera de qué gráfica mostrar
+  const [historial, setHistorial] = useState<Historial[]>([]); 
   const infoUser:Usuario = useSelector((state:any) => state.auth.infoUsuario)
   const navigate = useNavigate()
   const dispatch = useDispatch()
@@ -35,15 +37,15 @@ const MenuPerfil = () => {
       }
   
       const data = await response.json();
-      const historials = data.filter((item) => item.comido).map((item) => ({
-        ID_dia: item.ID_dia,
-        ID_producto: item.producto.referencia,
-        calorias: item.calorias,
-        comido: item.comido,
-        createdAt: item.createdAt,
-        fecha: item.fecha,
-        uid: item.uid,
-        updatedAt: item.updatedAt
+      const historials = data.map((item) => ({
+        ID_dia: item?.ID_dia,
+        ID_producto: item.producto?.referencia,
+        calorias: item?.calorias,
+        comido: item?.comido,
+        createdAt: item?.createdAt,
+        fecha: item?.fecha,
+        uid: item?.uid,
+        updatedAt: item?.updatedAt
       }));
   
       console.log("🚀 ~ consthistorials:Historial[]=res.slice ~ historials:", historials);
@@ -57,14 +59,15 @@ const MenuPerfil = () => {
   async function obtenerProductosHistorial(historials:Historial[]) {
     const productosHistorial: Producto[] = [];
   
-    const consultas = historials.map((currentHistorial) =>
-      ConsultarOpenFoodFact(currentHistorial.ID_producto.toString()).then((res) => {
-        if (res) {
-          // setProductosHistorial((prev) => [...prev,res])
-          productosHistorial.push(res)
-        }
-      })
-    );
+    console.log("🚀 ~ obtenerProductosHistorial ~ currentHistorial:", historials)
+    const consultas = historials.map((currentHistorial) => {
+      return ConsultarOpenFoodFact(currentHistorial.ID_producto.toString(),currentHistorial.ID_producto.toString()).then((res) => {
+        	if (res.product) {
+          	// setProductosHistorial((prev) => [...prev,res])
+          	productosHistorial.push(res.product)
+        	}
+      	})
+    })
   
     await Promise.all(consultas);
     console.log("🚀 ~ obtenerProductosHistorial ~ productosHistorial:", productosHistorial)
@@ -73,17 +76,18 @@ const MenuPerfil = () => {
 
   const fetchHistorial = async () => {
     const historials:Historial[] = await GetHistorial();
+    console.log("🚀 ~ fetchHistorial ~ historials:", historials)
+    setHistorial(historials)
     if (historials.length > 0) { // Verificar si hay historiales antes de proceder
       const productos = await obtenerProductosHistorial(historials);
-      console.log("🚀 ~ fetchHistorial ~ productos:", productos)
       // setProductosHistorial(productos);
     }
   };
 
   useEffect(() => {
     // setProductosHistorial([])
-    // fetchHistorial();
-  })
+    fetchHistorial();
+  },[])
 
   const GetEstado = (imc: number) => {
     if(imc < 18.5){
@@ -167,29 +171,29 @@ const MenuPerfil = () => {
         <section className={style.sectionEstadisticas}>
           <h1 className={style.estadistics}>Estadisticas</h1>
           <div>
-          {showGraph ? (
-            // Si showGraph es verdadero, mostrar la gráfica correspondiente
-            bandera === 'busquedas' ? (
-            <GraphBusquedas />
-          ) : bandera === 'calorias' ? (
-            <GraphCalorias />
-          ) : bandera === 'progreso' ? (
-            <GraphProgreso />
-          ) : null // No se renderiza nada si bandera no es busquedas ni calorias ni progreso
-        ) : (
-        // Mostrar la imagen del mapa conceptual si showGraph es falso
-        <img></img>
-          )}
+            {showGraph ? (
+              // Si showGraph es verdadero, mostrar la gráfica correspondiente
+                bandera === 'busquedas' ? (
+                <GraphBusquedas />
+              ) : bandera === 'calorias' ? (
+                <GraphCalorias />
+              ) : bandera === 'progreso' ? (
+                <GraphProgreso />
+              ) : null // No se renderiza nada si bandera no es busquedas ni calorias ni progreso
+            ) : (
+              // Mostrar la imagen del mapa conceptual si showGraph es falso
+              <HistorialGrafica historial={historial.reverse()} />
+            )}
           </div>
           <div className={style.contain_estadistics}>
             <button id="BusquedaButton" onClick={handleBusquedaButtonClick}>
-              <img src='/Home/Perfil/Busquedas.png' alt='Sobre tus busquedas'></img>
+              Sobre tus busquedas
             </button>
             <button id="CaloriaButton" onClick={handleCaloriaButtonClick}>
-              <img src='/Home/Perfil/Consumo.png' alt='Consumo Calorico'></img>
+              Consumo Calorico
             </button>
             <button id="ProgresoButton" onClick={handleProgresoButtonClick}>
-              <img src='/Home/Perfil/Progreso.png' alt='Progreso'></img>
+              Progreso
             </button>
           </div>
         </section>

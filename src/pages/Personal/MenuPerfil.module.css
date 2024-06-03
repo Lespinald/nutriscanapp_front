@@ -174,15 +174,25 @@
     line-height: 150%;
 }
 
+div.contain_estadistics button{
+    height: fit-content;
+    color: var(--color-6);
+    font-size: 3svh;
+    border-radius: 15px;
+    box-shadow: -2px 2px 4px black;
+    padding: 2% 10%;
+    height: 100%;
+}
+
 .sectionEstadisticas div.contain_estadistics,
 .sectionProximamente div.contain_avanzado{
     position: relative;
-    display: flex;    
-    flex: 1;
-    overflow: hidden;
+    display: grid;
+    overflow: visible;
+    height: fit-content;
     gap: 10px;
     width: 100%;
-    justify-content: center;
+    grid-template-columns: repeat(3, 1fr);
 }
 
 .sectionEstadisticas div.contain_estadistics img,
@@ -220,6 +230,68 @@
     height: 100%;
     background-color: rgb(170, 244, 128, 0.51);
     position: absolute;
+}
+
+.historialGrafica{
+    background-color: white;
+    color: #2F4858;
+    padding: 20px;
+    border-radius: 8px;
+}
+
+.historialGrafica table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.historialGrafica th, 
+.historialGrafica td {
+border: 1px solid #2F4858;
+padding: 8px;
+text-align: left;
+}
+
+.historialGrafica th {
+    background-color: #2F4858;
+    color: white;
+}
+
+.historialGrafica a {
+    text-decoration: none;
+    color: var(--color-3);
+}
+
+.containPagination {
+    max-width: 50svw;
+    margin: 2svh 0;
+    height: fit-content;
+    overflow-x: auto;
+    overflow-y: hidden;
+}
+
+.pagination {
+    display: flex;
+    flex-direction: row;
+    height: fit-content;
+    max-width: none;
+}
+
+.pagination button {
+    background-color: #2F4858;
+    color: white;
+    border: none;
+    padding: 10px;
+    margin: 0 5px;
+    cursor: pointer;
+}
+  
+.pagination button.active {
+    background-color: #F9F870;
+    color: #2F4858;
+}
+
+.pagination button:hover:not(.active) {
+    background-color: #1E2F3A;
 }
 
 @media screen and ( max-width: 760px) {

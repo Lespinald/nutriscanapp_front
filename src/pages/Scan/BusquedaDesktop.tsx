@@ -11,12 +11,14 @@ import { useSelector } from "react-redux";
 import SelectorArray from "../../assets/Components/SelectorArray";
 import { Historial } from "../../assets/models/historial";
 import { current } from "@reduxjs/toolkit";
+import { OffData } from "../Tienda/utilTienda";
 
 const BusquedaDesktop = () => {
   const [openProducto, setOpenProducto] = useState<boolean>(false);
   const [capturando, setCapturando] = useState<boolean>(false);
   const [busqueda, setBusqueda] = useState<string>('');
   const [nutriscore, setNutriscore] = useState<string>("unknown");
+  const [currentProductoInformation, setCurrentProductoInformation] = useState<OffData>();
   const [currentProducto, setCurrentProducto] = useState<Producto>();
   const [historial, setHistorial] = useState<Historial[]>([]);
   const [productos, setProductos] = useState<Producto[]>([]);
@@ -35,9 +37,10 @@ const BusquedaDesktop = () => {
   const infoUser = useSelector((state:any) => state.auth.infoUsuario)
 
   const HandleClickProduct = async (producto:Producto) => {
-    let res = await ConsultarOpenFoodFact(producto.referencia,infoUser.uid)
-    if(res){
-      setCurrentProducto(res)
+    let {product, offData} = await ConsultarOpenFoodFact(producto.ID_producto,producto.referencia,infoUser.uid)
+    if(product){
+      setCurrentProductoInformation(offData)
+      setCurrentProducto(product)
     }else{
       setCurrentProducto(producto)
     }
@@ -87,9 +90,10 @@ const BusquedaDesktop = () => {
 
   const BarrilConsultarOpenFood = async (referencia:string)=> {
     setProductos([])
-    let resp = await ConsultarOpenFoodFact(referencia,infoUser.uid)
-    if(resp){
-      setProductos([resp])   
+    let {product, offData} = await ConsultarOpenFoodFact(referencia,infoUser.uid)
+    if(product){
+      setCurrentProductoInformation(offData)   
+      setProductos([product])   
     }
   }
 
@@ -181,6 +185,9 @@ const BusquedaDesktop = () => {
   useEffect(() => {
     ConsultarHistorial()
   }, [])
+  useEffect(() => {
+    console.log("🚀 ~ BusquedaDesktop ~ currentProducto:", currentProducto)
+  }, [currentProducto])
   
   const ConsultarHistorial = () => {
     fetch(`https://api.nutriscan.com.co/api/historialusuario/${infoUser.uid}`)
@@ -259,7 +266,7 @@ const BusquedaDesktop = () => {
                 {currentProducto?.nombre} <br></br>
                 <span style={{fontWeight:'400'}}>{currentProducto?.descripcion}</span>
               </h2>
-              <button onClick={() => {currentProducto && GuardarHistorial(currentProducto,infoUser.uid,{energy: 69},currentProducto?.ID_producto,true)}}
+              <button onClick={() => {currentProducto && GuardarHistorial(currentProducto,infoUser.uid,{energy: currentProductoInformation?.energia},currentProducto?.ID_producto,true)}}
               className={`${style.scanButton} ${style.codigoButton} basicButton`}>Sumar calorias</button>
             </div>
             <div className={style.answerOption} style={{boxShadow:'none',padding:'5% 0',justifyContent:'flex-start',alignItems:'flex-start'}}>
@@ -267,6 +274,7 @@ const BusquedaDesktop = () => {
               <div style={{flex:'1'}}>
                 <p className={style.infoExtra}>Nutriscore: <span style={{fontWeight:'600'}}>{currentProducto?.nutriscore ?? 'unknown'}</span></p>
                 <p className={style.infoExtra}>Referencia: <span style={{fontWeight:'600'}}>{currentProducto?.referencia}</span></p>
+                <p className={style.infoExtra}>Calorias: <span style={{fontWeight:'600'}}>{currentProductoInformation?.energia}</span></p>
                 <div className={styleFormPerfil.campo} style={{gridTemplateColumns:'none'}}>
                   <label htmlFor="Categoría" style={{color:'var(--color-6)',marginRight:'10px',textAlign:'start',fontSize:'3svh',fontWeight:'400'}}> Categoría: </label>
                   <SelectorArray placeholder='No hay categorias' color="var(--color-6)"
