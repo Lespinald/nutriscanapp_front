@@ -9,6 +9,7 @@ import {
   Tooltip,
   Filler,
   Legend,
+  Colors,
 } from 'chart.js';
 import { Line } from 'react-chartjs-2';
 import { useSelector } from 'react-redux';
@@ -28,11 +29,28 @@ export const options = {
   responsive: true,
   plugins: {
     legend: {
+      color: 'white',
       position: 'top' as const,
+      labels: {
+        color: 'white', 
+      },
     },
     title: {
       display: true,
+      color:'white',
       text: 'Tu progreso',
+    },
+  },
+  scales: {
+    x: {
+      ticks: {
+        color: 'white', // Cambia el color de los labels del eje X a blanco
+      },
+    },
+    y: {
+      ticks: {
+        color: 'white', // Cambia el color de los labels del eje Y a blanco
+      },
     },
   },
 };
