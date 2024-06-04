@@ -8,11 +8,14 @@ import { useDispatch, useSelector } from 'react-redux'
 import { Usuario, formatDate } from '../../assets/models/usuario'
 import { editPerfil, login } from '../../redux/authSlice'
 import { useStorge } from '../../hooks/useStorage'
+import { EmailAuthProvider, GoogleAuthProvider, reauthenticateWithCredential, signInWithPopup, updatePassword, validatePassword } from 'firebase/auth'
+import { auth } from '../../firebase'
 
 const FormPerfil = () => {
   const infoUser:Usuario = useSelector((state:any) => state.auth.infoUsuario)
   const dispatch = useDispatch()
 
+  const [password, setPassword] = useState({contrasena:'',confirm:''})
   const [infoPerfil, setInfoPerfil] = useState<Usuario>({...infoUser})
   const [changePhoto, setChangePhoto] = useState(false)
   const [photoPerfil, setPhotoPerfil] = useState('')
@@ -177,6 +180,67 @@ const FormPerfil = () => {
     return resp
   }
 
+  const ValidateContrasena = (): boolean => {
+    if(!password.contrasena || !password.confirm){
+      return false
+    }
+    if(password.confirm !== password.contrasena){
+      return false
+    }
+    return true
+  }
+
+  const HandleContrasena = async () => {
+    if (ValidateContrasena()) {
+      console.log("🚀 ~ HandleContrasena ~ contrasena:", password.contrasena);
+      let resp = await validatePassword(auth, password.contrasena);
+      console.log("🚀 ~ HandleContrasena ~ resp:", resp);
+  
+      if (resp.isValid && auth.currentUser) {
+        try {
+          // Intenta actualizar la contraseña
+          await updatePassword(auth.currentUser, password.contrasena);
+          alert('Contraseña actualizada.');
+        } catch (error:any) {
+          if (error.code === 'auth/requires-recent-login') {
+            // Si requiere reautenticación, detecta el proveedor
+            const providerId = auth.currentUser.providerData[0].providerId;
+  
+            try {
+              if (providerId === 'password') {
+                // Si el usuario usa email y contraseña
+                const email = auth.currentUser.email ?? infoUser.correo;
+                const passwordPrompt = prompt('Por favor, vuelva a ingresar su contraseña para reautenticarse:');
+                const credential = EmailAuthProvider.credential(email, passwordPrompt ?? '');
+  
+                // Reautenticar al usuario con email y contraseña
+                await reauthenticateWithCredential(auth.currentUser, credential);
+              } else if (providerId === 'google.com') {
+                // Si el usuario usa Google
+                const provider = new GoogleAuthProvider();
+  
+                // Reautenticar al usuario con Google
+                await signInWithPopup(auth, provider);
+              } else {
+                throw new Error('Proveedor de autenticación no soportado para la reautenticación.');
+              }
+  
+              // Intentar actualizar la contraseña de nuevo
+              await updatePassword(auth.currentUser, password.contrasena);
+              alert('Contraseña actualizada.');
+            } catch (reauthError) {
+              alert('Reautenticación fallida. Por favor, intente de nuevo.');
+            }
+          } else {
+            alert('Error al actualizar la contraseña. Por favor, intente de nuevo.');
+          }
+        }
+      } else {
+        alert('Largo mínimo de 6 caracteres.');
+      }
+    }
+  };
+
   return (
     <div className={styleMenuPerfil.fondoPerfil}>
       <div className={`${styleMenuPerfil.div1} ${style.firstColumna}`}>
@@ -231,13 +295,13 @@ const FormPerfil = () => {
             onClick={HandleGuardarCambios}>Guardar Cambios</button>
             <div className={style.campo}>
               <label htmlFor="nueva_contrasena">Nueva Contraseña:</label>
-              <input type="password" id="nueva_contrasena" name="nueva_contrasena"/>
+              <input type="password" id="nueva_contrasena" name="nueva_contrasena" value={password.contrasena} onChange={(e) => setPassword((prev) => ({ ...prev, contrasena: e.target.value }))}/>
             </div>
             <div className={style.campo}>
               <label htmlFor="confirmar_nueva_contrasena">Confirmar Nueva Contraseña:</label>
-              <input type="password" id="confirmar_nueva_contrasena" name="confirmar_nueva_contrasena"/>
+              <input type="password" id="confirmar_nueva_contrasena" name="confirmar_nueva_contrasena" value={password.confirm} onChange={(e) => setPassword((prev) => ({ ...prev, confirm: e.target.value }))}/>
             </div>
-            <button type="button" className={`${style.button} ${true ? style.desactivado : ''}`}>Cambiar Contraseña</button>
+            <button type="button" className={`${style.button} ${ValidateContrasena() ? '':style.desactivado}`} onClick={HandleContrasena}>Cambiar Contraseña</button>
         </form>
     </div>
       <InputFoto isOpen={changePhoto} setIsOpen={setChangePhoto} photoPerfil={photoPerfil} setPhotoPerfil={setPhotoPerfil} perfil={true} HandleSaveImage={HandleSaveImage}/>

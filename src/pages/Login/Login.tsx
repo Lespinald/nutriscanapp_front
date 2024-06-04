@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import style from './login.module.css'
-import { GoogleAuthProvider, signInWithEmailAndPassword, signInWithPopup, signOut } from 'firebase/auth'
+import { GoogleAuthProvider, sendPasswordResetEmail, signInWithEmailAndPassword, signInWithPopup, signOut } from 'firebase/auth'
 import { auth } from '../../firebase'
 import { convertirUsuario, toUsuario, usuarioVacio } from '../../assets/models/usuario';
 import { useDispatch, useSelector } from 'react-redux';
@@ -159,6 +159,16 @@ const Login = () => {
       }, []);
     
     
+    const HandleRecuperarContrasena = async(e) => {
+        e.preventDefault();
+        try {
+            await sendPasswordResetEmail(auth, address);
+            alert('Correo de restablecimiento de contraseña enviado.');
+        } catch (error) {
+            console.error("Error al enviar el correo de restablecimiento de contraseña:", error);
+            alert('Error al enviar el correo de restablecimiento de contraseña, revisa tu correo.');
+        }
+    }
 
     return (
         <div className={style.fondoLogin}>
@@ -181,6 +191,7 @@ const Login = () => {
                     <p>Continuar con Google</p>
                 </button>
             </form>
+            <a  className={style.fondoLogin_label} href='*' onClick={HandleRecuperarContrasena}>Olvide mi contraseña. Click aquí</a>
             <a  className={style.fondoLogin_label} href='/Registro'>¿No tienes cuenta? Ingresa aquí</a>
             <img src='\Login\nutriscanLogo.png' alt='Logo' style={{height:'-webkit-fill-available',maxHeight:'150px',aspectRatio:' 1/1.5'}}></img>
         </div>

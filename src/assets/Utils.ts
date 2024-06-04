@@ -225,7 +225,9 @@ export const GuardarHistorial = async (newProduct: Producto, uid: string, nutrim
       throw new Error('Error en la solicitud');
     }
 
-    console.log('Guardado historial');
+    if(comido){
+      alert('Agregado a tu historial')
+    }
     return respuesta.json();
   } catch (error) {
     console.error('Error en la solicitud fetch:', error);
@@ -261,14 +263,14 @@ export const GetTipoSuscripcion = (infoUsuario:Usuario):string => {
   }
 }
 
-export async function ConsultarOpenFoodFact(ID_producto:string,referencia: string, uid?: string): Promise<{ product: Producto | null; offData: OffData | undefined }> {
+export async function ConsultarOpenFoodFact(ID_producto:string,referencia: string, uid?: string): Promise<{ product: Producto | null; infoProducto: OffData | undefined }> {
   try {
     const res = await fetch(`https://world.openfoodfacts.net/api/v2/product/${referencia}`);
     
     if (!res.ok) {
       if (res.status === 404) {
         console.log("🚀 ~ ConsultarOpenFoodFact ~ 404 not found");
-        return { product: null, offData: undefined };
+        return { product: null, infoProducto: undefined };
       }
       console.log("🚀 ~ ConsultarOpenFoodFact ~ Error:", res.statusText);
       throw new Error(res.statusText);
@@ -278,7 +280,7 @@ export async function ConsultarOpenFoodFact(ID_producto:string,referencia: strin
 
     if (!data.product) {
       console.log("🚀 ~ ConsultarOpenFoodFact ~ Product not found");
-      return { product: null, offData: undefined };
+      return { product: null, infoProducto: undefined };
     }
 
     console.log("🚀 ~ HandleSearch ~ data:", data);
@@ -304,11 +306,11 @@ export async function ConsultarOpenFoodFact(ID_producto:string,referencia: strin
       })
     }
 
-    return { product: newProduct, offData: productoInformation };
+    return { product: newProduct, infoProducto: productoInformation };
 
   } catch (err) {
     console.error("🚀 ~ ConsultarOpenFoodFact ~ Error:", err);
-    return { product: null, offData: undefined };
+    return { product: null, infoProducto: undefined };
   }
 }
 

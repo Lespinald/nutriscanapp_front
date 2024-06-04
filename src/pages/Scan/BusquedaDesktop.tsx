@@ -42,7 +42,7 @@ const BusquedaDesktop = () => {
   const infoUser = useSelector((state:any) => state.auth.infoUsuario)
 
   const HandleClickProduct = async (producto:Producto) => {
-    let {product, offData} = await ConsultarOpenFoodFact(producto.ID_producto,producto.referencia,infoUser.uid)
+    let {product, infoProducto: offData} = await ConsultarOpenFoodFact(producto.ID_producto,producto.referencia,infoUser.uid)
     if(product){
       setCurrentProductoInformation(offData)
       setCurrentProducto(product)
@@ -95,7 +95,7 @@ const BusquedaDesktop = () => {
 
   const BarrilConsultarOpenFood = async (referencia:string)=> {
     setProductos([])
-    let {product, offData} = await ConsultarOpenFoodFact(referencia,referencia,infoUser.uid)
+    let {product, infoProducto: offData} = await ConsultarOpenFoodFact(referencia,referencia,infoUser.uid)
     if(product){
       setCurrentProductoInformation(offData)   
       setProductos([product])   
