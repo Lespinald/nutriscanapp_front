@@ -56,36 +56,13 @@ const MenuPerfil = () => {
     }
   }
 
-  async function obtenerProductosHistorial(historials:Historial[]) {
-    const productosHistorial: Producto[] = [];
-  
-    console.log("🚀 ~ obtenerProductosHistorial ~ currentHistorial:", historials)
-    // const consultas = historials.map((currentHistorial) => {
-    //   return ConsultarOpenFoodFact(currentHistorial.ID_producto.toString(),currentHistorial.ID_producto.toString()).then((res) => {
-    //     	if (res.product) {
-    //       	// setProductosHistorial((prev) => [...prev,res])
-    //       	productosHistorial.push(res.product)
-    //     	}
-    //   	})
-    // })
-  
-    // await Promise.all(consultas);
-    console.log("🚀 ~ obtenerProductosHistorial ~ productosHistorial:", productosHistorial)
-    return productosHistorial;
-  }
-
   const fetchHistorial = async () => {
     const historials:Historial[] = await GetHistorial();
     console.log("🚀 ~ fetchHistorial ~ historials:", historials)
     setHistorial(historials)
-    if (historials.length > 0) { // Verificar si hay historiales antes de proceder
-      const productos = await obtenerProductosHistorial(historials);
-      // setProductosHistorial(productos);
-    }
   };
 
   useEffect(() => {
-    // setProductosHistorial([])
     fetchHistorial();
   },[])
 
@@ -176,7 +153,7 @@ const MenuPerfil = () => {
                 bandera === 'busquedas' ? (
                 <GraphBusquedas historial={historial}/>
               ) : bandera === 'calorias' ? (
-                <GraphCalorias />
+                <GraphCalorias historial={historial}/>
               ) : bandera === 'progreso' ? (
                 <GraphProgreso />
               ) : null // No se renderiza nada si bandera no es busquedas ni calorias ni progreso
