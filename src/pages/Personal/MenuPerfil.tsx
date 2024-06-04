@@ -174,7 +174,7 @@ const MenuPerfil = () => {
             {showGraph ? (
               // Si showGraph es verdadero, mostrar la gráfica correspondiente
                 bandera === 'busquedas' ? (
-                <GraphBusquedas />
+                <GraphBusquedas historial={historial}/>
               ) : bandera === 'calorias' ? (
                 <GraphCalorias />
               ) : bandera === 'progreso' ? (
