@@ -65,5 +65,12 @@ export const data = {
 };
 
 export function GraphBusquedas() {
-  return <Bar options={options} data={data} />;
+  
+  return(
+    <>
+      <Bar options={options} data={data} />;
+      <div style={{ marginTop: '20px', textAlign: 'center', width: "200px", height: "130px", margin: '0 auto' }}>
+      </div>
+    </>
+  );
 }
