@@ -131,6 +131,7 @@ const Registro = () => {
 
   const CrearUsuarioBD = (uid:string) => {
     setLoading(true)
+    const fechaActual = new Date();
     console.log("🚀 ~ CrearUsuarioBD ~ uid:", uid)
     // ========EJECUTAR AL VERIFICAR NO DUPLICIDAD===========
     var resp = fetch(`https://api.nutriscan.com.co/api/usuarios`,{
@@ -140,8 +141,8 @@ const Registro = () => {
       }, body: JSON.stringify({ 
         uid: uid, 
         nombre: user.nombre,
-        tipoSuscripcion: '',
-        fechaSuscripcion : formatDate(new Date(0)),
+        tipoSuscripcion: 'PLUS',
+        fechaSuscripcion : formatDate(new Date(fechaActual.getTime() + (30 * 24 * 60 * 60 * 1000))),
         fechaDeNacimiento : user.fechaDeNacimiento,
         altura :  user.altura,
         peso :  user.peso,
