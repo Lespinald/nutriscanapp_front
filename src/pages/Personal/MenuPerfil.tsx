@@ -60,16 +60,16 @@ const MenuPerfil = () => {
     const productosHistorial: Producto[] = [];
   
     console.log("🚀 ~ obtenerProductosHistorial ~ currentHistorial:", historials)
-    const consultas = historials.map((currentHistorial) => {
-      return ConsultarOpenFoodFact(currentHistorial.ID_producto.toString(),currentHistorial.ID_producto.toString()).then((res) => {
-        	if (res.product) {
-          	// setProductosHistorial((prev) => [...prev,res])
-          	productosHistorial.push(res.product)
-        	}
-      	})
-    })
+    // const consultas = historials.map((currentHistorial) => {
+    //   return ConsultarOpenFoodFact(currentHistorial.ID_producto.toString(),currentHistorial.ID_producto.toString()).then((res) => {
+    //     	if (res.product) {
+    //       	// setProductosHistorial((prev) => [...prev,res])
+    //       	productosHistorial.push(res.product)
+    //     	}
+    //   	})
+    // })
   
-    await Promise.all(consultas);
+    // await Promise.all(consultas);
     console.log("🚀 ~ obtenerProductosHistorial ~ productosHistorial:", productosHistorial)
     return productosHistorial;
   }
