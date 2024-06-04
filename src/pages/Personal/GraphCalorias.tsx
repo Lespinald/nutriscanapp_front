@@ -4,6 +4,19 @@ import { Pie } from 'react-chartjs-2';
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
+export const options = {
+  responsive: true,
+  plugins: {
+    legend: {
+      position: 'right' as const,
+    },
+    title: {
+      display: true,
+      text: 'Tu consumo calorico durante esta semana en búsquedas es: "//datoCalorias//" /kcal',
+    },
+  },
+};
+
 export const data = {
   labels: ['Azucares', 'Harina', 'Sodio', 'Grasa', 'Vitaminas', 'Minerales'],
   datasets: [
