@@ -12,7 +12,7 @@ export const options = {
     },
     title: {
       display: true,
-      text: 'Tu consumo calorico durante esta semana en búsquedas es: "//datoCalorias//" /kcal',
+      text: 'Esta semana tus búsquedas consumen: "2130" /kcal',
     },
   },
 };
@@ -45,5 +45,5 @@ export const data = {
 };
 
 export function GraphCalorias() {
-  return <Pie data={data} />;
+  return <Pie options={options} data={data} />;
 }

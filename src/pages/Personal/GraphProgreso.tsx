@@ -11,7 +11,7 @@ import {
   Legend,
 } from 'chart.js';
 import { Line } from 'react-chartjs-2';
-import useLoginSatus from 'react-redux'; // Import the useLoginStatus hook
+//import useLoginStatus from './useLoginStatus'; // Import the useLoginStatus hook
 
 ChartJS.register(
   CategoryScale,
