@@ -140,7 +140,8 @@ const Registro = () => {
       }, body: JSON.stringify({ 
         uid: uid, 
         nombre: user.nombre,
-        fechaSuscripcion : user.fechaSuscripcion,
+        tipoSuscripcion: '',
+        fechaSuscripcion : formatDate(new Date(0)),
         fechaDeNacimiento : user.fechaDeNacimiento,
         altura :  user.altura,
         peso :  user.peso,
