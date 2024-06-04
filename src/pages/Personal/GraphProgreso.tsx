@@ -11,6 +11,7 @@ import {
   Legend,
 } from 'chart.js';
 import { Line } from 'react-chartjs-2';
+import useLoginSatus from 'react-redux'; // Import the useLoginStatus hook
 
 ChartJS.register(
   CategoryScale,
@@ -37,7 +38,7 @@ export const options = {
 };
 
 const generateWeekDaysArray = () => {
-  const daysArray : string[] = [];
+  const daysArray: string[] = [];
   const currentDate = new Date();
   const weekDays = ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'];
 
@@ -53,31 +54,20 @@ const generateWeekDaysArray = () => {
 const labels = generateWeekDaysArray();
 
 export function GraphProgreso() {
-  const [timeSpent, setTimeSpent] = useState(0);
+  const isLoggedIn = true; // Use the useLoginStatus hook
   const [dataPoints, setDataPoints] = useState<number[]>(Array(7).fill(0));
 
   useEffect(() => {
-    const startTime = Date.now();
-
-    const updateSpentTime = () => {
-      const currentTime = Date.now();
-      const timeDiff = (currentTime - startTime) / 1000 / 60 / 60; // convertir ms a horas
-      setTimeSpent(timeDiff);
-    };
-
-    const intervalId = setInterval(updateSpentTime, 1000); // actualizar cada segundo
-
-    return () => clearInterval(intervalId);
-  }, []);
-
-  useEffect(() => {
-    // Actualizar el valor del día actual en los dataPoints
-    setDataPoints(prevDataPoints => {
-      const newDataPoints = [...prevDataPoints];
-      newDataPoints[newDataPoints.length - 1] = timeSpent;
-      return newDataPoints;
-    });
-  }, [timeSpent]);
+    // Update the dataPoints array when the user logs in or out
+    const todayIndex = new Date().getDay();
+    const newDataPoints = [...dataPoints];
+    if (isLoggedIn) {
+      newDataPoints[todayIndex] = (newDataPoints[todayIndex] || 0) + 1;
+    } else {
+      newDataPoints[todayIndex] = (newDataPoints[todayIndex] || 0) - 1;
+    }
+    setDataPoints(newDataPoints);
+  }, [isLoggedIn]);
 
   const data = {
     labels,
