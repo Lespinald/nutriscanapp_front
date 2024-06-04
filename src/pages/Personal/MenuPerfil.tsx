@@ -155,7 +155,7 @@ const MenuPerfil = () => {
               ) : bandera === 'calorias' ? (
                 <GraphCalorias historial={historial}/>
               ) : bandera === 'progreso' ? (
-                <GraphProgreso />
+                <HistorialGrafica historial={historial} />
               ) : null // No se renderiza nada si bandera no es busquedas ni calorias ni progreso
             ) : (
               // Mostrar la imagen del mapa conceptual si showGraph es falso
@@ -170,7 +170,7 @@ const MenuPerfil = () => {
               Consumo Calorico
             </button>
             <button id="ProgresoButton" onClick={handleProgresoButtonClick}>
-              Progreso
+              Historial
             </button>
           </div>
         </section>
