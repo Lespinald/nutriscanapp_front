@@ -86,7 +86,7 @@ function App() {
           <Route path='Home' element={<InicioLoggin/>}/>
           <Route path='Pago/:info' element={<Checkout/>}/>
           <Route path='Scan' element={<Scan/>}/>
-          <Route path='Busqueda' element={<BusquedaDesktop/>}/>
+          <Route path='Busqueda/:idProduct?' element={<BusquedaDesktop/>}/>
           <Route path='Perfil' element={<MenuPerfil/>}/>
           <Route path='EditPerfil' element={<FormPerfil/>}/>
           <Route path='Tienda' element={<MenuTienda/>}/>

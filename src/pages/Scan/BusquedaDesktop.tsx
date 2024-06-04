@@ -1,4 +1,4 @@
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import style from "./Scan.module.css"
 import styleFormPerfil from "../Personal/FormPerfil.module.css"
 
@@ -13,10 +13,15 @@ import { Historial } from "../../assets/models/historial";
 import { current } from "@reduxjs/toolkit";
 import { OffData } from "../Tienda/utilTienda";
 
+type Param = {
+  idProduct?:string;
+}
+
 const BusquedaDesktop = () => {
+  const {idProduct} = useParams<Param>();
   const [openProducto, setOpenProducto] = useState<boolean>(false);
   const [capturando, setCapturando] = useState<boolean>(false);
-  const [busqueda, setBusqueda] = useState<string>('');
+  const [busqueda, setBusqueda] = useState<string>(idProduct ?? '');
   const [nutriscore, setNutriscore] = useState<string>("unknown");
   const [currentProductoInformation, setCurrentProductoInformation] = useState<OffData>();
   const [currentProducto, setCurrentProducto] = useState<Producto>();
@@ -90,7 +95,7 @@ const BusquedaDesktop = () => {
 
   const BarrilConsultarOpenFood = async (referencia:string)=> {
     setProductos([])
-    let {product, offData} = await ConsultarOpenFoodFact(referencia,infoUser.uid)
+    let {product, offData} = await ConsultarOpenFoodFact(referencia,referencia,infoUser.uid)
     if(product){
       setCurrentProductoInformation(offData)   
       setProductos([product])   

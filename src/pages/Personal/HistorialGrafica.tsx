@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Historial } from "../../assets/models/historial";
 import style from './MenuPerfil.module.css'
+import { useNavigate } from "react-router-dom";
 
 interface HistorialGraficaProps {
     historial: Historial[];
@@ -9,9 +10,11 @@ interface HistorialGraficaProps {
   
 const HistorialGrafica: React.FC<HistorialGraficaProps> = ({ historial, itemsPerPage = 5 }) => {
     const [currentPage, setCurrentPage] = useState(0);
+    const navigate = useNavigate();
 
     const handleClick = (ID_producto: number | string) => {
-        alert(`Producto ID: ${ID_producto}`);
+        console.log("🚀 ~ handleClick ~ ID_producto:", ID_producto)
+        navigate(`/app/Busqueda/${ID_producto}`)
     };
 
     let paginatedHistorial = historial.slice(currentPage * itemsPerPage, (currentPage + 1) * itemsPerPage);

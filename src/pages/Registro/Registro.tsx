@@ -141,7 +141,7 @@ const Registro = () => {
       }, body: JSON.stringify({ 
         uid: uid, 
         nombre: user.nombre,
-        tipoSuscripcion: 'PLUS',
+        tipoSuscripcion: 'PRUEBA',
         fechaSuscripcion : formatDate(new Date(fechaActual.getTime() + (30 * 24 * 60 * 60 * 1000))),
         fechaDeNacimiento : user.fechaDeNacimiento,
         altura :  user.altura,

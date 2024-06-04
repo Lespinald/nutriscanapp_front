@@ -299,6 +299,8 @@ export async function ConsultarOpenFoodFact(ID_producto:string,referencia: strin
       GuardarRegistro(newProduct).then((ID) => {
         console.log("🚀 ~ GuardarRegistro Then ~ ID:", ID)
         GuardarHistorial(newProduct,uid,data.product.nutriments,ID)
+        newProduct.ID_producto = ID;
+        return { product: newProduct, offData: productoInformation };
       })
     }
 
