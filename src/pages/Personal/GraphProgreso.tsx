@@ -11,7 +11,7 @@ import {
   Legend,
 } from 'chart.js';
 import { Line } from 'react-chartjs-2';
-//import useLoginStatus from './useLoginStatus'; // Import the useLoginStatus hook
+import { useSelector } from 'react-redux';
 
 ChartJS.register(
   CategoryScale,
@@ -54,7 +54,7 @@ const generateWeekDaysArray = () => {
 const labels = generateWeekDaysArray();
 
 export function GraphProgreso() {
-  const isLoggedIn = true; // Use the useLoginStatus hook
+  const isLoggedIn = useSelector((state:any) => state.auth.status === "authenticated") ; // Use the useLoginStatus hook
   const [dataPoints, setDataPoints] = useState<number[]>(Array(7).fill(0));
 
   useEffect(() => {
