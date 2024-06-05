@@ -21,6 +21,7 @@ interface Props{
 
 const InfoProductos = ({openProducto,setOpenProducto,modal,currentProducto,informationProduct}:Props) => {
   const infoUser = useAppSelector((state) => state.auth.infoUsuario)
+  const exepcion = ['imagenFrontalUrl']
   
   return (
     <Modal isOpen={openProducto} setIsOpen={setOpenProducto} ref={modal}>
@@ -39,7 +40,11 @@ const InfoProductos = ({openProducto,setOpenProducto,modal,currentProducto,infor
             <div style={{flex:'1'}}>
             <p className={style.infoExtra}>Nutriscore: <span style={{fontWeight:'600'}}>{currentProducto?.nutriscore ?? 'unknown'}</span></p>
             <p className={style.infoExtra}>Referencia: <span style={{fontWeight:'600'}}>{currentProducto?.referencia}</span></p>
-            <p className={style.infoExtra}>Calorias: <span style={{fontWeight:'600'}}>{informationProduct?.energia}</span></p>
+            {informationProduct && Object.keys(informationProduct).map((atributo,index,array) => (
+                !exepcion.includes(atributo) && !atributo.startsWith('unidad') &&
+                <p className={style.infoExtra}> {atributo} <span style={{fontWeight:'600'}}>{informationProduct[atributo]} {' '} 
+                {array[index + 1] && informationProduct[array[index + 1]]}</span></p>
+            ))}
             <div className={styleFormPerfil.campo} style={{gridTemplateColumns:'none'}}>
                 <label htmlFor="Categoría" style={{color:'var(--color-6)',marginRight:'10px',textAlign:'start',fontSize:'3svh',fontWeight:'400'}}> Categoría: </label>
                 <SelectorArray placeholder='No hay categorias' color="var(--color-6)"
