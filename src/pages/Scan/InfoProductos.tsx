@@ -20,6 +20,8 @@ interface Props{
 }
 
 const InfoProductos = ({openProducto,setOpenProducto,modal,currentProducto,informationProduct}:Props) => {
+  console.log("🚀 ~ InfoProductos ~ informationProduct:", informationProduct)
+  console.log("🚀 ~ InfoProductos ~ currentProducto:", currentProducto)
   const infoUser = useAppSelector((state) => state.auth.infoUsuario)
   const exepcion = ['imagenFrontalUrl']
   
