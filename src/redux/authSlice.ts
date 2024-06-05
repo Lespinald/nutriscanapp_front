@@ -1,11 +1,12 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { auth } from '../firebase';
+import { usuarioVacio } from '../assets/models/usuario';
 
 const authSlice = createSlice({
     name:'auth',
     initialState:{
         status:'not-authenticated',
-        infoUsuario:null,
+        infoUsuario:usuarioVacio,
     },
     reducers:{
         login:(state,{payload}) =>{
@@ -17,7 +18,7 @@ const authSlice = createSlice({
         },
         logout:(state) =>{
             state.status = 'not-authenticated';
-            state.infoUsuario = null;
+            state.infoUsuario = usuarioVacio;
             localStorage.removeItem('accessToken');    
         },
         chekingCredentials:(state)=>{

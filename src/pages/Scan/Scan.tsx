@@ -6,15 +6,20 @@ import { GuardarHistorial, GuardarRegistro, IsMobile } from "../../assets/Utils"
 import { nutriscoreImgs } from "../../assets/categorias";
 import { Producto } from "../../assets/models/tienda";
 import { useSelector } from "react-redux";
+import { OffData } from "../Tienda/utilTienda";
+import InfoProductos from "./InfoProductos";
 
 const Scan = () => {
 
   const [capturando, setCapturando] = useState<boolean>(false);
 
   const [codigo, setCodigo] = useState<string>("");
+  const [currentProducto, setCurrentProducto] = useState<{producto:Producto,information: OffData|undefined}>();
   const [nutriscore, setNutriscore] = useState<string>("unknown");
   const [notFound, setNotFound] = useState<boolean>(false);
+  const [viewProdcut, setViewProduct] = useState<boolean>(false);
 
+  const modal = useRef<HTMLDivElement>(null);
   const worker = useRef<Worker | null>(null);
 
   const videoRef = useRef<HTMLVideoElement>(document.createElement("video"));
@@ -134,6 +139,7 @@ const Scan = () => {
       }).then(async res => {
         if(res.product){
           console.log(res);
+          let infoProductos = OffData(res.product); 
           let newProduct:Producto = {
             ID_producto: res.product.id,
             referencia: res.product.id,
@@ -143,6 +149,7 @@ const Scan = () => {
             categorias: res.product.categories_tags,
             nutriscore: res.product.nutriscore_grade
           }
+          setCurrentProducto({producto:newProduct, information:infoProductos})
           GuardarRegistro(newProduct).then((ID) => {
             console.log("🚀 ~ GuardarRegistro Then ~ ID:", ID)
             GuardarHistorial(newProduct,infoUser.uid,res.product.nutriments,ID)
@@ -153,6 +160,7 @@ const Scan = () => {
         }else{
           setNutriscore("unknown");
         }
+        setViewProduct(true)
       }).catch(err => console.error(err));
     }
   }, [codigo])
@@ -194,9 +202,9 @@ const Scan = () => {
         {codigo?
         <>
         {notFound?
-        <p className={style.textoVerde}>No tenemos datos de este producto aun</p>
+          <p className={style.textoVerde}>No tenemos datos de este producto aun</p>
         :
-        <img src={nutriscoreImgs[nutriscore]} alt={`nutriscore grado ${nutriscore}`}></img>
+          <InfoProductos openProducto={viewProdcut} setOpenProducto={setViewProduct} modal={modal} currentProducto={currentProducto?.producto} informationProduct={currentProducto?.information} />
         }
         </>:
         <>
