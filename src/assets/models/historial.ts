@@ -8,3 +8,14 @@ export interface Historial {
     uid:string;
     updatedAt: string;
 }
+
+export interface HistorialTienda {
+    ID: number | string;
+    ID_tienda: number | string;
+    ID_producto: number | string;
+    redireccion:boolean;
+    createdAt: string;
+    fecha:string;
+    uid:string;
+    updatedAt: string;
+}

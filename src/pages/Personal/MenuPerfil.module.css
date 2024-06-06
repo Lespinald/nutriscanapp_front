@@ -41,7 +41,11 @@
     text-align: center;
     padding: 2.5svh 0 0;
     font-size: 2svh;
-    font-weight: 600;
+    font-weight: 600;    
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    gap: 5px;
 }
 
 .infoSection{
@@ -149,6 +153,7 @@
 }
 
 .sectionEstadisticas{
+    position: relative;
     width: fit-content;
     overflow: hidden;
     padding: 10svh 5svh;
@@ -160,6 +165,18 @@
     gap: 20px;
     height: 100%;
     flex: 1;
+}
+
+.buttonTiendaEstadisticas{
+    position: absolute;
+    bottom: 2%;
+    color: var(--color-1);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    border: 1px solid var(--color-1);
+    border-radius: 15px;
+    padding: 5px;
 }
 
 .sectionEstadisticas .mapa{
@@ -293,6 +310,17 @@ text-align: left;
 
 .pagination button:hover:not(.active) {
     background-color: #1E2F3A;
+}
+
+.plus{
+    width: fit-content;
+    background: transparent;
+    border-radius: 15px;
+    border: 1px solid var(--color-2);
+    padding: 1% 2%;
+    font-size: 1.5svh;
+    align-self: center;
+    justify-self: center;
 }
 
 @media screen and ( max-width: 760px) {
