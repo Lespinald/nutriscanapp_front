@@ -10,7 +10,9 @@ export interface Usuario {
     peso : number;
     telefono : number;
     correo : string;
-    foto : string;
+    foto : string | null;
+    racha: number;
+    ultimoLogueo: string | null;
 }
 
 export const usuarioVacio = {

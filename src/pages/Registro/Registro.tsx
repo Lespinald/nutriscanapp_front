@@ -138,16 +138,20 @@ const Registro = () => {
       method: 'POST',
       headers:{
         'Content-Type': 'application/json'
-      }, body: JSON.stringify({ 
-        uid: uid, 
-        nombre: user.nombre,
-        tipoSuscripcion: 'PRUEBA',
-        fechaSuscripcion : formatDate(new Date(fechaActual.getTime() + (30 * 24 * 60 * 60 * 1000))),
-        fechaDeNacimiento : user.fechaDeNacimiento,
-        altura :  user.altura,
-        peso :  user.peso,
-        telefono :  user.telefono,
-        correo :  user.correo})
+      }, body: JSON.stringify(
+        { 
+          uid: uid, 
+          nombre: user.nombre,
+          tipoSuscripcion: 'PRUEBA',
+          fechaSuscripcion : formatDate(new Date(fechaActual.getTime() + (30 * 24 * 60 * 60 * 1000))),
+          fechaDeNacimiento : user.fechaDeNacimiento,
+          altura :  user.altura,
+          peso :  user.peso,
+          telefono :  user.telefono,
+          correo :  user.correo,
+          ultimoLogueo: fechaActual.toISOString(),
+          racha: 1
+        })
       })
       .then(respuesta => {
         console.log("🚀 ~ HandleRegistro ~ respuesta:", respuesta)
