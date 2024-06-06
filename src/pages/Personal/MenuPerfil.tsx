@@ -10,14 +10,14 @@ import { logout } from '../../redux/authSlice'
 
 import { GraphBusquedas } from './GraphBusquedas.jsx';
 import { GraphCalorias } from './GraphCalorias.jsx';
-import { GraphProgreso } from './GraphProgreso.jsx'
-import { nutriscoreImgs } from '../../assets/categorias.js'
-import { CalcularIMC, ConsultarOpenFoodFact, GetTipoSuscripcion } from '../../assets/Utils.js'
-import { Historial } from '../../assets/models/historial.js'
-import { Producto } from '../../assets/models/tienda.js'
-import HistorialGrafica, { HistorialTiendaGrafica } from './HistorialGrafica.jsx'
+import { CalcularIMC, GetTipoSuscripcion } from '../../assets/Utils.js'
+import { Historial, historialTiendaData } from '../../assets/models/historial.js'
+import HistorialGrafica from './HistorialGrafica.jsx'
 import TiendaLogo from '../../assets/Components/TiendaLogo.jsx'
 import ProfileLogo from '../../assets/Components/ProfileLogo.jsx'
+import { GraphVisitas } from './GaphVisitas.jsx'
+import { HistorialTiendaGrafica } from './HistorialTiendaGrafica.jsx'
+import GarphBarVisitas from './GraphBarVisitas.jsx'
 
 const MenuPerfil = () => {
   const [showGraph, setShowGraph] = useState(false); // Estado para controlar la visualización de la gráfica de barras
@@ -165,21 +165,26 @@ const MenuPerfil = () => {
             {showGraph ? (
               // Si showGraph es verdadero, mostrar la gráfica correspondiente
                 bandera === 'busquedas' ? (
-                <GraphBusquedas historial={historial}/>
+                <GarphBarVisitas historial={historialTiendaData}/>
+              ) : bandera === 'calorias' ? (
+                <GraphVisitas historial={historialTiendaData}/>
               ) : bandera === 'progreso' ? (
-                <HistorialTiendaGrafica historial={[]} />
+                <HistorialTiendaGrafica historial={historialTiendaData} />
               ) : null // No se renderiza nada si bandera no es busquedas ni calorias ni progreso
             ) : (
               // Mostrar la imagen del mapa conceptual si showGraph es falso
-              <HistorialTiendaGrafica historial={[]} />
+              <HistorialTiendaGrafica historial={historialTiendaData} />
             )}
           </div>
-          <div className={style.contain_estadistics} style={{gridTemplateColumns:'1fr 1fr'}}>
+          <div className={style.contain_estadistics}>
             <button id="ProgresoButton" onClick={handleProgresoButtonClick}>
               Historial
             </button>
+            <button id="BusquedaButton" onClick={handleCaloriaButtonClick}>
+              Grafico Torta
+            </button>
             <button id="BusquedaButton" onClick={handleBusquedaButtonClick}>
-              Sobre Productos
+              Grafico de Barras
             </button>
           </div>
         </>
