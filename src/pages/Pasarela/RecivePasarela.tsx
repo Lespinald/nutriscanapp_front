@@ -83,7 +83,7 @@ const RecivePasarela = () => {
                 <li key={index}>{condicion}</li>
             ))}
           </ul>
-          <button className={style.button} onClick={() => navigate('/app/Tienda')}>PROBAR FUNCIONES</button>
+          <button className={style.button} onClick={() => navigate(getTipoLabel(selectedSubscription) === 'Tienda' ?'/app/Tienda':'/app/Perfil')}>PROBAR FUNCIONES</button>
         </>}
       </div>
       <div className={style.factura}>
@@ -109,7 +109,7 @@ const RecivePasarela = () => {
           <label>TIPO</label>
           <label>{getTipoLabel(selectedSubscription)}</label>
         </div>
-        {IsMobile() && <button className={style.button} >PROBAR FUNCIONES</button>}
+        {IsMobile() && <button className={style.button} onClick={() => navigate(getTipoLabel(selectedSubscription) === 'Tienda' ?'/app/Tienda':'/app/Perfil')}>PROBAR FUNCIONES</button>}
       </div>
     </div>
   )
