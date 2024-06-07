@@ -38,8 +38,8 @@ export const HistorialTiendaGrafica: React.FC<HistorialTiendaGraficaProps> = ({ 
             </thead>
             <tbody>
             {paginatedHistorial.map((item) => (
-                <tr key={item.ID}>
-                <td>{item.ID}</td>
+                <tr key={item.ID_metricas}>
+                <td>{item.ID_metricas}</td>
                 <td>
                     <a href="#">
                     {item.ID_producto}

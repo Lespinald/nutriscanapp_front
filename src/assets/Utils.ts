@@ -289,12 +289,13 @@ export async function ConsultarOpenFoodFact(ID_producto:string,referencia: strin
     let newProduct: Producto = {
       ID_producto: ID_producto,
       referencia: data.product.id,
-      nombre: data.product.product_name,
+      nombre: data.product.product_name ?? data.product.product_name_es,
       descripcion: "",
       foto: data.product.image_url,
       categorias: (data.product.categories as string).split(",").map(s => s.trim()),
       nutriscore: data.product.nutriscore_grade
     };
+    console.log("🚀 ~ ConsultarOpenFoodFact ~ newProduct:", newProduct)
 
     let productoInformation = OffData(data)
 
