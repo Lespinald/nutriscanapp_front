@@ -439,7 +439,7 @@ const EditProducto = ({ initialProducto, tienda, indice, setOpen }: Props) => {
                 <td><label htmlFor='sodio'>Sodio</label></td>
                 <td><input name='sodio' id='sodio' type='number' step="any" defaultValue={offData?.sodio}></input></td>
                 <td>
-                  <select name='unidadSodio' id='unidadSodio' key={offData?"loaded":"unloaded"} defaultValue={offData?.unidadSodio}>
+                  <select name='unidadSodio' id='unidadSodio' key={offData?"loaded":"unloaded"} defaultValue={offData?.unidadSodio ?? "mg"}>
                     <option value={"g"}>g</option>
                     <option value={"mg"}>mg</option>
                     <option value={"μg"}>mcg / μg</option>
