@@ -96,9 +96,9 @@ const BusquedaDesktop = () => {
 
   const BarrilConsultarOpenFood = async (referencia:string)=> {
     setProductos([])
-    let {product, infoProducto: offData} = await ConsultarOpenFoodFact(referencia,referencia,infoUser.uid)
+    let {product, infoProducto} = await ConsultarOpenFoodFact(referencia,referencia,infoUser.uid)
     if(product){
-      setCurrentProductoInformation(offData)   
+      setCurrentProductoInformation(infoProducto)   
       setProductos([product])   
     }
   }
