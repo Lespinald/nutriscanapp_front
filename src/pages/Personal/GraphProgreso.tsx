@@ -9,10 +9,10 @@ import {
   Tooltip,
   Filler,
   Legend,
-  Colors,
 } from 'chart.js';
 import { Line } from 'react-chartjs-2';
-//import useLoginStatus from './useLoginStatus'; // Import the useLoginStatus hook
+import { useSelector } from 'react-redux';
+import { Usuario } from '../../assets/models/usuario';
 
 ChartJS.register(
   CategoryScale,
@@ -32,12 +32,12 @@ export const options = {
       color: 'white',
       position: 'top' as const,
       labels: {
-        color: 'white', 
+        color: 'white',
       },
     },
     title: {
       display: true,
-      color:'white',
+      color: 'white',
       text: 'Tu progreso',
     },
   },
@@ -71,20 +71,38 @@ const generateWeekDaysArray = () => {
 
 const labels = generateWeekDaysArray();
 
+// Función para distribuir la racha en un array
+const distributeRacha = (racha: number): number[] => {
+  const dataPoints = Array(7).fill(0);
+  const todayIndex = new Date().getDay();
+  
+  for (let i = 0; i < racha; i++) {
+    dataPoints[(todayIndex - i + 7) % 7] = racha - 1;
+  }
+
+  return dataPoints;
+};
+
 export function GraphProgreso() {
-  const isLoggedIn = true; // Use the useLoginStatus hook
+  const isLoggedIn = useSelector((state: any) => state.auth.status === "authenticated");
+  const racha = useSelector((state: any) => state.auth.infoUsuario.racha);
   const [dataPoints, setDataPoints] = useState<number[]>(Array(7).fill(0));
 
   useEffect(() => {
-    // Update the dataPoints array when the user logs in or out
-    const todayIndex = new Date().getDay();
-    const newDataPoints = [...dataPoints];
-    if (isLoggedIn) {
-      newDataPoints[todayIndex] = (newDataPoints[todayIndex] || 0) + 1;
-    } else {
-      newDataPoints[todayIndex] = (newDataPoints[todayIndex] || 0) - 1;
+    if (racha) {
+      setDataPoints(distributeRacha(racha));
     }
-    setDataPoints(newDataPoints);
+  }, [racha]);
+
+  useEffect(() => {
+    if (!isLoggedIn) return;
+
+    const todayIndex = new Date().getDay();
+    setDataPoints(prevDataPoints => {
+      const newDataPoints = [...prevDataPoints];
+      newDataPoints[todayIndex] = (newDataPoints[todayIndex] || 0) + 1;
+      return newDataPoints;
+    });
   }, [isLoggedIn]);
 
   const data = {

@@ -2,14 +2,14 @@ import React, { useEffect, useState } from 'react'
 import style from './login.module.css'
 import { GoogleAuthProvider, sendPasswordResetEmail, signInWithEmailAndPassword, signInWithPopup, signOut } from 'firebase/auth'
 import { auth } from '../../firebase'
-import { convertirUsuario, toUsuario, usuarioVacio } from '../../assets/models/usuario';
+import { Usuario, convertirUsuario, toUsuario, usuarioVacio } from '../../assets/models/usuario';
 import { useDispatch, useSelector } from 'react-redux';
 import { login, logout } from '../../redux/authSlice';
 import { Link, useNavigate } from 'react-router-dom';
 import MenuCarga from '../../assets/MenuCarga/MenuCarga';
 import useBaseDatos from '../../storage/useBaseDatos';
 import { useStorge } from '../../hooks/useStorage';
-import { TraerInfoTienda, TraerProductosTienda } from '../../assets/Utils';
+import { ActualizarRacha, TraerInfoTienda, TraerProductosTienda } from '../../assets/Utils';
 import { setProductos, setTienda } from '../../redux/tiendaSlice';
 
 const googleProvider = new GoogleAuthProvider();
@@ -83,18 +83,11 @@ const Login = () => {
             console.log("🚀 ~ HandleGoogle ~ datos:", datos)
             let resp = await obtenerURL(`gs://nutriscan-9f5cf.appspot.com/${datos.uid}/fotoPerfil.png`)
             console.log("🚀 ~ TraerInfoUsuario ~ resp:", resp)
-            let usuario = convertirUsuario(
-                datos.uid,
-                datos.nombre,
-                datos.tipoSuscripcion,
-                datos.fechaSuscripcion,
-                datos.fechaDeNacimiento,
-                datos.altura,
-                datos.peso,
-                datos.telefono,
-                datos.correo,
-            )
-            usuario.foto = resp,
+            let usuario = datos as Usuario;
+
+            usuario = ActualizarRacha(usuario);
+
+            usuario.foto = resp;
             dispatch(login({infoUsuario:usuario}))
             
             let resps = await TraerInfoTienda(usuario.uid);

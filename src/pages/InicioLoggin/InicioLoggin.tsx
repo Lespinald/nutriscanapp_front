@@ -7,6 +7,8 @@ import { nutriscoreImgs } from '../../assets/categorias';
 import Modal from '../../assets/Components/Modal';
 import { ConsultarOpenFoodFact } from '../../assets/Utils';
 import { useSelector } from 'react-redux';
+import InfoProductos from '../Scan/InfoProductos';
+import { OffData } from '../Tienda/utilTienda';
 
 interface Limit{
   startIndex: number;
@@ -16,7 +18,7 @@ interface Limit{
 const InicioLoggin = () => {
   const [viewMore, setViewMore] = useState(0)
   const [productos, setProductos] = useState<Producto[]>([])
-  const [currentProducto, setCurrentProducto] = useState<Producto>()
+  const [currentProducto, setCurrentProducto] = useState<{ product: Producto | null; infoProducto: OffData | undefined; }>()
   const [limites, setLimites] = useState(false)
   const [openProducto, setOpenProducto] = useState(false)
 
@@ -36,11 +38,12 @@ const InicioLoggin = () => {
   } as Producto
 
   const HandleClickProduct = async (producto:Producto) => {
-    let res = await ConsultarOpenFoodFact(producto.referencia,infoUser.uid)
-    if(res.product){
-      setCurrentProducto(res.product)
+    let res = await ConsultarOpenFoodFact(producto.ID_producto,producto.referencia,infoUser.uid)
+    console.log("🚀 ~ HandleClickProduct ~ res:", res)
+    if(res){
+      setCurrentProducto({product:res.product,infoProducto:res.infoProducto})
     }else{
-      setCurrentProducto(producto)
+      setCurrentProducto({product:producto,infoProducto:undefined})
     }
     setOpenProducto(true)
   }
@@ -120,32 +123,8 @@ const InicioLoggin = () => {
       </div>
       
       {openProducto && 
-        <Modal isOpen={openProducto} setIsOpen={setOpenProducto} ref={modal}>
-          <div className={style.answerOption} style={{justifyContent:'flex-start', boxShadow:'none'}}>
-            <img src={currentProducto?.foto} style={{height:'15svh'}}></img>
-            <div style={{flex:'1'}}>
-              <h2 style={{textAlign:'start',alignSelf:'flex-start',width:'100%'}}>
-                {currentProducto?.nombre} <br></br>
-                <span style={{fontWeight:'400'}}>{currentProducto?.descripcion}</span>
-              </h2>
-            </div>
-            <div className={style.answerOption} style={{boxShadow:'none',padding:'5% 0',justifyContent:'flex-start',alignItems:'flex-start'}}>
-              <img src={nutriscoreImgs[currentProducto?.nutriscore ?? 'unknown']} alt={`nutriscore grado ${currentProducto?.nutriscore}`} style={{width:'30%'}}></img>
-              <div style={{flex:'1'}}>
-                <p className={style.infoExtra}>Nutriscore: <span style={{fontWeight:'600'}}>{currentProducto?.nutriscore ?? 'unknown'}</span></p>
-                <p className={style.infoExtra}>Referencia: <span style={{fontWeight:'600'}}>{currentProducto?.referencia}</span></p>
-                <div className={styleFormPerfil.campo} style={{gridTemplateColumns:'none'}}>
-                  <label htmlFor="Categoría" style={{color:'var(--color-6)',marginRight:'10px',textAlign:'start',fontSize:'3svh',fontWeight:'400'}}> Categoría: </label>
-                  <SelectorArray placeholder='No hay categorias' color="var(--color-6)"
-                  opciones={currentProducto?.categorias ?? []} current={currentProducto?.categorias ?? []} 
-                  setCurrent={function (fieldName: string, response?: string | string[] | undefined): (e: { target: { value: any; }; }) => void {
-                    throw new Error("Function not implemented.");
-                  } } />
-                </div>
-              </div>
-            </div>
-          </div>
-        </Modal>
+        <InfoProductos openProducto={openProducto} setOpenProducto={setOpenProducto} modal={modal}
+        currentProducto={currentProducto?.product ?? undefined} informationProduct={currentProducto?.infoProducto}/>
       }
     </div>
   )

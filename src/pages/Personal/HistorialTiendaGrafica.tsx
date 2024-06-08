@@ -1,14 +1,14 @@
 import { useEffect, useState } from "react";
-import { Historial, HistorialTienda } from "../../assets/models/historial";
-import style from './MenuPerfil.module.css'
 import { useNavigate } from "react-router-dom";
+import { HistorialTienda } from "../../assets/models/historial";
+import style from './MenuPerfil.module.css'
 
-interface HistorialGraficaProps {
-    historial: Historial[];
+interface HistorialTiendaGraficaProps{
+    historial: HistorialTienda[];
     itemsPerPage?: number;
-  }
-  
-const HistorialGrafica: React.FC<HistorialGraficaProps> = ({ historial, itemsPerPage = 5 }) => {
+}
+
+export const HistorialTiendaGrafica: React.FC<HistorialTiendaGraficaProps> = ({ historial, itemsPerPage = 5 }) => {
     const [currentPage, setCurrentPage] = useState(0);
     const navigate = useNavigate();
 
@@ -32,22 +32,20 @@ const HistorialGrafica: React.FC<HistorialGraficaProps> = ({ historial, itemsPer
             <tr>
                 <th>ID</th>
                 <th>ID Producto</th>
-                <th>Calorías</th>
-                <th>Comido</th>
+                <th>Redireccionado</th>
                 <th>Fecha</th>
             </tr>
             </thead>
             <tbody>
             {paginatedHistorial.map((item) => (
-                <tr key={item.ID_dia}>
-                <td>{item.ID_dia}</td>
+                <tr key={item.ID_metricas}>
+                <td>{item.ID_metricas}</td>
                 <td>
-                    <a href="#" onClick={() => handleClick(item.ID_producto)}>
+                    <a href="#">
                     {item.ID_producto}
                     </a>
                 </td>
-                <td>{item.calorias}</td>
-                <td>{item.comido ? 'Sí' : 'No'}</td>
+                <td>{item.redireccion ? 'Sí' : 'No'}</td>
                 <td>{item.fecha}</td>
                 </tr>
             ))}
@@ -65,5 +63,3 @@ const HistorialGrafica: React.FC<HistorialGraficaProps> = ({ historial, itemsPer
         </div>
     );
 };
-
-export default HistorialGrafica;

@@ -12,6 +12,7 @@ import SelectorArray from "../../assets/Components/SelectorArray";
 import { Historial } from "../../assets/models/historial";
 import { current } from "@reduxjs/toolkit";
 import { OffData } from "../Tienda/utilTienda";
+import InfoProductos from "./InfoProductos";
 
 type Param = {
   idProduct?:string;
@@ -95,9 +96,9 @@ const BusquedaDesktop = () => {
 
   const BarrilConsultarOpenFood = async (referencia:string)=> {
     setProductos([])
-    let {product, infoProducto: offData} = await ConsultarOpenFoodFact(referencia,referencia,infoUser.uid)
+    let {product, infoProducto} = await ConsultarOpenFoodFact(referencia,referencia,infoUser.uid)
     if(product){
-      setCurrentProductoInformation(offData)   
+      setCurrentProductoInformation(infoProducto)   
       setProductos([product])   
     }
   }
@@ -263,35 +264,8 @@ const BusquedaDesktop = () => {
         <p style={{color:'black',margin:'0',textAlign:'start'}}>No se han encontrado coincidencias</p>
       </div>}
       {openProducto && 
-        <Modal isOpen={openProducto} setIsOpen={setOpenProducto} ref={modal}>
-          <div className={style.answerOption} style={{justifyContent:'flex-start', boxShadow:'none'}}>
-            <img src={currentProducto?.foto} style={{height:'15svh'}}></img>
-            <div style={{flex:'1'}}>
-              <h2 style={{textAlign:'start',alignSelf:'flex-start',width:'100%'}}>
-                {currentProducto?.nombre} <br></br>
-                <span style={{fontWeight:'400'}}>{currentProducto?.descripcion}</span>
-              </h2>
-              <button onClick={() => {currentProducto && GuardarHistorial(currentProducto,infoUser.uid,{energy: currentProductoInformation?.energia},currentProducto?.ID_producto,true)}}
-              className={`${style.scanButton} ${style.codigoButton} basicButton`}>Sumar calorias</button>
-            </div>
-            <div className={style.answerOption} style={{boxShadow:'none',padding:'5% 0',justifyContent:'flex-start',alignItems:'flex-start'}}>
-              <img src={nutriscoreImgs[currentProducto?.nutriscore ?? 'unknown']} alt={`nutriscore grado ${currentProducto?.nutriscore}`} style={{width:'30%'}}></img>
-              <div style={{flex:'1'}}>
-                <p className={style.infoExtra}>Nutriscore: <span style={{fontWeight:'600'}}>{currentProducto?.nutriscore ?? 'unknown'}</span></p>
-                <p className={style.infoExtra}>Referencia: <span style={{fontWeight:'600'}}>{currentProducto?.referencia}</span></p>
-                <p className={style.infoExtra}>Calorias: <span style={{fontWeight:'600'}}>{currentProductoInformation?.energia}</span></p>
-                <div className={styleFormPerfil.campo} style={{gridTemplateColumns:'none'}}>
-                  <label htmlFor="Categoría" style={{color:'var(--color-6)',marginRight:'10px',textAlign:'start',fontSize:'3svh',fontWeight:'400'}}> Categoría: </label>
-                  <SelectorArray placeholder='No hay categorias' color="var(--color-6)"
-                  opciones={currentProducto?.categorias ?? []} current={currentProducto?.categorias ?? []} 
-                  setCurrent={function (fieldName: string, response?: string | string[] | undefined): (e: { target: { value: any; }; }) => void {
-                    throw new Error("Function not implemented.");
-                  } } />
-                </div>
-              </div>
-            </div>
-          </div>
-        </Modal>
+        <InfoProductos openProducto={openProducto} setOpenProducto={setOpenProducto} modal={modal}
+        currentProducto={currentProducto} informationProduct={currentProductoInformation}/>
       }
     </div>
   );

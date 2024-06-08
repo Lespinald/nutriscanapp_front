@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
 import { Pie } from 'react-chartjs-2';
-import { Historial } from '../../assets/models/historial';
+import { Historial, HistorialTienda } from '../../assets/models/historial';
 import { Producto } from '../../assets/models/tienda';
 import { ConsultarOpenFoodFact } from '../../assets/Utils';
 import { OffData } from '../Tienda/utilTienda';
@@ -42,31 +42,31 @@ interface Props{
 export function GraphCalorias({historial}:Props) {
   const [historialRegistro, setHistorialRegistro] = useState<Historial[]>([])
   const [datos, setDatos] = useState<number[]>([])
-
+  
   async function obtenerProductosHistorial(historials:Historial[]) {
     const productosHistorial: Producto[] = [];
     const tempInfoProducts: OffData[] = [];
-  
+    
     console.log("🚀 ~ obtenerProductosHistorial ~ currentHistorial:", historials)
     const consultas = historials.map((currentHistorial) => {
       return ConsultarOpenFoodFact(currentHistorial.ID_producto.toString(),currentHistorial.ID_producto.toString()).then((res) => {
-        	if (res.product) {
-          	// setProductosHistorial((prev) => [...prev,res])
-            if(res.infoProducto){
-              tempInfoProducts.push(res.infoProducto)
-            }
-          	productosHistorial.push(res.product)
-        	}
-      	})
+        if (res.product) {
+          // setProductosHistorial((prev) => [...prev,res])
+          if(res.infoProducto){
+            tempInfoProducts.push(res.infoProducto)
+          }
+          productosHistorial.push(res.product)
+        }
+      })
     })
-  
+    
     await Promise.all(consultas);
     console.log("🚀 ~ obtenerProductosHistorial ~ InfoProductos:", tempInfoProducts)
     sumarNutrientes(tempInfoProducts)
     console.log("🚀 ~ obtenerProductosHistorial ~ productosHistorial:", productosHistorial)
     return productosHistorial;
   }
-
+  
   function sumarNutrientes(dataArray: OffData[]) {
     let totalAzucar = 0;
     let totalCarbohidratos = 0;
@@ -74,7 +74,7 @@ export function GraphCalorias({historial}:Props) {
     let totalGrasas = 0;
     let totalProteina = 0;
     let totalFibra = 0;
-  
+    
     dataArray.forEach(data => {
       totalAzucar += Number(data.azucar) || 0;
       totalCarbohidratos += Number(data.carbohidratos) || 0;
@@ -83,7 +83,7 @@ export function GraphCalorias({historial}:Props) {
       totalProteina += Number(data.proteina) || 0;
       totalFibra += Number(data.fibra) || 0;
     });
-  
+    
     setDatos([totalAzucar, totalCarbohidratos, totalSodio, totalGrasas, totalProteina, totalFibra])
   }
   
@@ -132,3 +132,4 @@ export function GraphCalorias({historial}:Props) {
     }
   } />;
 }
+

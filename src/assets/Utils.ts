@@ -1,7 +1,7 @@
 import { User, onAuthStateChanged, signOut } from "firebase/auth";
 import { auth } from "../firebase";
 import { login } from "../redux/authSlice";
-import { Usuario, convertirUsuario } from "./models/usuario";
+import { Usuario, convertirUsuario, formatDate } from "./models/usuario";
 import { useDispatch, useSelector } from "react-redux";
 import { useStorge } from "../hooks/useStorage";
 import { Producto, Tienda } from "./models/tienda";
@@ -37,17 +37,18 @@ export async function TraerInfoUsuario(uid: string): Promise<Usuario | null> {
     const datos = await respuesta.json();
     console.log("🚀 ~ TraerInfoUsuario ~ datos:", datos)
     
-    const usuario = convertirUsuario(
-      datos.uid,
-      datos.nombre,
-      datos.tipoSuscripcion,
-      datos.fechaSuscripcion,
-      datos.fechaDeNacimiento,
-      datos.altura,
-      datos.peso,
-      datos.telefono,
-      datos.correo,
-    );
+    const usuario = datos as Usuario;
+    // convertirUsuario(
+    //   datos.uid,
+    //   datos.nombre,
+    //   datos.tipoSuscripcion,
+    //   datos.fechaSuscripcion,
+    //   datos.fechaDeNacimiento,
+    //   datos.altura,
+    //   datos.peso,
+    //   datos.telefono,
+    //   datos.correo,
+    // );
 
     usuario.foto = datos.foto;
 
@@ -288,12 +289,13 @@ export async function ConsultarOpenFoodFact(ID_producto:string,referencia: strin
     let newProduct: Producto = {
       ID_producto: ID_producto,
       referencia: data.product.id,
-      nombre: data.product.product_name,
+      nombre: data.product.product_name ?? data.product.product_name_es,
       descripcion: "",
       foto: data.product.image_url,
       categorias: (data.product.categories as string).split(",").map(s => s.trim()),
       nutriscore: data.product.nutriscore_grade
     };
+    console.log("🚀 ~ ConsultarOpenFoodFact ~ newProduct:", newProduct)
 
     let productoInformation = OffData(data)
 
@@ -341,6 +343,60 @@ export function areObjectsEqual(obj1: any, obj2: any): boolean {
   }
   
   return true;
+}
+
+/** compares two dates and returns the number of days between the two, 0 if they are the same day, positive if the first parameter is before the second, negative otherwise*/
+export function CompareDatesByDay(date1: Date, date2:Date){
+  const MILLISINADAY = 86400000;
+
+  const interalDate1 = new Date(date1);
+  const interalDate2 = new Date(date2);
+
+  interalDate1.setHours(0,0,0,0);
+  interalDate2.setHours(0,0,0,0);
+
+  const difference = interalDate2.getTime() - interalDate1.getTime();
+
+  return difference / MILLISINADAY;
+}
+
+export function ActualizarRacha(usuario: Usuario){
+  let nuevoUsuario: Usuario = {...usuario};
+
+  let nuevaRacha = 1;
+  const fechaHoy= new Date();
+
+  if(nuevoUsuario.ultimoLogueo){
+    const fechaLogueo = new Date(nuevoUsuario.ultimoLogueo);
+    const diffDias = CompareDatesByDay(fechaHoy, fechaLogueo);
+
+    
+    console.log("diffDias:", diffDias, "fechaLogueo:", fechaLogueo, "fechaHoy", fechaHoy);
+    if(diffDias === 0){
+      nuevaRacha = nuevoUsuario.racha;
+    }else if(diffDias === -1){
+      nuevaRacha = nuevoUsuario.racha + 1;
+    }
+  }
+
+  let nuevaFechaLogueo = fechaHoy.toISOString();
+
+  console.log("nuevaRacha:", nuevaRacha, "nuevaFechaLogueo:", nuevaFechaLogueo);
+
+  fetch(`https://api.nutriscan.com.co/api/usuarios/${nuevoUsuario.uid}`,
+    {
+      method: 'PUT',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({racha: nuevaRacha, ultimoLogueo: nuevaFechaLogueo})
+    })
+    .then(res => res.json())
+    .then(user => console.log(user))
+    .catch(err => console.error(err));
+
+  nuevoUsuario.racha = nuevaRacha;
+  nuevoUsuario.ultimoLogueo = nuevaFechaLogueo;
+
+  return nuevoUsuario;
 }
 
 

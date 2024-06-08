@@ -19,18 +19,19 @@ import { onAuthStateChanged } from 'firebase/auth';
 import { auth } from './firebase';
 import { useDispatch, useSelector } from 'react-redux';
 import BusquedaDesktop from './pages/Scan/BusquedaDesktop';
-import { TraerInfoTienda, TraerInfoUsuario, TraerProductosTienda, onUserLoad } from './assets/Utils';
+import { TraerInfoTienda, TraerInfoUsuario, TraerProductosTienda, CompareDatesByDay, onUserLoad, ActualizarRacha } from './assets/Utils';
 import { login } from './redux/authSlice';
-import { Usuario } from './assets/models/usuario';
+import { Usuario, formatDate } from './assets/models/usuario';
 import { setProductos, setTienda } from './redux/tiendaSlice';
 import MenuCarga from './assets/MenuCarga/MenuCarga';
 import DialogCarga from './assets/MenuCarga/DialogCarga';
+import { useAppSelector } from './redux/store';
 
 function App() {
   const dispatch = useDispatch();
   const navigate = useNavigate(); // Aquí usamos useNavigate
   const [loading, setLoading] = useState(true)
-  const infoUsuario = useSelector((state:any) => state.auth.infoUsuario)
+  const autenticado = useAppSelector((state) => state.auth.status === 'authenticated')
 
   useLayoutEffect(() => {
       onUserLoad(
@@ -45,6 +46,7 @@ function App() {
   const GetInfoUser = async(uid:string) => {
     let resp = await TraerInfoUsuario(uid);
     if(resp){
+      resp = ActualizarRacha(resp);
       dispatch(login({infoUsuario:resp}));
     }
     let resps = await TraerInfoTienda(uid);
@@ -69,7 +71,7 @@ function App() {
       <MenuCarga isOpen={loading}/>
       {!loading &&
       <Routes>
-        <Route element={infoUsuario?<AppLayout/>:<Layout/>}>
+        <Route element={autenticado?<AppLayout/>:<Layout/>}>
           <Route path=':section?' element={<Home/>}/>
           <Route path='/pago/:info' element={<Checkout/>}/>
           <Route path='/responseFactura' element={<RecivePasarela/>}/>

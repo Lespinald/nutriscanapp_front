@@ -93,17 +93,25 @@ const EditProducto = ({ initialProducto, tienda, indice, setOpen }: Props) => {
     };
 
     try {
-      if (datos.imagenFrontal){
-        console.log("add image")
-        formdata.append("imagefield", "front_es");
-        formdata.append("imgupload_front_es", datos.imagenFrontal);
-        
-      }
-
+      
       const res = await fetch("https://co.openfoodfacts.net/cgi/product_jqm2.pl", requestOptions);
       const info = await res.text();
+      
+      
+      if (datos.imagenFrontal){
+        const formdata = new FormData();
+        formdata.append("code", barcode);
+        formdata.append("imagefield", "front_es");
+        formdata.append("offimg", datos.imagenFrontal);
 
+        const requestOptions = {
+          method: "POST",
+          body: formdata
+        };
 
+        const res = await fetch("https://api.nutriscan.com.co/api/uploadoffimg", requestOptions);
+        console.log(await res.json());
+      }
       console.log(info);
       return res.ok;
     } catch (err) {
@@ -431,7 +439,7 @@ const EditProducto = ({ initialProducto, tienda, indice, setOpen }: Props) => {
                 <td><label htmlFor='sodio'>Sodio</label></td>
                 <td><input name='sodio' id='sodio' type='number' step="any" defaultValue={offData?.sodio}></input></td>
                 <td>
-                  <select name='unidadSodio' id='unidadSodio' key={offData?"loaded":"unloaded"} defaultValue={offData?.unidadSodio}>
+                  <select name='unidadSodio' id='unidadSodio' key={offData?"loaded":"unloaded"} defaultValue={offData?.unidadSodio ?? "mg"}>
                     <option value={"g"}>g</option>
                     <option value={"mg"}>mg</option>
                     <option value={"μg"}>mcg / μg</option>

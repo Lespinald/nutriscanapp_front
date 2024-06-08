@@ -10,18 +10,21 @@ import { logout } from '../../redux/authSlice'
 
 import { GraphBusquedas } from './GraphBusquedas.jsx';
 import { GraphCalorias } from './GraphCalorias.jsx';
-import { GraphProgreso } from './GraphProgreso.jsx'
-import { nutriscoreImgs } from '../../assets/categorias.js'
-import { CalcularIMC, ConsultarOpenFoodFact } from '../../assets/Utils.js'
-import { Historial } from '../../assets/models/historial.js'
-import { Producto } from '../../assets/models/tienda.js'
+import { CalcularIMC, GetTipoSuscripcion } from '../../assets/Utils.js'
+import { Historial, historialTiendaData } from '../../assets/models/historial.js'
 import HistorialGrafica from './HistorialGrafica.jsx'
+import TiendaLogo from '../../assets/Components/TiendaLogo.jsx'
+import ProfileLogo from '../../assets/Components/ProfileLogo.jsx'
+import { GraphVisitas } from './GaphVisitas.jsx'
+import { HistorialTiendaGrafica } from './HistorialTiendaGrafica.jsx'
+import GarphBarVisitas from './GraphBarVisitas.jsx'
+import { GraphProgreso } from './GraphProgreso.jsx'
 
 const MenuPerfil = () => {
-  const [productosHistorial, setProductosHistorial] = useState<Producto[]>([])
   const [showGraph, setShowGraph] = useState(false); // Estado para controlar la visualización de la gráfica de barras
   const [bandera, setBandera] = useState<string>(''); // Estado para almacenar la bandera de qué gráfica mostrar
   const [historial, setHistorial] = useState<Historial[]>([]); 
+  const [verTienda, setVerTienda] = useState<boolean>(false); 
   const infoUser:Usuario = useSelector((state:any) => state.auth.infoUsuario)
   const navigate = useNavigate()
   const dispatch = useDispatch()
@@ -104,17 +107,23 @@ const MenuPerfil = () => {
     setBandera('progreso');
   };
 
+  const handleRanchaButtonClick = () => {
+    // Cambiar el estado para mostrar la gráfica de calorias
+    setShowGraph(true);
+    setBandera('rancha');
+  };
+
   return (
     <div className={style.fondoPerfil}>
       <div className={style.div1}>
-        <section className={style.photoSection}>
+        <section className={style.photoSection} style={GetTipoSuscripcion(infoUser) === 'FREE'?{background:'#44A9F2'}:GetTipoSuscripcion(infoUser) === 'tienda'?{background:'var(--color-4)'}:{background:'var(--color-5)'}}>
           <div className={style.contain_img} style={{background:`url(${infoUser.foto ? infoUser.foto: auth.currentUser?.photoURL ?? '/Home/Perfil/Foto.png'}) top left / contain no-repeat`}}>
           </div>
-          <h1 className={style.welcome}>Bienvenido {infoUser?.nombre}</h1>
+          <h1 className={style.welcome}>Bienvenido {infoUser?.nombre} {GetTipoSuscripcion(infoUser) === 'FREE'?<></>:<div className={style.plus}>PLUS</div>}</h1>
         </section>
         <section className={style.infoSection}>
-          <p onClick={() => navigate('/app/EditPerfil')}>Más sobre ti   
-            <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="15" height="15" viewBox="0 0 24 24" fill='var(--color-5)' style={{transform:'translateX(10px)'}}>
+          <p className='estiloButton' style={{color:'var(--color-6)'}} onClick={() => navigate('/app/EditPerfil')}>Más sobre ti   
+            <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="15" height="15" viewBox="0 0 24 24" fill='var(--color-6)' style={{transform:'translateX(10px)'}}>
               <path d="M14.1 5.9L3 17v4h4L18.1 9.9 14.1 5.9zM15.6 4.4L18 2l4 4-2.4 2.4L15.6 4.4z"></path>
             </svg>
           </p>
@@ -142,11 +151,56 @@ const MenuPerfil = () => {
               <p className={style.s}>Estado: {GetEstado(CalcularIMC(infoUser?.peso, infoUser?.altura))}</p>
             </div>
           </div>
-          <button className={style.logoutButton} onClick={HandleSignOut}>Cerrar Sesión</button>
+          <button className={`${style.logoutButton} estiloButton`} onClick={HandleSignOut}>Cerrar Sesión</button>
         </section>
       </div>
-        <section className={style.sectionEstadisticas}>
-          <h1 className={style.estadistics}>Estadisticas</h1>
+      <section className={style.sectionEstadisticas}>
+        {verTienda ? 
+          <div className={`${style.buttonTiendaEstadisticas} estiloButton`} onClick={() => setVerTienda((prev) => !prev)}>
+            VER MIS ESTADISTICAS
+            <ProfileLogo color='var(--color-1)'/>
+          </div>
+          :
+          <div className={`${style.buttonTiendaEstadisticas} estiloButton`} onClick={() => setVerTienda((prev) => !prev)}>
+            VER ESTADISTICAS MI TIENDA
+            <TiendaLogo width={'5svh'} height={'5svh'} color='var(--color-1)'/>
+          </div>}
+        <h1 className={style.estadistics}>Estadisticas</h1>
+        { verTienda? 
+        <>
+          <div>
+            {showGraph ? (
+              // Si showGraph es verdadero, mostrar la gráfica correspondiente
+                bandera === 'busquedas' ? (
+                <GarphBarVisitas historial={historialTiendaData}/>
+              ) : bandera === 'calorias' ? (
+                <GraphVisitas historial={historialTiendaData}/>
+              ) : bandera === 'progreso' ? (
+                <HistorialTiendaGrafica historial={historialTiendaData} />
+              ) : bandera === 'rancha' ? (
+                <GraphProgreso/>
+              ) : null // No se renderiza nada si bandera no es busquedas ni calorias ni progreso
+            ) : (
+              // Mostrar la imagen del mapa conceptual si showGraph es falso
+              <HistorialTiendaGrafica historial={historialTiendaData} />
+            )}
+          </div>
+          <div className={style.contain_estadistics}>
+            <button id="HistorialButton" onClick={handleProgresoButtonClick}>
+              Historial
+            </button>
+            <button id="CaloriasButton" onClick={handleCaloriaButtonClick}>
+              Grafico Torta
+            </button>
+            <button id="BusquedaButton" onClick={handleBusquedaButtonClick}>
+              Grafico de Barras
+            </button>
+            <button id="ProgressButton" onClick={handleRanchaButtonClick}>
+              Grafico de lineas
+            </button>
+          </div>
+        </>
+        :<>
           <div>
             {showGraph ? (
               // Si showGraph es verdadero, mostrar la gráfica correspondiente
@@ -155,7 +209,9 @@ const MenuPerfil = () => {
               ) : bandera === 'calorias' ? (
                 <GraphCalorias historial={historial}/>
               ) : bandera === 'progreso' ? (
-                <GraphProgreso />
+                <HistorialGrafica historial={historial} />
+              ) : bandera === 'rancha' ? (
+                <GraphProgreso/>
               ) : null // No se renderiza nada si bandera no es busquedas ni calorias ni progreso
             ) : (
               // Mostrar la imagen del mapa conceptual si showGraph es falso
@@ -163,17 +219,21 @@ const MenuPerfil = () => {
             )}
           </div>
           <div className={style.contain_estadistics}>
+            <button id="HistorialButton" onClick={handleProgresoButtonClick}>
+              Historial
+            </button>
             <button id="BusquedaButton" onClick={handleBusquedaButtonClick}>
               Sobre tus busquedas
             </button>
-            <button id="CaloriaButton" onClick={handleCaloriaButtonClick}>
+            <button id="CaloriasButton" onClick={handleCaloriaButtonClick}>
               Consumo Calorico
             </button>
-            <button id="ProgresoButton" onClick={handleProgresoButtonClick}>
-              Progreso
+            <button id="ProgresoButton" onClick={handleRanchaButtonClick}>
+              Tu rancha
             </button>
           </div>
-        </section>
+        </>}
+      </section>
     </div>
   )
 }
