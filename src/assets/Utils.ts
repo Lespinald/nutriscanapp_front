@@ -381,7 +381,7 @@ export function ActualizarRacha(usuario: Usuario){
 
   let nuevaFechaLogueo = fechaHoy.toISOString();
 
-  console.log("nuevaRacha:", nuevaRacha, "nuevaFechaLogueo:", nuevaFechaLogueo);
+  // console.log("nuevaRacha:", nuevaRacha, "nuevaFechaLogueo:", nuevaFechaLogueo);
 
   fetch(`https://api.nutriscan.com.co/api/usuarios/${nuevoUsuario.uid}`,
     {
@@ -390,7 +390,7 @@ export function ActualizarRacha(usuario: Usuario){
       body: JSON.stringify({racha: nuevaRacha, ultimoLogueo: nuevaFechaLogueo})
     })
     .then(res => res.json())
-    .then(user => console.log(user))
+    .then(user => {})
     .catch(err => console.error(err));
 
   nuevoUsuario.racha = nuevaRacha;

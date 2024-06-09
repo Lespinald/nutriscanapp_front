@@ -2,6 +2,11 @@
   position: initial !important;
 }
 
+.inputCodigoBarras{
+  font-size: 1rem;
+  padding: 0.5rem 1rem;
+}
+
 .formulario{
   padding-top: 0;
   padding-bottom: 0;
@@ -19,12 +24,16 @@
 }
 
 .infoTable{
-  width: 95%;
+  /* width: 95%; */
   color: white;
 }
+.infoTable tr{
+  transform: rotate(90deg);
+}
 .infoTable td, .infoTable th{
+  height: 4.5rem;
   text-align: center;
-
+  transform: rotate(-90deg);
   padding: 0.5rem;
 }
 .infoTable th{

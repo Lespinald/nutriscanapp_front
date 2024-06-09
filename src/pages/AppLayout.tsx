@@ -48,7 +48,7 @@ const AppLayout = () => {
 
   return (
     <>
-    <nav className={style.layoutNav} style={{paddingRight:'0'}} ref={layout}>
+    <nav className={style.layoutNav} ref={layout}>
       <Link className={style.homeLogo} to="/app/Scan" style={mobile ? {margin:'0'} : {}}>
           <img className={style.maintainRatio} src="/Layout/logo.png" alt="logo"></img>
       </Link>
@@ -109,7 +109,7 @@ const MobileLayout = ({tipoSuscripcion}:Props) => {
     if(generalMenu){
       return {display: "none"};
     }
-    return {background:'var(--color-1)',height:'100%',padding:'2%',borderRadius:'0'};
+    return {background:'var(--color-1)',height:'100%',padding:'2%',borderRadius:'10px'};
   }
 
   const GetStyleGeneral = (): CSSProperties => {
