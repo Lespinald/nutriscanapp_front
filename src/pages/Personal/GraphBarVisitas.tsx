@@ -1,11 +1,11 @@
 import React from 'react';
 import { Bar } from 'react-chartjs-2';
 import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend } from 'chart.js';
-import { HistorialTienda } from '../../assets/models/historial';
+import { Historial } from '../../assets/models/historial';
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
-function procesarDatos(historial: HistorialTienda[]) {
+function procesarDatos(historial: Historial[]) {
     const agrupados: { [key: string]: { total: number, redireccionados: number } } = {};
 
     historial.forEach(item => {
@@ -22,7 +22,7 @@ function procesarDatos(historial: HistorialTienda[]) {
 }
 
 interface HistorialTiendaGraficaProps{
-    historial: HistorialTienda[];
+    historial: Historial[];
 }
 
 const GarphBarVisitas: React.FC<HistorialTiendaGraficaProps>= ({historial}:HistorialTiendaGraficaProps) => {
@@ -56,22 +56,37 @@ const GarphBarVisitas: React.FC<HistorialTiendaGraficaProps>= ({historial}:Histo
         plugins: {
             legend: {
                 position: 'top' as const,
+                labels: {
+                  color: 'white' // Color de las etiquetas de la leyenda
+                }
             },
             title: {
                 display: true,
                 text: 'Historial de Tienda por Producto',
+                color: 'white' // Color del título
             },
         },
         scales: {
-            y: {
-                beginAtZero: true,
+            x: {
+              ticks: {
+                color: 'white',
+                maxRotation: 45,
+                minRotation: 0
+              }
             },
+            y: {
+              ticks: {
+                color: 'white' // Color de las etiquetas del eje Y
+              },
+              beginAtZero: true,
+            }
         },
     };
 
     return (
         <div>
-            <Bar data={data} options={options} />
+            {historial.length !== 0 && <Bar data={data} options={options} />}
+            {historial.length === 0 && <label style={{color:'white'}}>UPS! aún no tienes registros</label>}
         </div>
     );
 };
