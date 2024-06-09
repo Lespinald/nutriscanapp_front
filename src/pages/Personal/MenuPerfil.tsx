@@ -18,6 +18,7 @@ import ProfileLogo from '../../assets/Components/ProfileLogo.jsx'
 import { GraphVisitas } from './GaphVisitas.jsx'
 import { HistorialTiendaGrafica } from './HistorialTiendaGrafica.jsx'
 import GarphBarVisitas from './GraphBarVisitas.jsx'
+import { GraphProgreso } from './GraphProgreso.jsx'
 
 const MenuPerfil = () => {
   const [showGraph, setShowGraph] = useState(false); // Estado para controlar la visualización de la gráfica de barras
@@ -106,6 +107,12 @@ const MenuPerfil = () => {
     setBandera('progreso');
   };
 
+  const handleRanchaButtonClick = () => {
+    // Cambiar el estado para mostrar la gráfica de calorias
+    setShowGraph(true);
+    setBandera('rancha');
+  };
+
   return (
     <div className={style.fondoPerfil}>
       <div className={style.div1}>
@@ -170,6 +177,8 @@ const MenuPerfil = () => {
                 <GraphVisitas historial={historialTiendaData}/>
               ) : bandera === 'progreso' ? (
                 <HistorialTiendaGrafica historial={historialTiendaData} />
+              ) : bandera === 'rancha' ? (
+                <GraphProgreso/>
               ) : null // No se renderiza nada si bandera no es busquedas ni calorias ni progreso
             ) : (
               // Mostrar la imagen del mapa conceptual si showGraph es falso
@@ -177,14 +186,17 @@ const MenuPerfil = () => {
             )}
           </div>
           <div className={style.contain_estadistics}>
-            <button id="ProgresoButton" onClick={handleProgresoButtonClick}>
+            <button id="HistorialButton" onClick={handleProgresoButtonClick}>
               Historial
             </button>
-            <button id="BusquedaButton" onClick={handleCaloriaButtonClick}>
+            <button id="CaloriasButton" onClick={handleCaloriaButtonClick}>
               Grafico Torta
             </button>
             <button id="BusquedaButton" onClick={handleBusquedaButtonClick}>
               Grafico de Barras
+            </button>
+            <button id="ProgressButton" onClick={handleRanchaButtonClick}>
+              Grafico de lineas
             </button>
           </div>
         </>
@@ -198,6 +210,8 @@ const MenuPerfil = () => {
                 <GraphCalorias historial={historial}/>
               ) : bandera === 'progreso' ? (
                 <HistorialGrafica historial={historial} />
+              ) : bandera === 'rancha' ? (
+                <GraphProgreso/>
               ) : null // No se renderiza nada si bandera no es busquedas ni calorias ni progreso
             ) : (
               // Mostrar la imagen del mapa conceptual si showGraph es falso
@@ -205,14 +219,17 @@ const MenuPerfil = () => {
             )}
           </div>
           <div className={style.contain_estadistics}>
+            <button id="HistorialButton" onClick={handleProgresoButtonClick}>
+              Historial
+            </button>
             <button id="BusquedaButton" onClick={handleBusquedaButtonClick}>
               Sobre tus busquedas
             </button>
-            <button id="CaloriaButton" onClick={handleCaloriaButtonClick}>
+            <button id="CaloriasButton" onClick={handleCaloriaButtonClick}>
               Consumo Calorico
             </button>
-            <button id="ProgresoButton" onClick={handleProgresoButtonClick}>
-              Historial
+            <button id="ProgresoButton" onClick={handleRanchaButtonClick}>
+              Tu rancha
             </button>
           </div>
         </>}
