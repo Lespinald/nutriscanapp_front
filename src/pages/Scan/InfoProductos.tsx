@@ -34,27 +34,42 @@ const InfoProductos = ({openProducto,setOpenProducto,modal,currentProducto,infor
             {currentProducto?.nombre} <br></br>
             <span style={{fontWeight:'400'}}>{currentProducto?.descripcion}</span>
             </h2>
-            <button onClick={() => {currentProducto && GuardarHistorial(currentProducto,infoUser?.uid,{energy: informationProduct?.energia},currentProducto?.ID_producto,true)}}
+            <button onClick={() => {currentProducto && GuardarHistorial(infoUser?.uid,{energy: informationProduct?.energia},currentProducto?.ID_producto,true)}}
             className={`${style.scanButton} ${style.codigoButton} basicButton`}>Sumar calorias</button>
         </div>
         <div className={style.answerOption} style={{boxShadow:'none',padding:'5% 0',justifyContent:'flex-start',alignItems:'flex-start'}}>
-            <img src={nutriscoreImgs[currentProducto?.nutriscore ?? 'unknown']} alt={`nutriscore grado ${currentProducto?.nutriscore}`} style={{width:'30%'}}></img>
-            <div style={{flex:'1'}}>
-            <p className={style.infoExtra}>Nutriscore: <span style={{fontWeight:'600'}}>{currentProducto?.nutriscore ?? 'unknown'}</span></p>
-            <p className={style.infoExtra}>Referencia: <span style={{fontWeight:'600'}}>{currentProducto?.referencia}</span></p>
-            {informationProduct && Object.keys(informationProduct).map((atributo,index,array) => (
-                !exepcion.includes(atributo) && !atributo.startsWith('unidad') &&
-                <p className={style.infoExtra}> {atributo} <span style={{fontWeight:'600'}}>{informationProduct[atributo]} {' '} 
-                {array[index + 1] && informationProduct[array[index + 1]]}</span></p>
-            ))}
-            <div className={styleFormPerfil.campo} style={{gridTemplateColumns:'none'}}>
-                <label htmlFor="Categoría" style={{color:'var(--color-6)',marginRight:'10px',textAlign:'start',fontSize:'3svh',fontWeight:'400'}}> Categoría: </label>
-                <SelectorArray placeholder='No hay categorias' color="var(--color-6)"
-                opciones={currentProducto?.categorias ?? []} current={currentProducto?.categorias ?? []} 
-                setCurrent={function (fieldName: string, response?: string | string[] | undefined): (e: { target: { value: any; }; }) => void {
-                throw new Error("Function not implemented.");
-                } } />
+            <div style={{width:'30%'}}>
+                <img src={nutriscoreImgs[currentProducto?.nutriscore ?? 'unknown']} alt={`nutriscore grado ${currentProducto?.nutriscore}`} style={{width:'100%'}}></img>
+                {currentProducto?.tiendas?.length !== 0 && <label>Lo puedes encontrar en:</label>}
+                <div style={{display:"flex",flexDirection:'column',gap:'10px',margin:'10px 0 '}}>
+                    {currentProducto?.tiendas?.map((minitienda,_index) => (
+                        <>
+                            <div style={{height:'4svh',display:'flex',justifyContent:'flex-start',alignItems:'center'}}
+                            onClick={() => {currentProducto && GuardarHistorial(infoUser?.uid,{energy: informationProduct?.energia},currentProducto?.ID_producto,false,true)}}>
+                                <img src={minitienda.fotos} style={{height:'100%'}}></img>
+                                <a key={_index} style={{fontSize:'3svh'}}
+                                    href={minitienda.enlace}>{minitienda.nombre}</a>
+                            </div>
+                        </>
+                    ))}
+                </div>
             </div>
+            <div style={{flex:'1'}}>
+                <p className={style.infoExtra}>Nutriscore: <span style={{fontWeight:'600'}}>{currentProducto?.nutriscore ?? 'unknown'}</span></p>
+                <p className={style.infoExtra}>Referencia: <span style={{fontWeight:'600'}}>{currentProducto?.referencia}</span></p>
+                {informationProduct && Object.keys(informationProduct).map((atributo,index,array) => (
+                    !exepcion.includes(atributo) && !atributo.startsWith('unidad') &&
+                    <p className={style.infoExtra}> {atributo} <span style={{fontWeight:'600'}}>{informationProduct[atributo]} {' '} 
+                    {array[index + 1] && informationProduct[array[index + 1]]}</span></p>
+                ))}
+                <div className={styleFormPerfil.campo} style={{gridTemplateColumns:'none'}}>
+                    <label htmlFor="Categoría" style={{color:'var(--color-6)',marginRight:'10px',textAlign:'start',fontSize:'3svh',fontWeight:'400'}}> Categoría: </label>
+                    <SelectorArray placeholder='No hay categorias' color="var(--color-6)"
+                    opciones={currentProducto?.categorias ?? []} current={currentProducto?.categorias ?? []} 
+                    setCurrent={function (fieldName: string, response?: string | string[] | undefined): (e: { target: { value: any; }; }) => void {
+                    throw new Error("Function not implemented.");
+                    } } />
+                </div>
             </div>
         </div>
         </div>
