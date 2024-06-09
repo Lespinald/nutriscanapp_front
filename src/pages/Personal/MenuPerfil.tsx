@@ -11,7 +11,7 @@ import { logout } from '../../redux/authSlice'
 import { GraphBusquedas } from './GraphBusquedas.jsx';
 import { GraphCalorias } from './GraphCalorias.jsx';
 import { CalcularIMC, GetTipoSuscripcion } from '../../assets/Utils.js'
-import { Historial, historialTiendaData } from '../../assets/models/historial.js'
+import { Historial } from '../../assets/models/historial.js'
 import HistorialGrafica from './HistorialGrafica.jsx'
 import TiendaLogo from '../../assets/Components/TiendaLogo.jsx'
 import ProfileLogo from '../../assets/Components/ProfileLogo.jsx'
@@ -19,13 +19,19 @@ import { GraphVisitas } from './GaphVisitas.jsx'
 import { HistorialTiendaGrafica } from './HistorialTiendaGrafica.jsx'
 import GarphBarVisitas from './GraphBarVisitas.jsx'
 import { GraphProgreso } from './GraphProgreso.jsx'
+import { useAppSelector } from '../../redux/store.js'
+import { Tienda } from '../../assets/models/tienda.js'
+import MenuCarga from '../../assets/MenuCarga/MenuCarga.jsx'
 
 const MenuPerfil = () => {
   const [showGraph, setShowGraph] = useState(false); // Estado para controlar la visualización de la gráfica de barras
   const [bandera, setBandera] = useState<string>(''); // Estado para almacenar la bandera de qué gráfica mostrar
+  const [historialTienda, setHistorialTienda] = useState<Historial[]>([]); 
   const [historial, setHistorial] = useState<Historial[]>([]); 
   const [verTienda, setVerTienda] = useState<boolean>(false); 
+  const [loading, setLoading] = useState<boolean>(false); 
   const infoUser:Usuario = useSelector((state:any) => state.auth.infoUsuario)
+  const infoTienda = useAppSelector((state) => state.tienda.currentTienda)
   const navigate = useNavigate()
   const dispatch = useDispatch()
 
@@ -60,13 +66,61 @@ const MenuPerfil = () => {
   }
 
   const fetchHistorial = async () => {
-    const historials:Historial[] = await GetHistorial();
-    console.log("🚀 ~ fetchHistorial ~ historials:", historials)
-    setHistorial(historials)
+    setLoading(true)
+      const historials:Historial[] = await GetHistorial();
+      console.log("🚀 ~ fetchHistorial ~ historials:", historials)
+      setHistorial(historials)
+    setLoading(false)
   };
+
+  const GetHistorialTienda = async () => {
+    try {
+      const response = await fetch(`https://api.nutriscan.com.co/api/historialacctienda/${infoTienda?.ID_tienda}`);
+      if (!response.ok) {
+        if (response.status === 404) {
+          throw new Error("404 not found");
+        }
+        throw new Error(response.statusText);
+      }
+  
+      const data = await response.json();
+      const historials = data.map((item) => ({
+        ID_dia: item?.ID_dia,
+        ID_producto: item.producto?.referencia,
+        calorias: item?.calorias,
+        comido: item?.comido,
+        redireccion: item?.redireccion,
+        createdAt: item?.createdAt,
+        fecha: item?.fecha,
+        uid: item?.uid,
+        updatedAt: item?.updatedAt
+      }));
+  
+      console.log("🚀 ~ consthistorials:Historial[]=res.slice ~ historials:", historials);
+      return historials;
+    } catch (error) {
+      console.error(error);
+      return []; // Retornar un array vacío en caso de error
+    }
+  }
+
+  const BundleHistorialTienda = async() => {
+    if(infoTienda?.ID_tienda){
+      setLoading(true)
+      const historials:Historial[] = await GetHistorialTienda();
+      console.log("🚀 ~ fetchHistorial ~ historials:", historials)
+      setHistorialTienda(historials)
+      setLoading(false)
+    }else{
+      alert('Hay un error con tu tienda recarga la pagina.')
+    }
+  }
 
   useEffect(() => {
     fetchHistorial();
+    if (GetTipoSuscripcion(infoUser) === 'tienda'){
+      BundleHistorialTienda()
+    }
   },[])
 
   const GetEstado = (imc: number) => {
@@ -115,6 +169,7 @@ const MenuPerfil = () => {
 
   return (
     <div className={style.fondoPerfil}>
+      <MenuCarga isOpen={loading}/>
       <div className={style.div1}>
         <section className={style.photoSection} style={GetTipoSuscripcion(infoUser) === 'FREE'?{background:'#44A9F2'}:GetTipoSuscripcion(infoUser) === 'tienda'?{background:'var(--color-4)'}:{background:'var(--color-5)'}}>
           <div className={style.contain_img} style={{background:`url(${infoUser.foto ? infoUser.foto: auth.currentUser?.photoURL ?? '/Home/Perfil/Foto.png'}) top left / contain no-repeat`}}>
@@ -139,7 +194,7 @@ const MenuPerfil = () => {
           </div>
           <div className={`${style.rowElements} ${style.margenes}`}>
             <div className={style.contain_preferencias}>
-              <p className={style.preferencias}>Preferencias</p>
+              <p className={`${style.preferencias} ${style.s}`}>Preferencias</p>
               <div>
                 <img src='/Home/Perfil/muffin.png' alt='Dulce'></img>
                 <img src='/Home/Perfil/limon.png' alt='Amargo'></img>
@@ -148,7 +203,7 @@ const MenuPerfil = () => {
             <div className={style.containIMC}>
               <img src='/Home/Perfil/target.png' alt='diana'></img>
               <p className={style.s}>IMC: {CalcularIMC(infoUser?.peso, infoUser?.altura).toFixed(1)}</p>
-              <p className={style.s}>Estado: {GetEstado(CalcularIMC(infoUser?.peso, infoUser?.altura))}</p>
+              <p className={style.s}>Estas: {GetEstado(CalcularIMC(infoUser?.peso, infoUser?.altura))}</p>
             </div>
           </div>
           <button className={`${style.logoutButton} estiloButton`} onClick={HandleSignOut}>Cerrar Sesión</button>
@@ -163,26 +218,24 @@ const MenuPerfil = () => {
           :
           <div className={`${style.buttonTiendaEstadisticas} estiloButton`} onClick={() => setVerTienda((prev) => !prev)}>
             VER ESTADISTICAS MI TIENDA
-            <TiendaLogo width={'5svh'} height={'5svh'} color='var(--color-1)'/>
+            <TiendaLogo width={'49'} height={'49'} color='var(--color-1)'/>
           </div>}
         <h1 className={style.estadistics}>Estadisticas</h1>
         { verTienda? 
         <>
-          <div>
+          <div style={{maxWidth: '100%',height:'100%',overflow: 'auto'}}>
             {showGraph ? (
               // Si showGraph es verdadero, mostrar la gráfica correspondiente
-                bandera === 'busquedas' ? (
-                <GarphBarVisitas historial={historialTiendaData}/>
+                bandera === 'busquedas'? (
+                <GarphBarVisitas historial={historialTienda}/>
               ) : bandera === 'calorias' ? (
-                <GraphVisitas historial={historialTiendaData}/>
-              ) : bandera === 'progreso' ? (
-                <HistorialTiendaGrafica historial={historialTiendaData} />
-              ) : bandera === 'rancha' ? (
-                <GraphProgreso/>
+                <GraphVisitas historial={historialTienda}/>
+              ) : bandera === 'progreso' || bandera === 'rancha'  ? (
+                <HistorialTiendaGrafica historial={historialTienda} />
               ) : null // No se renderiza nada si bandera no es busquedas ni calorias ni progreso
             ) : (
               // Mostrar la imagen del mapa conceptual si showGraph es falso
-              <HistorialTiendaGrafica historial={historialTiendaData} />
+              <HistorialTiendaGrafica historial={historialTienda} />
             )}
           </div>
           <div className={style.contain_estadistics}>
@@ -195,19 +248,16 @@ const MenuPerfil = () => {
             <button id="BusquedaButton" onClick={handleBusquedaButtonClick}>
               Grafico de Barras
             </button>
-            <button id="ProgressButton" onClick={handleRanchaButtonClick}>
-              Grafico de lineas
-            </button>
           </div>
         </>
         :<>
-          <div>
+          <div  style={{maxWidth: '100%',height:'100%',overflow: 'auto'}}>
             {showGraph ? (
               // Si showGraph es verdadero, mostrar la gráfica correspondiente
                 bandera === 'busquedas' ? (
                 <GraphBusquedas historial={historial}/>
               ) : bandera === 'calorias' ? (
-                <GraphCalorias historial={historial}/>
+                <GraphCalorias historial={historial} setLoading={setLoading}/>
               ) : bandera === 'progreso' ? (
                 <HistorialGrafica historial={historial} />
               ) : bandera === 'rancha' ? (
@@ -218,7 +268,7 @@ const MenuPerfil = () => {
               <HistorialGrafica historial={historial} />
             )}
           </div>
-          <div className={style.contain_estadistics}>
+          <div className={style.contain_estadistics} style={{gridTemplateColumns:'repeat(4,1fr)'}}>
             <button id="HistorialButton" onClick={handleProgresoButtonClick}>
               Historial
             </button>

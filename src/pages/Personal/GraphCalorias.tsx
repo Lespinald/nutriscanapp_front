@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
 import { Pie } from 'react-chartjs-2';
-import { Historial, HistorialTienda } from '../../assets/models/historial';
+import { Historial } from '../../assets/models/historial';
 import { Producto } from '../../assets/models/tienda';
 import { ConsultarOpenFoodFact } from '../../assets/Utils';
 import { OffData } from '../Tienda/utilTienda';
@@ -37,13 +37,15 @@ export const data = {
 
 interface Props{
   historial:Historial[];
+  setLoading:(a:boolean) => void;
 }
 
-export function GraphCalorias({historial}:Props) {
+export function GraphCalorias({historial,setLoading}:Props) {
   const [historialRegistro, setHistorialRegistro] = useState<Historial[]>([])
   const [datos, setDatos] = useState<number[]>([])
   
   async function obtenerProductosHistorial(historials:Historial[]) {
+    setLoading(true)
     const productosHistorial: Producto[] = [];
     const tempInfoProducts: OffData[] = [];
     
@@ -64,6 +66,7 @@ export function GraphCalorias({historial}:Props) {
     console.log("🚀 ~ obtenerProductosHistorial ~ InfoProductos:", tempInfoProducts)
     sumarNutrientes(tempInfoProducts)
     console.log("🚀 ~ obtenerProductosHistorial ~ productosHistorial:", productosHistorial)
+    setLoading(false)
     return productosHistorial;
   }
   
@@ -95,41 +98,46 @@ export function GraphCalorias({historial}:Props) {
     setHistorialRegistro(historial.filter((element) => element.comido))
   }, [])
   
-  return <Pie options={
-    {plugins: {
-      legend: {
-        labels: {
-          color: 'white', // Cambia el color de los labels a blanco
-        },
-      },
-    },}
-  } data={
-    {
-      labels: ['Azucares', 'Harina', 'Sodio', 'Grasa', 'Vitaminas', 'Minerales'],
-      datasets: [
+  return (
+    <>
+      {historial.length !== 0 && <Pie options={
+        {plugins: {
+          legend: {
+            labels: {
+              color: 'white', // Cambia el color de los labels a blanco
+            },
+          },
+        },}
+      } data={
         {
-          label: 'g',
-          data: datos,
-          backgroundColor: [
-            'rgba(255, 99, 132, 1)',
-            'rgba(54, 162, 235, 1)',
-            'rgba(255, 206, 86, 1)',
-            'rgba(75, 192, 192, 1)',
-            'rgba(153, 102, 255, 1)',
-            'rgba(255, 159, 64, 1)',
+          labels: ['Azucares', 'Harina', 'Sodio', 'Grasa', 'Vitaminas', 'Minerales'],
+          datasets: [
+            {
+              label: 'g',
+              data: datos,
+              backgroundColor: [
+                'rgba(255, 99, 132, 1)',
+                'rgba(54, 162, 235, 1)',
+                'rgba(255, 206, 86, 1)',
+                'rgba(75, 192, 192, 1)',
+                'rgba(153, 102, 255, 1)',
+                'rgba(255, 159, 64, 1)',
+              ],
+              borderColor: [
+                'rgba(255, 99, 132, 1)',
+                'rgba(54, 162, 235, 1)',
+                'rgba(255, 206, 86, 1)',
+                'rgba(75, 192, 192, 1)',
+                'rgba(153, 102, 255, 1)',
+                'rgba(255, 159, 64, 1)',
+              ],
+              borderWidth: 1,
+            },
           ],
-          borderColor: [
-            'rgba(255, 99, 132, 1)',
-            'rgba(54, 162, 235, 1)',
-            'rgba(255, 206, 86, 1)',
-            'rgba(75, 192, 192, 1)',
-            'rgba(153, 102, 255, 1)',
-            'rgba(255, 159, 64, 1)',
-          ],
-          borderWidth: 1,
-        },
-      ],
-    }
-  } />;
+        }
+      } />}
+      {historial.length === 0 && <label style={{color:'white'}}>UPS! aún no tienes registros</label>}
+    </>
+  )
 }
 

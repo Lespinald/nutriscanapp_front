@@ -1,15 +1,15 @@
 import { useState } from "react";
-import { HistorialTienda } from "../../assets/models/historial";
 import { Pie } from "react-chartjs-2";
+import { Historial } from "../../assets/models/historial";
 
 interface PropsTienda{
-    historial:HistorialTienda[];
+    historial:Historial[];
   }
   
   export function GraphVisitas({historial}:PropsTienda) {
     const [datos, setDatos] = useState<number[]>([])
   
-    function procesarDatos(historial: HistorialTienda[]) {
+    function procesarDatos(historial: Historial[]) {
       const agrupados: { [key: string]: { total: number, redireccionados: number } } = {};
   
       historial.forEach(item => {
@@ -28,64 +28,69 @@ interface PropsTienda{
   
     const datosProcesados = procesarDatos(historial);
     
-    return <Pie options={
-      {plugins: {
-        legend: {
-          labels: {
-            color: 'white', // Cambia el color de los labels a blanco
-          },
-        },
-      },}
-    } data={
-      {labels: Object.keys(datosProcesados),
-      datasets: [
-          {
-              label: 'Total',
-              data: Object.values(datosProcesados).map(d => d.total),
-              backgroundColor: [
-                  'rgba(255, 99, 132, 0.8)',
-                  'rgba(54, 162, 235, 0.8)',
-                  'rgba(255, 206, 86, 0.8)',
-                  'rgba(75, 192, 192, 0.8)',
-                  'rgba(153, 102, 255, 0.8)',
-                  'rgba(255, 159, 64, 0.8)',
-                  // ... otros colores según sea necesario
-              ],
-              borderColor: [
-                  'rgba(255, 99, 132, 1)',
-                  'rgba(54, 162, 235, 1)',
-                  'rgba(255, 206, 86, 1)',
-                  'rgba(75, 192, 192, 1)',
-                  'rgba(153, 102, 255, 1)',
-                  'rgba(255, 159, 64, 1)',
-                  // ... otros colores según sea necesario
-              ],
-              borderWidth: 1,
-          },
-          {
-              label: 'Redireccionados',
-              data: Object.values(datosProcesados).map(d => d.redireccionados),
-              backgroundColor: [
-                  'rgba(255, 99, 132, 0.6)',
-                  'rgba(54, 162, 235, 0.6)',
-                  'rgba(255, 206, 86, 0.6)',
-                  'rgba(75, 192, 192, 0.6)',
-                  'rgba(153, 102, 255, 0.6)',
-                  'rgba(255, 159, 64, 0.6)',
-                  // ... otros colores según sea necesario
-              ],
-              borderColor: [
-                  'rgba(255, 99, 132, 1)',
-                  'rgba(54, 162, 235, 1)',
-                  'rgba(255, 206, 86, 1)',
-                  'rgba(75, 192, 192, 1)',
-                  'rgba(153, 102, 255, 1)',
-                  'rgba(255, 159, 64, 1)',
-                  // ... otros colores según sea necesario
-              ],
-              borderWidth: 1,
+    return (
+      <div>
+        { historial.length !== 0 && <Pie options={
+          {plugins: {
+            legend: {
+              labels: {
+                color: 'white', // Cambia el color de los labels a blanco
+              },
+            },
+          },}
+        } data={
+          {labels: Object.keys(datosProcesados),
+          datasets: [
+              {
+                  label: 'Total',
+                  data: Object.values(datosProcesados).map(d => d.total),
+                  backgroundColor: [
+                      'rgba(255, 99, 132, 0.8)',
+                      'rgba(54, 162, 235, 0.8)',
+                      'rgba(255, 206, 86, 0.8)',
+                      'rgba(75, 192, 192, 0.8)',
+                      'rgba(153, 102, 255, 0.8)',
+                      'rgba(255, 159, 64, 0.8)',
+                      // ... otros colores según sea necesario
+                  ],
+                  borderColor: [
+                      'rgba(255, 99, 132, 1)',
+                      'rgba(54, 162, 235, 1)',
+                      'rgba(255, 206, 86, 1)',
+                      'rgba(75, 192, 192, 1)',
+                      'rgba(153, 102, 255, 1)',
+                      'rgba(255, 159, 64, 1)',
+                      // ... otros colores según sea necesario
+                  ],
+                  borderWidth: 1,
+              },
+              {
+                  label: 'Redireccionados',
+                  data: Object.values(datosProcesados).map(d => d.redireccionados),
+                  backgroundColor: [
+                      'rgba(255, 99, 132, 0.6)',
+                      'rgba(54, 162, 235, 0.6)',
+                      'rgba(255, 206, 86, 0.6)',
+                      'rgba(75, 192, 192, 0.6)',
+                      'rgba(153, 102, 255, 0.6)',
+                      'rgba(255, 159, 64, 0.6)',
+                      // ... otros colores según sea necesario
+                  ],
+                  borderColor: [
+                      'rgba(255, 99, 132, 1)',
+                      'rgba(54, 162, 235, 1)',
+                      'rgba(255, 206, 86, 1)',
+                      'rgba(75, 192, 192, 1)',
+                      'rgba(153, 102, 255, 1)',
+                      'rgba(255, 159, 64, 1)',
+                      // ... otros colores según sea necesario
+                  ],
+                  borderWidth: 1,
+              }
+            ]
           }
-        ]
-      }
-    }/>;
+        }/>}
+        {historial.length === 0 && <label style={{color:'white'}}>UPS! aún no tienes registros</label>}
+      </div>
+    )
   }
