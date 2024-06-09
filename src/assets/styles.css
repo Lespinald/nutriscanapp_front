@@ -78,7 +78,7 @@ button:active{
 
 .selectorArray{
   width: 100%;
-  max-height: calc(2 * (2svh + 18px));
+  max-height: 20svh;
   height: fit-content;
   display: flex;
   padding: 0.5rem;

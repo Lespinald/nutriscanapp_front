@@ -106,7 +106,7 @@ const SimpleSelectorArray = ({opciones,current,setCurrent,placeholder,color}:Sim
                 {current.length === 0 && <label style={{width:'100%',background:'rgb(0,0,0,0)'}}>{placeholder ?? 'Elije una categoria'}</label>}
             </div>
             <div className="modal_background" style={!open ? {display:'none'}:{}} onClick={() => setOpen(false)}>
-                <div className="modal_content" onClick={(e) => {e.stopPropagation()}}>
+                <div className="modal_content" style={{position: "initial"}} onClick={(e) => {e.stopPropagation()}}>
                     <div style={{display: "flex", gap: "1rem"}}>
                         <input placeholder="Busque una categoría" style={{width:'100%'}} value={busqueda} onChange={(e) => setBusqueda(e.target.value)}></input>
                         <div className="basicButton" onClick={e => {e.stopPropagation();setOpen(false)}}

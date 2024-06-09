@@ -301,7 +301,7 @@ const EditProducto = ({ initialProducto, tienda, indice, setOpen }: Props) => {
           </p>
           <h1>EDITAR PRODUCTO</h1>
         </div>
-        <div className={styleMenuTienda.producto}>
+        <div className={styleMenuTienda.producto} style={{zIndex: 0}}>
           {
           (currentProducto && currentProducto.foto)?
             <img src={currentProducto?.foto} alt='Foto de producto' style={{width: "100%"}}></img>:

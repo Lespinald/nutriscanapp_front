@@ -91,6 +91,11 @@
     text-align: center;
     padding: 0rem;
   }
+  .infoTable label{
+    display: block;
+    width: min-content;
+    margin: 0 auto;
+  }
   .infoTable input{
     max-width: 30svw;
   }
