@@ -52,10 +52,10 @@ const InputCodigoBarras = ({codigo, setCodigo,  mainClass, buttonClass, inputCla
       <input className={inputClass} type="text" onChange={HandleInputChange}
         value={inputValue} disabled={inputDisabled} hidden={inputHidden} style={{borderRadius:'0.5rem'}}>
       </input>
-      <button className={buttonClass} hidden={!inputHidden} onClick={HandleAddBarcode}>
+      <button className={buttonClass} hidden={!inputHidden} style={{fontSize: "1rem"}} onClick={HandleAddBarcode}>
         {(!codigo || inputHidden)? "Agregar": "Cambiar"} codigo de barras
       </button>
-      <button className={buttonClass} hidden={inputHidden} onClick={HandleNoBarcode}>
+      <button className={buttonClass} hidden={inputHidden} style={{fontSize: "1rem"}} onClick={HandleNoBarcode}>
         No se tiene codigo de barras
       </button>
     </div>

@@ -304,7 +304,7 @@ const EditProducto = ({ initialProducto, tienda, indice, setOpen }: Props) => {
         <div className={styleMenuTienda.producto}>
           {
           (currentProducto && currentProducto.foto)?
-            <img src={currentProducto?.foto} alt='Foto de producto'></img>:
+            <img src={currentProducto?.foto} alt='Foto de producto' style={{width: "100%"}}></img>:
             <p>Foto no disponible</p>
           }
         </div>
@@ -340,7 +340,7 @@ const EditProducto = ({ initialProducto, tienda, indice, setOpen }: Props) => {
               <tr>
                 <th>Información</th>
                 <th>cantidad (en 100 g o ml)</th>
-                <th>Información</th>
+                <th>{mobile?<>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</>: "Unidad"}</th>
               </tr>
             </thead>
             <tbody>
@@ -444,10 +444,10 @@ const EditProducto = ({ initialProducto, tienda, indice, setOpen }: Props) => {
               </tr>
             </tbody>
           </table>
-          <button type="submit" className={`${styleFormPerfil.button}`} style={{ alignSelf: 'flex-end' }}>
+          <button type="submit" className={`${styleFormPerfil.button}`} style={{fontSize: "1rem"}} >
             Guardar Cambios
           </button>
-          <button type="button" className={`${styleFormPerfil.button}`} onClick={() => setOpen(false)} style={{ alignSelf: 'flex-start' }}>CANCELAR</button>
+          <button type="button" className={`${styleFormPerfil.button}`} onClick={() => setOpen(false)} style={{fontSize: "1rem"}}>CANCELAR</button>
         </form>
       </div>
       {/* 2000900000000 */}

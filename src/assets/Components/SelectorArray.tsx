@@ -98,28 +98,32 @@ const SimpleSelectorArray = ({opciones,current,setCurrent,placeholder,color}:Sim
     }, [busqueda])
   
     return (
-      <>
-          <div className="selectorArray" onClick={() => setOpen(true)}>
-              {current.map((current, i) => (
-                  <p key={i} style={color?{color:`${color}`}:{}}>{current}</p>
-              ))}
-              {current.length === 0 && <label style={{width:'100%',background:'rgb(0,0,0,0)'}}>{placeholder ?? 'Elije una categoria'}</label>}
-          </div>
-          <div className="modal_background" style={!open ? {display:'none'}:{}} onClick={() => setOpen(false)}>
-              <div className="modal_content" onClick={(e) => {e.stopPropagation()}}>
-                  <input placeholder="Busque una categoría" style={{width:'100%'}} value={busqueda} onChange={(e) => setBusqueda(e.target.value)}></input>
-                  <div className="contain_busquedas">
-                      {filteredOptions.map((option, index) => (
-                          <p key={index} 
-                          onClick={() => HandleAdd(option)}
-                          className={`opcionesSelector estiloButton ${current.includes(option) ? 'opcionesSelector_active' : ''}`}>
-                              {option}
-                          </p>
-                      ))}
-                  </div>
-              </div>
-          </div>
-      </>
+        <>
+            <div className="selectorArray" onClick={() => setOpen(true)}>
+                {current.map((current, i) => (
+                    <p key={i} style={color?{color:`${color}`}:{}}>{current}</p>
+                ))}
+                {current.length === 0 && <label style={{width:'100%',background:'rgb(0,0,0,0)'}}>{placeholder ?? 'Elije una categoria'}</label>}
+            </div>
+            <div className="modal_background" style={!open ? {display:'none'}:{}} onClick={() => setOpen(false)}>
+                <div className="modal_content" onClick={(e) => {e.stopPropagation()}}>
+                    <div style={{display: "flex", gap: "1rem"}}>
+                        <input placeholder="Busque una categoría" style={{width:'100%'}} value={busqueda} onChange={(e) => setBusqueda(e.target.value)}></input>
+                        <div className="basicButton" onClick={e => {e.stopPropagation();setOpen(false)}}
+                            style={{display: "flex", alignItems: "center", padding: "0 2rem", borderRadius: "0.5rem"}}>Salir</div>
+                    </div>
+                    <div className="contain_busquedas">
+                        {filteredOptions.map((option, index) => (
+                            <p key={index} 
+                            onClick={() => HandleAdd(option)}
+                            className={`opcionesSelector estiloButton ${current.includes(option) ? 'opcionesSelector_active' : ''}`}>
+                                {option}
+                            </p>
+                        ))}
+                    </div>
+                </div>
+            </div>
+        </>
     )
   }
 

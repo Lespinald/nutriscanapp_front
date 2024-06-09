@@ -83,7 +83,7 @@ button:active{
   display: flex;
   padding: 0.5rem;
   border: 3px solid #fff3;
-  border-radius: 0.3rem;
+  border-radius: 0.5rem;
   flex-wrap: wrap;
   gap: 10px;
   overflow-x: hidden;
@@ -94,13 +94,13 @@ button:active{
 .opcionesSelector{
   border: 1px solid var(--color-2);
   background: transparent;
-  border-radius: 15px;
+  border-radius: 0.5rem;
   padding: 4px;
   color: white;
 }
 
 .contain_busquedas{
-  max-height: 20svh;
+  max-height: 65svh;
   overflow: hidden auto;
   gap: 10px;
   display: flex;
@@ -133,9 +133,9 @@ button:active{
 
 .modal_content{
   position: fixed;
-  top: 15svh;
+  top: 8svh;
   padding: 2%;
-  max-height: 70svh;
+  max-height: 84svh;
   height: fit-content;
   width: fit-content;
   max-width: 80svw;
