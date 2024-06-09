@@ -9,6 +9,7 @@ export interface Tienda {
     descripcion? : string;
 }
 export interface MiniTienda {
+    ID_tienda : string;
     nombre : string;
     enlace : string;
     fotos? : string;
@@ -16,6 +17,7 @@ export interface MiniTienda {
 
 export interface Producto {
     ID_producto: string;
+    ID_tienda?: string|null;
     referencia: string;
     nombre: string;
     descripcion: string;
@@ -37,6 +39,7 @@ export const tiendaVacia = {
 
 export const productoVacio = {
     ID_producto: '',
+    ID_tienda: '',
     nombre: '',
     referencia: '',
     descripcion: '',

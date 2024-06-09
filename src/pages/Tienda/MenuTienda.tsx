@@ -27,17 +27,6 @@ const tiendaDefault: Tienda =
     enlace : 'https://www.google.com/webhp?hl=es&sa=X&ved=0ahUKEwjUn62l5YuGAxU4TTABHX8tAK0QPAgJ',
   } as Tienda
 
-const prods: Producto[] = [
-  {
-    ID_producto: "1",
-    referencia: "Producto",
-    foto: "https://firebasestorage.googleapis.com/v0/b/nutriscan-9f5cf.appspot.com/o/TiendaTest%2Fimagen_2024-04-27_221044323.png?alt=media&token=ec5d519f-c9e4-4c73-94b6-38b68746af33",
-    nombre:'Titutlo Prueba',
-    descripcion: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat",
-    categorias: []
-  }
-]
-
 const MenuTienda = () => {
   const {mobile} = useAppLayoutContext();
   const tienda = useSelector((state:any) => state.tienda.currentTienda)

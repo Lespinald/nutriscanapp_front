@@ -3,7 +3,7 @@ import Modal from '../../assets/Components/Modal';
 import { Dispatch } from '@reduxjs/toolkit';
 import style from "./Scan.module.css"
 import styleFormPerfil from "../Personal/FormPerfil.module.css"
-import { Producto } from '../../assets/models/tienda';
+import { MiniTienda, Producto } from '../../assets/models/tienda';
 import { GuardarHistorial } from '../../assets/Utils';
 import { nutriscoreImgs } from '../../assets/categorias';
 import SelectorArray from '../../assets/Components/SelectorArray';
@@ -24,6 +24,39 @@ const InfoProductos = ({openProducto,setOpenProducto,modal,currentProducto,infor
   console.log("🚀 ~ InfoProductos ~ currentProducto:", currentProducto)
   const infoUser = useAppSelector((state) => state.auth.infoUsuario)
   const exepcion = ['imagenFrontalUrl']
+
+  const HandleRegistroRedireccion = async (miniTienda:MiniTienda) => {
+    console.log("🚀 ~ HandleRegistroRedireccion ~ currentProducto:", currentProducto)
+    if(currentProducto){
+        let id_product = currentProducto?.ID_producto
+        if(currentProducto?.ID_tienda !== miniTienda.ID_tienda){
+            console.log("🚀 ~ HandleRegistroRedireccion ~ miniTienda:", miniTienda)
+            console.log("🚀 ~ HandleRegistroRedireccion ~ currentProducto true:", currentProducto)
+            // Realiza la petición para obtener el ID_producto
+            try {
+                const res = await fetch(`https://api.nutriscan.com.co/api/productosReferenciaTienda/${currentProducto.referencia}/${miniTienda.ID_tienda}`);
+
+                if (!res.ok) {
+                    if (res.status === 404) {
+                      console.log("🚀 ~ ConsultarOpenFoodFact ~ 404 not found");
+                    }
+                    console.log("🚀 ~ ConsultarOpenFoodFact ~ Error:", res.statusText);
+                  }
+              
+                  const data = await res.json();
+                  let array:string[] = []
+                  data.map((element) => {
+                    array.push(element)
+                  })
+                  id_product =  array[0]
+            } catch (error) {
+                console.error("Error obteniendo ID_producto:", error);
+            }
+            console.log("🚀 ~ HandleRegistroRedireccion ~ id_product:", id_product)
+        }
+        GuardarHistorial(infoUser?.uid,{energy: informationProduct?.energia},id_product,false,true)
+    }
+  }
   
   return (
     <Modal isOpen={openProducto} setIsOpen={setOpenProducto} ref={modal}>
@@ -45,10 +78,10 @@ const InfoProductos = ({openProducto,setOpenProducto,modal,currentProducto,infor
                     {currentProducto?.tiendas?.map((minitienda,_index) => (
                         <>
                             <div style={{height:'4svh',display:'flex',justifyContent:'flex-start',alignItems:'center'}}
-                            onClick={() => {currentProducto && GuardarHistorial(infoUser?.uid,{energy: informationProduct?.energia},currentProducto?.ID_producto,false,true)}}>
+                            className='estiloButton' onClick={() => {HandleRegistroRedireccion(minitienda)}}>
                                 <img src={minitienda.fotos} style={{height:'100%'}}></img>
-                                <a key={_index} style={{fontSize:'3svh'}}
-                                    href={minitienda.enlace}>{minitienda.nombre}</a>
+                                <p key={_index} style={{fontSize:'3svh'}}
+                                    >{minitienda.nombre}</p>
                             </div>
                         </>
                     ))}

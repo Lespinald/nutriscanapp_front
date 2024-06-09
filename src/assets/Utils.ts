@@ -107,6 +107,7 @@ export async function TraerProductosTienda(idTienda: string): Promise<Producto[]
     datos.forEach((productoData: any) => {
       const producto: Producto = {
         ID_producto: productoData.ID_producto,
+        ID_tienda: productoData.ID_tienda,
         referencia: productoData.referencia,
         nombre: productoData.nombre,
         descripcion: productoData.descripcion,
@@ -290,6 +291,7 @@ export async function ConsultarOpenFoodFact(ID_producto:string,referencia: strin
 
     let newProduct: Producto = {
       ID_producto: ID_producto,
+      ID_tienda: null,
       referencia: data.product.id,
       nombre: data.product.product_name ?? data.product.product_name_es,
       descripcion: "",
@@ -419,6 +421,7 @@ export async function TraerEnlacesDeProducto(codigoBarras: string): Promise<Mini
     data.map((element) => {
       if(element.enlace && element.nombre){
           array.push({
+          ID_tienda: element.ID_tienda,
           nombre: element.nombre,
           fotos: element.fotos,
           enlace: element.enlace,

@@ -78,9 +78,10 @@ const BusquedaDesktop = () => {
       }).then(res => {
         console.log("🚀 ~ HandleSearch ~ res:", res);
         const productos: Producto[] = res.map((item: any) => {
-          const { ID_producto, referencia, nombre, descripcion, foto, categorias, nutriscore } = item;
+          const { ID_producto, ID_tienda, referencia, nombre, descripcion, foto, categorias, nutriscore } = item;
           return {
             ID_producto,
+            ID_tienda,
             referencia,
             nombre,
             descripcion,
