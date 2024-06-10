@@ -137,29 +137,37 @@
     text-align: center;
 }
 
-@media screen and (max-width: 768px) {
+@media (max-aspect-ratio: 8/7) and (max-width: 768px) {
     .presentacion{
         display: flex;
         flex-wrap: wrap;
         margin: 0 auto;
         padding: 5%;
     }
+
     .editarText{
         color: white;
         position: relative;
         text-align: center;
     }
+
     .producto{
         min-width: 250px;
         background: white;
         z-index: 4;
         position: relative;
     }
+
     .titulo a{
         font-size: 3svh;
     }
+
     .bannerDesk{
         width: 100%;
         height: auto;
+    }
+    .bannerDesk svg{
+        height: 20svw;
+        width: 20svw;
     }
 }
