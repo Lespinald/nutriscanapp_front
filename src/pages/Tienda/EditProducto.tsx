@@ -273,14 +273,16 @@ const EditProducto = ({ initialProducto, tienda, indice, setOpen }: Props) => {
   }
 
   useEffect(() => {
-    setTimeout(() => setLoading(false), 5000);
+    const timeout = setTimeout(() => setLoading(false), 5000);
     
     if(currentProducto){
       getProductOff(currentProducto.referencia)
         .then(() => {
           setLoading(false);
-
         });
+    }else{
+      clearTimeout(timeout);
+      setLoading(false);
     }
     
   }, [currentProducto])
@@ -289,30 +291,24 @@ const EditProducto = ({ initialProducto, tienda, indice, setOpen }: Props) => {
     <>
     <DialogCarga isOpen={loading} color='--color-1'/>
     <div className={`${styleMenuPerfil.fondoPerfil} ${style.page}`} style={{ position: 'fixed', background: 'white', top: '6%' }}>
-      <div className={`${styleMenuPerfil.div1} ${styleFormPerfil.firstColumna}`} style={{zIndex:'1',alignItems:'center'}}>
-        <div style={{ display: 'flex', gap: '7svh', alignItems: 'center', color: 'var(--color-5)', justifyContent: 'center', transform: 'translateX(-5svh)' }} onClick={() => setOpen((prev) => !prev)}>
-          <p className={styleFormPerfil.backButton} onClick={() => { }} >
-            <svg xmlns="http://www.w3.org/2000/svg" height="3svh" id="Layer_1" version="1.1" viewBox="0 0 512 512" width="3svh" xmlSpace="preserve" fill='var(--color-5)'>
+      <div className={`${styleMenuPerfil.div1} ${styleFormPerfil.firstColumna}`} style={{alignItems:'center', marginBottom: "3rem"}}>
+        <div style={{ display: 'flex', gap: '3rem', alignItems: 'center', color: 'var(--color-5)', marginBottom: "1rem" }}>
+          <p className={styleFormPerfil.backButton} onClick={() => setOpen((prev) => !prev)} >
+            <svg xmlns="http://www.w3.org/2000/svg" height="3rem" id="Layer_1" version="1.1" viewBox="0 0 512 512" width="3rem" xmlSpace="preserve" fill='var(--color-5)'>
               <polygon points="352,128.4 319.7,96 160,256 160,256 160,256 319.7,416 352,383.6 224.7,256 " />
             </svg>
+            Volver
           </p>
           <h1>EDITAR PRODUCTO</h1>
         </div>
-        <div className={``}>
-          <div className={styleMenuTienda.producto}>
-            <img src={currentProducto?.foto} alt='Foto de producto'></img>
-            <div>
-              <p className={styleMenuTienda.name}>{currentProducto?.nombre}</p>
-              <p className={styleMenuTienda.desc}>{currentProducto?.descripcion}</p>
-            </div>
-          </div>
-          <p className={styleMenuTienda.editarText}>CAMBIAR FOTO
-            <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="2vh" height="2vh" viewBox="0 0 24 24" fill={IsMobile() ? 'white' : 'var(--color-5)'} style={{ transform: 'translateX(10px)' }}>
-              <path d="M14.1 5.9L3 17v4h4L18.1 9.9 14.1 5.9zM15.6 4.4L18 2l4 4-2.4 2.4L15.6 4.4z"></path>
-            </svg>
-          </p>
+        <div className={styleMenuTienda.producto} style={{zIndex: 0}}>
+          {
+          (currentProducto && currentProducto.foto)?
+            <img src={currentProducto?.foto} alt='Foto de producto' style={{width: "100%"}}></img>:
+            <p>Foto no disponible</p>
+          }
         </div>
-        <InputCodigoBarras buttonClass={styleFormPerfil.button} codigo={currentProducto?.referencia} setCodigo={setCodigoBarras} />
+        <InputCodigoBarras buttonClass={styleFormPerfil.button} inputClass={style.inputCodigoBarras} codigo={currentProducto?.referencia} setCodigo={setCodigoBarras} />
       </div>
       <div className={`${styleFormPerfil.formulario} ${style.formulario}`}>
         <form className={style.infoForm} onSubmit={onSubmit}>
@@ -344,7 +340,7 @@ const EditProducto = ({ initialProducto, tienda, indice, setOpen }: Props) => {
               <tr>
                 <th>Información</th>
                 <th>cantidad (en 100 g o ml)</th>
-                <th>Información</th>
+                <th>{mobile?<>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</>: "Unidad"}</th>
               </tr>
             </thead>
             <tbody>
@@ -448,10 +444,10 @@ const EditProducto = ({ initialProducto, tienda, indice, setOpen }: Props) => {
               </tr>
             </tbody>
           </table>
-          <button type="submit" className={`${styleFormPerfil.button}`} style={{ alignSelf: 'flex-end' }}>
+          <button type="submit" className={`${styleFormPerfil.button}`} style={{fontSize: "1rem"}} >
             Guardar Cambios
           </button>
-          <button type="button" className={`${styleFormPerfil.button}`} onClick={() => setOpen(false)} style={{ alignSelf: 'flex-start' }}>CANCELAR</button>
+          <button type="button" className={`${styleFormPerfil.button}`} onClick={() => setOpen(false)} style={{fontSize: "1rem"}}>CANCELAR</button>
         </form>
       </div>
       {/* 2000900000000 */}

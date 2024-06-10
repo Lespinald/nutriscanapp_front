@@ -4,7 +4,7 @@ import { login } from "../redux/authSlice";
 import { Usuario, convertirUsuario, formatDate } from "./models/usuario";
 import { useDispatch, useSelector } from "react-redux";
 import { useStorge } from "../hooks/useStorage";
-import { Producto, Tienda } from "./models/tienda";
+import { MiniTienda, Producto, Tienda } from "./models/tienda";
 import { OffData } from "../pages/Tienda/utilTienda";
 
 export function GetViewportWidth(): number{
@@ -107,6 +107,7 @@ export async function TraerProductosTienda(idTienda: string): Promise<Producto[]
     datos.forEach((productoData: any) => {
       const producto: Producto = {
         ID_producto: productoData.ID_producto,
+        ID_tienda: productoData.ID_tienda,
         referencia: productoData.referencia,
         nombre: productoData.nombre,
         descripcion: productoData.descripcion,
@@ -198,13 +199,14 @@ export async function CrearProducto(newProduct: Producto): Promise<string | null
   }
 }
 
-export const GuardarHistorial = async (newProduct: Producto, uid: string, nutriments: any, ID: string,comido?:boolean) => {
+export const GuardarHistorial = async (uid: string, nutriments: any, ID: string,comido?:boolean,redireccion?:boolean) => {
   console.log("🚀 ~ GuardarHistorial ~ ID:", ID);
   console.log("🚀 ~ GuardarHistorial ~ JSON.stringify:", JSON.stringify({
     uid: uid,
     ID_producto: ID,
     fecha: new Date(),
     comido: comido ?? false,
+    redireccion: redireccion ?? false,
     calorias: nutriments.energy,
   }));
   try {
@@ -218,6 +220,7 @@ export const GuardarHistorial = async (newProduct: Producto, uid: string, nutrim
         ID_producto: ID,
         fecha: new Date(),
         comido: comido ?? false,
+        redireccion: redireccion ?? false,
         calorias: nutriments.energy,
       })
     });
@@ -288,6 +291,7 @@ export async function ConsultarOpenFoodFact(ID_producto:string,referencia: strin
 
     let newProduct: Producto = {
       ID_producto: ID_producto,
+      ID_tienda: null,
       referencia: data.product.id,
       nombre: data.product.product_name ?? data.product.product_name_es,
       descripcion: "",
@@ -302,7 +306,7 @@ export async function ConsultarOpenFoodFact(ID_producto:string,referencia: strin
     if(uid){
       GuardarRegistro(newProduct).then((ID) => {
         console.log("🚀 ~ GuardarRegistro Then ~ ID:", ID)
-        GuardarHistorial(newProduct,uid,data.product.nutriments,ID)
+        GuardarHistorial(uid,data.product.nutriments,ID)
         newProduct.ID_producto = ID;
         return { product: newProduct, offData: productoInformation };
       })
@@ -381,7 +385,7 @@ export function ActualizarRacha(usuario: Usuario){
 
   let nuevaFechaLogueo = fechaHoy.toISOString();
 
-  console.log("nuevaRacha:", nuevaRacha, "nuevaFechaLogueo:", nuevaFechaLogueo);
+  // console.log("nuevaRacha:", nuevaRacha, "nuevaFechaLogueo:", nuevaFechaLogueo);
 
   fetch(`https://api.nutriscan.com.co/api/usuarios/${nuevoUsuario.uid}`,
     {
@@ -390,7 +394,7 @@ export function ActualizarRacha(usuario: Usuario){
       body: JSON.stringify({racha: nuevaRacha, ultimoLogueo: nuevaFechaLogueo})
     })
     .then(res => res.json())
-    .then(user => console.log(user))
+    .then(user => {})
     .catch(err => console.error(err));
 
   nuevoUsuario.racha = nuevaRacha;
@@ -399,4 +403,34 @@ export function ActualizarRacha(usuario: Usuario){
   return nuevoUsuario;
 }
 
+export async function TraerEnlacesDeProducto(codigoBarras: string): Promise<MiniTienda[]> {
+  try {
+    const res = await fetch(`https://api.nutriscan.com.co/api/productosReferencias/${codigoBarras}`);
+    
+    if (!res.ok) {
+      if (res.status === 404) {
+        console.log("🚀 ~ ConsultarOpenFoodFact ~ 404 not found");
+        return [];
+      }
+      console.log("🚀 ~ ConsultarOpenFoodFact ~ Error:", res.statusText);
+      throw new Error(res.statusText);
+    }
 
+    const data = await res.json();
+    let array:MiniTienda[] = []
+    data.map((element) => {
+      if(element.enlace && element.nombre){
+          array.push({
+          ID_tienda: element.ID_tienda,
+          nombre: element.nombre,
+          fotos: element.fotos,
+          enlace: element.enlace,
+        } as MiniTienda)
+      }
+    })
+    return array
+  } catch (err) {
+    console.error("🚀 ~ ConsultarOpenFoodFact ~ Error:", err);
+    return [];
+  }
+}

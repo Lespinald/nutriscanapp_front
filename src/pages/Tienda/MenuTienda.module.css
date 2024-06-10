@@ -1,14 +1,25 @@
 .main{
     text-align: center;
-    position: relative;
 }
 
-.bannerDesk{    
+.bannerDesk{
+    position: relative;
+    width: 100%;
+    height: 30svh;
+    background: var(--color-5);
+}
+.bannerDesk img{
     width: 100%;
     height: 100%;
-    max-height: 30svh;
     object-fit: cover;
-    background: var(--color-5);
+    object-position: center;
+}
+.bannerDesk svg{
+    position: absolute;
+    height: 20svh;
+    width: 20svh;
+
+    fill: var(--color-6);
 }
 
 .bannerDesk:hover{
@@ -17,6 +28,7 @@
 
 .logoSection{
     display: flex;
+    position: relative;
     justify-content: center;
     margin-top: -10rem;
 }
@@ -125,29 +137,37 @@
     text-align: center;
 }
 
-@media screen and (max-width: 768px) {
+@media (max-aspect-ratio: 8/7) and (max-width: 768px) {
     .presentacion{
         display: flex;
         flex-wrap: wrap;
         margin: 0 auto;
         padding: 5%;
     }
+
     .editarText{
         color: white;
         position: relative;
         text-align: center;
     }
+
     .producto{
         min-width: 250px;
         background: white;
         z-index: 4;
         position: relative;
     }
+
     .titulo a{
         font-size: 3svh;
     }
+
     .bannerDesk{
         width: 100%;
         height: auto;
+    }
+    .bannerDesk svg{
+        height: 20svw;
+        width: 20svw;
     }
 }

@@ -27,17 +27,6 @@ const tiendaDefault: Tienda =
     enlace : 'https://www.google.com/webhp?hl=es&sa=X&ved=0ahUKEwjUn62l5YuGAxU4TTABHX8tAK0QPAgJ',
   } as Tienda
 
-const prods: Producto[] = [
-  {
-    ID_producto: "1",
-    referencia: "Producto",
-    foto: "https://firebasestorage.googleapis.com/v0/b/nutriscan-9f5cf.appspot.com/o/TiendaTest%2Fimagen_2024-04-27_221044323.png?alt=media&token=ec5d519f-c9e4-4c73-94b6-38b68746af33",
-    nombre:'Titutlo Prueba',
-    descripcion: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat",
-    categorias: []
-  }
-]
-
 const MenuTienda = () => {
   const {mobile} = useAppLayoutContext();
   const tienda = useSelector((state:any) => state.tienda.currentTienda)
@@ -72,37 +61,6 @@ const TiendaDesktop = ({name, banner, logo, busqueda, setBusqueda, productos,tie
     setIndice(indice)
     setEditProd((prev) => !prev);
   }
-
-  const svg = `
-    <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="15" height="15" viewBox="0 0 24 24" fill="#F9F870">
-      <path d="M14.1 5.9L3 17v4h4L18.1 9.9 14.1 5.9zM15.6 4.4L18 2l4 4-2.4 2.4L15.6 4.4z"></path>
-    </svg>
-  `;
-
-  const svgDataUri = `data:image/svg+xml,${encodeURIComponent(svg)}`;
-
-  useEffect(() => {
-    if (back.current) {
-      const pseudoElementStyle = `
-        .${style.main}::after {
-          content: "";
-          background: url('${svgDataUri}') center / 100% no-repeat;
-          width: 10%;
-          aspect-ratio: 1 / 1;
-          display: block; /* Asegúrate de que se renderice */
-          position: absolute;
-          top: 0;
-          left: 0;
-          /* ajusta las posiciones según sea necesario */
-        }
-      `;
-      const styleSheet = document.createElement("style");
-      styleSheet.type = "text/css";
-      styleSheet.innerText = pseudoElementStyle;
-      document.head.appendChild(styleSheet);
-    }
-  }, []);
-  
   
   return (
     <>{
@@ -113,7 +71,12 @@ const TiendaDesktop = ({name, banner, logo, busqueda, setBusqueda, productos,tie
       <EditTienda initialTienda={currentTienda} setOpen={setEditTienda} indice={0}/>
       :
       <div className={style.main} ref={back}>
-        <img src={banner} alt="banner" className={style.bannerDesk} onClick={() => {setEditTienda(true)}} ></img>
+        <div  className={style.bannerDesk} onClick={() => {setEditTienda(true)}} >
+          <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="15" height="15" viewBox="0 0 24 24">
+            <path d="M14.1 5.9L3 17v4h4L18.1 9.9 14.1 5.9zM15.6 4.4L18 2l4 4-2.4 2.4L15.6 4.4z"></path>
+          </svg>
+          <img src={banner} alt="banner"></img>
+        </div>
         <div className={style.logoSection} onClick={() => {setEditTienda(true)}}>
           <div>
             <img src={infoUser?.foto ? infoUser.foto : tiendaDefault.fotos} alt='logo tienda'/>

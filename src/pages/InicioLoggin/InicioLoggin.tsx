@@ -69,6 +69,7 @@ const InicioLoggin = () => {
         res.forEach((productoData: any) => {
           const producto: Producto = {
             ID_producto: productoData.ID_producto,
+            ID_tienda: productoData.ID_tienda,
             referencia: productoData.referencia,
             nombre: productoData.nombre,
             descripcion: productoData.descripcion,

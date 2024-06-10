@@ -123,5 +123,10 @@ export function GraphBusquedas({historial}:Props) {
   }
 
 
-  return <Bar options={options} data={SendData()} />;
+  return(
+    <>
+      {historial.length !== 0 &&<Bar options={options} data={SendData()} />}
+      {historial.length === 0 && <label style={{color:'white'}}>UPS! aún no tienes registros</label>}
+    </>
+  )
 }

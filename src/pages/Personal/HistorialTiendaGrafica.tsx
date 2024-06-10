@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { HistorialTienda } from "../../assets/models/historial";
 import style from './MenuPerfil.module.css'
+import { Historial } from "../../assets/models/historial";
 
 interface HistorialTiendaGraficaProps{
-    historial: HistorialTienda[];
+    historial: Historial[];
     itemsPerPage?: number;
 }
 
@@ -38,8 +38,8 @@ export const HistorialTiendaGrafica: React.FC<HistorialTiendaGraficaProps> = ({ 
             </thead>
             <tbody>
             {paginatedHistorial.map((item) => (
-                <tr key={item.ID_metricas}>
-                <td>{item.ID_metricas}</td>
+                <tr key={item.ID_dia}>
+                <td>{item.ID_dia}</td>
                 <td>
                     <a href="#">
                     {item.ID_producto}
@@ -60,6 +60,7 @@ export const HistorialTiendaGrafica: React.FC<HistorialTiendaGraficaProps> = ({ 
                 ))}
             </div>
         </div>
+        {historial.length === 0 && <label>UPS! aún no tienes registros</label>}
         </div>
     );
 };

@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Historial, HistorialTienda } from "../../assets/models/historial";
+import { Historial } from "../../assets/models/historial";
 import style from './MenuPerfil.module.css'
 import { useNavigate } from "react-router-dom";
 
@@ -62,6 +62,7 @@ const HistorialGrafica: React.FC<HistorialGraficaProps> = ({ historial, itemsPer
                 ))}
             </div>
         </div>
+        {historial.length === 0 && <label >UPS! aún no tienes registros</label>}
         </div>
     );
 };

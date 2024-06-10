@@ -3,7 +3,7 @@ import style from "./Scan.module.css"
 import styleFormPerfil from "../Personal/FormPerfil.module.css"
 
 import React, { useEffect, useRef, useState } from "react";
-import { ConsultarOpenFoodFact, GuardarHistorial, GuardarRegistro, IsMobile } from "../../assets/Utils";
+import { ConsultarOpenFoodFact, GuardarRegistro, IsMobile, TraerEnlacesDeProducto } from "../../assets/Utils";
 import { Producto } from "../../assets/models/tienda";
 import Modal from "../../assets/Components/Modal";
 import { nutriscoreImgs } from "../../assets/categorias";
@@ -44,11 +44,17 @@ const BusquedaDesktop = () => {
 
   const HandleClickProduct = async (producto:Producto) => {
     let {product, infoProducto: offData} = await ConsultarOpenFoodFact(producto.ID_producto,producto.referencia,infoUser.uid)
+    let enlaces = await TraerEnlacesDeProducto(producto.referencia)
     if(product){
+      let copy = {...product}
+      copy.tiendas = enlaces
       setCurrentProductoInformation(offData)
-      setCurrentProducto(product)
+      setCurrentProducto(copy)
+      console.log("🚀 ~ HandleClickProduct ~ copy:", copy)
     }else{
-      setCurrentProducto(producto)
+      let copy = {...producto}
+      copy.tiendas = enlaces
+      setCurrentProducto(copy)
     }
     setOpenProducto(true)
   }
@@ -72,9 +78,10 @@ const BusquedaDesktop = () => {
       }).then(res => {
         console.log("🚀 ~ HandleSearch ~ res:", res);
         const productos: Producto[] = res.map((item: any) => {
-          const { ID_producto, referencia, nombre, descripcion, foto, categorias, nutriscore } = item;
+          const { ID_producto, ID_tienda, referencia, nombre, descripcion, foto, categorias, nutriscore } = item;
           return {
             ID_producto,
+            ID_tienda,
             referencia,
             nombre,
             descripcion,
@@ -210,7 +217,7 @@ const BusquedaDesktop = () => {
         const referenciaSet = new Set();
   
         res.slice(-5).forEach((item: any) => {
-          const { ID_dia, producto, calorias, comido, createdAt, fecha, uid, updatedAt } = item;
+          const { ID_dia, producto, calorias, comido,redireccion, createdAt, fecha, uid, updatedAt } = item;
           const referencia = producto.nombre; // Cambia producto.nombre por el atributo correcto que contiene la referencia
   
           // Verificar si la referencia ya existe en el conjunto
@@ -220,6 +227,7 @@ const BusquedaDesktop = () => {
               ID_producto: referencia,
               calorias,
               comido,
+              redireccion,
               createdAt,
               fecha,
               uid,

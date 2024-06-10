@@ -8,15 +8,23 @@ export interface Tienda {
     fotos? : string;
     descripcion? : string;
 }
+export interface MiniTienda {
+    ID_tienda : string;
+    nombre : string;
+    enlace : string;
+    fotos? : string;
+}
 
 export interface Producto {
     ID_producto: string;
+    ID_tienda?: string|null;
     referencia: string;
     nombre: string;
     descripcion: string;
     foto:string;
     categorias:string[];
     nutriscore?:string;
+    tiendas?:MiniTienda[];
 }
 
 export const tiendaVacia = {
@@ -31,6 +39,7 @@ export const tiendaVacia = {
 
 export const productoVacio = {
     ID_producto: '',
+    ID_tienda: '',
     nombre: '',
     referencia: '',
     descripcion: '',
