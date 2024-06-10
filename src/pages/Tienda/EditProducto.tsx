@@ -133,7 +133,7 @@ const EditProducto = ({ initialProducto, tienda, indice, setOpen }: Props) => {
       if (v > last) last = v;
     })
 
-    return last.toString();
+    return (last + 1n).toString();
   }
 
   const GuardarProducto = async (datos: DatosForm) => {
