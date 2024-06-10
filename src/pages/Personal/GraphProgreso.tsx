@@ -77,7 +77,7 @@ const distributeRacha = (racha: number): number[] => {
   const todayIndex = new Date().getDay();
   
   for (let i = 0; i < racha; i++) {
-    dataPoints[(todayIndex - i + 7) % 7] = racha - 1;
+    dataPoints[(todayIndex - i + 7) % 7] = racha ;
   }
 
   return dataPoints;
@@ -110,7 +110,7 @@ export function GraphProgreso() {
     datasets: [
       {
         fill: true,
-        label: 'Rancha',
+        label: 'Racha',
         data: dataPoints,
         borderColor: 'rgb(53, 162, 235)',
         backgroundColor: 'rgba(53, 162, 235, 0.5)',
