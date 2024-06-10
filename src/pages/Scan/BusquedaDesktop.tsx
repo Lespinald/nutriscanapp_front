@@ -23,6 +23,7 @@ const BusquedaDesktop = () => {
   const [openProducto, setOpenProducto] = useState<boolean>(false);
   const [capturando, setCapturando] = useState<boolean>(false);
   const [busqueda, setBusqueda] = useState<string>(idProduct ?? '');
+  const [lastBusqueda, setLastBusqueda] = useState<string>('');
   const [nutriscore, setNutriscore] = useState<string>("unknown");
   const [currentProductoInformation, setCurrentProductoInformation] = useState<OffData>();
   const [currentProducto, setCurrentProducto] = useState<Producto>();
@@ -62,6 +63,10 @@ const BusquedaDesktop = () => {
   const HandleSearch = (busquedaNueva?: string) => {
 
     if(!busquedaNueva) busquedaNueva = busqueda;
+
+    if(busqueda === lastBusqueda) return;
+
+    setLastBusqueda(busqueda);
 
     if (!(/^\d+$/.test(busquedaNueva))) {
       // Busqueda contains only numeric characters

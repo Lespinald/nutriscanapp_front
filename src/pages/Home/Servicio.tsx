@@ -11,7 +11,7 @@ const Servicio = forwardRef<HTMLDivElement>(({}, ref) => {
     <div className={style.back} ref={ref}>
       <h1>Servicio</h1>
       <div className={style.planes}>
-        <div className={style.plan} onClick={() => { authenticated ? navigate('app/home') : navigate('registro')}}>
+        <div className={style.plan} onClick={() => { authenticated ? navigate('app/home') : navigate('/Registro')}}>
           <h3>FREE</h3>
           <div>
             <h2>$0</h2>
@@ -23,7 +23,7 @@ const Servicio = forwardRef<HTMLDivElement>(({}, ref) => {
             <li>Anuncios</li>
           </ul>
         </div>
-        <div className={style.plan} onClick={() => {navigate('/pago/plus')}}>
+        <div className={style.plan} onClick={() => {navigate('/Registro')}}>
           <h3>PLUS</h3>
           <div>
             <h2>$7.000</h2>
@@ -36,7 +36,7 @@ const Servicio = forwardRef<HTMLDivElement>(({}, ref) => {
             <li>Acceso a tiendas</li>
           </ul>
         </div>
-        <div className={style.plan} onClick={() => {navigate('/pago/market')}}>
+        <div className={style.plan} onClick={() => {navigate('/Registro')}}>
           <h3>TIENDA</h3>
           <div>
             <h2>$50.000</h2>
