@@ -195,9 +195,6 @@ const MenuPerfil = () => {
             <button id="BusquedaButton" onClick={handleBusquedaButtonClick}>
               Grafico de Barras
             </button>
-            <button id="ProgressButton" onClick={handleRanchaButtonClick}>
-              Grafico de lineas
-            </button>
           </div>
         </>
         :<>
