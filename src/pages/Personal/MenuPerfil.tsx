@@ -276,7 +276,7 @@ const MenuPerfil = () => {
               Sobre tus busquedas
             </button>
             <button id="CaloriasButton" onClick={handleCaloriaButtonClick}>
-              Consumo Calorico
+              Consumo Nutricional
             </button>
             <button id="ProgresoButton" onClick={handleRanchaButtonClick}>
               Tu rancha
