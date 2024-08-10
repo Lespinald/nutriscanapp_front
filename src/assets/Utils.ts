@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useStorge } from "../hooks/useStorage";
 import { MiniTienda, Producto, Tienda } from "./models/tienda";
 import { OffData } from "../pages/Tienda/utilTienda";
+import ComponenteAlert from "./ComponenteAlert";
 
 export function GetViewportWidth(): number{
   return document.documentElement.clientWidth;
@@ -33,29 +34,13 @@ export async function TraerInfoUsuario(uid: string): Promise<Usuario | null> {
     if (!respuesta.ok) {
       throw new Error('Error en la solicitud');
     }
-
     const datos = await respuesta.json();
-    console.log("🚀 ~ TraerInfoUsuario ~ datos:", datos)
-    
     const usuario = datos as Usuario;
-    // convertirUsuario(
-    //   datos.uid,
-    //   datos.nombre,
-    //   datos.tipoSuscripcion,
-    //   datos.fechaSuscripcion,
-    //   datos.fechaDeNacimiento,
-    //   datos.altura,
-    //   datos.peso,
-    //   datos.telefono,
-    //   datos.correo,
-    // );
-
     usuario.foto = datos.foto;
-
     return usuario;
   } catch (error) {
     console.error('Error en la solicitud fetch:', error);
-    alert('Error en consulta a base de datos');
+    ComponenteAlert('Error en consulta a base de datos.',2,false);
     return null;
   }
 }
@@ -87,7 +72,6 @@ export async function TraerInfoTienda(uid: string): Promise<Tienda | null> {
     }
   } catch (error) {
     console.error('Error en la solicitud fetch:', error);
-    alert('Error en consulta a base de datos');
     return null;
   }
 }
@@ -120,8 +104,7 @@ export async function TraerProductosTienda(idTienda: string): Promise<Producto[]
     console.log("🚀 ~ TraerProductosTienda ~ productos:", productos);
     return productos;
   } catch (error) {
-    console.error('Error en la solicitud fetch:', error);
-    alert('Error en consulta a base de datos');
+    console.error('Error en consulta informacion productos de tienda.');
     return null;
   }
 }

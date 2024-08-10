@@ -11,17 +11,13 @@ import FormPerfil from './pages/Personal/FormPerfil';
 import RecivePasarela from './pages/Pasarela/RecivePasarela';
 import MenuTienda from './pages/Tienda/MenuTienda';
 import ComprarTienda from './pages/CompraTienda/ComprarTienda';
-import Inicio from './pages/Home/Inicio';
 import InicioLoggin from './pages/InicioLoggin/InicioLoggin';
 import NotFound from './pages/404/NotFound';
-import { useEffect, useLayoutEffect, useState } from 'react';
-import { onAuthStateChanged } from 'firebase/auth';
-import { auth } from './firebase';
-import { useDispatch, useSelector } from 'react-redux';
+import { useLayoutEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
 import BusquedaDesktop from './pages/Scan/BusquedaDesktop';
-import { TraerInfoTienda, TraerInfoUsuario, TraerProductosTienda, CompareDatesByDay, onUserLoad, ActualizarRacha } from './assets/Utils';
+import { TraerInfoTienda, TraerInfoUsuario, TraerProductosTienda, onUserLoad, ActualizarRacha } from './assets/Utils';
 import { login } from './redux/authSlice';
-import { Usuario, formatDate } from './assets/models/usuario';
 import { setProductos, setTienda } from './redux/tiendaSlice';
 import MenuCarga from './assets/MenuCarga/MenuCarga';
 import DialogCarga from './assets/MenuCarga/DialogCarga';
@@ -94,7 +90,6 @@ function App() {
           <Route path='Tienda' element={<MenuTienda/>}/>
           <Route path='ComprarTienda' element={<ComprarTienda/>}/>
         </Route>
-
         <Route path="*" element={<NotFound/>}/>
       </Routes>  
       }

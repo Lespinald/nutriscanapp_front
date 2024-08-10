@@ -33,11 +33,10 @@ const FootPage = () => {
       <section className={style.header}>
             <div>
                 <h3>Servicio</h3>
-                <p>Comenzar</p>
+                <p onClick={() =>{navigate('/Registro')}}>Comenzar</p>
                 <p>Status</p>
                 <p>Desarrolladores</p>
                 <p>Directorio</p>
-                <p>Web</p>
             </div>
             <div>
                 <h3>Empresa</h3>
@@ -49,7 +48,7 @@ const FootPage = () => {
             <div>
                 <h3>Recursos</h3>
                 <p>Soporte</p>
-                <p>Marca</p>
+                <p>Manual de usuario</p>
                 <p>Trabaja con nosotros</p>
                 <p>Blog</p>
             </div>
