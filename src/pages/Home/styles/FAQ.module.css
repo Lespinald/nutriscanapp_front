@@ -1,0 +1,47 @@
+.titleFAQ{
+    font-size: 1.62em;
+    color: var(--color-6);
+    flex: 1;
+    margin-left: 2%;
+}
+
+.pregunta{
+    border-top: 2px solid var(--color-3);
+    border-bottom: 2px solid var(--color-3);
+    padding: 2%;
+    padding-left: 10%;
+    position: relative;
+    cursor: pointer; 
+    width: 100%;
+}
+
+.pregunta .respuesta {
+    max-height: 0;
+    display: none;
+    overflow: hidden;
+    transition: max-height 0.4s ease, opacity 0.4s ease;
+    opacity: 0;
+}
+
+
+.pregunta.active .respuesta {
+    max-height: none; /* O ajusta esto según el contenido */
+    opacity: 1;
+    display: inline;
+}
+
+.pregunta.active::after {
+    transform: translateY(-50%) rotate(90deg); /* Rota la flecha 90 grados al hacer clic */
+}
+
+.pregunta::after{
+    content: "";
+    width: 1.2rem;
+    height: 1.2rem;
+    background: url(/public/flecha.svg) center / contain;
+    position: absolute;
+    left: 0;
+    top: 50%; /* Posiciona la imagen al 50% de la altura del contenedor */
+    transform: translateY(-50%); /* Ajusta para centrar la imagen verticalmente */
+    transition: transform 0.4s ease;
+}

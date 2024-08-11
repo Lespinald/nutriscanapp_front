@@ -23,6 +23,7 @@ import MenuCarga from './assets/MenuCarga/MenuCarga';
 import DialogCarga from './assets/MenuCarga/DialogCarga';
 import { useAppSelector } from './redux/store';
 import TerminosYCondiciones from './pages/Registro/TerminosYCondiciones';
+import FAQ from './pages/Home/FAQ';
 
 function App() {
   const dispatch = useDispatch();
@@ -70,6 +71,7 @@ function App() {
       <Routes>
         <Route element={autenticado?<AppLayout/>:<Layout/>}>
           <Route path=':section?' element={<Home/>}/>
+          <Route path='/FAQ' element={<FAQ/>}/>
           <Route path='/pago/:info' element={<Checkout/>}/>
           <Route path='/responseFactura' element={<RecivePasarela/>}/>
           <Route path='/ComprarTienda' element={<ComprarTienda/>}/>

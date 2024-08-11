@@ -4,7 +4,7 @@ footer.back{
     background-color: var(--color-5 );
     display: grid;
     grid-template-areas:
-    "sidebar header header"
+    "sidebar s header"
     "bottom bottom bottom";
     gap: 5%;
 }
@@ -17,10 +17,11 @@ footer.back{
     max-height: calc(4svw * 2);
 }
 
-.sidebar div{
+.sidebar svg{
     display: flex;
     align-items: center;
     justify-content: center;
+    height: fit-content;
 }
 
 .sidebar div:hover{
@@ -31,9 +32,10 @@ footer.back{
     grid-area: header ;
     height: fit-content;
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(20svw, 1fr));
+    grid-template-columns: repeat(2,1fr);
     gap: 10px;
     text-transform: capitalize;
+    max-width: 50svw;
 }
 
 .header div{
@@ -90,18 +92,22 @@ footer.back{
 
 @media screen and (max-width: 899px) {
     .sidebar{
-        grid-template-columns:  repeat(auto-fill, minmax(10svw, 1fr));
+        display: flex;
+        max-height: none;
+        align-items: center;
+        justify-content: space-around;
+        padding-bottom: 4%;
     }
 
     .header{
-        grid-template-columns: repeat(auto-fill, minmax(35svw, 1fr));
+        grid-template-columns: repeat(auto-fill, minmax(25svw, 1fr));
+        max-width: none;
+        margin: 3svh 0;
     }
 
     footer.back{
-        height: 85%;
-        grid-template-areas:
-        "sidebar sidebar sidebar"
-        "header header header"
-        "bottom bottom bottom";
+        height: fit-content;
+        display: flex;
+        flex-direction: column;
     }
 }
