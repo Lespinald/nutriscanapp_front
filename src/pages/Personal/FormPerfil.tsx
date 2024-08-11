@@ -247,7 +247,7 @@ const FormPerfil = () => {
       <div className={`${styleMenuPerfil.div1} ${style.firstColumna}`}>
         <div style={{display:'flex',gap:'7svh',alignItems:'center',color:'var(--color-5)',justifyContent:'center',transform:'translateX(-5svh)'}}>
           <p className={style.backButton} onClick={() => navigate('/app/Perfil')} >
-            <svg xmlns="http://www.w3.org/2000/svg" height="3svh" id="Layer_1" version="1.1" viewBox="0 0 512 512" width="3svh" xmlSpace="preserve" fill='var(--color-5)'>
+            <svg xmlns="http://www.w3.org/2000/svg" height="3em" id="Layer_1" version="1.1" viewBox="0 0 512 512" width="3em" xmlSpace="preserve" fill='var(--color-5)'>
               <polygon points="352,128.4 319.7,96 160,256 160,256 160,256 319.7,416 352,383.6 224.7,256 "/>
             </svg>
           </p>
@@ -261,7 +261,7 @@ const FormPerfil = () => {
           </p>
         </div>
       </div>
-      <div className={style.formulario}>
+      <div className={style.formulario} style={{overflowY:'auto'}}>
         <form>
             <div className={style.campo}>
               <label htmlFor="correo">Correo:</label>

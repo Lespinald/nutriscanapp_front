@@ -304,6 +304,9 @@ export async function ConsultarOpenFoodFact(ID_producto:string,referencia: strin
 }
 
 export function CalcularIMC(peso:number, altura:number){
+  if(altura <=10 || peso <= 50){
+    return NaN;
+  }
   return peso/(altura/100)**2;
 }
 

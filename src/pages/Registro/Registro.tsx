@@ -89,6 +89,10 @@ const Registro = () => {
       ComponenteAlert('Ingrese un telefono valido',2,AlertType.WARNING)
       return false
     }
+    if(!terminosYCondiciones){
+      ComponenteAlert('Debes aceptar terminos y condiciones.',2,AlertType.WARNING)
+      return false
+    }
     return true
   }
 
@@ -286,7 +290,9 @@ const Registro = () => {
         <div style={{width:'100%'}}>
           <input type="checkbox" onClick={() => setTerminosYCondiciones((prev) =>!prev)} name="condiciones" style={{width:'fit-content',margin:'0.5em'}}/> 
           <label>
-            Estoy de acuerdo con los <a onClick={() => navigate('/terminos_y_condiciones')} target="_blank" className="enlace-terminos">términos y condiciones</a>
+            Estoy de acuerdo con los 
+              <a onClick={() => navigate('/terminos_y_condiciones')} target="_blank" 
+                style={{textDecoration:'underline'}} className="enlace-terminos">términos y condiciones</a>
           </label>
         </div>
         <button className={styleLogin.button_logIn} onClick={HandleRegistro} style={{fontSize:'1em'}}>

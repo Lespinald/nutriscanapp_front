@@ -125,6 +125,9 @@ const MenuPerfil = () => {
   },[])
 
   const GetEstado = (imc: number) => {
+    if(isNaN(imc)){
+      return 'Falta informacion'
+    }
     if(imc < 18.5){
       return 'Bajo'
     }
@@ -144,29 +147,27 @@ const MenuPerfil = () => {
     navigate('/')
   }
 
-  const handleBusquedaButtonClick = () => {
-    // Cambiar el estado para mostrar la gráfica de busquedas
-    setShowGraph(true);
-    setBandera('busquedas');
+  const handleaButtonClick = (input:string) => {
+    // Cambiar el estado para mostrar la gráfica de calorias
+    if(GetTipoSuscripcion(infoUser) !== 'FREE'){
+      setShowGraph(true);
+      setBandera(input);
+    }else{
+      ComponenteAlert("Necesitas tener un plan para ver estadisticas",2,AlertType.WARNING)
+      setTimeout(() => {
+        navigate('/pago/plus');
+      }, 1500);
+    }
   };
 
-  const handleCaloriaButtonClick = () => {
-    // Cambiar el estado para mostrar la gráfica de calorias
-    setShowGraph(true);
-    setBandera('calorias');
-  };
-
-  const handleProgresoButtonClick = () => {
-    // Cambiar el estado para mostrar la gráfica de calorias
-    setShowGraph(true);
-    setBandera('progreso');
-  };
-
-  const handleRanchaButtonClick = () => {
-    // Cambiar el estado para mostrar la gráfica de calorias
-    setShowGraph(true);
-    setBandera('rancha');
-  };
+  const bundleVerTienda = () => {
+    if(GetTipoSuscripcion(infoUser) === 'tienda'){
+      setVerTienda((prev) => !prev)
+    }else{
+      ComponenteAlert("Necesitas una suscripcion de tienda",3,AlertType.ERROR)
+      navigate('/app/ComprarTienda')
+    }
+  }
 
   return (
     <div className={style.fondoPerfil}>
@@ -203,7 +204,8 @@ const MenuPerfil = () => {
             </div>
             <div className={style.containIMC}>
               <img src='/Home/Perfil/target.png' alt='diana'></img>
-              <p className={style.s}>IMC: {CalcularIMC(infoUser?.peso, infoUser?.altura).toFixed(1)}</p>
+              <p className={style.s}>IMC: {isNaN(CalcularIMC(infoUser?.peso, infoUser?.altura)) ? 'Ingrese su altura y peso' :
+                CalcularIMC(infoUser?.peso, infoUser?.altura).toFixed(1)}</p>
               <p className={style.s}>Estas: {GetEstado(CalcularIMC(infoUser?.peso, infoUser?.altura))}</p>
             </div>
           </div>
@@ -217,7 +219,7 @@ const MenuPerfil = () => {
             <ProfileLogo color='var(--color-1)'/>
           </div>
           :
-          <div className={`${style.buttonTiendaEstadisticas} estiloButton`} onClick={() => setVerTienda((prev) => !prev)}>
+          <div className={`${style.buttonTiendaEstadisticas} estiloButton`} onClick={bundleVerTienda}>
             VER ESTADISTICAS MI TIENDA
             <TiendaLogo width={'49'} height={'49'} color='var(--color-1)'/>
           </div>}
@@ -240,13 +242,13 @@ const MenuPerfil = () => {
             )}
           </div>
           <div className={style.contain_estadistics}>
-            <button id="HistorialButton" onClick={handleProgresoButtonClick}>
+            <button id="HistorialButton" onClick={() => handleaButtonClick('progreso')}>
               Historial
             </button>
-            <button id="CaloriasButton" onClick={handleCaloriaButtonClick}>
+            <button id="CaloriasButton" onClick={() => handleaButtonClick('calorias')}>
               Grafico Torta
             </button>
-            <button id="BusquedaButton" onClick={handleBusquedaButtonClick}>
+            <button id="BusquedaButton" onClick={() => handleaButtonClick('busquedas')}>
               Grafico de Barras
             </button>
           </div>
@@ -270,16 +272,16 @@ const MenuPerfil = () => {
             )}
           </div>
           <div className={style.contain_estadistics} style={{gridTemplateColumns:'repeat(4,1fr)'}}>
-            <button id="HistorialButton" onClick={handleProgresoButtonClick}>
+            <button id="HistorialButton" onClick={() => handleaButtonClick('progreso')}>
               Historial
             </button>
-            <button id="BusquedaButton" onClick={handleBusquedaButtonClick}>
+            <button id="BusquedaButton" onClick={() => handleaButtonClick('busquedas')}>
               Sobre tus busquedas
             </button>
-            <button id="CaloriasButton" onClick={handleCaloriaButtonClick}>
+            <button id="CaloriasButton" onClick={() => handleaButtonClick('calorias')}>
               Consumo Nutricional
             </button>
-            <button id="ProgresoButton" onClick={handleRanchaButtonClick}>
+            <button id="ProgresoButton" onClick={() => handleaButtonClick('racha')}>
               Tu rancha
             </button>
           </div>
