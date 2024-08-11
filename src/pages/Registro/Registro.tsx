@@ -259,12 +259,14 @@ const Registro = () => {
   return (
     <div className={styleLogin.fondoLogin}>
       <MenuCarga isOpen={loading}/>
-      <Link className={styleLogin.backButton} to={'/Home'}>
-        <svg xmlns="http://www.w3.org/2000/svg" height="3svh" id="Layer_1" version="1.1" viewBox="0 0 512 512" width="3svh" xmlSpace="preserve" fill='white'>
-            <polygon points="352,128.4 319.7,96 160,256 160,256 160,256 319.7,416 352,383.6 224.7,256 "/>
-        </svg>
-      </Link>
-      <h1 className={styleLogin.loginTitle}>BIENVENIDO</h1>
+      <div style={{height:"fit-content",display: "flex",alignItems: "center"}}>
+        <Link className={styleLogin.backButton} to={'/Home'}>
+          <svg xmlns="http://www.w3.org/2000/svg" height="2em" id="Layer_1" version="1.1" viewBox="0 0 512 512" width="2em" xmlSpace="preserve" fill='white'>
+              <polygon points="352,128.4 319.7,96 160,256 160,256 160,256 319.7,416 352,383.6 224.7,256 "/>
+          </svg>
+        </Link>
+        <h1 className={styleLogin.loginTitle}>BIENVENIDO</h1>
+      </div>
       <form className={style.form_registro} style={{display:'flex',flexDirection:'column'}}>
         <label>Nombre:</label>
         <input autoComplete='true' type='text' id='name' placeholder='Nombre' onChange={HandleInputChange('nombre')}></input>

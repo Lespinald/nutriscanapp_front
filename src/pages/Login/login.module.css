@@ -10,9 +10,10 @@
 
 .backButton{
     align-self: self-start;
-    margin-left: 3svh;
     display: flex;
     align-items: center;
+    position: relative;
+    transform: translateX(-1em);
 }
 
 .fondoLogin form.login{
@@ -34,9 +35,8 @@
 }
 
 .loginTitle{
-    font-size: 4.7svh;
+    font-size: 1em;
     color: white;
-    margin-bottom: 24px;
     text-align: center;
 }
 
@@ -83,6 +83,7 @@
 
 .button_logIn{
     background-color: var(--color-5);
+    font-size: 2em;
 }
 
 .button_google{
@@ -93,7 +94,7 @@
 }
 
 .button_google p{    
-    font-size: 1.5svh;
+    font-size: 1.2em;
     height: fit-content;
     width: 100%;
 }
@@ -108,10 +109,18 @@
     aspect-ratio: 1 / 1;
 }
 
-@media screen and (max-width: 899px) {
-    .backButton::after{
-        content: 'Home';
-        text-decoration: none;
-        color: white;
-    }
+.fondoLogin_line{
+    height: 2px;
+    background-color: var(--color-4);
+    position: relative;
+}
+.fondoLogin_line::after{
+    content: "O";
+    background-color: white;
+    color: var(--color-5);
+    padding: 0 2%;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
 }

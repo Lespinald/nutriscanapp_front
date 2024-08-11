@@ -167,19 +167,21 @@ const Login = () => {
     return (
         <div className={style.fondoLogin}>
             <MenuCarga isOpen={loading}/>
-            <Link className={style.backButton} to={'/Home'}>
-                <svg xmlns="http://www.w3.org/2000/svg" height="3svh" id="Layer_1" version="1.1" viewBox="0 0 512 512" width="3svh" xmlSpace="preserve" fill='white'>
-                    <polygon points="352,128.4 319.7,96 160,256 160,256 160,256 319.7,416 352,383.6 224.7,256 "/>
-                </svg>
-            </Link>
-            <h1 className={style.loginTitle}>BIENVENIDO DE NUEVO</h1>
+            <div style={{height:"fit-content",display: "flex",alignItems: "center"}}>
+                <Link className={style.backButton} to={'/Home'}>
+                    <svg xmlns="http://www.w3.org/2000/svg" height="2em" id="Layer_1" version="1.1" viewBox="0 0 512 512" width="2em" xmlSpace="preserve" fill='white'>
+                        <polygon points="352,128.4 319.7,96 160,256 160,256 160,256 319.7,416 352,383.6 224.7,256 "/>
+                    </svg>
+                </Link>
+                <h1 className={style.loginTitle} style={{fontSize:'1.52em'}}>BIENVENIDO DE NUEVO</h1>
+            </div>
             <form className={style.login} style={{display:'flex',flexDirection:'column'}}>
                 <input autoComplete='true' type='email' id='email' placeholder='Correo' value={address} onChange={e => setAddress(e.currentTarget.value)}></input>
                 <input autoComplete='true' type='password' id='password' placeholder='Contraseña' value={password} onChange={e => setPassword(e.currentTarget.value)}></input>
                 <button onClick={HandleLogInEmail} className={style.button_logIn} style={{marginTop:'19px'}}>
                     Iniciar sesión
                 </button>
-                <div className='fondoLogin-line'></div>
+                <div className={style.fondoLogin_line} style={{height:'2px'}}></div>
                 <button onClick={HandleGoogle} className={style.button_google}>
                     <img src='\Login\GoogleIcon.png'></img>
                     <p>Continuar con Google</p>
