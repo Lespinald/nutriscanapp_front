@@ -284,7 +284,7 @@ const Registro = () => {
         <div style={{width:'100%'}}>
           <input type="checkbox" onClick={() => setTerminosYCondiciones((prev) =>!prev)} name="condiciones" style={{width:'fit-content',margin:'0.5em'}}/> 
           <label>
-            Estoy de acuerdo con los <a href="terminos.html" target="_blank" className="enlace-terminos">términos y condiciones</a>
+            Estoy de acuerdo con los <a onClick={() => navigate('/terminos_y_condiciones')} target="_blank" className="enlace-terminos">términos y condiciones</a>
           </label>
         </div>
         <button className={styleLogin.button_logIn} onClick={HandleRegistro}>

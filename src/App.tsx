@@ -22,6 +22,7 @@ import { setProductos, setTienda } from './redux/tiendaSlice';
 import MenuCarga from './assets/MenuCarga/MenuCarga';
 import DialogCarga from './assets/MenuCarga/DialogCarga';
 import { useAppSelector } from './redux/store';
+import TerminosYCondiciones from './pages/Registro/TerminosYCondiciones';
 
 function App() {
   const dispatch = useDispatch();
@@ -73,6 +74,7 @@ function App() {
           <Route path='/responseFactura' element={<RecivePasarela/>}/>
           <Route path='/ComprarTienda' element={<ComprarTienda/>}/>
         </Route>
+        <Route path='terminos_y_condiciones' element={<TerminosYCondiciones/>}/>
         <Route path='Registro' element={<Registro/>}/>
         <Route path='Login' element={<Login/>}/>
         <Route path='Cargando' element={<DialogCarga isOpen={true} color='--color-5'/>}/>
