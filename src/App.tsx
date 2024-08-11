@@ -77,6 +77,7 @@ function App() {
           <Route path='/responseFactura' element={<RecivePasarela/>}/>
           <Route path='/ComprarTienda' element={<ComprarTienda/>}/>
         </Route>
+        
         <Route element={<LayoutWithFooter />}>
           <Route path='terminos_y_condiciones' element={<TerminosYCondiciones />} />
           <Route path='Registro' element={<Registro />} />
@@ -87,7 +88,6 @@ function App() {
         <Route path="Home" element={<Navigate to="/" replace/>} />
 
         <Route path='app' element={<AppLayout/>}>
-          <Route element={<LayoutWithFooter />}>
             <Route path='Home' element={<InicioLoggin/>}/>
             <Route path='Pago/:info' element={<Checkout/>}/>
             <Route path='Scan' element={<Scan/>}/>
@@ -96,7 +96,6 @@ function App() {
             <Route path='EditPerfil' element={<FormPerfil/>}/>
             <Route path='Tienda' element={<MenuTienda/>}/>
             <Route path='ComprarTienda' element={<ComprarTienda/>}/>
-          </Route>
         </Route>
         
         <Route path="*" element={<NotFound/>}/>

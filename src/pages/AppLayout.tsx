@@ -13,6 +13,7 @@ import { auth } from "../firebase";
 import { onAuthStateChanged } from "firebase/auth";
 import { login } from "../redux/authSlice";
 import { setProductos, setTienda } from "../redux/tiendaSlice";
+import FootPage from "./Home/FootPage";
 
 type AppLayoutContext = {
   size: {width: number, height: number};
@@ -48,20 +49,21 @@ const AppLayout = () => {
 
   return (
     <>
-    <nav className={style.layoutNav} ref={layout}>
-      <Link className={style.homeLogo} to="/app/Scan" style={mobile ? {margin:'0'} : {}}>
-          <img className={style.maintainRatio} src="/Layout/logo.png" alt="logo"></img>
-      </Link>
-      { mobile?
-        <MobileLayout tipoSuscripcion={GetTipoSuscripcion(infoUsuario)}/>:
-        <DesktopLayout tipoSuscripcion={GetTipoSuscripcion(infoUsuario)}/>
-      }
-    </nav>
-    <div className={style.outlet} style={{marginTop: `${layoutHeight}px`}}>
-      {infoUsuario &&
-        <Outlet context={{size, mobile} satisfies AppLayoutContext} />
-      }
-    </div>
+      <nav className={style.layoutNav} ref={layout}>
+        <Link className={style.homeLogo} to="/app/Scan" style={mobile ? {margin:'0'} : {}}>
+            <img className={style.maintainRatio} src="/Layout/logo.png" alt="logo"></img>
+        </Link>
+        { mobile?
+          <MobileLayout tipoSuscripcion={GetTipoSuscripcion(infoUsuario)}/>:
+          <DesktopLayout tipoSuscripcion={GetTipoSuscripcion(infoUsuario)}/>
+        }
+      </nav>
+      <div className={style.outlet} style={{marginTop: `${layoutHeight}px`}}>
+        {infoUsuario &&
+          <Outlet context={{size, mobile} satisfies AppLayoutContext} />
+        }
+      </div>
+      <FootPage /> 
     </>
   );
 }
