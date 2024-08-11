@@ -25,6 +25,7 @@ import { useAppSelector } from './redux/store';
 import TerminosYCondiciones from './pages/Registro/TerminosYCondiciones';
 import FAQ from './pages/Home/FAQ';
 import FootPage from './pages/Home/FootPage';
+import ManualDeUsuario from './pages/Home/ManualDeUsuario';
 
 function App() {
   const dispatch = useDispatch();
@@ -73,6 +74,7 @@ function App() {
         <Route element={autenticado?<AppLayout/>:<Layout/>}>
           <Route path=':section?' element={<Home/>}/>
           <Route path='/FAQ' element={<FAQ/>}/>
+          <Route path='/Manual' element={<ManualDeUsuario/>}/>
           <Route path='/pago/:info' element={<Checkout/>}/>
           <Route path='/responseFactura' element={<RecivePasarela/>}/>
           <Route path='/ComprarTienda' element={<ComprarTienda/>}/>
