@@ -10,6 +10,7 @@ import { useViewportRezise } from "../assets/hooks";
 import ProfileLogo from "../assets/Components/ProfileLogo";
 import MenuLogo from "../assets/Components/MenuLogo";
 import { useSelector } from "react-redux";
+import FootPage from "./Home/FootPage";
 
 type HomeLayoutContext = {
   size: {width: number, height: number};
@@ -39,18 +40,19 @@ const Layout = () => {
 
   return (
     <>
-    <nav className={style.layoutNav} ref={layout}>
-      <Link className={style.homeLogo} to="/">
-          <img className={style.maintainRatio} src="/Layout/logo.png" alt="logo"></img>
-      </Link>
-      { mobile?
-        <MobileLayout/>:
-        <DesktopLayout/>
-      }
-    </nav>
-    <div className={style.outlet} style={{marginTop: `${layoutHeight}px`}}>
-      <Outlet context={{size, mobile} satisfies HomeLayoutContext} />
-    </div>
+      <nav className={style.layoutNav} ref={layout}>
+        <Link className={style.homeLogo} to="/">
+            <img className={style.maintainRatio} src="/Layout/logo.png" alt="logo"></img>
+        </Link>
+        { mobile?
+          <MobileLayout/>:
+          <DesktopLayout/>
+        }
+      </nav>
+      <div className={style.outlet} style={{marginTop: `${layoutHeight}px`}}>
+        <Outlet context={{size, mobile} satisfies HomeLayoutContext} />
+      </div>
+      <FootPage></FootPage>
     </>
   );
 }

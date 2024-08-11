@@ -1,4 +1,4 @@
-import { BrowserRouter, Navigate, Route, Routes, useNavigate } from 'react-router-dom';
+import { BrowserRouter, Navigate, Outlet, Route, Routes, useNavigate } from 'react-router-dom';
 import Layout from './pages/Layout';
 import Home from './pages/Home/Home';
 import Scan from './pages/Scan/Scan';
@@ -24,6 +24,7 @@ import DialogCarga from './assets/MenuCarga/DialogCarga';
 import { useAppSelector } from './redux/store';
 import TerminosYCondiciones from './pages/Registro/TerminosYCondiciones';
 import FAQ from './pages/Home/FAQ';
+import FootPage from './pages/Home/FootPage';
 
 function App() {
   const dispatch = useDispatch();
@@ -76,29 +77,42 @@ function App() {
           <Route path='/responseFactura' element={<RecivePasarela/>}/>
           <Route path='/ComprarTienda' element={<ComprarTienda/>}/>
         </Route>
-        <Route path='terminos_y_condiciones' element={<TerminosYCondiciones/>}/>
-        <Route path='Registro' element={<Registro/>}/>
-        <Route path='Login' element={<Login/>}/>
-        <Route path='Cargando' element={<DialogCarga isOpen={true} color='--color-5'/>}/>
-        
-
+        <Route element={<LayoutWithFooter />}>
+          <Route path='terminos_y_condiciones' element={<TerminosYCondiciones />} />
+          <Route path='Registro' element={<Registro />} />
+          <Route path='Login' element={<Login />} />
+          <Route path='Cargando' element={<DialogCarga isOpen={true} color='--color-5' />} />
+        </Route>
+    
         <Route path="Home" element={<Navigate to="/" replace/>} />
 
         <Route path='app' element={<AppLayout/>}>
-          <Route path='Home' element={<InicioLoggin/>}/>
-          <Route path='Pago/:info' element={<Checkout/>}/>
-          <Route path='Scan' element={<Scan/>}/>
-          <Route path='Busqueda/:idProduct?' element={<BusquedaDesktop/>}/>
-          <Route path='Perfil' element={<MenuPerfil/>}/>
-          <Route path='EditPerfil' element={<FormPerfil/>}/>
-          <Route path='Tienda' element={<MenuTienda/>}/>
-          <Route path='ComprarTienda' element={<ComprarTienda/>}/>
+          <Route element={<LayoutWithFooter />}>
+            <Route path='Home' element={<InicioLoggin/>}/>
+            <Route path='Pago/:info' element={<Checkout/>}/>
+            <Route path='Scan' element={<Scan/>}/>
+            <Route path='Busqueda/:idProduct?' element={<BusquedaDesktop/>}/>
+            <Route path='Perfil' element={<MenuPerfil/>}/>
+            <Route path='EditPerfil' element={<FormPerfil/>}/>
+            <Route path='Tienda' element={<MenuTienda/>}/>
+            <Route path='ComprarTienda' element={<ComprarTienda/>}/>
+          </Route>
         </Route>
+        
         <Route path="*" element={<NotFound/>}/>
       </Routes>  
       }
     </>
   );
 }
+
+const LayoutWithFooter: React.FC = () => {
+  return (
+    <>
+      <Outlet /> {/* Aquí se renderizarán las rutas anidadas */}
+      <FootPage /> {/* Footer común para todas las rutas */}
+    </>
+  );
+};
 
 export default App

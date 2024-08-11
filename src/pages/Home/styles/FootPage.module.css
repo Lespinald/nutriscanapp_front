@@ -1,20 +1,27 @@
+footer.back:hover{
+    max-height: none;
+}
 footer.back{
+    max-height: 10svh;
     width: 100%;
-    padding: 5svh;
+    padding: 4svh;
     background-color: var(--color-5 );
     display: grid;
     grid-template-areas:
     "sidebar s header"
     "bottom bottom bottom";
     gap: 5%;
+    overflow:hidden;
 }
 
 .sidebar{
-    grid-area: sidebar ;
+    grid-area: sidebar;
     display: grid;
-    grid-template-columns:  repeat(auto-fill, minmax(4svw, 1fr));
-    width: 100%;
-    max-height: calc(4svw * 2);
+    grid-template-columns: repeat(4, 1fr);
+    width: fit-content;
+    max-height: calc(4svw* 2);
+    justify-items: center;
+    align-items: start;
 }
 
 .sidebar svg{
@@ -100,7 +107,7 @@ footer.back{
     }
 
     .header{
-        grid-template-columns: repeat(auto-fill, minmax(25svw, 1fr));
+        grid-template-columns: repeat(2, 1fr);
         max-width: none;
         margin: 3svh 0;
     }

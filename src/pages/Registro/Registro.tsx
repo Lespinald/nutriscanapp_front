@@ -289,7 +289,7 @@ const Registro = () => {
             Estoy de acuerdo con los <a onClick={() => navigate('/terminos_y_condiciones')} target="_blank" className="enlace-terminos">términos y condiciones</a>
           </label>
         </div>
-        <button className={styleLogin.button_logIn} onClick={HandleRegistro}>
+        <button className={styleLogin.button_logIn} onClick={HandleRegistro} style={{fontSize:'1em'}}>
           Registrarse
         </button>
         <div className={styleLogin.fondoLogin_line}></div>

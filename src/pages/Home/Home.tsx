@@ -46,7 +46,6 @@ const Home = () => {
       <Equipo ref={equipo} />
       <Objetivos ref={objetivos} />
       <Servicio ref={servicio} />
-      <FootPage/>
     </>
   );
 }
