@@ -22,6 +22,7 @@ import { GraphProgreso } from './GraphProgreso.jsx'
 import { useAppSelector } from '../../redux/store.js'
 import { Tienda } from '../../assets/models/tienda.js'
 import MenuCarga from '../../assets/MenuCarga/MenuCarga.jsx'
+import ComponenteAlert, { AlertType } from '../../assets/ComponenteAlert.js'
 
 const MenuPerfil = () => {
   const [showGraph, setShowGraph] = useState(false); // Estado para controlar la visualización de la gráfica de barras
@@ -112,7 +113,7 @@ const MenuPerfil = () => {
       setHistorialTienda(historials)
       setLoading(false)
     }else{
-      alert('Hay un error con tu tienda recarga la pagina.')
+      ComponenteAlert('Hay un error con tu tienda recarga la pagina.',2,AlertType.ERROR)
     }
   }
 

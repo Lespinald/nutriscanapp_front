@@ -8,6 +8,7 @@ import { IsMobile } from '../../assets/Utils';
 import { useDispatch, useSelector } from 'react-redux';
 import { setTienda } from '../../redux/tiendaSlice';
 import { useStorge } from '../../hooks/useStorage';
+import ComponenteAlert, { AlertType } from '../../assets/ComponenteAlert';
 
 interface Props{
   initialTienda:Tienda;
@@ -122,13 +123,13 @@ const EditTienda = ({initialTienda: initialProducto,indice,setOpen}:Props) => {
           return respuesta.json()
         })
         .then(async(datos) => {
-          alert('Modificado Exitosamente')
+          ComponenteAlert('Modificado Exitosamente',2,AlertType.SUCCESS)
           dispatch(setTienda({tienda:currentTienda}))
         })
         .catch(error => {
           error.then(res => {
             console.error('Error en la solicitud fetch:', res);
-            alert('Error actualizar en base de datos')
+            ComponenteAlert('Error actualizar en base de datos',2,AlertType.ERROR)
           })
           // Aquí puedes manejar el error como desees, por ejemplo, mostrar un mensaje al usuario
         });

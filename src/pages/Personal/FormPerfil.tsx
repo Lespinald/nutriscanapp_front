@@ -10,6 +10,7 @@ import { editPerfil, login } from '../../redux/authSlice'
 import { useStorge } from '../../hooks/useStorage'
 import { EmailAuthProvider, GoogleAuthProvider, reauthenticateWithCredential, signInWithPopup, updatePassword, validatePassword } from 'firebase/auth'
 import { auth } from '../../firebase'
+import ComponenteAlert, { AlertType } from '../../assets/ComponenteAlert'
 
 const FormPerfil = () => {
   const infoUser:Usuario = useSelector((state:any) => state.auth.infoUsuario)
@@ -97,12 +98,12 @@ const FormPerfil = () => {
         console.log("🚀 ~ HandleRegistro ~ datos:", datos as Usuario)
         await dispatch(editPerfil({infoUsuario: infoPerfil}))
         console.log("🚀 ~ HandleGuardarCambios ~ infoPerfil:", infoPerfil)
-        alert('Modificado Exitosamente')
+        ComponenteAlert('Modificado Exitosamente',2,AlertType.SUCCESS)
         navigate('/app/Perfil')
       })
       .catch(error => {
         console.error('Error en la solicitud fetch:', error);
-        alert('Error actualizar en base de datos')
+        ComponenteAlert('Error actualizar en base de datos',2,AlertType.ERROR)
         // Aquí puedes manejar el error como desees, por ejemplo, mostrar un mensaje al usuario
       });
       return resp
@@ -170,11 +171,11 @@ const FormPerfil = () => {
     .then(async(datos) => {
       console.log("🚀 ~ HandleRegistro ~ datos:", datos as Usuario)
       console.log("🚀 ~ HandleGuardarCambios ~ infoPerfil:", infoPerfil)
-      alert('Guardado Foto Exitosamente')
+      ComponenteAlert('Guardado Foto Exitosamente',2,AlertType.SUCCESS)
     })
     .catch(error => {
       console.error('Error en la solicitud fetch:', error);
-      alert('Error actualizar en base de datos')
+      ComponenteAlert('Error actualizar en base de datos',2,AlertType.ERROR)
       // Aquí puedes manejar el error como desees, por ejemplo, mostrar un mensaje al usuario
     });
     return resp
@@ -200,7 +201,7 @@ const FormPerfil = () => {
         try {
           // Intenta actualizar la contraseña
           await updatePassword(auth.currentUser, password.contrasena);
-          alert('Contraseña actualizada.');
+          ComponenteAlert('Contraseña actualizada.',2,AlertType.SUCCESS);
         } catch (error:any) {
           if (error.code === 'auth/requires-recent-login') {
             // Si requiere reautenticación, detecta el proveedor
@@ -227,16 +228,16 @@ const FormPerfil = () => {
   
               // Intentar actualizar la contraseña de nuevo
               await updatePassword(auth.currentUser, password.contrasena);
-              alert('Contraseña actualizada.');
+              ComponenteAlert('Contraseña actualizada.',2,AlertType.SUCCESS);
             } catch (reauthError) {
-              alert('Reautenticación fallida. Por favor, intente de nuevo.');
+              ComponenteAlert('Reautenticación fallida. Por favor, intente de nuevo.',2,AlertType.ERROR);
             }
           } else {
-            alert('Error al actualizar la contraseña. Por favor, intente de nuevo.');
+            ComponenteAlert('Error al actualizar la contraseña. Por favor, intente de nuevo.',3,AlertType.ERROR);
           }
         }
       } else {
-        alert('Largo mínimo de 6 caracteres.');
+        ComponenteAlert('Largo mínimo de 6 caracteres.',2,AlertType.WARNING);
       }
     }
   };

@@ -11,6 +11,7 @@ import useBaseDatos from '../../storage/useBaseDatos';
 import { useStorge } from '../../hooks/useStorage';
 import { ActualizarRacha, TraerInfoTienda, TraerProductosTienda } from '../../assets/Utils';
 import { setProductos, setTienda } from '../../redux/tiendaSlice';
+import ComponenteAlert, { AlertType } from '../../assets/ComponenteAlert';
 
 const googleProvider = new GoogleAuthProvider();
 
@@ -43,7 +44,7 @@ const Login = () => {
             setLoading(false)
             signOut(auth)
             console.error("Error al iniciar sesión:", error.message);
-            alert(error.message)
+            ComponenteAlert("Error al iniciar sesión",2,AlertType.ERROR)
         }
     }
 
@@ -109,7 +110,7 @@ const Login = () => {
             console.error('Error en la solicitud fetch:', error);
             signOut(auth)
             setLoading(false)
-            alert('Error en consulta a base de datos')
+            ComponenteAlert('Error en taer datos usuario',2,AlertType.ERROR)
             // Aquí puedes manejar el error como desees, por ejemplo, mostrar un mensaje al usuario
         });
     }

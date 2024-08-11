@@ -1,4 +1,5 @@
 import { useEffect } from "react";
+import ComponenteAlert, { AlertType } from "../../assets/ComponenteAlert";
 
 const OFFTest = () => {
   useEffect(() => {
@@ -22,7 +23,7 @@ const OFFTest = () => {
           message.innerText = JSON.stringify(data);
           console.log(data);
         }
-      ).catch(e => alert(e));
+      ).catch(e => ComponenteAlert(e,2,AlertType.ERROR));
     })
 
     checkTags.addEventListener("click", e => {
@@ -38,7 +39,7 @@ const OFFTest = () => {
           message.innerText = JSON.stringify(data);
           console.log(data);
         }
-      ).catch(e => alert(e));
+      ).catch(e => ComponenteAlert(e,2,AlertType.ERROR));
     })
     
   }, [])

@@ -15,6 +15,7 @@ import InputImagen from '../../assets/Components/InputImagen';
 import InputCodigoBarras, { barcodeState } from './InputCodigoBarras';
 import DialogCarga from '../../assets/MenuCarga/DialogCarga'
 import { DatosForm, OffData } from './utilTienda'
+import ComponenteAlert, { AlertType } from '../../assets/ComponenteAlert'
 
 interface Props {
   initialProducto?: Producto;
@@ -202,12 +203,12 @@ const EditProducto = ({ initialProducto, tienda, indice, setOpen }: Props) => {
         const nuevoProducto: Producto = await prodRes.json();
         setCurrentProducto(nuevoProducto);
         dispatch(modificarProducto({ producto: nuevoProducto, indice: indice }))
-        alert("Modificación exitosa");
+        ComponenteAlert("Modificación exitosa",2,AlertType.SUCCESS);
       } else {
         const nuevoProducto: Producto = await prodRes.json();
         setCurrentProducto(nuevoProducto);
         dispatch(agregarProducto({ producto: nuevoProducto }))
-        alert("Creación exitosa");
+        ComponenteAlert("Creación exitosa",2,AlertType.SUCCESS);
       }
 
     }
@@ -248,7 +249,7 @@ const EditProducto = ({ initialProducto, tienda, indice, setOpen }: Props) => {
         () => setLoading(false)
       )
     } else {
-      alert("campos incompletos");
+      ComponenteAlert("campos incompletos",2,AlertType.WARNING);
       setLoading(false);
     }
   }

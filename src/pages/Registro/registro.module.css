@@ -10,6 +10,7 @@
     text-align: start;
     width: 100%;
     color: var(--color-5);
+    font-size: 0.8em;
 }
 
 .form_registro button{

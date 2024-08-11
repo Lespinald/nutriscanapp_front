@@ -4,6 +4,7 @@ import { useStorge } from '../../hooks/useStorage';
 import { useDispatch, useSelector } from 'react-redux';
 import { Usuario } from '../../assets/models/usuario';
 import { editPerfil } from '../../redux/authSlice';
+import ComponenteAlert, { AlertType } from '../../assets/ComponenteAlert';
 
 interface Props{
   isOpen:Boolean;
@@ -34,13 +35,13 @@ const InputFoto = ({isOpen, setIsOpen, photoPerfil,HandleSaveImage}:Props) => {
     if (file) {
       if (!allowedTypes.includes(file.type)) {
         // photoFormatoIncorrecto();
-        alert('Formato incorrecto')
+        ComponenteAlert('Formato incorrecto',2,AlertType.WARNING)
         return;
       }
   
       if (file.size > maxSizeInBytes) {
         // photoMuyGrande();
-        alert('Tamano muy grande')
+        ComponenteAlert('Tamano muy grande',2,AlertType.WARNING)
         return;
       }
   

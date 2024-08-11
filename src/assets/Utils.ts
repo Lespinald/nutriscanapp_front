@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useStorge } from "../hooks/useStorage";
 import { MiniTienda, Producto, Tienda } from "./models/tienda";
 import { OffData } from "../pages/Tienda/utilTienda";
-import ComponenteAlert from "./ComponenteAlert";
+import ComponenteAlert, { AlertType } from "./ComponenteAlert";
 
 export function GetViewportWidth(): number{
   return document.documentElement.clientWidth;
@@ -40,7 +40,7 @@ export async function TraerInfoUsuario(uid: string): Promise<Usuario | null> {
     return usuario;
   } catch (error) {
     console.error('Error en la solicitud fetch:', error);
-    ComponenteAlert('Error en consulta a base de datos.',2,false);
+    ComponenteAlert('Error en consulta a base de datos.',2,AlertType.ERROR);
     return null;
   }
 }
@@ -213,7 +213,7 @@ export const GuardarHistorial = async (uid: string, nutriments: any, ID: string,
     }
 
     if(comido){
-      alert('Agregado a tu historial')
+      ComponenteAlert('Agregado a tu historial',1,AlertType.SUCCESS)
     }
     return respuesta.json();
   } catch (error) {

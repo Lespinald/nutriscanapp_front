@@ -9,6 +9,7 @@ import { login, logout } from '../../redux/authSlice'
 import { Link, useNavigate } from 'react-router-dom'
 import MenuCarga from '../../assets/MenuCarga/MenuCarga'
 import useBaseDatos from '../../storage/useBaseDatos'
+import ComponenteAlert, { AlertType } from '../../assets/ComponenteAlert'
 
 const googleProvider = new GoogleAuthProvider();
 
@@ -19,6 +20,7 @@ const Registro = () => {
   const { crearDoc }= useBaseDatos()
 
   const [loading, setLoading] = useState(false)
+  const [terminosYCondiciones, setTerminosYCondiciones] = useState(false)
   const [password, setPassword] = useState('')
   const [user, setUser] = useState<Usuario>({...usuarioVacio})
 
@@ -40,8 +42,8 @@ const Registro = () => {
 
     // Verificar si la conversión fue exitosa
     if (isNaN(fechaNacimiento.getTime())) {
-        alert('Ingrese una fecha de nacimiento válida.');
-        return false;
+      ComponenteAlert('Ingrese una fecha de nacimiento válida.',2,AlertType.WARNING);
+      return false;
     }
 
     // Obtener la fecha actual
@@ -54,8 +56,8 @@ const Registro = () => {
   
     // Verificar si el año de nacimiento es menor al año actual menos 18
     if (añoNacimiento > hace18Anos) {
-        alert('Ingrese una fecha de nacimiento válida, debe ser mayor de 18 años.');
-        return false;
+      ComponenteAlert('Debe ser mayor de 18 años.',2,AlertType.WARNING);
+      return false;
     }
 
     return true;
@@ -63,11 +65,11 @@ const Registro = () => {
 
   const ConfirmarNoVacioCorreo = (dato:Usuario) => {
     if (!validarCorreo(dato.correo)) {
-      alert('Ingrese un correo válido');
+      ComponenteAlert('Ingrese un correo válido',2,AlertType.WARNING);
       return false;
     }
     if(password.length < 6){
-      alert('Ingrese una contraseña valida (minimo 6 caracteres)')
+      ComponenteAlert('Ingrese una contraseña valida (minimo 6 caracteres)',3,AlertType.WARNING)
       return false
     }
     return true
@@ -77,14 +79,14 @@ const Registro = () => {
     console.log("🚀 ~ ConfirmarNoVacio ~ usuarioVacio:", usuarioVacio)
     console.log("🚀 ~ ConfirmarNoVacio ~ dato:", dato)
     if(dato.nombre === usuarioVacio.nombre){
-      alert('Ingrese un nombre valido')
+      ComponenteAlert('Ingrese un nombre valido',2,AlertType.WARNING)
       return false
     }
     if (!ValidarEdad(dato.fechaDeNacimiento)) {
       return false;
     }
     if(dato.telefono === usuarioVacio.telefono){
-      alert('Ingrese un telefono valido')
+      ComponenteAlert('Ingrese un telefono valido',2,AlertType.WARNING)
       return false
     }
     return true
@@ -98,13 +100,13 @@ const Registro = () => {
       console.log("🚀 ~ HandleRegistro ~ error:", error.code);
       setLoading(false)
       if (error.message === 'Firebase: Error (auth/email-already-in-use).') {
-        alert('El correo electrónico ya está en uso');
+        ComponenteAlert('El correo electrónico ya está en uso',2,AlertType.WARNING);
         return 'Error'
       } else if (error.message === 'Firebase: Error (auth/weak-password)') {
-        alert('La contraseña es demasiado débil');
+        ComponenteAlert('La contraseña es demasiado débil',2,AlertType.WARNING);
         return 'Error'
       } else {
-        alert('Error al crear el usuario');
+        ComponenteAlert('Error al crear el usuario',2,AlertType.WARNING);
         return 'Error'
       }
     }
@@ -118,13 +120,13 @@ const Registro = () => {
           return user.uid;
       } else {
           dispatch(logout())
-          alert('Error al iniciar sesión con Google');
+          ComponenteAlert('Error al iniciar sesión con Google',2,AlertType.ERROR);
           return'Error'
       }
     } catch (error) {
       dispatch(logout())
       console.log("🚀 ~ IniciarSesionConGoogle ~ error:", error);
-      alert('Error al iniciar sesión con Google');
+      ComponenteAlert('Error al iniciar sesión con Google',2,AlertType.ERROR);
       return'Error'
     }
   }
@@ -173,7 +175,7 @@ const Registro = () => {
         }
         setLoading(false)
       console.error('Error en la solicitud fetch:', error);
-      alert('Error actualizar en base de datos')
+      ComponenteAlert('Error actualizar en base de datos',2,AlertType.ERROR)
       // Aquí puedes manejar el error como desees, por ejemplo, mostrar un mensaje al usuario
     });
     return resp
@@ -206,7 +208,7 @@ const Registro = () => {
       ).catch((error: any) =>
         {
           setLoading(false)
-          alert(error.message)
+          ComponenteAlert(error.message,2,AlertType.ERROR)
         }
     )
   }
@@ -217,17 +219,21 @@ const Registro = () => {
     console.log("🚀 ~ HandleRegistro ~ ConfirmarNoVacio(user):", ConfirmarNoVacio(user))
     console.log("🚀 ~ HandleRegistro ~ ConfirmarNoVacioCorreo(user):", ConfirmarNoVacioCorreo(user))
     if(ConfirmarNoVacio(user) && ConfirmarNoVacioCorreo(user)){
-      console.log('Empezar registro')
-      var uid = await CrearUsuario()
-      if (uid === 'Error') {
-        if (auth.currentUser !== null && auth.currentUser !== undefined) {
-          deleteUser(auth.currentUser);
-        }
-        setLoading(false)
-        return dispatch(logout())
-      } else {
-        CrearUsuarioBD(uid)
-      };
+      if(terminosYCondiciones){
+        console.log('Empezar registro')
+        var uid = await CrearUsuario()
+        if (uid === 'Error') {
+          if (auth.currentUser !== null && auth.currentUser !== undefined) {
+            deleteUser(auth.currentUser);
+          }
+          setLoading(false)
+          return dispatch(logout())
+        } else {
+          CrearUsuarioBD(uid)
+        };
+      }else{
+        ComponenteAlert("Debes aceptar terminos y condiciones",3,AlertType.WARNING)
+      }
     }
     setLoading(false)
   }  
@@ -275,6 +281,12 @@ const Registro = () => {
         <input autoComplete='true' type='number' id='altura' placeholder='Altura(1.70m)' onChange={HandleInputChange('altura')}></input>
         <label>Peso:</label>
         <input autoComplete='true' type='number' id='peso' placeholder='Peso(Kg)' onChange={HandleInputChange('peso')}></input>
+        <div style={{width:'100%'}}>
+          <input type="checkbox" onClick={() => setTerminosYCondiciones((prev) =>!prev)} name="condiciones" style={{width:'fit-content',margin:'0.5em'}}/> 
+          <label>
+            Estoy de acuerdo con los <a href="terminos.html" target="_blank" className="enlace-terminos">términos y condiciones</a>
+          </label>
+        </div>
         <button className={styleLogin.button_logIn} onClick={HandleRegistro}>
           Registrarse
         </button>
