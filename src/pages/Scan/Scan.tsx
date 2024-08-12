@@ -152,7 +152,6 @@ const Scan = () => {
           setCurrentProducto({producto:newProduct, information:infoProductos})
           GuardarRegistro(newProduct).then((ID) => {
             console.log("🚀 ~ GuardarRegistro Then ~ ID:", ID)
-            GuardarHistorial(infoUser.uid,res.product.nutriments,ID)
           })
         }
         if(res.product && res.product.nutriscore_grade){

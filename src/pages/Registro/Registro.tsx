@@ -271,39 +271,41 @@ const Registro = () => {
         </Link>
         <h1 className={styleLogin.loginTitle}>BIENVENIDO</h1>
       </div>
-      <form className={style.form_registro} style={{display:'flex',flexDirection:'column'}}>
-        <label>Nombre:</label>
-        <input autoComplete='true' type='text' id='name' placeholder='Nombre' onChange={HandleInputChange('nombre')}></input>
-        <label>Correo:</label>
-        <input autoComplete='true' type='email' id='email' placeholder='Correo' onChange={HandleInputChange('correo')}></input>
-        <label>Contraseña:</label>
-        <input autoComplete='true' type='password' id='password' placeholder='Contraseña' value={password}
-        onChange={(e) => setPassword(e.target.value)}></input>
-        <label>Celular:</label>
-        <input autoComplete='true' type='number' id='telefono' placeholder='Celular' onChange={HandleInputChange('telefono')}></input>
-        <label>Fecha de nacimiento:</label>
-        <input autoComplete='true' type='date' id='birthday' placeholder='Fecha de nacimiento' style={{ height: '100%' }} onChange={HandleInputChange('fechaDeNacimiento')}></input>
-        <label>Altura:</label>
-        <input autoComplete='true' type='number' id='altura' placeholder='Altura(1.70m)' onChange={HandleInputChange('altura')}></input>
-        <label>Peso:</label>
-        <input autoComplete='true' type='number' id='peso' placeholder='Peso(Kg)' onChange={HandleInputChange('peso')}></input>
-        <div style={{width:'100%'}}>
-          <input type="checkbox" onClick={() => setTerminosYCondiciones((prev) =>!prev)} name="condiciones" style={{width:'fit-content',margin:'0.5em'}}/> 
-          <label>
-            Estoy de acuerdo con los  
-              <a onClick={() => navigate('/terminos_y_condiciones')} target="_blank" 
-                style={{textDecoration:'underline'}} className="enlace-terminos"> términos y condiciones</a>
-          </label>
-        </div>
-        <button className={styleLogin.button_logIn} onClick={HandleRegistro} style={{fontSize:'1em'}}>
-          Registrarse
-        </button>
-        <div className={styleLogin.fondoLogin_line}></div>
-        <button className={styleLogin.button_google} onClick={HandleRegistroGoogle}>
-          <img src='\Login\GoogleIcon.png' style={{height:'100%'}}></img>
-          <p>Continuar con Google</p>
-        </button>
-      </form>
+      <div>
+        <form className={style.form_registro} style={{display:'flex',flexDirection:'column'}}>
+          <label>Nombre:</label>
+          <input autoComplete='true' type='text' id='name' placeholder='Nombre' onChange={HandleInputChange('nombre')}></input>
+          <label>Correo:</label>
+          <input autoComplete='true' type='email' id='email' placeholder='Correo' onChange={HandleInputChange('correo')}></input>
+          <label>Contraseña:</label>
+          <input autoComplete='true' type='password' id='password' placeholder='Contraseña' value={password}
+          onChange={(e) => setPassword(e.target.value)}></input>
+          <label>Celular:</label>
+          <input autoComplete='true' type='number' id='telefono' placeholder='Celular' onChange={HandleInputChange('telefono')}></input>
+          <label>Fecha de nacimiento:</label>
+          <input autoComplete='true' type='date' id='birthday' placeholder='Fecha de nacimiento' style={{ height: '100%' }} onChange={HandleInputChange('fechaDeNacimiento')}></input>
+          <label>Altura:</label>
+          <input autoComplete='true' type='number' id='altura' placeholder='Altura(1.70m)' onChange={HandleInputChange('altura')}></input>
+          <label>Peso:</label>
+          <input autoComplete='true' type='number' id='peso' placeholder='Peso(Kg)' onChange={HandleInputChange('peso')}></input>
+          <div style={{width:'100%'}}>
+            <input type="checkbox" onClick={() => setTerminosYCondiciones((prev) =>!prev)} name="condiciones" style={{width:'fit-content',margin:'0.5em'}}/> 
+            <label>
+              Estoy de acuerdo con los  
+                <a onClick={() => navigate('/terminos_y_condiciones')} target="_blank" 
+                  style={{textDecoration:'underline'}} className="enlace-terminos"> términos y condiciones</a>
+            </label>
+          </div>
+          <button className={styleLogin.button_logIn} onClick={HandleRegistro} style={{fontSize:'1em'}}>
+            Registrarse
+          </button>
+          <div className={styleLogin.fondoLogin_line}></div>
+          <button className={styleLogin.button_google} onClick={HandleRegistroGoogle}>
+            <img src='\Login\GoogleIcon.png' style={{width:'11%',height:'auto !important', borderRadius:'100%'}}></img>
+            <p>Continuar con Google</p>
+          </button>
+        </form>
+      </div>
       <a  className={styleLogin.fondoLogin_label} href='/Login'>¿Ya tienes cuenta? Ingresa aquí</a>
     </div>
   )
