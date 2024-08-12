@@ -37,7 +37,7 @@ const RecivePasarela = () => {
       const fechaActual = new Date();
       const fechaMas30Dias = formatDate(new Date(fechaActual.getTime() + (30 * 24 * 60 * 60 * 1000)))
       console.log(JSON.stringify({
-        tipoSuscripcion: 'tienda',
+        tipoSuscripcion: selectedSubscription === '7000' ? 'pago' : 'tienda',
         fechaSuscripcion: fechaMas30Dias,
       }))
       fetch(`https://api.nutriscan.com.co/api/usuarios/cambiasuscripcion/${id}`,{
@@ -46,7 +46,7 @@ const RecivePasarela = () => {
           'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-          tipoSuscripcion: 'tienda',
+          tipoSuscripcion: selectedSubscription === '7000' ? 'pago' : 'tienda',
           fechaSuscripcion: fechaMas30Dias,
         })
       }).then((respuesta) => {
@@ -64,9 +64,9 @@ const RecivePasarela = () => {
   
   const getTipoLabel = (valor) => {
     if (valor === '7000') {
-      return 'Premiun'
+      return 'premiun'
     } else if (valor === '50000') {
-      return 'Tienda'
+      return 'tienda'
     } else {
       return 'Error'
     }
@@ -83,7 +83,7 @@ const RecivePasarela = () => {
                 <li key={index}>{condicion}</li>
             ))}
           </ul>
-          <button className={style.button} onClick={() => navigate(getTipoLabel(selectedSubscription) === 'Tienda' ?'/app/Tienda':'/app/Perfil')}>PROBAR FUNCIONES</button>
+          <button className={style.button} onClick={() => navigate(getTipoLabel(selectedSubscription) === 'tienda' ?'/app/Tienda':'/app/Perfil')}>PROBAR FUNCIONES</button>
         </>}
       </div>
       <div className={style.factura}>
@@ -107,9 +107,9 @@ const RecivePasarela = () => {
         </div>
         <div className={style.campo}>
           <label>TIPO</label>
-          <label>{getTipoLabel(selectedSubscription)}</label>
+          <label style={{textTransform:"uppercase"}}>{getTipoLabel(selectedSubscription)}</label>
         </div>
-        {IsMobile() && <button className={style.button} onClick={() => navigate(getTipoLabel(selectedSubscription) === 'Tienda' ?'/app/Tienda':'/app/Perfil')}>PROBAR FUNCIONES</button>}
+        {IsMobile() && <button className={style.button} onClick={() => navigate(getTipoLabel(selectedSubscription) === 'tienda' ?'/app/Tienda':'/app/Perfil')}>PROBAR FUNCIONES</button>}
       </div>
     </div>
   )

@@ -237,17 +237,12 @@ export function onUserLoad(accept:(user:User)=>void = user=>{},reject:()=>void =
 
 
 export const GetTipoSuscripcion = (infoUsuario:Usuario):string => {
-
-  if(infoUsuario?.tipoSuscripcion === 'gratis'){
-    return 'FREE'
-  }else{
-    let fecha1 = new Date(infoUsuario?.fechaSuscripcion)
-    let fecha2 = new Date()
-    if(fecha1.getTime() > fecha2.getTime()){
-      return infoUsuario?.tipoSuscripcion 
-    }
-    return 'FREE'
+  let fecha1 = new Date(infoUsuario?.fechaSuscripcion)
+  let fecha2 = new Date()
+  if(fecha1.getTime() > fecha2.getTime()){
+    return infoUsuario?.tipoSuscripcion 
   }
+  return 'FREE'
 }
 
 export async function ConsultarOpenFoodFact(ID_producto:string,referencia: string, uid?: string): Promise<{ product: Producto | null; infoProducto: OffData | undefined }> {
