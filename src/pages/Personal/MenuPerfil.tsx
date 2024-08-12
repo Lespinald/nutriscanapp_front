@@ -10,7 +10,7 @@ import { logout } from '../../redux/authSlice'
 
 import { GraphBusquedas } from './GraphBusquedas.jsx';
 import { GraphCalorias } from './GraphCalorias.jsx';
-import { CalcularIMC, GetTipoSuscripcion } from '../../assets/Utils.js'
+import { CalcularIMC, GetTipoSuscripcion, IsMobile } from '../../assets/Utils.js'
 import { Historial } from '../../assets/models/historial.js'
 import HistorialGrafica from './HistorialGrafica.jsx'
 import TiendaLogo from '../../assets/Components/TiendaLogo.jsx'
@@ -262,13 +262,13 @@ const MenuPerfil = () => {
               ) : bandera === 'calorias' ? (
                 <GraphCalorias historial={historial} setLoading={setLoading}/>
               ) : bandera === 'progreso' ? (
-                <HistorialGrafica historial={historial} />
+                <HistorialGrafica historial={historial} itemsPerPage={IsMobile() ? 5 : 2}/>
               ) : bandera === 'rancha' ? (
                 <GraphProgreso/>
               ) : null // No se renderiza nada si bandera no es busquedas ni calorias ni progreso
             ) : (
               // Mostrar la imagen del mapa conceptual si showGraph es falso
-              <HistorialGrafica historial={historial} />
+              <HistorialGrafica historial={historial} itemsPerPage={IsMobile() ? 5 : 2}/>
             )}
           </div>
           <div className={style.contain_estadistics} style={{gridTemplateColumns:'repeat(4,1fr)'}}>

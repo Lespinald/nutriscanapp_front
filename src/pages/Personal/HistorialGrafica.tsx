@@ -5,10 +5,10 @@ import { useNavigate } from "react-router-dom";
 
 interface HistorialGraficaProps {
     historial: Historial[];
-    itemsPerPage?: number;
+    itemsPerPage: number;
   }
   
-const HistorialGrafica: React.FC<HistorialGraficaProps> = ({ historial, itemsPerPage = 5 }) => {
+const HistorialGrafica: React.FC<HistorialGraficaProps> = ({ historial, itemsPerPage }) => {
     const [currentPage, setCurrentPage] = useState(0);
     const navigate = useNavigate();
 

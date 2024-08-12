@@ -56,7 +56,7 @@ const generateLast7Dates = () => {
   const dates : string[] = [];
   const currentDate = new Date();
 
-  for (let i = 0; i < 7; i++) {
+  for (let i = 0; i < 5; i++) {
     const date = new Date(currentDate);
     date.setDate(currentDate.getDate() - i);
     dates.push(date.toLocaleDateString('es-ES'));
@@ -78,7 +78,7 @@ const CalculatedBusquedas = (historial: Historial[], days: number) => {
   for (let i = 0; i < days; i++) {
     const date = new Date(today);
     date.setDate(today.getDate() - i);
-    const formattedDate = date.toLocaleDateString('es-ES', {
+    const formattedDate = date.toLocaleDateString('es-CO', {
       year: 'numeric',
       month: '2-digit',
       day: '2-digit'
@@ -106,6 +106,7 @@ interface Props {
 }
 
 export function GraphBusquedas({historial}:Props) {
+  console.log("🚀 ~ GraphBusquedas ~ historial:", historial)
   
   const SendData = ( ) => {
     const data = {
@@ -113,7 +114,7 @@ export function GraphBusquedas({historial}:Props) {
       datasets: [
         {
           label: 'Busquedas',
-          data: CalculatedBusquedas(historial,7),
+          data: CalculatedBusquedas(historial,5),
           backgroundColor: 'rgba(85, 232, 160, 1)',
         },
       ],
