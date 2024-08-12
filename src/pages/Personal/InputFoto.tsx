@@ -59,7 +59,7 @@ const InputFoto = ({isOpen, setIsOpen, photoPerfil,HandleSaveImage}:Props) => {
   }, [image])
 
   return (
-  <div className={style.background} style={isOpen ? {} : {display:'none'}} onClick={() => setIsOpen((prev) => !prev)}>
+  <div className={style.background} style={isOpen ? {position:'absolute',bottom:'0'}:{display:'none'}} onClick={() => setIsOpen((prev) => !prev)}>
     <div className={style.boxInput} onClick={(e) => e.stopPropagation()}>
         
     <input type='file' accept='image/*' style={{position: 'relative',top:'5vh'}} onChange={(event) => HandleChangePhoto(event)} ref={fileInputRef}/>

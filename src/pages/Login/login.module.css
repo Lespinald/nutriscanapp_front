@@ -124,3 +124,41 @@
     left: 50%;
     transform: translate(-50%,-50%);
 }
+
+.TerminosYCondiciones{
+    height: fit-content;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    padding: 5%;
+    justify-content: flex-start;
+    color: white;
+    font-weight: 400;
+}
+
+.TerminosYCondiciones h1,
+.TerminosYCondiciones h2,
+.TerminosYCondiciones h3{
+    font-weight: 700;
+    width: 100%;
+    text-align: center;
+}
+
+.TerminosYCondiciones h1{
+    text-transform: uppercase;
+    margin: 1em 0;
+}
+
+.TerminosYCondiciones h2{
+    text-transform: capitalize;
+    margin: 0.7em 0;
+}
+
+.TerminosYCondiciones h3{
+    margin: 0.45em 0;
+}
+
+.TerminosYCondiciones p{
+    margin: 0.325em 0;
+    font-weight: inherit;
+}

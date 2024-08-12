@@ -301,7 +301,7 @@ const Registro = () => {
           </button>
           <div className={styleLogin.fondoLogin_line}></div>
           <button className={styleLogin.button_google} onClick={HandleRegistroGoogle}>
-            <img src='\Login\GoogleIcon.png' style={{width:'11%',height:'auto !important', borderRadius:'100%'}}></img>
+            <img src='\Login\GoogleIcon.png' style={{height:'auto !important', borderRadius:'100%'}}></img>
             <p>Continuar con Google</p>
           </button>
         </form>

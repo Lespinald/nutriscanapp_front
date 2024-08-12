@@ -262,49 +262,51 @@ const FormPerfil = () => {
         </div>
       </div>
       <div className={style.formulario} style={{overflowY:'auto'}}>
-        <form>
-            <div className={style.campo}>
-              <label htmlFor="correo">Correo:</label>
-              <input type="email" id="correo" name="correo"  readOnly className={style.correo} value={infoPerfil?.correo}/>
-            </div>
-            <div className={style.campo}>
-              <label htmlFor="nombre">Nombre:</label>
-              <input type="text" id="nombre" name="nombre" onChange={HandleInputChange('nombre')} value={infoPerfil?.nombre}/>
-            </div>
-            <div className={style.campo}>
-              <label htmlFor="celular">Celular:</label>
-              <input type="number" id="celular" name="celular" onChange={HandleInputChange('telefono')} value={infoPerfil?.telefono}/>
-            </div>
-            <div className={style.campo}>
-              <label htmlFor="fecha_nacimiento">Fecha de Nacimiento:</label>
-              <input 
-                type="date"
-                id="fecha_nacimiento"
-                name="fechaDeNacimiento"
-                onChange={HandleInputChange('fechaDeNacimiento')}
-                value={infoPerfil?.fechaDeNacimiento}/>
-            </div>
-            <div className={style.campo}>
-              <label htmlFor="altura">Altura (1.70m):</label>
-              <input type="number" id="altura" name="altura" onChange={HandleInputChange('altura')} value={infoPerfil?.altura / 100}/>
-            </div>
-            <div className={style.campo}>
-              <label htmlFor="peso">Peso (kg):</label>
-              <input type="number" id="peso" name="peso" onChange={HandleInputChange('peso')} value={infoPerfil?.peso}/>
-            </div>
-            <button type="button" className={`${style.button} ${areObjectsEqual(infoUser,infoPerfil) ? style.desactivado : ''}`}
-            onClick={HandleGuardarCambios}>Guardar Cambios</button>
-            <div className={style.campo}>
-              <label htmlFor="nueva_contrasena">Nueva Contraseña:</label>
-              <input type="password" id="nueva_contrasena" name="nueva_contrasena" value={password.contrasena} onChange={(e) => setPassword((prev) => ({ ...prev, contrasena: e.target.value }))}/>
-            </div>
-            <div className={style.campo}>
-              <label htmlFor="confirmar_nueva_contrasena">Confirmar Nueva Contraseña:</label>
-              <input type="password" id="confirmar_nueva_contrasena" name="confirmar_nueva_contrasena" value={password.confirm} onChange={(e) => setPassword((prev) => ({ ...prev, confirm: e.target.value }))}/>
-            </div>
-            <button type="button" className={`${style.button} ${ValidateContrasena() ? '':style.desactivado}`} onClick={HandleContrasena}>Cambiar Contraseña</button>
-        </form>
-    </div>
+        <div style={{background: 'var(--color-6)',width:'100%',overflowY:'auto'}}>
+          <form>
+              <div className={style.campo}>
+                <label htmlFor="correo">Correo:</label>
+                <input type="email" id="correo" name="correo"  readOnly className={style.correo} value={infoPerfil?.correo}/>
+              </div>
+              <div className={style.campo}>
+                <label htmlFor="nombre">Nombre:</label>
+                <input type="text" id="nombre" name="nombre" onChange={HandleInputChange('nombre')} value={infoPerfil?.nombre}/>
+              </div>
+              <div className={style.campo}>
+                <label htmlFor="celular">Celular:</label>
+                <input type="number" id="celular" name="celular" onChange={HandleInputChange('telefono')} value={infoPerfil?.telefono}/>
+              </div>
+              <div className={style.campo}>
+                <label htmlFor="fecha_nacimiento">Fecha de Nacimiento:</label>
+                <input 
+                  type="date"
+                  id="fecha_nacimiento"
+                  name="fechaDeNacimiento"
+                  onChange={HandleInputChange('fechaDeNacimiento')}
+                  value={infoPerfil?.fechaDeNacimiento}/>
+              </div>
+              <div className={style.campo}>
+                <label htmlFor="altura">Altura (1.70m):</label>
+                <input type="number" id="altura" name="altura" onChange={HandleInputChange('altura')} value={infoPerfil?.altura / 100}/>
+              </div>
+              <div className={style.campo}>
+                <label htmlFor="peso">Peso (kg):</label>
+                <input type="number" id="peso" name="peso" onChange={HandleInputChange('peso')} value={infoPerfil?.peso}/>
+              </div>
+              <button type="button" className={`${style.button} ${areObjectsEqual(infoUser,infoPerfil) ? style.desactivado : ''}`}
+              onClick={HandleGuardarCambios}>Guardar Cambios</button>
+              <div className={style.campo}>
+                <label htmlFor="nueva_contrasena">Nueva Contraseña:</label>
+                <input type="password" id="nueva_contrasena" name="nueva_contrasena" value={password.contrasena} onChange={(e) => setPassword((prev) => ({ ...prev, contrasena: e.target.value }))}/>
+              </div>
+              <div className={style.campo}>
+                <label htmlFor="confirmar_nueva_contrasena">Confirmar Nueva Contraseña:</label>
+                <input type="password" id="confirmar_nueva_contrasena" name="confirmar_nueva_contrasena" value={password.confirm} onChange={(e) => setPassword((prev) => ({ ...prev, confirm: e.target.value }))}/>
+              </div>
+              <button type="button" className={`${style.button} ${ValidateContrasena() ? '':style.desactivado}`} onClick={HandleContrasena}>Cambiar Contraseña</button>
+          </form>
+        </div>
+      </div>
       <InputFoto isOpen={changePhoto} setIsOpen={setChangePhoto} photoPerfil={photoPerfil} setPhotoPerfil={setPhotoPerfil} perfil={true} HandleSaveImage={HandleSaveImage}/>
     </div>
   )

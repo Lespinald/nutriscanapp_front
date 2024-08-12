@@ -178,7 +178,7 @@ const Login = () => {
             <form className={style.login} style={{display:'flex',flexDirection:'column'}}>
                 <input autoComplete='true' type='email' id='email' placeholder='Correo' value={address} onChange={e => setAddress(e.currentTarget.value)}></input>
                 <input autoComplete='true' type='password' id='password' placeholder='Contraseña' value={password} onChange={e => setPassword(e.currentTarget.value)}></input>
-                <button onClick={HandleLogInEmail} className={style.button_logIn} style={{marginTop:'19px'}}>
+                <button onClick={HandleLogInEmail} className={style.button_logIn} style={{marginTop:'19px',fontSize:'1em'}}>
                     Iniciar sesión
                 </button>
                 <div className={style.fondoLogin_line} style={{height:'2px'}}></div>
