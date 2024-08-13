@@ -26,6 +26,7 @@ import TerminosYCondiciones from './pages/Registro/TerminosYCondiciones';
 import FAQ from './pages/Home/FAQ';
 import FootPage from './pages/Home/FootPage';
 import ManualDeUsuario from './pages/Home/ManualDeUsuario';
+import Contactanos from './pages/Home/Contactanos';
 
 function App() {
   const dispatch = useDispatch();
@@ -73,6 +74,7 @@ function App() {
       <Routes>
         <Route element={autenticado?<AppLayout/>:<Layout/>}>
           <Route path=':section?' element={<Home/>}/>
+          <Route path='/Contactanos' element={<Contactanos/>}/>
           <Route path='/FAQ' element={<FAQ/>}/>
           <Route path='/Manual' element={<ManualDeUsuario/>}/>
           <Route path='/pago/:info' element={<Checkout/>}/>
@@ -90,14 +92,14 @@ function App() {
         <Route path="Home" element={<Navigate to="/" replace/>} />
 
         <Route path='app' element={<AppLayout/>}>
-            <Route path='Home' element={<InicioLoggin/>}/>
-            <Route path='Pago/:info' element={<Checkout/>}/>
-            <Route path='Scan' element={<Scan/>}/>
-            <Route path='Busqueda/:idProduct?' element={<BusquedaDesktop/>}/>
-            <Route path='Perfil' element={<MenuPerfil/>}/>
-            <Route path='EditPerfil' element={<FormPerfil/>}/>
-            <Route path='Tienda' element={<MenuTienda/>}/>
-            <Route path='ComprarTienda' element={<ComprarTienda/>}/>
+          <Route path='Home' element={<InicioLoggin/>}/>
+          <Route path='Pago/:info' element={<Checkout/>}/>
+          <Route path='Scan' element={<Scan/>}/>
+          <Route path='Busqueda/:idProduct?' element={<BusquedaDesktop/>}/>
+          <Route path='Perfil' element={<MenuPerfil/>}/>
+          <Route path='EditPerfil' element={<FormPerfil/>}/>
+          <Route path='Tienda' element={<MenuTienda/>}/>
+          <Route path='ComprarTienda' element={<ComprarTienda/>}/>
         </Route>
         
         <Route path="*" element={<NotFound/>}/>

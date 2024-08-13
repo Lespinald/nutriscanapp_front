@@ -2,8 +2,11 @@ import React from 'react'
 import style from './styles/FootPage.module.css'
 import ButtonTransparent from '../../assets/Components/ButtonTransparent'
 import { useNavigate } from 'react-router-dom'
+import { useAppSelector } from '../../redux/store'
+import ComponenteAlert, { AlertType } from '../../assets/ComponenteAlert'
 
 const FootPage = () => {
+  const autenticado = useAppSelector((state) => state.auth.status === 'authenticated')
   const navigate = useNavigate();
 
   return (
@@ -25,7 +28,7 @@ const FootPage = () => {
       <section className={style.header}>
             <div>
                 <h3>Nosotros</h3>
-                <p onClick={() =>{navigate('/Registro')}}>Comenzar</p>
+                <p onClick={() =>{ autenticado ? ComponenteAlert("Ya estas registrado",1,AlertType.WARNING) :navigate('/Registro')}}>Comenzar</p>
                 <p onClick={() =>{navigate('/objetivos')}}>Mision</p>
                 <p onClick={() =>{navigate('/equipo')}}>Desarrolladores</p>
             </div>
@@ -33,7 +36,7 @@ const FootPage = () => {
                 <h3>Soporte</h3>
                 <p onClick={() =>{navigate('/FAQ')}}>FAQ</p>
                 <p onClick={() =>{navigate('/Manual')}}>Manual de usuario</p>
-                <p onClick={() =>{navigate('/Unete')}}>unetenos</p>
+                <p onClick={() =>{navigate('/Contactanos')}}>Contactanos</p>
             </div>
       </section>
     </footer>
