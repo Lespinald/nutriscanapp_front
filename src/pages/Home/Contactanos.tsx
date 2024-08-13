@@ -1,6 +1,5 @@
 import React, { ChangeEvent, useState } from 'react'
 import style from '../Personal/FormPerfil.module.css'
-import { EnviarCorreo } from '../../assets/Utils';
 
 interface Correo{
     to:string;
