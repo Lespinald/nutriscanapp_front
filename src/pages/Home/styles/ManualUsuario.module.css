@@ -1,0 +1,61 @@
+.containerManual button{
+    background-color: #f4f4f4;
+    color: var(--color-6);
+    margin: 0.5em;
+    cursor: pointer;
+}
+
+.containerManual img{
+    aspect-ratio: auto !important;
+    margin: 0.3em;
+    max-width: 80%;
+}
+
+.containerManual button:hover{
+    transform: scale(1.25);
+}
+
+.refencia{
+    display: flex;
+    width: 100%;
+    flex-direction: row;
+    padding: 0 0.5em;
+}
+
+.refencia p{
+    color: white;
+    width: fit-content;
+    margin: 0.5em;
+    cursor: pointer;
+}
+
+.containerManual .contenido strong{
+    font-weight: 900;
+}
+
+.containerManual .contenido h1,
+.containerManual .contenido h2,
+.containerManual .contenido h3{
+    font-weight: 700;
+    width: 100%;
+    text-align: center;
+}
+
+.containerManual .contenido h1{
+    text-transform: uppercase;
+    margin: 1em 0;
+}
+
+.containerManual .contenido h2{
+    text-transform: capitalize;
+    margin: 0.7em 0;
+}
+
+.containerManual .contenido h3{
+    margin: 0.45em 0;
+}
+
+.containerManual .contenido p{
+    margin: 0.325em 0;
+    font-weight: inherit;
+}
