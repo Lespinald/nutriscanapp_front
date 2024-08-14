@@ -26,13 +26,11 @@ const TerminosYCondiciones = () => {
         <p>Además, en caso de detectar el uso de más de una cuenta, podremos aplicar retenciones, débitos y/o cualquier otra medida si consideramos que ese accionar puede perjudicar al resto de las personas que usan el Sitio, más allá de las sanciones que pudieran corresponder.</p>
 
         <h3>Exactitud de la Información y los Datos Proporcionados</h3>
-        <p>NutriScan no garantiza la exactitud de la información y los datos presentes en el sitio y en la base de datos (incluidos, entre otros, los datos del producto: fotos, código de barras, nombre, nombre genérico, cantidad, embalaje, marcas, categorías, orígenes, etiquetas, certificaciones, premios, códigos de embalaje, ingredientes, aditivos, alérgenos, trazas, información nutricional, datos ecológicos, etc.).</p>
-        <p>La información y los datos son introducidos por los colaboradores del sitio. Pueden contener errores debido, por ejemplo, a información inexacta en las etiquetas y los embalajes, a la introducción manual de datos o al procesamiento de los datos.</p>
-        <p>Para permitir que los usuarios verifiquen los datos, se invita a los colaboradores a subir fotos de etiquetas y embalajes que muestren los datos.</p>
+        <p>NutriScan no garantiza la universalidad de la información y los datos presentes en el sitio y en la base de datos (incluidos, entre otros, los datos del producto: fotos, código de barras, nombre, nombre genérico, cantidad, embalaje, marcas, categorías, orígenes, etiquetas, certificaciones, premios, códigos de embalaje, ingredientes, aditivos, alérgenos, trazas, información nutricional, datos ecológicos, etc.).</p>
+        <p>La información y los datos son introducidos por los colaboradores del sitio. Pueden contener errores debido, por ejemplo, a información inexacta en las etiquetas y los embalajes, a la introducción manual de datos o al procesamiento de los datos. Para permitir que los usuarios verifiquen los datos, se invita a los colaboradores a subir fotos de etiquetas y embalajes que muestren los datos.</p>
 
         <h3>Integridad y Exhaustividad de la Información y los Datos</h3>
-        <p>NutriScan no garantiza la integridad y exhaustividad de la información y los datos presentes en el sitio y en la base de datos.</p>
-        <p>El hecho de que un producto esté presente en el sitio o en la base de datos no garantiza que todos los datos correspondientes estén presentes. Los usuarios que encuentren información o datos que falten están invitados a editar y agregar información a la página del producto.</p>
+        <p>NutriScan no garantiza la integridad y exhaustividad de la información y los datos presentes en el sitio y en la base de datos. El hecho de que un producto esté presente en el sitio o en la base de datos no garantiza que todos los datos correspondientes estén presentes. Los usuarios que encuentren información o datos que falten están invitados a editar y agregar información a la página del producto.</p>
         <p>Además, no todos los productos alimenticios están presentes en NutriScan, dada la cantidad de productos alimenticios que existen en el mundo y la cantidad de productos nuevos que se crean cada día.</p>
         <p>Los promedios y otra información estadística se calculan sobre la base de los productos y los datos presentes en la base de datos de NutriScan, y no sobre todos los productos existentes en el mercado. Del mismo modo, las comparaciones con promedios y las comparaciones de productos se establecen sobre la base de los productos y los datos presentes en la base de datos de NutriScan.</p>
 
@@ -40,9 +38,7 @@ const TerminosYCondiciones = () => {
         <p>La información y los datos se proporcionan sólo a modo de información indicativa. Pueden contener errores y no deben utilizarse con fines médicos.</p>
 
         <h3>Descargo de Responsabilidad</h3>
-        <p>El servicio se proporciona tal cual. NutriScan no garantiza su conformidad con ningún uso particular, ni su compatibilidad con ningún servicio de terceros.</p>
-        <p>De igual modo, la información y los datos se proporcionan tal cual. NutriScan no garantiza su exactitud, integridad, exhaustividad ni conformidad con ningún uso particular.</p>
-        <p>El servicio puede interrumpirse temporalmente por mantenimiento o por motivos ajenos al control de NutriScan, como problemas técnicos (hardware o software).</p>
+        <p>El servicio se proporciona tal cual. NutriScan no garantiza su conformidad con ningún uso particular, ni su compatibilidad con ningún servicio de terceros. De igual modo, la información y los datos se proporcionan tal cual. NutriScan no garantiza su exactitud, integridad, exhaustividad ni conformidad con ningún uso particular. El servicio puede interrumpirse temporalmente por mantenimiento o por motivos ajenos al control de NutriScan, como problemas técnicos (hardware o software).</p>
         <p>El editor ni visor de NutriScan no se hace responsable de ningún posible daño, directo o indirecto, ni de ninguna pérdida de datos, debido al uso o a la imposibilidad de usar sus servicios, o al acceso o a la imposibilidad de acceder al contenido de los servicios, o al posible hecho de que la información y los datos no sean precisos, completos o exhaustivos.</p>
 
         <h2>Condiciones para las Tiendas</h2>
@@ -58,9 +54,7 @@ const TerminosYCondiciones = () => {
         <p>La información y los datos se proporcionan sólo a modo de información indicativa. Pueden contener errores y no deben utilizarse con fines médicos.</p>
 
         <h3>Descargo de Responsabilidad</h3>
-        <p>El servicio se proporciona tal cual. NutriScan no garantiza su conformidad con ningún uso particular, ni su compatibilidad con ningún servicio de terceros.</p>
-        <p>De igual modo, la información y los datos se proporcionan tal cual. NutriScan no garantiza su exactitud, integridad, exhaustividad ni conformidad con ningún uso particular.</p>
-        <p>El servicio puede interrumpirse temporalmente por mantenimiento o por motivos ajenos al control de NutriScan, como problemas técnicos (hardware o software).</p>
+        <p>El servicio se proporciona tal cual. NutriScan no garantiza su conformidad con ningún uso particular, ni su compatibilidad con ningún servicio de terceros. De igual modo, la información y los datos se proporcionan tal cual. NutriScan no garantiza su exactitud, integridad, exhaustividad ni conformidad con ningún uso particular. El servicio puede interrumpirse temporalmente por mantenimiento o por motivos ajenos al control de NutriScan, como problemas técnicos (hardware o software).</p>
         <p>El editor ni visor de NutriScan no se hace responsable de ningún posible daño, directo o indirecto, ni de ninguna pérdida de datos, debido al uso o a la imposibilidad de usar sus servicios, o al acceso o a la imposibilidad de acceder al contenido de los servicios, o al posible hecho de que la información y los datos no sean precisos, completos o exhaustivos.</p>
       </div>
     </div>
