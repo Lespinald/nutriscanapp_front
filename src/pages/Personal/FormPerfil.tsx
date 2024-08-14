@@ -3,7 +3,7 @@ import InputFoto from './InputFoto'
 import styleMenuPerfil from './MenuPerfil.module.css'
 import style from './FormPerfil.module.css'
 import { Link, useNavigate } from 'react-router-dom'
-import { IsMobile } from '../../assets/Utils'
+import { areObjectsEqual, IsMobile } from '../../assets/Utils'
 import { useDispatch, useSelector } from 'react-redux'
 import { Usuario, formatDate } from '../../assets/models/usuario'
 import { editPerfil, login } from '../../redux/authSlice'
@@ -35,78 +35,81 @@ const FormPerfil = () => {
         e.target.value = `${dateParts[0]}-${dateParts[1]}-${dateParts[2]}`;
       }
     }
-    const value = fieldName === 'altura' ? e.target.value * 100 :
-      fieldName === 'peso' || fieldName === 'telefono'  ? Number(e.target.value) : e.target.value
+
+    console.log(e.target.value);
+
+    let value: number | undefined = infoPerfil[fieldName];
+    if(e.target.value === ""){
+      value = undefined;
+    }else if(fieldName === 'altura'){
+      value = Number((e.target.value * 100).toFixed());
+    }else{
+      value = Number(e.target.value);
+    }
+
+    console.log(value);
+
     setInfoPerfil({ ...infoPerfil, [fieldName]: value });
-    console.log("🚀 ~ HandleInputChange ~ infoPerfil:", infoPerfil)
-  };
-  
-  const areObjectsEqual = (obj1: any, obj2: any): boolean => {
-    // Verifica si ambos son objetos
-    if (typeof obj1 !== 'object' || typeof obj2 !== 'object') {
-      return false;
-    }
-  
-    // Obtiene las claves de ambos objetos
-    const keysObj1 = Object.keys(obj1);
-    const keysObj2 = Object.keys(obj2);
-  
-    // Verifica si tienen la misma cantidad de claves
-    if (keysObj1.length !== keysObj2.length) {
-      return false;
-    }
-  
-    // Verifica si los valores de las claves son iguales
-    for (const key of keysObj1) {
-      if (obj1[key] !== obj2[key]) {
-        return false;
-      }
-    }
-  
-    // Si todas las comparaciones pasaron, los objetos son iguales
-    return true;
   };
 
-  const HandleGuardarCambios = () => {
-    console.log(JSON.stringify({
-      ...infoPerfil
-    }))
-    if(!areObjectsEqual(infoUser,infoPerfil)){
-      var resp = fetch(`https://api.nutriscan.com.co/api/usuarios/${infoUser?.uid}`, {
+  const DatosValidos = (datos: Usuario) => {
+    if(!datos.nombre || !datos.telefono || !datos.fechaDeNacimiento || !datos.altura || !datos.peso){
+      ComponenteAlert("Datos Incompletos", 2, AlertType.WARNING);
+      return false;
+    }
+
+    if(areObjectsEqual(datos, infoUser)){
+      ComponenteAlert("No se cambio ningun dato", 2, AlertType.WARNING);
+      return false;
+    }
+
+    return true;
+  }
+
+  const HandleGuardarCambios = async (ev :React.FormEvent<HTMLFormElement>) => {
+    ev.preventDefault();
+
+    let info = {...infoUser};
+
+    new FormData(ev.currentTarget).forEach((val, key) => {
+      let aux = Number(val);
+      info[key] = !isNaN(aux) && key !== "telefono"? aux: val;
+    })
+
+    if(info.altura) info.altura = info.altura * 100;
+
+    console.log(info);
+
+    if(DatosValidos(info)){
+
+      console.log("To update");
+
+      ComponenteAlert('Actualizando Perfil', 2, AlertType.SUCCESS);
+
+      var respuesta = await fetch(`https://api.nutriscan.com.co/api/usuarios/${infoUser?.uid}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-          nombre: infoPerfil.nombre,
-          fechaSuscripcion: infoPerfil.fechaSuscripcion,
-          fechaDeNacimiento: infoPerfil.fechaDeNacimiento,
-          foto: infoPerfil.foto,
-          telefono: infoPerfil.telefono,
-          altura: infoPerfil.altura,
-          peso: infoPerfil.peso
+          nombre: info.nombre,
+          fechaSuscripcion: info.fechaSuscripcion,
+          fechaDeNacimiento: info.fechaDeNacimiento,
+          foto: info.foto,
+          telefono: info.telefono,
+          altura: info.altura,
+          peso: info.peso
         })
       })
-      .then(respuesta => {
-        console.log("🚀 ~ HandleRegistro ~ respuesta:", respuesta)
-        if (!respuesta.ok) {
-          throw new Error('Error en la solicitud');
-        }
-        return respuesta.json()
-      })
-      .then(async(datos) => {
-        console.log("🚀 ~ HandleRegistro ~ datos:", datos as Usuario)
-        await dispatch(editPerfil({infoUsuario: infoPerfil}))
-        console.log("🚀 ~ HandleGuardarCambios ~ infoPerfil:", infoPerfil)
-        ComponenteAlert('Modificado Exitosamente',2,AlertType.SUCCESS)
-        navigate('/app/Perfil')
-      })
-      .catch(error => {
-        console.error('Error en la solicitud fetch:', error);
-        ComponenteAlert('Error actualizar en base de datos',2,AlertType.ERROR)
-        // Aquí puedes manejar el error como desees, por ejemplo, mostrar un mensaje al usuario
-      });
-      return resp
+
+      if (!respuesta.ok) {
+        console.error('Error en la solicitud status:', respuesta.status);
+        ComponenteAlert('Error al actualizar los datos', 2, AlertType.ERROR);
+      }else{
+
+        dispatch(editPerfil({infoUsuario: info}))
+        ComponenteAlert('Modificado Exitosamente', 2, AlertType.SUCCESS);
+      }
     }
   }
 
@@ -266,44 +269,42 @@ const FormPerfil = () => {
           <form>
               <div className={style.campo}>
                 <label htmlFor="correo">Correo:</label>
-                <input type="email" id="correo" name="correo"  readOnly className={style.correo} value={infoPerfil?.correo}/>
+                <input type="email" id="correo" name="correo" readOnly className={style.correo} value={infoPerfil?.correo}/>
               </div>
+          </form>
+          <form onSubmit={HandleGuardarCambios}>
               <div className={style.campo}>
                 <label htmlFor="nombre">Nombre:</label>
-                <input type="text" id="nombre" name="nombre" onChange={HandleInputChange('nombre')} value={infoPerfil?.nombre}/>
+                <input type="text" id="nombre" name="nombre" defaultValue={infoPerfil?.nombre}/>
               </div>
               <div className={style.campo}>
-                <label htmlFor="celular">Celular:</label>
-                <input type="number" id="celular" name="celular" onChange={HandleInputChange('telefono')} value={infoPerfil?.telefono}/>
+                <label htmlFor="telefono">Telefono celular:</label>
+                <input type='tel' id="telefono" name="telefono" defaultValue={infoPerfil?.telefono}/>
               </div>
               <div className={style.campo}>
                 <label htmlFor="fecha_nacimiento">Fecha de Nacimiento:</label>
-                <input 
-                  type="date"
-                  id="fecha_nacimiento"
-                  name="fechaDeNacimiento"
-                  onChange={HandleInputChange('fechaDeNacimiento')}
-                  value={infoPerfil?.fechaDeNacimiento}/>
+                <input type="date" id="fecha_nacimiento" name="fechaDeNacimiento" defaultValue={infoPerfil?.fechaDeNacimiento}/>
               </div>
               <div className={style.campo}>
                 <label htmlFor="altura">Altura (1.70m):</label>
-                <input type="number" id="altura" name="altura" onChange={HandleInputChange('altura')} value={infoPerfil?.altura / 100}/>
+                <input type="number" step={0.01} min={0} id="altura" name="altura" defaultValue={(infoPerfil?.altura / 100).toString()}/>
               </div>
               <div className={style.campo}>
                 <label htmlFor="peso">Peso (kg):</label>
-                <input type="number" id="peso" name="peso" onChange={HandleInputChange('peso')} value={infoPerfil?.peso}/>
+                <input type="number" id="peso" name="peso" defaultValue={infoPerfil?.peso}/>
               </div>
-              <button type="button" className={`${style.button} ${areObjectsEqual(infoUser,infoPerfil) ? style.desactivado : ''}`}
-              onClick={HandleGuardarCambios}>Guardar Cambios</button>
-              <div className={style.campo}>
-                <label htmlFor="nueva_contrasena">Nueva Contraseña:</label>
-                <input type="password" id="nueva_contrasena" name="nueva_contrasena" value={password.contrasena} onChange={(e) => setPassword((prev) => ({ ...prev, contrasena: e.target.value }))}/>
-              </div>
-              <div className={style.campo}>
-                <label htmlFor="confirmar_nueva_contrasena">Confirmar Nueva Contraseña:</label>
-                <input type="password" id="confirmar_nueva_contrasena" name="confirmar_nueva_contrasena" value={password.confirm} onChange={(e) => setPassword((prev) => ({ ...prev, confirm: e.target.value }))}/>
-              </div>
-              <button type="button" className={`${style.button} ${ValidateContrasena() ? '':style.desactivado}`} onClick={HandleContrasena}>Cambiar Contraseña</button>
+              <button type="submit" className={style.button} >Guardar Cambios</button>
+          </form>
+          <form>
+            <div className={style.campo}>
+              <label htmlFor="nueva_contrasena">Nueva Contraseña:</label>
+              <input type="password" id="nueva_contrasena" name="nueva_contrasena" value={password.contrasena} onChange={(e) => setPassword((prev) => ({ ...prev, contrasena: e.target.value }))}/>
+            </div>
+            <div className={style.campo}>
+              <label htmlFor="confirmar_nueva_contrasena">Confirmar Nueva Contraseña:</label>
+              <input type="password" id="confirmar_nueva_contrasena" name="confirmar_nueva_contrasena" value={password.confirm} onChange={(e) => setPassword((prev) => ({ ...prev, confirm: e.target.value }))}/>
+            </div>
+            <button type="button" className={`${style.button} ${ValidateContrasena() ? '':style.desactivado}`} onClick={HandleContrasena}>Cambiar Contraseña</button>
           </form>
         </div>
       </div>

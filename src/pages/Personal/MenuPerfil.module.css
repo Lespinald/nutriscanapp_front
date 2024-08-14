@@ -56,7 +56,7 @@
     display:flex;
     flex-direction: column;
     align-items: center;
-    padding: 0.7svh 7.3svh 0;
+    padding: 0.7svh 1.5rem 0;
     gap: 2svh;
 }
 
@@ -151,6 +151,7 @@
     padding: 5% 10%;
     border-radius: 15px;
 }
+
 
 .containIMC img{
     height: 3em;
@@ -332,6 +333,10 @@ text-align: left;
 
 .s{
     font-size: 2svh;
+}
+
+.containIMC{
+    width: 100%;
 }
 
 @media screen and ( max-width: 760px) {
