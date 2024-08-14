@@ -179,7 +179,7 @@ const MenuPerfil = () => {
           <h1 className={style.welcome}>Bienvenido {infoUser?.nombre} {GetTipoSuscripcion(infoUser) === 'FREE'?<></>:<div className={style.plus}>{GetTipoSuscripcion(infoUser) === 'pago'? 'PLUS':'TIENDA'}</div>}</h1>
         </section>
         <section className={style.infoSection}>
-          <p className='estiloButton' style={{color:'var(--color-6)'}} onClick={() => navigate('/app/EditPerfil')}>Más sobre ti   
+          <p className='estiloButton' style={{color:'var(--color-6)'}} onClick={() => navigate('/app/EditPerfil')}>Editar información  
             <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="15" height="15" viewBox="0 0 24 24" fill='var(--color-6)' style={{transform:'translateX(10px)'}}>
               <path d="M14.1 5.9L3 17v4h4L18.1 9.9 14.1 5.9zM15.6 4.4L18 2l4 4-2.4 2.4L15.6 4.4z"></path>
             </svg>
@@ -194,20 +194,11 @@ const MenuPerfil = () => {
               <p className={style.s}>Peso:</p>
               <input type='text' value={`${infoUser?.peso} Kg`} readOnly></input>
           </div>
-          <div className={`${style.rowElements} ${style.margenes}`}>
-            <div className={style.contain_preferencias}>
-              <p className={`${style.preferencias} ${style.s}`}>Preferencias</p>
-              <div>
-                <img src='/Home/Perfil/muffin.png' alt='Dulce'></img>
-                <img src='/Home/Perfil/limon.png' alt='Amargo'></img>
-              </div>
-            </div>
-            <div className={style.containIMC}>
-              <img src='/Home/Perfil/target.png' alt='diana'></img>
-              <p className={style.s}>IMC: {isNaN(CalcularIMC(infoUser?.peso, infoUser?.altura)) ? 'Ingrese su altura y peso' :
-                CalcularIMC(infoUser?.peso, infoUser?.altura).toFixed(1)}</p>
-              <p className={style.s}>Estas: {GetEstado(CalcularIMC(infoUser?.peso, infoUser?.altura))}</p>
-            </div>
+          <div className={style.containIMC}>
+            <img src='/Home/Perfil/target.png' alt='diana'></img>
+            <p className={style.s}>IMC: {isNaN(CalcularIMC(infoUser?.peso, infoUser?.altura)) ? 'Ingrese su altura y peso' :
+              CalcularIMC(infoUser?.peso, infoUser?.altura).toFixed(1)}</p>
+            <p className={style.s}>Estas: {GetEstado(CalcularIMC(infoUser?.peso, infoUser?.altura))}</p>
           </div>
           <button className={`${style.logoutButton} estiloButton`} onClick={HandleSignOut}>Cerrar Sesión</button>
         </section>

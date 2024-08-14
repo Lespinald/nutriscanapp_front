@@ -4,7 +4,7 @@ import styleMenuTienda from './MenuTienda.module.css'
 import styleMenuPerfil from '../Personal/MenuPerfil.module.css'
 import styleFormPerfil from '../Personal/FormPerfil.module.css'
 import { Tienda, tiendaVacia } from '../../assets/models/tienda';
-import { IsMobile } from '../../assets/Utils';
+import { areObjectsEqual, IsMobile } from '../../assets/Utils';
 import { useDispatch, useSelector } from 'react-redux';
 import { setTienda } from '../../redux/tiendaSlice';
 import { useStorge } from '../../hooks/useStorage';
@@ -34,32 +34,6 @@ const EditTienda = ({initialTienda: initialProducto,indice,setOpen}:Props) => {
     const value = response ? response : e.target.value
     setCurrentProducto({ ...currentTienda, [fieldName]: value });
   };
-    
-    const areObjectsEqual = (obj1: any, obj2: any): boolean => {
-    // Verifica si ambos son objetos
-    if (typeof obj1 !== 'object' || typeof obj2 !== 'object') {
-        return false;
-    }
-    
-    // Obtiene las claves de ambos objetos
-    const keysObj1 = Object.keys(obj1);
-    const keysObj2 = Object.keys(obj2);
-    
-    // Verifica si tienen la misma cantidad de claves
-    if (keysObj1.length !== keysObj2.length) {
-        return false;
-    }
-    
-    // Verifica si los valores de las claves son iguales
-    for (const key of keysObj1) {
-        if (obj1[key] !== obj2[key]) {
-        return false;
-        }
-    }
-    
-    // Si todas las comparaciones pasaron, los objetos son iguales
-    return true;
-    };
 
     const HandleSaveImage = async (image:any) => {
       const response = await fetch(image);

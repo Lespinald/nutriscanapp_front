@@ -8,7 +8,7 @@ export interface Usuario {
     fechaDeNacimiento : string;
     altura : number;
     peso : number;
-    telefono : number;
+    telefono : string;
     correo : string;
     foto : string | null;
     racha: number;
@@ -23,7 +23,7 @@ export const usuarioVacio = {
     fechaDeNacimiento : formatDate(new Date(0)),
     altura : 51,
     peso : 16,
-    telefono : 0,
+    telefono : "",
     correo : '',
 } as Usuario;
 

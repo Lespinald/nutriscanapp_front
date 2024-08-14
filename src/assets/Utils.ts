@@ -27,6 +27,14 @@ export function merge (a: any[], b: any[], predicate = (a: any[], b: any[]) => a
   return c;
 }
 
+export function CopyIntoMatchProps(a:any, b:any){
+  Object.keys(a).forEach(key => {
+    if(b[key] !== undefined){
+      b[key] = a[key];
+    }
+  })
+}
+
 export async function TraerInfoUsuario(uid: string): Promise<Usuario | null> {
 
   try {
