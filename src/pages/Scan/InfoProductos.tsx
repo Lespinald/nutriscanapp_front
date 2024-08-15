@@ -10,6 +10,7 @@ import SelectorArray from '../../assets/Components/SelectorArray';
 import { useSelector } from 'react-redux';
 import { useAppSelector } from '../../redux/store';
 import { OffData } from '../Tienda/utilTienda';
+import { useNavigate } from 'react-router-dom';
 
 interface Props{
     openProducto:boolean;
@@ -20,9 +21,8 @@ interface Props{
 }
 
 const InfoProductos = ({openProducto,setOpenProducto,modal,currentProducto,informationProduct}:Props) => {
-  console.log("🚀 ~ InfoProductos ~ informationProduct:", informationProduct)
-  console.log("🚀 ~ InfoProductos ~ currentProducto:", currentProducto)
   const infoUser = useAppSelector((state) => state.auth.infoUsuario)
+  const navigate = useNavigate()
   const exepcion = ['imagenFrontalUrl']
 
   const HandleRegistroRedireccion = async (miniTienda:MiniTienda) => {
@@ -54,6 +54,7 @@ const InfoProductos = ({openProducto,setOpenProducto,modal,currentProducto,infor
             }
             console.log("🚀 ~ HandleRegistroRedireccion ~ id_product:", id_product)
         }
+        navigate(`/app/VerTienda/${miniTienda.ID_tienda}`)
         GuardarHistorial(infoUser?.uid,{energy: informationProduct?.energia},id_product,false,true)
     }
   }

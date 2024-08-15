@@ -5,7 +5,7 @@ import styleFormPerfil from "../Personal/FormPerfil.module.css"
 import SelectorArray from '../../assets/Components/SelectorArray';
 import { nutriscoreImgs } from '../../assets/categorias';
 import Modal from '../../assets/Components/Modal';
-import { ConsultarOpenFoodFact } from '../../assets/Utils';
+import { ConsultarOpenFoodFact, TraerEnlacesDeProducto } from '../../assets/Utils';
 import { useSelector } from 'react-redux';
 import InfoProductos from '../Scan/InfoProductos';
 import { OffData } from '../Tienda/utilTienda';
@@ -39,8 +39,11 @@ const InicioLoggin = () => {
 
   const HandleClickProduct = async (producto:Producto) => {
     let res = await ConsultarOpenFoodFact(producto.ID_producto,producto.referencia,infoUser.uid)
+    let enlacesPromise = TraerEnlacesDeProducto(producto.referencia)
     console.log("🚀 ~ HandleClickProduct ~ res:", res)
     if(res){
+      let enlaces = await enlacesPromise
+      if(res.product) res.product.tiendas = enlaces;
       setCurrentProducto({product:res.product,infoProducto:res.infoProducto})
     }else{
       setCurrentProducto({product:producto,infoProducto:undefined})

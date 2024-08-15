@@ -6,6 +6,7 @@ export interface Tienda {
     direccion : string;
     enlace : string;
     fotos? : string;
+    uid? : string;
     descripcion? : string;
 }
 export interface MiniTienda {

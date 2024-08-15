@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import style from './login.module.css'
-import { GoogleAuthProvider, sendPasswordResetEmail, signInWithEmailAndPassword, signInWithPopup, signOut } from 'firebase/auth'
+import { deleteUser, GoogleAuthProvider, sendPasswordResetEmail, signInWithEmailAndPassword, signInWithPopup, signOut } from 'firebase/auth'
 import { auth } from '../../firebase'
 import { Usuario, convertirUsuario, toUsuario, usuarioVacio } from '../../assets/models/usuario';
 import { useDispatch, useSelector } from 'react-redux';
@@ -74,7 +74,8 @@ const Login = () => {
         .then(respuesta => {
             console.log("🚀 ~ HandleGoogle ~ respuesta:", respuesta)
             if (!respuesta.ok) {
-                signOut(auth)
+                console.log("🚀 ~ TraerInfoUsuario ~ auth:", auth)
+                if(auth.currentUser) {deleteUser(auth?.currentUser)}
                 setLoading(false)
                 throw new Error('Error en la solicitud');
             }
@@ -108,9 +109,11 @@ const Login = () => {
         })
         .catch(error => {
             console.error('Error en la solicitud fetch:', error);
+            console.log("🚀 ~ TraerInfoUsuario2 ~ auth:", auth)
+            if(auth.currentUser) {deleteUser(auth?.currentUser)}
             signOut(auth)
             setLoading(false)
-            ComponenteAlert('Error en taer datos usuario',2,AlertType.ERROR)
+            ComponenteAlert('Error al traer datos usuario',2,AlertType.ERROR)
             // Aquí puedes manejar el error como desees, por ejemplo, mostrar un mensaje al usuario
         });
     }
@@ -155,12 +158,16 @@ const Login = () => {
     
     const HandleRecuperarContrasena = async(e) => {
         e.preventDefault();
-        try {
-            await sendPasswordResetEmail(auth, address);
-            alert('Correo de restablecimiento de contraseña enviado.');
-        } catch (error) {
-            console.error("Error al enviar el correo de restablecimiento de contraseña:", error);
-            alert('Error al enviar el correo de restablecimiento de contraseña, revisa tu correo.');
+        if(address){
+            try {
+                await sendPasswordResetEmail(auth, address);
+                ComponenteAlert("Correo de restablecimiento de contraseña enviado, revisa tu correo.",2,AlertType.SUCCESS)
+            } catch (error) {
+                console.error("Error al enviar el correo de restablecimiento de contraseña:", error);
+                ComponenteAlert("Error al enviar el correo de restablecimiento de contraseña.",2,AlertType.ERROR)
+            }
+        }else{
+            ComponenteAlert("Ingresa tu correo en el campo correspondiente.",3,AlertType.WARNING)
         }
     }
 
@@ -178,6 +185,7 @@ const Login = () => {
             <form className={style.login} style={{display:'flex',flexDirection:'column'}}>
                 <input autoComplete='true' type='email' id='email' placeholder='Correo' value={address} onChange={e => setAddress(e.currentTarget.value)}></input>
                 <input autoComplete='true' type='password' id='password' placeholder='Contraseña' value={password} onChange={e => setPassword(e.currentTarget.value)}></input>
+                <a  className={style.fondoLogin_label} href='*' onClick={HandleRecuperarContrasena}>¿Olvidaste la contraseña?</a>
                 <button onClick={HandleLogInEmail} className={style.button_logIn} style={{marginTop:'19px',fontSize:'1em'}}>
                     Iniciar sesión
                 </button>
@@ -187,8 +195,6 @@ const Login = () => {
                     <p>Continuar con Google</p>
                 </button>
             </form>
-            <a  className={style.fondoLogin_label} href='*' onClick={HandleRecuperarContrasena}>Olvide mi contraseña. Click aquí</a>
-            <a  className={style.fondoLogin_label} href='/Registro'>¿No tienes cuenta? Ingresa aquí</a>
             <img src='\Login\nutriscanLogo.png' alt='Logo' style={{height:'-webkit-fill-available',maxHeight:'150px',aspectRatio:' 1/1.5'}}></img>
         </div>
     )

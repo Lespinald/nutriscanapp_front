@@ -51,13 +51,18 @@ const EditProducto = ({ initialProducto, tienda, indice, setOpen }: Props) => {
   }
 
   const validateForm = (datos: DatosForm) => {
-    if ((datos.imagenFrontal || offData?.imagenFrontalUrl) &&
-      Object.keys(datos).every(k => !!datos[k]) &&
-      (codigoBarras || currentProducto?.referencia.startsWith("20009"))) {
-      return true;
+    if(!(codigoBarras || currentProducto?.referencia.startsWith("20009"))) {
+      ComponenteAlert("No se especifico codigo de barras o su ausencia",2,AlertType.WARNING);
+      return false;
+    }
+    if (!(datos.imagenFrontal || offData?.imagenFrontalUrl) ||
+      !Object.keys(datos).every(k => !!datos[k]))
+      {
+      ComponenteAlert("campos incompletos",2,AlertType.WARNING);
+      return false;
     }
 
-    return false;
+    return true;
   }
 
   const addProductOff = async (barcode: string, datos: DatosForm) => {
@@ -245,11 +250,12 @@ const EditProducto = ({ initialProducto, tienda, indice, setOpen }: Props) => {
     console.log(datos, auxiliar);
 
     if (validateForm(datos)) {
-      GuardarProducto(datos).finally(
+      GuardarProducto(datos)
+      .catch((e:Error) => ComponenteAlert(e.message, 2, AlertType.ERROR))
+      .finally(
         () => setLoading(false)
       )
     } else {
-      ComponenteAlert("campos incompletos",2,AlertType.WARNING);
       setLoading(false);
     }
   }

@@ -9,6 +9,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { setTienda } from '../../redux/tiendaSlice';
 import { useStorge } from '../../hooks/useStorage';
 import ComponenteAlert, { AlertType } from '../../assets/ComponenteAlert';
+import { tiendaDefault } from './MenuTienda';
 
 interface Props{
   initialTienda:Tienda;
@@ -65,7 +66,7 @@ const EditTienda = ({initialTienda: initialProducto,indice,setOpen}:Props) => {
       setChangePhoto(false);
     }
 
-    const HandleGuardarCambios = () => {
+    const HandleCrearTienda = () => {
       console.log({
         uid: infoUser?.uid,
         nombre: currentTienda.nombre,
@@ -97,7 +98,55 @@ const EditTienda = ({initialTienda: initialProducto,indice,setOpen}:Props) => {
           return respuesta.json()
         })
         .then(async(datos) => {
-          ComponenteAlert('Modificado Exitosamente',2,AlertType.SUCCESS)
+          console.log("🚀 ~ .then ~ datos:", datos)
+          let copy = {...currentTienda}
+          copy.ID_tienda = datos.ID_tienda
+          ComponenteAlert('Tu tienda se creo con éxito.',2,AlertType.SUCCESS)
+          dispatch(setTienda({tienda:copy}))
+        })
+        .catch(error => {
+          error.then(res => {
+            console.error('Error en la solicitud fetch:', res);
+            ComponenteAlert('Error actualizar en base de datos',2,AlertType.ERROR)
+          })
+          // Aquí puedes manejar el error como desees, por ejemplo, mostrar un mensaje al usuario
+        });
+        return resp
+      }
+    }
+
+    const HandleChangeTienda = () => {
+      console.log("change",JSON.stringify({
+        nombre: currentTienda.nombre,
+        direccion: currentTienda.direccion,
+        enlace: currentTienda.enlace,
+        descripcion: currentTienda.descripcion,
+        fotos: currentTienda.fotos,
+      }))
+      console.log("🚀 ~ HandleChangeTienda ~ currentTienda:", currentTienda)
+      if(!areObjectsEqual(tiendaVacia,currentTienda)){
+        var resp = fetch(`https://api.nutriscan.com.co/api/tiendas/${currentTienda?.ID_tienda ?? ''}`, {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            nombre: currentTienda.nombre,
+            direccion: currentTienda.direccion,
+            enlace: currentTienda.enlace,
+            descripcion: currentTienda.descripcion,
+            fotos: currentTienda.fotos,
+          })
+        })
+        .then(respuesta => {
+          console.log("🚀 ~ HandleRegistro ~ respuesta:", respuesta)
+          if (!respuesta.ok) {
+            throw respuesta.json();
+          }
+          return respuesta.json()
+        })
+        .then(async(datos) => {
+          ComponenteAlert('Se ha actualizado la informacion de tu tienda',2,AlertType.SUCCESS)
           dispatch(setTienda({tienda:currentTienda}))
         })
         .catch(error => {
@@ -108,6 +157,25 @@ const EditTienda = ({initialTienda: initialProducto,indice,setOpen}:Props) => {
           // Aquí puedes manejar el error como desees, por ejemplo, mostrar un mensaje al usuario
         });
         return resp
+      }
+    }
+
+    const Validate = () => {
+      if(!currentTienda.nombre) {ComponenteAlert("Un nombre es primordial para una tienda.",1.5,AlertType.WARNING);return false}
+      if(!currentTienda.descripcion) {ComponenteAlert("Recuerda poner una breve descripcion para que conozcan tu tienda.",1.5,AlertType.WARNING);return false}
+      if(!currentTienda.direccion) {ComponenteAlert("Recuerda poner una direccion para tus clientes.",1.5,AlertType.WARNING);return false}
+      if(!currentTienda.enlace) {ComponenteAlert("Recuerda poner un enlace para que vayan a tu sitio web.",1.5,AlertType.WARNING);return false}
+      if(!currentTienda.fotos) {ComponenteAlert("Una foto de tu logo hará mas llamativa tu tienda.",1.5,AlertType.WARNING);return false}
+      return true
+    }
+
+    const BundleRequest = () => {
+      if(Validate()){
+        if(areObjectsEqual(tiendaDefault,initialProducto)){
+          HandleCrearTienda()
+        }else{
+          HandleChangeTienda()
+        }
       }
     }
 
@@ -149,7 +217,7 @@ const EditTienda = ({initialTienda: initialProducto,indice,setOpen}:Props) => {
                   <input type="text" id="Categoría" name="Categoría" onChange={HandleInputChange('direccion')} value={currentTienda?.direccion}/>
                 </div>
                 <button type="button" className={`${styleFormPerfil.button} ${areObjectsEqual(initialProducto,currentTienda) ? styleFormPerfil.desactivado : ''}`}
-                onClick={HandleGuardarCambios}>{areObjectsEqual(tiendaVacia,initialProducto)?'Crear Tienda':'Guardar Cambios'}</button>
+                onClick={BundleRequest}>{areObjectsEqual(tiendaVacia,initialProducto)?'Crear Tienda':'Guardar Cambios'}</button>
                 <button type="button" className={`${styleFormPerfil.button}`} onClick={() => setOpen(false)}>CANCELAR</button>
             </form>
         </div>

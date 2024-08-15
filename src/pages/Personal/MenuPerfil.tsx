@@ -176,7 +176,7 @@ const MenuPerfil = () => {
         <section className={style.photoSection} style={GetTipoSuscripcion(infoUser) === 'FREE'?{background:'#44A9F2'}:GetTipoSuscripcion(infoUser) === 'tienda'?{background:'var(--color-4)'}:{background:'var(--color-5)'}}>
           <div className={style.contain_img} style={{background:`url(${infoUser.foto ? infoUser.foto: auth.currentUser?.photoURL ?? '/Home/Perfil/Foto.png'}) top left / contain no-repeat`}}>
           </div>
-          <h1 className={style.welcome}>Bienvenido {infoUser?.nombre} {GetTipoSuscripcion(infoUser) === 'FREE'?<></>:<div className={style.plus}>{GetTipoSuscripcion(infoUser) === 'pago'? 'PLUS':'TIENDA'}</div>}</h1>
+          <h1 className={style.welcome}>Bienvenido {infoUser?.nombre} {GetTipoSuscripcion(infoUser) === 'gratis'?<></>:<div className={style.plus}>{GetTipoSuscripcion(infoUser) === 'pago'? 'PLUS':'TIENDA'}</div>}</h1>
         </section>
         <section className={style.infoSection}>
           <p className='estiloButton' style={{color:'var(--color-6)'}} onClick={() => navigate('/app/EditPerfil')}>Editar información  
@@ -224,7 +224,7 @@ const MenuPerfil = () => {
                 <GarphBarVisitas historial={historialTienda}/>
               ) : bandera === 'calorias' ? (
                 <GraphVisitas historial={historialTienda}/>
-              ) : bandera === 'progreso' || bandera === 'rancha'  ? (
+              ) : bandera === 'progreso' || bandera === 'racha'  ? (
                 <HistorialTiendaGrafica historial={historialTienda} />
               ) : null // No se renderiza nada si bandera no es busquedas ni calorias ni progreso
             ) : (
@@ -254,7 +254,7 @@ const MenuPerfil = () => {
                 <GraphCalorias historial={historial} setLoading={setLoading}/>
               ) : bandera === 'progreso' ? (
                 <HistorialGrafica historial={historial} itemsPerPage={IsMobile() ? 5 : 2}/>
-              ) : bandera === 'rancha' ? (
+              ) : bandera === 'racha' ? (
                 <GraphProgreso/>
               ) : null // No se renderiza nada si bandera no es busquedas ni calorias ni progreso
             ) : (
@@ -273,7 +273,7 @@ const MenuPerfil = () => {
               Consumo Nutricional
             </button>
             <button id="ProgresoButton" onClick={() => handleaButtonClick('racha')}>
-              Tu rancha
+              Tu racha
             </button>
           </div>
         </>}

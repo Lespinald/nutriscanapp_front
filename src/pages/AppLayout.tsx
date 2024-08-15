@@ -77,10 +77,13 @@ const DesktopLayout = ({tipoSuscripcion}:Props) => {
 
   return (
     <>
-      <Link to="/app/Home" style={{padding: "0 0.8rem"}}>
+      <Link to="/Home" style={{padding: "0 0.8rem"}}>
         Inicio
       </Link>
-      <Link to="/app/Scan" style={{padding: "0 0.8rem"}}>
+      <Link to="/app/Home" style={{padding: "0 0.8rem"}}>
+        Explorar
+      </Link>
+      <Link to="/app/Busqueda" style={{padding: "0 0.8rem"}}>
         Buscar Producto
       </Link>
       <Link to="/app/Perfil" style={{padding: "0 0.8rem"}}>
@@ -143,8 +146,10 @@ const MobileLayout = ({tipoSuscripcion}:Props) => {
       </button>
       <div className={`${generalMenu? style.openGeneral: ""} ${style.menu}`}
         onMouseLeave={ToggleGeneral}>
-        <Link ref={generalAnchorRef} to="/app/Home">Inicio</Link>
-        <Link to="/app/Scan">Buscar Producto</Link>
+        <Link ref={generalAnchorRef} to="/Home">Inicio</Link>
+        <Link to="/app/Home">Explorar</Link>
+        <Link to="/app/Scan">Escaner</Link>
+        <Link to="/app/Busqueda">Buscar Producto</Link>
         <Link to="/app/Perfil">Ver Perfil</Link>
         <Link to={tipoSuscripcion === 'tienda' ? "/app/Tienda" : "/app/ComprarTienda"}>Ver Mi Tienda</Link>
       </div>

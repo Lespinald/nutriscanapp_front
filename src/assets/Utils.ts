@@ -195,7 +195,7 @@ export const GuardarHistorial = async (uid: string, nutriments: any, ID: string,
   console.log("🚀 ~ GuardarHistorial ~ JSON.stringify:", JSON.stringify({
     uid: uid,
     ID_producto: ID,
-    fecha: new Date().toLocaleDateString(),
+    fecha: new Date().toLocaleDateString('en-US'),
     comido: comido ?? false,
     redireccion: redireccion ?? false,
     calorias: nutriments.energy,
@@ -209,7 +209,7 @@ export const GuardarHistorial = async (uid: string, nutriments: any, ID: string,
       body: JSON.stringify({
         uid: uid,
         ID_producto: ID,
-        fecha: new Date().toLocaleDateString(),
+        fecha: new Date().toLocaleDateString('en-US'),
         comido: comido ?? false,
         redireccion: redireccion ?? false,
         calorias: nutriments.energy,
@@ -245,12 +245,7 @@ export function onUserLoad(accept:(user:User)=>void = user=>{},reject:()=>void =
 
 
 export const GetTipoSuscripcion = (infoUsuario:Usuario):string => {
-  let fecha1 = new Date(infoUsuario?.fechaSuscripcion)
-  let fecha2 = new Date()
-  if(fecha1.getTime() > fecha2.getTime()){
-    return infoUsuario?.tipoSuscripcion 
-  }
-  return 'FREE'
+  return infoUsuario?.tipoSuscripcion
 }
 
 export async function ConsultarOpenFoodFact(ID_producto:string,referencia: string, uid?: string): Promise<{ product: Producto | null; infoProducto: OffData | undefined }> {

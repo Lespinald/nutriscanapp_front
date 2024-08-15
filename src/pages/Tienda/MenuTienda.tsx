@@ -6,10 +6,12 @@ import EditProducto from './EditProducto';
 import { useSelector } from 'react-redux';
 import Agregar from '../../assets/Components/Agregar';
 import EditTienda from './EditTienda';
+import { auth } from '../../firebase';
+import { useAppSelector } from '../../redux/store';
 
 interface ShopInfo{
   name: string;
-  banner: string;
+  banner: string|undefined;
   logo: string;
   busqueda: string;
   setBusqueda: React.Dispatch<React.SetStateAction<string>>;
@@ -17,7 +19,7 @@ interface ShopInfo{
   tienda: Tienda;
 }
 
-const tiendaDefault: Tienda = 
+export const tiendaDefault: Tienda = 
   {
     ID_tienda: 'tienda_prueba',
     nombre : 'Nombre Tienda',
@@ -29,7 +31,7 @@ const tiendaDefault: Tienda =
 
 const MenuTienda = () => {
   const {mobile} = useAppLayoutContext();
-  const tienda = useSelector((state:any) => state.tienda.currentTienda)
+  const tienda = useAppSelector((state) => state.tienda.currentTienda)
   const productosRedux = useSelector((state:any) => state.tienda.productos)
 
   const [busqueda, setBusqueda] = useState<string>("");
@@ -39,7 +41,7 @@ const MenuTienda = () => {
       <TiendaDesktop name="tienda" logo="" banner={tienda? (tienda.fotos?? tiendaDefault.fotos): tiendaDefault.fotos}
         busqueda={busqueda} setBusqueda={setBusqueda}
         productos={productosRedux}
-        tienda={tienda ?? tiendaDefault}
+        tienda={tienda?.ID_tienda ? tienda : tiendaDefault}
         />
     </>
   );
@@ -65,7 +67,7 @@ const TiendaDesktop = ({name, banner, logo, busqueda, setBusqueda, productos,tie
   return (
     <>{
       editProd ?
-      <EditProducto initialProducto={currentProduct} tienda={currentTienda} setOpen={setEditProd} indice={indice}/>
+      <EditProducto initialProducto={currentProduct} tienda={currentTienda ?? tiendaVacia} setOpen={setEditProd} indice={indice}/>
       :
       editTienda ?
       <EditTienda initialTienda={currentTienda} setOpen={setEditTienda} indice={0}/>
@@ -79,12 +81,13 @@ const TiendaDesktop = ({name, banner, logo, busqueda, setBusqueda, productos,tie
         </div>
         <div className={style.logoSection} onClick={() => {setEditTienda(true)}}>
           <div>
-            <img src={infoUser?.foto ? infoUser.foto : tiendaDefault.fotos} alt='logo tienda'/>
+            <img src={infoUser.foto ? infoUser.foto: auth.currentUser?.photoURL ?? '/Home/Perfil/Foto.png'} alt='logo usuario'/>
           </div>
         </div>
         { tienda !== tiendaDefault ? 
         <>
           <div className={style.titulo} onClick={() => {setEditTienda(true)}}><a >{tienda?.nombre ? tienda.nombre : tiendaDefault.nombre}</a></div>
+          {tienda?.enlace && <p className={` estiloButton`} style={{width:'80%',margin:'0.5em auto'}}><a href={tienda.enlace}>{tienda?.enlace}</a></p>}
           <p className={style.descripcion}>
             {tienda?.descripcion ? tienda.descripcion : tiendaDefault.descripcion}
           </p>

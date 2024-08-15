@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import styleLogin from '../Login/login.module.css'
 import style from './registro.module.css'
 import { Usuario, formatDate, usuarioVacio } from '../../assets/models/usuario'
-import { GoogleAuthProvider, createUserWithEmailAndPassword, deleteUser, signInWithPopup } from 'firebase/auth'
+import { GoogleAuthProvider, User, UserCredential, createUserWithEmailAndPassword, deleteUser, signInWithPopup } from 'firebase/auth'
 import { auth } from '../../firebase'
 import { useDispatch } from 'react-redux'
 import { login, logout } from '../../redux/authSlice'
@@ -116,48 +116,47 @@ const Registro = () => {
     }
   }
 
-  const CrearUsuarioGoogle = async ():Promise<string> => {
+  const CrearUsuarioGoogle = async ():Promise<User|null> => {
     try {
-      const result = await signInWithPopup(auth, googleProvider);
+      const result:UserCredential = await signInWithPopup(auth, googleProvider);
       const user = result.user;
       if (user) {
-          return user.uid;
+        return user;
       } else {
-          dispatch(logout())
-          ComponenteAlert('Error al iniciar sesión con Google',2,AlertType.ERROR);
-          return'Error'
+        dispatch(logout())
+        ComponenteAlert('Error al iniciar sesión con Google',2,AlertType.ERROR);
+        return null
       }
     } catch (error) {
       dispatch(logout())
       console.log("🚀 ~ IniciarSesionConGoogle ~ error:", error);
       ComponenteAlert('Error al iniciar sesión con Google',2,AlertType.ERROR);
-      return'Error'
+      return null
     }
   }
 
-  const CrearUsuarioBD = (uid:string) => {
+  const CrearUsuarioBD = (uid:string,email?:string) => {
     setLoading(true)
     const fechaActual = new Date();
-    console.log("🚀 ~ CrearUsuarioBD ~ uid:", uid)
     // ========EJECUTAR AL VERIFICAR NO DUPLICIDAD===========
     var resp = fetch(`https://api.nutriscan.com.co/api/usuarios`,{
       method: 'POST',
       headers:{
         'Content-Type': 'application/json'
-      }, body: JSON.stringify(
-        { 
-          uid: uid, 
-          nombre: user.nombre,
-          tipoSuscripcion: 'gratis',
-          fechaSuscripcion : formatDate(new Date(fechaActual.getTime() + (15 * 24 * 60 * 60 * 1000))),
-          fechaDeNacimiento : user.fechaDeNacimiento,
-          altura :  user.altura,
-          peso :  user.peso,
-          telefono :  user.telefono,
-          correo :  user.correo,
-          ultimoLogueo: fechaActual.toISOString(),
-          racha: 1
-        })
+      }, 
+      body: JSON.stringify({ 
+        uid: uid, 
+        nombre: user.nombre,
+        tipoSuscripcion: 'gratis',
+        fechaSuscripcion : formatDate(new Date(fechaActual.getTime() + (15 * 24 * 60 * 60 * 1000))),
+        fechaDeNacimiento : user.fechaDeNacimiento,
+        altura :  user.altura,
+        peso :  user.peso,
+        telefono :  Number(user.telefono),
+        correo :  user.correo ? user.correo : email,
+        ultimoLogueo: fechaActual.toISOString(),
+        racha: 1
+      })
       })
       .then(respuesta => {
         console.log("🚀 ~ HandleRegistro ~ respuesta:", respuesta)
@@ -246,15 +245,15 @@ const Registro = () => {
     e.preventDefault()
     setLoading(true)
     if(ConfirmarNoVacio(user)){
-      var uid = await CrearUsuarioGoogle()
-      if (uid === 'Error') {
+      var userGoogle = await CrearUsuarioGoogle()
+      if (!userGoogle) {
         if (auth.currentUser !== null && auth.currentUser !== undefined) {
           deleteUser(auth.currentUser);
         }
         setLoading(false)
         return dispatch(logout())
       } else {
-        CrearUsuarioBD(uid)
+        CrearUsuarioBD(userGoogle.uid,userGoogle.email?? '')
       };
     }
     setLoading(false)

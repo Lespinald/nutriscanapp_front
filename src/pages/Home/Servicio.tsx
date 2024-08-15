@@ -12,35 +12,34 @@ const Servicio = forwardRef<HTMLDivElement>(({}, ref) => {
       <h1>Servicio</h1>
       <div className={style.planes}>
         <div className={style.plan} onClick={() => { authenticated ? navigate('app/home') : navigate('/Registro')}}>
-          <h3>FREE</h3>
+          <h3>GRATIS</h3>
           <div>
-            <h2>$0</h2>
-            <p>Get Started</p>
+            <h2>15 dias</h2>
+            <p>Comenzar</p>
           </div>
           <ul>
             <li>Busquedas ilimitadas</li>
-            <li>Historial limitado</li>
-            <li>Anuncios</li>
+            <li>Comienza tu prueba gratuita</li>
           </ul>
         </div>
         <div className={style.plan} onClick={() => {navigate('/Registro')}}>
-          <h3>PLUS</h3>
+          <h3>EXCLUSIVO</h3>
           <div>
             <h2>$7.000</h2>
-            <p>Start Trial</p>
+            <p>Suscribirse</p>
           </div>
           <ul>
-            <li>Busquedas infinitas</li>
+            <li>Acceso ilimitado</li>
             <li>Historial ilimitado</li>
-            <li>Elimina anuncios</li>
             <li>Acceso a tiendas</li>
+            <li>Analisis de datos</li>
           </ul>
         </div>
         <div className={style.plan} onClick={() => {navigate('/Registro')}}>
           <h3>TIENDA</h3>
           <div>
             <h2>$50.000</h2>
-            <p>Start Trial</p>
+            <p>Suscribirse</p>
           </div>
           <ul>
             <li>Alcance personalizado a clientes</li>

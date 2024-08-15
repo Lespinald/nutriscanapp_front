@@ -30,7 +30,7 @@
     display: flex;
     position: relative;
     justify-content: center;
-    margin-top: -10rem;
+    margin-top: -9rem;
 }
 .logoSection > div {
     width: min-content;
@@ -55,7 +55,7 @@
     text-align: center;
 }
 .titulo a{
-    font-size: 6rem;
+    font-size: 3rem;
     color: #272F35;
 
     text-decoration: underline;

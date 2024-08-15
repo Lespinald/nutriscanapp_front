@@ -13,17 +13,22 @@ import { Historial } from "../../assets/models/historial";
 import { current } from "@reduxjs/toolkit";
 import { OffData } from "../Tienda/utilTienda";
 import InfoProductos from "./InfoProductos";
+import { useAppDispatch, useAppSelector } from "../../redux/store";
+import { pushBusqueda } from "../../redux/authSlice";
 
 type Param = {
   idProduct?:string;
 }
 
 const BusquedaDesktop = () => {
+  const historialBusquedas = useAppSelector((state) => state.auth.historialBusquedas)
+  const dispatch = useAppDispatch()
+
   const {idProduct} = useParams<Param>();
   const [openProducto, setOpenProducto] = useState<boolean>(false);
   const [capturando, setCapturando] = useState<boolean>(false);
   const [busqueda, setBusqueda] = useState<string>(idProduct ?? '');
-  const [lastBusqueda, setLastBusqueda] = useState<string>('');
+  const [lastBusqueda, setLastBusqueda] = useState<string[]>(historialBusquedas);
   const [nutriscore, setNutriscore] = useState<string>("unknown");
   const [currentProductoInformation, setCurrentProductoInformation] = useState<OffData>();
   const [currentProducto, setCurrentProducto] = useState<Producto>();
@@ -64,9 +69,9 @@ const BusquedaDesktop = () => {
 
     if(!busquedaNueva) busquedaNueva = busqueda;
 
-    if(busqueda === lastBusqueda) return;
+    if(busqueda === lastBusqueda[lastBusqueda.length-1]) return;
 
-    setLastBusqueda(busqueda);
+    AddBusqueda(busqueda);
 
     if (!(/^\d+$/.test(busquedaNueva))) {
       // Busqueda contains only numeric characters
@@ -105,6 +110,26 @@ const BusquedaDesktop = () => {
       BarrilConsultarOpenFood(busquedaNueva)
     }
   }
+
+  const AddBusqueda = (newBusqueda: string) => {
+    setLastBusqueda((prevState) => {
+        // Verifica si el nuevo elemento ya existe en el array
+        if (prevState.includes(newBusqueda)) {
+          return prevState; // Si ya existe, no lo agrega
+        }
+
+        const updatedBusqueda = [...prevState, newBusqueda];
+
+        // Si la longitud supera los 10 elementos, elimina el primer elemento
+        if (updatedBusqueda.length > 10) {
+          updatedBusqueda.shift();
+        }
+
+        dispatch(pushBusqueda(newBusqueda))
+        return updatedBusqueda;
+    });
+};
+  
 
   const BarrilConsultarOpenFood = async (referencia:string)=> {
     setProductos([])
@@ -258,9 +283,12 @@ const BusquedaDesktop = () => {
           <p>Para escanear alimentos ingresa al navegador desde un dispositivo móvil</p>
         </div>
         <ul>
-          {historial.map((h) => (
-            <li key={h.ID_producto} onClick={() => {setBusqueda(h.ID_producto.toString()); HandleSearch(h.ID_producto.toString())}}>{h.ID_producto}</li>
-          ))}
+          {lastBusqueda
+            .slice(-5) // Obtiene los últimos 5 elementos del array
+            .reverse() // Invierte el orden de los elementos
+            .map((h, _i) => (
+              <li key={_i} onClick={() => { setBusqueda(h); HandleSearch(h); }}>{h}</li>
+            ))}
         </ul>
       </div>
       {productos.map((element) => (

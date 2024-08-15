@@ -27,6 +27,7 @@ import FAQ from './pages/Home/FAQ';
 import FootPage from './pages/Home/FootPage';
 import ManualDeUsuario from './pages/Home/ManualDeUsuario';
 import Contactanos from './pages/Home/Contactanos';
+import VerUnaTienda from './pages/Tienda/VerUnaTienda';
 
 function App() {
   const dispatch = useDispatch();
@@ -80,6 +81,7 @@ function App() {
           <Route path='/pago/:info' element={<Checkout/>}/>
           <Route path='/responseFactura' element={<RecivePasarela/>}/>
           <Route path='/ComprarTienda' element={<ComprarTienda/>}/>
+          <Route path='Tienda/:idTienda?' element={<VerUnaTienda/>}/>
         </Route>
         
         <Route element={<LayoutWithFooter />}>
@@ -99,6 +101,7 @@ function App() {
           <Route path='Perfil' element={<MenuPerfil/>}/>
           <Route path='EditPerfil' element={<FormPerfil/>}/>
           <Route path='Tienda' element={<MenuTienda/>}/>
+          <Route path='VerTienda/:idTienda?' element={<VerUnaTienda/>}/>
           <Route path='ComprarTienda' element={<ComprarTienda/>}/>
         </Route>
         

@@ -28,13 +28,15 @@ const FootPage = () => {
       <section className={style.header}>
             <div>
                 <h3>Nosotros</h3>
+                <br></br>
                 <p onClick={() =>{ autenticado ? ComponenteAlert("Ya estas registrado",1,AlertType.WARNING) :navigate('/Registro')}}>Comenzar</p>
                 <p onClick={() =>{navigate('/objetivos')}}>Mision</p>
                 <p onClick={() =>{navigate('/equipo')}}>Desarrolladores</p>
             </div>
             <div>
-                <h3>Soporte</h3>
-                <p onClick={() =>{navigate('/FAQ')}}>FAQ</p>
+                <h3>Soporte</h3> 
+                <br></br>
+                <p onClick={() =>{navigate('/FAQ')}}>Preguntas frecuentes</p>
                 <p onClick={() =>{navigate('/Manual')}}>Manual de usuario</p>
                 <p onClick={() =>{navigate('/Contactanos')}}>Contactanos</p>
             </div>
