@@ -5,9 +5,10 @@ interface Props{
     isOpen:boolean;
     ref: React.RefObject<HTMLDivElement>;
     setIsOpen:(e:boolean) => void;
+    contentStyle?: React.CSSProperties;
 }
 
-const Modal = ({isOpen,setIsOpen,children,ref}:Props) => {
+const Modal = ({isOpen,setIsOpen,children,ref, contentStyle}:Props) => {
   const modal = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -20,7 +21,7 @@ const Modal = ({isOpen,setIsOpen,children,ref}:Props) => {
 
   return (
     <div className="modal_background" style={!isOpen ? {display:'none'}:{}} onClick={() => setIsOpen(false)}>
-        <div className="modal_content" onClick={(e) => {e.stopPropagation()}} ref={ref}>
+        <div className="modal_content" style={contentStyle} onClick={(e) => {e.stopPropagation()}} ref={ref}>
           {children}
         </div>
     </div>
