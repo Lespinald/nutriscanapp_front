@@ -6,10 +6,10 @@ const Equipo = forwardRef<HTMLDivElement>(({}, ref) => {
     <div className={style.main} ref={ref}>
       <p>¿Quienes somos?</p>
       <div className={style.members}>
-        <Card image="/Home/Equipo/JuanRodriguez.jpg" name="Juan Rodriguez" info="Arquiteco de BD & Dev Frontend" />
-        <Card image="/Home/Equipo/Lina.jpeg" name="Lina Espinal" info="UX/UI & Frontend Dev" />
-        <Card image="/Home/Equipo/JuanAndres.jpeg" name="Juan Carreño" info="DevOps BD & Backend Dev" />
-        <Card image="/Home/Equipo/Oscar.png" name="Oscar Martínez" info="QA & Backend Dev" />
+        <Card url="" image="/Home/Equipo/JuanRodriguez.jpg" name="Juan Rodriguez" info="Arquiteco de BD & Dev Frontend" />
+        <Card url="" image="/Home/Equipo/Lina.jpeg" name="Lina Espinal" info="UX/UI & Frontend Dev" />
+        <Card url="https://github.com/JuanXo375?tab=repositories" image="/Home/Equipo/JuanAndres.jpeg" name="Juan Carreño" info="DevOps BD & Backend Dev" />
+        <Card url="" image="/Home/Equipo/Oscar.png" name="Oscar Martínez" info="QA & Backend Dev" />
       </div>
       <Background/>
     </div>
@@ -20,10 +20,15 @@ interface CardProps{
   image: string;
   name: string;
   info: string;
+  url: string;
 }
-const Card = ({image, name, info}: CardProps) => {
+const Card = ({image, name, info,url}: CardProps) => {
+  const redirect = () => {
+    window.open(url)
+  }
+
   return(
-    <div className={style.card}>
+    <div className={`${style.card} estiloButton`} onClick={redirect}>
       <img src={image} alt={name} />
       <div>
         <h1>{name}</h1>

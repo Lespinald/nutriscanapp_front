@@ -55,6 +55,7 @@ const Contactanos = () => {
 
   return (
     <div style={{background: 'white',width:'100%',overflowY:'auto',padding:'1em 3em',margin:'auto',color:'var(--color-6)'}}>
+      <h1 style={{ color: 'white', textAlign: 'center', marginBottom: '40px' }}></h1>
         <h1 style={{color:'inherit',textAlign:'center'}}>Contactanos: </h1>
         {/* LA FUNCION ENVIAR CORREO PRUEBA FUNCIONA YA SOLO ES PASARLE LOS PARAMETROS NECESARIOS  */}
         <form style={{gap:'2%',display:'grid'}}>
