@@ -280,6 +280,7 @@ const BusquedaDesktop = () => {
         <input placeholder="Ingresa tu busqueda" value={busqueda} onChange={(e) => setBusqueda(e.target.value)} onBlur={e => HandleSearch()} onKeyDown={(e) => {if(e.key === 'Enter'){HandleSearch()} }}></input>
         <div>
           <img className={`${style.scanTopImg} maintainRatio`} src="\Login\nutriscanLogo.png"/>
+          <br></br>
           <p>Para escanear alimentos ingresa al navegador desde un dispositivo móvil</p>
         </div>
         <ul>
