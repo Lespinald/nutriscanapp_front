@@ -1,3 +1,4 @@
+import axios from "axios";
 import { Producto, Tienda } from "./models/tienda";
 
 export async function TraerInfoTienda(idTienda: string): Promise<Tienda | null> {
@@ -62,4 +63,32 @@ export async function TraerProductosTienda(idTienda: string): Promise<Producto[]
       console.error('Error en consulta informacion productos de tienda.');
       return null;
     }
+}
+
+export async function ProccessTags(categorias:string[]):Promise<string[]> {
+  let categoriasTraducidas:string[] = []
+  categorias.forEach(async (tag) => {
+    let trad = tag.split(":").map(s => s.trim())
+    let resp = await Traducir(trad[1])
+    categoriasTraducidas.push(resp)
+  })
+  return categoriasTraducidas
+} 
+
+export async function Traducir(input:string):Promise<string> {
+  return await fetch("https://translation.googleapis.com/language/translate/v2", {
+    method: "POST",
+    body: JSON.stringify({
+      q: input,
+      source: "en",
+      target: "es",
+      key: "AIzaSyD5EhmmEF-S1_5v8HHr22LDfhVO-cq0nMw"
+    }),
+    headers: { "Content-Type": "application/json" }
+  }).then((resp) => {return resp.json()})
+  .then((json) => {return json.data.translations.translatedText})
+  .catch((error) => {
+    console.error('Error al traducir:', error);
+    return input;
+  });
 }

@@ -71,10 +71,10 @@
     display: flex;
     justify-content: center;
     position: absolute;
-    bottom: 10svh;
+    bottom: 1.5em;
 }
 .flecha:hover{
-    bottom: 11svh;
+    transform: translateY(-0.5em);
 }
 
 .containOpciones{

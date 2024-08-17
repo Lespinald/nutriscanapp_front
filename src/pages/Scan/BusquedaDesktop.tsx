@@ -297,7 +297,7 @@ const BusquedaDesktop = () => {
           <img src={element.foto} alt="Foto producto" style={{height:'15svh'}}/>
           <h2 style={{textAlign:'start',alignSelf:'flex-start'}}>
             {element.nombre} <br></br>
-            <span style={{fontWeight:'400'}}>{element.descripcion}</span>
+            <span style={{fontWeight:'400'}}>{element.descripcion !== "" ? element.descripcion : 'De Open Food Facts' }</span>
           </h2>
         </div>
       ))}

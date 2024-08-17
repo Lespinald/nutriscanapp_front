@@ -7,6 +7,7 @@ import { useStorge } from "../hooks/useStorage";
 import { MiniTienda, Producto, Tienda } from "./models/tienda";
 import { OffData } from "../pages/Tienda/utilTienda";
 import ComponenteAlert, { AlertType } from "./ComponenteAlert";
+import { ProccessTags } from "./UtilsTienda";
 
 export function GetViewportWidth(): number{
   return document.documentElement.clientWidth;
@@ -277,7 +278,7 @@ export async function ConsultarOpenFoodFact(ID_producto:string,referencia: strin
       nombre: data.product.product_name ?? data.product.product_name_es,
       descripcion: "",
       foto: data.product.image_url,
-      categorias: (data.product.categories as string).split(",").map(s => s.trim()),
+      categorias: await ProccessTags(data.product.categories_tags as string[]),
       nutriscore: data.product.nutriscore_grade
     };
     console.log("🚀 ~ ConsultarOpenFoodFact ~ newProduct:", newProduct)

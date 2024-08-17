@@ -61,4 +61,19 @@ export interface NutriScanDatos {
   categorias: string[];
 }
 
+export function formatearTexto(campo) {
+  // Remueve la palabra "unidad" si existe y añade un espacio
+  if(campo === 'cantidad'){
+    return 'Cantidad total'
+  }
+
+  campo = campo.replace(/^unidad/, 'Unidad ');
+
+  // Inserta un espacio antes de cada letra mayúscula (excepto al inicio)
+  campo = campo.replace(/([a-z])([A-Z])/g, '$1 $2');
+
+  // Convierte el primer carácter a mayúscula
+  return campo.charAt(0).toUpperCase() + campo.slice(1).toLowerCase();
+}
+
 export type DatosForm = NutriScanDatos & OffData;

@@ -201,7 +201,10 @@ const Scan = () => {
         {codigo?
         <>
         {notFound?
+        <>
           <p className={style.textoVerde}>No tenemos datos de este producto aun</p>
+          <button onClick={() => {navigate(`/Contactanos?mensaje=${encodeURIComponent('Esto es una prubea')}`)}}>Ayudanos reportandolo</button>
+        </>
         :
           <InfoProductos openProducto={viewProdcut} setOpenProducto={setViewProduct} modal={modal} currentProducto={currentProducto?.producto} informationProduct={currentProducto?.information} />
         }

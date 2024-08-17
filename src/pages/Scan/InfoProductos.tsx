@@ -9,7 +9,7 @@ import { nutriscoreImgs } from '../../assets/categorias';
 import SelectorArray from '../../assets/Components/SelectorArray';
 import { useSelector } from 'react-redux';
 import { useAppSelector } from '../../redux/store';
-import { OffData } from '../Tienda/utilTienda';
+import { formatearTexto, OffData } from '../Tienda/utilTienda';
 import { useNavigate } from 'react-router-dom';
 
 interface Props{
@@ -174,10 +174,13 @@ const InfoProductos = ({openProducto,setOpenProducto,modal,currentProducto,infor
                 <div style={{flex:'1'}}>
                     <h2 style={{textAlign:'start',alignSelf:'flex-start',width:'100%'}}>
                     {currentProducto?.nombre} <br></br>
+                    <strong style={{fontWeight:'700'}}>{currentProducto?.referencia}</strong>
+                    <br></br>
                     <span style={{fontWeight:'400'}}>{currentProducto?.descripcion}</span>
                     </h2>
                     <button onClick={() => {currentProducto && GuardarHistorial(infoUser?.uid,{energy: informationProduct?.energia},currentProducto?.ID_producto,true)}}
                     className={`${style.scanButton} ${style.codigoButton} basicButton`}>Sumar calorias</button>
+                    <p className={style.letraChica}> *La informacion esta en base a <strong>100g(ml)</strong> del producto</p>
                 </div>
                 <div className={style.answerOption} style={{boxShadow:'none',padding:'5% 0',justifyContent:'flex-start',alignItems:'flex-start'}}>
                     <div style={{width:'30%'}}>
@@ -197,21 +200,19 @@ const InfoProductos = ({openProducto,setOpenProducto,modal,currentProducto,infor
                         </div>
                     </div>
                     <div style={{flex:'1'}}>
-                        <p className={style.infoExtra}>Nutriscore: <span style={{fontWeight:'600'}}>{currentProducto?.nutriscore ?? 'unknown'}</span></p>
-                        <p className={style.infoExtra}>Referencia: <span style={{fontWeight:'600'}}>{currentProducto?.referencia}</span></p>
                         {informationProduct && Object.keys(informationProduct).map((atributo,index,array) => (
-                            !exepcion.includes(atributo) && !atributo.startsWith('unidad') &&
-                            <p className={style.infoExtra}> {atributo} <span style={{fontWeight:'600'}}>{informationProduct[atributo]} {' '} 
+                            !exepcion.includes(atributo) && !atributo.startsWith('unidad') && !isNaN(informationProduct[atributo]) &&
+                            <p className={style.infoExtra}> {formatearTexto(atributo)} : <span style={{fontWeight:'600'}}>{Number(informationProduct[atributo]).toFixed(2)} {' '} 
                             {array[index + 1] && informationProduct[array[index + 1]]}</span></p>
                         ))}
-                        <div className={styleFormPerfil.campo} style={{gridTemplateColumns:'none'}}>
-                            <label htmlFor="Categoría" style={{color:'var(--color-6)',marginRight:'10px',textAlign:'start',fontSize:'3svh',fontWeight:'400'}}> Categoría: </label>
-                            <SelectorArray placeholder='No hay categorias' color="var(--color-6)"
-                            opciones={currentProducto?.categorias ?? []} current={currentProducto?.categorias ?? []} 
-                            setCurrent={function (fieldName: string, response?: string | string[] | undefined): (e: { target: { value: any; }; }) => void {
-                            throw new Error("Function not implemented.");
-                            } } />
-                        </div>
+                    </div>
+                    <div className={styleFormPerfil.campo} style={{gridTemplateColumns:'none'}}>
+                        <label htmlFor="Categoría" style={{color:'var(--color-6)',marginRight:'10px',textAlign:'start',fontSize:'3svh',fontWeight:'400'}}> Categorías: </label>
+                        <SelectorArray placeholder='No hay categorias' color="var(--color-6)"
+                        opciones={currentProducto?.categorias ?? []} current={currentProducto?.categorias ?? []} 
+                        setCurrent={function (fieldName: string, response?: string | string[] | undefined): (e: { target: { value: any; }; }) => void {
+                        throw new Error("Function not implemented.");
+                        } } />
                     </div>
                 </div>
             </div>

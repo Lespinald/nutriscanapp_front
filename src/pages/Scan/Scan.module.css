@@ -201,6 +201,11 @@
   text-align: start;
 }
 
+.letraChica{
+  font-size: 0.5em;
+  font-weight: 400;
+}
+
 @media (min-aspect-ratio: 9/8) {
   .scanMain{
     align-items: flex-start;

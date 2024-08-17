@@ -107,7 +107,7 @@ const InicioLoggin = () => {
             </div>
             <p className={style.textoProducto}>
               <span>{product.nombre}</span><br></br>
-              {product.descripcion !== "" ? product.descripcion : 'From Open Food Facts' }
+              {product.descripcion !== "" ? product.descripcion : 'De Open Food Facts' }
             </p>
           </div>
         </div>

@@ -1,17 +1,19 @@
 import React, { ChangeEvent, useState } from 'react'
 import style from '../Personal/FormPerfil.module.css'
 import ComponenteAlert, { AlertType } from '../../assets/ComponenteAlert';
+import { useSearchParams } from 'react-router-dom';
 
 interface Correo{
-    to:string;
-    from:string;
-    asunto:string;
-    mensaje:string;
+  to:string;
+  from:string;
+  asunto:string;
+  mensaje:string;
 }
 
 const Contactanos = () => {
-  const [correo, setCorreo] = useState('');
-  const [mensaje, setMensaje] = useState('');
+  const [searchParams] = useSearchParams()
+  const [correo, setCorreo] = useState(searchParams.get('correo'));
+  const [mensaje, setMensaje] = useState(searchParams.get('mensaje'));
   
   const EnviarMensaje = (e) => {
     e.preventDefault();
