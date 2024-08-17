@@ -82,7 +82,6 @@ export async function Traducir(input:string):Promise<string> {
       q: input,
       source: "en",
       target: "es",
-      key: "AIzaSyD5EhmmEF-S1_5v8HHr22LDfhVO-cq0nMw"
     }),
     headers: { "Content-Type": "application/json" }
   }).then((resp) => {return resp.json()})
