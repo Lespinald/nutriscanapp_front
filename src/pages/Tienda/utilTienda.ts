@@ -1,5 +1,6 @@
 export interface OffData {
   imagenFrontalUrl?: string;
+  nivelesAltos?: any;
   imagenFrontal?: File;
   cantidad: number;
   unidadCantidad: string;
@@ -23,9 +24,17 @@ export interface OffData {
   unidadSodio: string;
 }
 
+const translations = {
+  "fat": "Grasas",
+  "salt": "Sal",
+  "saturated-fat": "Grasas saturadas",
+  "sugars": "Azúcares"
+};
+
 export function OffData(data: any){
   try{
-    const {nutriments, product_quantity, product_quantity_unit, image_url} = data.product;
+    const {nutriments, product_quantity, product_quantity_unit, image_url, nutrient_levels} = data.product;
+    console.log("🚀 ~ OffData ~ nutrient_levels:", nutrient_levels)
 
     const offData: OffData = {
       carbohidratos: nutriments.carbohydrates_value,
@@ -46,7 +55,10 @@ export function OffData(data: any){
       unidadEnergia: nutriments.energy_unit,
       cantidad: product_quantity,
       unidadCantidad: product_quantity_unit,
-      imagenFrontalUrl: image_url
+      imagenFrontalUrl: image_url,
+      nivelesAltos: Object.keys(nutrient_levels)
+      .filter(key => nutrient_levels[key] === "high")
+      .map(key => translations[key]),
     }
 
     return offData;

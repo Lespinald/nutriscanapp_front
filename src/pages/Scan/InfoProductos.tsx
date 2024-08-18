@@ -16,7 +16,7 @@ interface Props{
     openProducto:boolean;
     setOpenProducto: (e:boolean) => void;
     modal: React.RefObject<HTMLDivElement>;
-    currentProducto:Producto | undefined;
+    currentProducto:any;
     informationProduct: OffData | undefined;
 }
 
@@ -27,8 +27,8 @@ const InfoProductos = ({openProducto,setOpenProducto,modal,currentProducto,infor
 
   const [infoOpen, setInfoOpen] = useState(false);
 
+  console.log("🚀 ~ HandleRegistroRedireccion ~ currentProducto:", currentProducto)
   const HandleRegistroRedireccion = async (miniTienda:MiniTienda) => {
-    console.log("🚀 ~ HandleRegistroRedireccion ~ currentProducto:", currentProducto)
     if(currentProducto){
         let id_product = currentProducto?.ID_producto
         if(currentProducto?.ID_tienda !== miniTienda.ID_tienda){
@@ -206,7 +206,15 @@ const InfoProductos = ({openProducto,setOpenProducto,modal,currentProducto,infor
                             {array[index + 1] && informationProduct[array[index + 1]]}</span></p>
                         ))}
                     </div>
-                    <div className={styleFormPerfil.campo} style={{gridTemplateColumns:'none'}}>
+                    {informationProduct?.nivelesAltos.length > 0 && <div className={styleFormPerfil.campo} style={{gridTemplateColumns:'none',width:'100%'}}>
+                        <label htmlFor="Categoría" style={{color:'red',marginRight:'10px',textAlign:'start',fontSize:'3svh',fontWeight:'700'}}> Cuidado Niveles altos 📛: </label>
+                        <div className='contain_busquedas'>
+                            {informationProduct?.nivelesAltos.map((n) => (
+                                <p key={n} className='opcionesSelector estiloButton'>{n}</p>
+                            ))}
+                        </div>
+                    </div>}
+                    <div className={styleFormPerfil.campo} style={{gridTemplateColumns:'none',width:'100%'}}>
                         <label htmlFor="Categoría" style={{color:'var(--color-6)',marginRight:'10px',textAlign:'start',fontSize:'3svh',fontWeight:'400'}}> Categorías: </label>
                         <SelectorArray placeholder='No hay categorias' color="var(--color-6)"
                         opciones={currentProducto?.categorias ?? []} current={currentProducto?.categorias ?? []} 

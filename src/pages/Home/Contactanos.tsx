@@ -12,8 +12,8 @@ interface Correo{
 
 const Contactanos = () => {
   const [searchParams] = useSearchParams()
-  const [correo, setCorreo] = useState(searchParams.get('correo'));
-  const [mensaje, setMensaje] = useState(searchParams.get('mensaje'));
+  const [correo, setCorreo] = useState(searchParams.get('correo')??'');
+  const [mensaje, setMensaje] = useState(searchParams.get('mensaje')??'');
   
   const EnviarMensaje = (e) => {
     e.preventDefault();
@@ -57,20 +57,21 @@ const Contactanos = () => {
 
   return (
     <div style={{background: 'white',width:'100%',overflowY:'auto',padding:'1em 3em',margin:'auto',color:'var(--color-6)'}}>
-      <h1 style={{ color: 'white', textAlign: 'center', marginBottom: '40px' }}></h1>
-        <h1 style={{color:'inherit',textAlign:'center'}}>Contactanos: </h1>
-        {/* LA FUNCION ENVIAR CORREO PRUEBA FUNCIONA YA SOLO ES PASARLE LOS PARAMETROS NECESARIOS  */}
-        <form style={{gap:'2%',display:'grid'}}>
-            <div className={style.campo}>
-                <label htmlFor="correo" style={{color:"var(--color-6)"}}>Correo:</label>
-                <input type="text" name="name" className="form-control" placeholder="Nombre completo" value={correo} onChange={(e) => setCorreo(e.target.value)} required/>
-            </div>
-            <div className={style.campo}>
-                <label htmlFor="correo" style={{color:"var(--color-6)"}}>Mensaje:</label>
-                <textarea placeholder="Mensaje" className="form-control" name="message" rows={10} value={mensaje} onChange={(e) => setMensaje(e.target.value)} required></textarea>
-            </div>
-            <button type="submit" className={style.button} onClick={EnviarMensaje}>Enviar Correo</button>
-        </form>
+      <h1 style={{ color: 'white', textAlign: 'center', marginBottom: '1em' }}></h1>
+      <h1 style={{color:'inherit',textAlign:'center'}}>Contactanos: </h1>
+      {/* LA FUNCION ENVIAR CORREO PRUEBA FUNCIONA YA SOLO ES PASARLE LOS PARAMETROS NECESARIOS  */}
+      <form style={{gap:'2%',display:'grid'}}>
+          <div className={style.campo}>
+              <label htmlFor="correo" style={{color:"var(--color-6)"}}>Correo:</label>
+              <input type="text" name="name" className="form-control" placeholder="Nombre completo" value={correo} onChange={(e) => setCorreo(e.target.value)} required/>
+          </div>
+          <div className={style.campo}>
+              <label htmlFor="correo" style={{color:"var(--color-6)"}}>Mensaje:</label>
+              <textarea placeholder="Mensaje" className="form-control" name="message" rows={10} value={mensaje} onChange={(e) => setMensaje(e.target.value)} required></textarea>
+          </div>
+          <button type="submit" className={style.button} onClick={EnviarMensaje}>Enviar Correo</button>
+          <h1 style={{ color: 'white', textAlign: 'center', marginBottom: '1em' }}></h1>
+      </form>
     </div>
   )
 }

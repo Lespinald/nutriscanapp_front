@@ -2,7 +2,7 @@ footer.back:hover{
     max-height: none;
 }
 footer.back{
-    max-height: 5em;
+    /* max-height: 5em; */
     width: 100%;
     padding: 4svh;
     background-color: var(--color-5 );

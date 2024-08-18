@@ -63,7 +63,7 @@ const AppLayout = () => {
           <Outlet context={{size, mobile} satisfies AppLayoutContext} />
         }
       </div>
-      <FootPage /> 
+      {/* <FootPage />  */}
     </>
   );
 }

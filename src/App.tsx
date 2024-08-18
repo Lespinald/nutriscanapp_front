@@ -74,14 +74,38 @@ function App() {
       {!loading &&
       <Routes>
         <Route element={autenticado?<AppLayout/>:<Layout/>}>
-          <Route path=':section?' element={<Home/>}/>
-          <Route path='/Contactanos' element={<Contactanos/>}/>
-          <Route path='/FAQ' element={<FAQ/>}/>
-          <Route path='/Manual' element={<ManualDeUsuario/>}/>
-          <Route path='/pago/:info' element={<Checkout/>}/>
-          <Route path='/responseFactura' element={<RecivePasarela/>}/>
-          <Route path='/ComprarTienda' element={<ComprarTienda/>}/>
-          <Route path='Tienda/:idTienda?' element={<VerUnaTienda/>}/>
+          <Route path=':section?' element={<>
+            <Home/>
+            {autenticado && <FootPage/>}
+          </>}/>
+          <Route path='/Contactanos' element={<>
+            <Contactanos/>
+            {autenticado && <FootPage/>}
+          </>}/>
+          <Route path='/FAQ' element={<>
+            <FAQ/>
+            {autenticado && <FootPage/>}
+          </>}/>
+          <Route path='/Manual' element={<>
+            <ManualDeUsuario/>
+            {autenticado && <FootPage/>}
+          </>}/>
+          <Route path='/pago/:info' element={<>
+            <Checkout/>
+            {autenticado && <FootPage/>}
+          </>}/>
+          <Route path='/responseFactura' element={<>
+            <RecivePasarela/>
+            {autenticado && <FootPage/>}
+          </>}/>
+          <Route path='/ComprarTienda' element={<>
+            <ComprarTienda/>
+            {autenticado && <FootPage/>}
+          </>}/>
+          <Route path='Tienda/:idTienda?' element={<>
+            <VerUnaTienda/>
+            {autenticado && <FootPage/>}
+          </>}/>
         </Route>
         
         <Route element={<LayoutWithFooter />}>
@@ -94,15 +118,51 @@ function App() {
         <Route path="Home" element={<Navigate to="/" replace/>} />
 
         <Route path='app' element={<AppLayout/>}>
-          <Route path='Home' element={<InicioLoggin/>}/>
-          <Route path='Pago/:info' element={<Checkout/>}/>
-          <Route path='Scan' element={<Scan/>}/>
-          <Route path='Busqueda/:idProduct?' element={<BusquedaDesktop/>}/>
-          <Route path='Perfil' element={<MenuPerfil/>}/>
-          <Route path='EditPerfil' element={<FormPerfil/>}/>
-          <Route path='Tienda' element={<MenuTienda/>}/>
-          <Route path='VerTienda/:idTienda?' element={<VerUnaTienda/>}/>
-          <Route path='ComprarTienda' element={<ComprarTienda/>}/>
+          <Route path='Home' element={
+            <>
+              <InicioLoggin/>
+              <FootPage/>
+            </>}/>
+          <Route path='Pago/:info' element={
+            <>
+              <Checkout/>
+              <FootPage/>
+            </>}/>
+          <Route path='Scan' element={
+            <>
+              <Scan/>
+              <FootPage/>
+            </>}/>
+          <Route path='Busqueda/:idProduct?' element={
+            <>
+              <BusquedaDesktop/>
+              <FootPage/>
+            </>}/>
+          <Route path='Perfil' element={
+            <>
+              <MenuPerfil/>
+              <FootPage/>
+            </>}/>
+          <Route path='EditPerfil' element={
+            <>
+              <FormPerfil/>
+              <FootPage/>
+            </>}/>
+          <Route path='Tienda' element={
+            <>
+              <MenuTienda/>
+              <FootPage/>
+            </>}/>
+          <Route path='VerTienda/:idTienda?' element={
+            <>
+              <VerUnaTienda/>
+              <FootPage/>
+            </>}/>
+          <Route path='ComprarTienda' element={
+            <>
+              <ComprarTienda/>
+              <FootPage/>
+            </>}/>
         </Route>
         
         <Route path="*" element={<NotFound/>}/>
