@@ -253,7 +253,7 @@ const MenuPerfil = () => {
               ) : bandera === 'calorias' ? (
                 <GraphCalorias historial={historial} setLoading={setLoading}/>
               ) : bandera === 'progreso' ? (
-                <HistorialGrafica historial={historial} itemsPerPage={IsMobile() ? 5 : 2}/>
+                <HistorialGrafica historial={historial} itemsPerPage={IsMobile() ? 5 : 4}/>
               ) : bandera === 'racha' ? (
                 <GraphProgreso/>
               ) : null // No se renderiza nada si bandera no es busquedas ni calorias ni progreso
