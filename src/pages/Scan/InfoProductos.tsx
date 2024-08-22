@@ -170,7 +170,7 @@ const InfoProductos = ({openProducto,setOpenProducto,modal,currentProducto,infor
                 </div>
             </div>:
             <div className={style.answerOption} style={{justifyContent:'flex-start', boxShadow:'none'}}>
-                <img src={currentProducto?.foto} style={{height:'15svh'}}></img>
+                <img src={currentProducto?.foto} style={{height:'15svh',maxWidth:'100%'}}></img>
                 <div style={{flex:'1'}}>
                     <h2 style={{textAlign:'start',alignSelf:'flex-start',width:'100%'}}>
                     {currentProducto?.nombre} <br></br>
@@ -178,12 +178,15 @@ const InfoProductos = ({openProducto,setOpenProducto,modal,currentProducto,infor
                     <br></br>
                     <span style={{fontWeight:'400'}}>{currentProducto?.descripcion}</span>
                     </h2>
-                    <button onClick={() => {currentProducto && GuardarHistorial(infoUser?.uid,{energy: informationProduct?.energia},currentProducto?.ID_producto,true)}}
-                    className={`${style.scanButton} ${style.codigoButton} basicButton`}>Sumar calorias</button>
-                    <p className={style.letraChica}> *La informacion esta en base a <strong>100g(ml)</strong> del producto</p>
+                    <div style={{display:'flex',gap:'1em',margin:'1%'}}>
+                        <input style={{width:'20%'}} className={`${style.buttonSelector} ${style.scanButton}  basicButton`} type='number' value={1}></input>
+                        <button style={{flex:'1'}} onClick={() => {currentProducto && GuardarHistorial(infoUser?.uid,{energy: informationProduct?.energia},currentProducto?.ID_producto,true)}}
+                        className={`${style.scanButton} ${style.codigoButton} basicButton`}>Sumar calorias</button>
+                    </div>
+                    <p className={style.letraChica}> *Datos por 1 unidad <strong>100g(ml)</strong> del producto</p>
                 </div>
                 <div className={style.answerOption} style={{boxShadow:'none',padding:'5% 0',justifyContent:'flex-start',alignItems:'flex-start'}}>
-                    <div style={{width:'30%'}}>
+                    <div style={{width:'30%',minWidth:'14em'}}>
                         <img src={nutriscoreImgs[currentProducto?.nutriscore ?? 'unknown']} alt={`nutriscore grado ${currentProducto?.nutriscore}`} style={{width:'100%'}}></img>
                         {currentProducto?.tiendas?.length !== 0 && <label>Lo puedes encontrar en:</label>}
                         <div style={{display:"flex",flexDirection:'column',gap:'10px',margin:'10px 0 '}}>

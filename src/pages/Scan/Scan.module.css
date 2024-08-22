@@ -94,7 +94,9 @@
 }
 
 .scanButton{
-  margin: 1svh 2svw;
+  /* margin: 1svh 2svw; */
+  margin: 0;
+  padding: 1.5em 5%;
 }
 
 .barraBuscador{
@@ -206,6 +208,14 @@
 .letraChica{
   font-size: 0.5em;
   font-weight: 400;
+}
+
+.buttonSelector{
+  border: 2px solid rgb(68, 169, 242);
+  padding: 1em;
+  margin: 0;
+  background: transparent !important;
+  color: rgb(68, 169, 242) !important;
 }
 
 @media (min-aspect-ratio: 9/8) {
