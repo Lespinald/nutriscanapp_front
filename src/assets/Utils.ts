@@ -191,16 +191,11 @@ export async function CrearProducto(newProduct: Producto): Promise<string | null
   }
 }
 
-export const GuardarHistorial = async (uid: string, nutriments: any, ID: string,comido?:boolean,redireccion?:boolean) => {
-  console.log("🚀 ~ GuardarHistorial ~ ID:", ID);
-  console.log("🚀 ~ GuardarHistorial ~ JSON.stringify:", JSON.stringify({
-    uid: uid,
-    ID_producto: ID,
-    fecha: new Date().toLocaleDateString('en-US'),
-    comido: comido ?? false,
-    redireccion: redireccion ?? false,
-    calorias: nutriments.energy,
-  }));
+export const GuardarHistorial = async (uid: string, nutriments: any, ID: string,cantidad:number,comido?:boolean,redireccion?:boolean) => {
+  if(comido && (cantidad<=0 || isNaN(cantidad))){
+    ComponenteAlert("Debes consumir mínimo 1 unidad del proudcuto.",2,AlertType.WARNING);
+    return null;
+  }
   try {
     const respuesta = await fetch(`https://api.nutriscan.com.co/api/historiales`, {
       method: 'POST',
@@ -211,11 +206,22 @@ export const GuardarHistorial = async (uid: string, nutriments: any, ID: string,
         uid: uid,
         ID_producto: ID,
         fecha: new Date().toLocaleDateString('en-US'),
+        cantidad: comido ? cantidad : null,
         comido: comido ?? false,
         redireccion: redireccion ?? false,
-        calorias: nutriments.energy,
+        calorias: nutriments.energy * (comido ?cantidad:1),
       })
     });
+
+    console.log(JSON.stringify({
+      uid: uid,
+      ID_producto: ID,
+      fecha: new Date().toLocaleDateString('en-US'),
+      cantidad: comido ? cantidad : null,
+      comido: comido ?? false,
+      redireccion: redireccion ?? false,
+      calorias: nutriments.energy * (comido ?cantidad:1),
+    }))
 
     if (!respuesta.ok) {
       throw new Error('Error en la solicitud');
@@ -288,7 +294,7 @@ export async function ConsultarOpenFoodFact(ID_producto:string,referencia: strin
     if(uid){
       GuardarRegistro(newProduct).then((ID) => {
         console.log("🚀 ~ GuardarRegistro Then ~ ID:", ID)
-        GuardarHistorial(uid,data.product.nutriments,ID)
+        GuardarHistorial(uid,data.product.nutriments,ID,0)
         newProduct.ID_producto = ID;
         return { product: newProduct, offData: productoInformation };
       })

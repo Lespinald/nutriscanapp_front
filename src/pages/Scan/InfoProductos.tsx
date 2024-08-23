@@ -21,6 +21,8 @@ interface Props{
 }
 
 const InfoProductos = ({openProducto,setOpenProducto,modal,currentProducto,informationProduct}:Props) => {
+  const [cantidadUnidades, setCantidadUnidades] = useState(1)
+
   const infoUser = useAppSelector((state) => state.auth.infoUsuario)
   const navigate = useNavigate()
   const exepcion = ['imagenFrontalUrl']
@@ -57,7 +59,7 @@ const InfoProductos = ({openProducto,setOpenProducto,modal,currentProducto,infor
             console.log("🚀 ~ HandleRegistroRedireccion ~ id_product:", id_product)
         }
         navigate(`/app/VerTienda/${miniTienda.ID_tienda}`)
-        GuardarHistorial(infoUser?.uid,{energy: informationProduct?.energia},id_product,false,true)
+        GuardarHistorial(infoUser?.uid,{energy: informationProduct?.energia},id_product,0,false,true)
     }
   }
   
@@ -179,8 +181,8 @@ const InfoProductos = ({openProducto,setOpenProducto,modal,currentProducto,infor
                     <span style={{fontWeight:'400'}}>{currentProducto?.descripcion}</span>
                     </h2>
                     <div style={{display:'flex',gap:'1em',margin:'1%'}}>
-                        <input style={{width:'20%'}} className={`${style.buttonSelector} ${style.scanButton}  basicButton`} type='number' value={1}></input>
-                        <button style={{flex:'1'}} onClick={() => {currentProducto && GuardarHistorial(infoUser?.uid,{energy: informationProduct?.energia},currentProducto?.ID_producto,true)}}
+                        <input style={{width:'20%'}} className={`${style.buttonSelector} ${style.scanButton}  basicButton`} type='number' value={cantidadUnidades} onChange={(e)=>setCantidadUnidades(Number(e.target.value))}></input>
+                        <button style={{flex:'1'}} onClick={() => {currentProducto && GuardarHistorial(infoUser?.uid,{energy: informationProduct?.energia},currentProducto?.ID_producto,cantidadUnidades,true)}}
                         className={`${style.scanButton} ${style.codigoButton} basicButton`}>Sumar calorias</button>
                     </div>
                     <p className={style.letraChica}> *Datos por 1 unidad <strong>100g(ml)</strong> del producto</p>
