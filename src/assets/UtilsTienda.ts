@@ -1,4 +1,4 @@
-import axios from "axios";
+// import axios from "axios";
 import { Producto, Tienda } from "./models/tienda";
 
 export async function TraerInfoTienda(idTienda: string): Promise<Tienda | null> {
@@ -76,18 +76,18 @@ export async function ProccessTags(categorias:string[]):Promise<string[]> {
 } 
 
 export async function Traducir(input:string):Promise<string> {
-  return await fetch("https://translation.googleapis.com/language/translate/v2", {
-    method: "POST",
-    body: JSON.stringify({
-      q: input,
-      source: "en",
-      target: "es",
-    }),
-    headers: { "Content-Type": "application/json" }
-  }).then((resp) => {return resp.json()})
-  .then((json) => {return json.data.translations.translatedText})
-  .catch((error) => {
-    console.error('Error al traducir:', error);
+  // return await fetch("https://translation.googleapis.com/language/translate/v2", {
+  //   method: "POST",
+  //   body: JSON.stringify({
+  //     q: input,
+  //     source: "en",
+  //     target: "es",
+  //   }),
+  //   headers: { "Content-Type": "application/json" }
+  // }).then((resp) => {return resp.json()})
+  // .then((json) => {return json.data.translations.translatedText})
+  // .catch((error) => {
+  //   console.error('Error al traducir:', error);
     return input;
-  });
+  // });
 }

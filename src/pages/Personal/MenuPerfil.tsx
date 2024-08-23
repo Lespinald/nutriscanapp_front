@@ -51,6 +51,7 @@ const MenuPerfil = () => {
         ID_dia: item?.ID_dia,
         ID_producto: item.producto?.referencia,
         calorias: item?.calorias,
+        cantidad: item?.cantidad,
         comido: item?.comido,
         createdAt: item?.createdAt,
         fecha: item?.fecha,
@@ -58,7 +59,6 @@ const MenuPerfil = () => {
         updatedAt: item?.updatedAt
       }));
   
-      console.log("🚀 ~ consthistorials:Historial[]=res.slice ~ historials:", historials);
       return historials;
     } catch (error) {
       console.error(error);
@@ -69,7 +69,7 @@ const MenuPerfil = () => {
   const fetchHistorial = async () => {
     setLoading(true)
       const historials:Historial[] = await GetHistorial();
-      console.log("🚀 ~ fetchHistorial ~ historials:", historials)
+      //////console.log("🚀 ~ fetchHistorial ~ historials:", historials)
       setHistorial(historials)
     setLoading(false)
   };
@@ -97,7 +97,7 @@ const MenuPerfil = () => {
         updatedAt: item?.updatedAt
       }));
   
-      console.log("🚀 ~ consthistorials:Historial[]=res.slice ~ historials:", historials);
+      //////console.log("🚀 ~ consthistorials:Historial[]=res.slice ~ historials:", historials);
       return historials;
     } catch (error) {
       console.error(error);
@@ -109,7 +109,7 @@ const MenuPerfil = () => {
     if(infoTienda?.ID_tienda){
       setLoading(true)
       const historials:Historial[] = await GetHistorialTienda();
-      console.log("🚀 ~ fetchHistorial ~ historials:", historials)
+      //////console.log("🚀 ~ fetchHistorial ~ historials:", historials)
       setHistorialTienda(historials)
       setLoading(false)
     }else{

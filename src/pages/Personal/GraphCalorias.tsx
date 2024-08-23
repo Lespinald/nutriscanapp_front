@@ -75,19 +75,23 @@ export function GraphCalorias({historial,setLoading}:Props) {
     let totalCarbohidratos = 0;
     let totalSodio = 0;
     let totalGrasas = 0;
+    let totalGrasasSaturadas = 0;
     let totalProteina = 0;
     let totalFibra = 0;
     
-    dataArray.forEach(data => {
-      totalAzucar += Number(data.azucar) || 0;
-      totalCarbohidratos += Number(data.carbohidratos) || 0;
-      totalSodio += Number(data.sodio) || 0;
-      totalGrasas += Number(data.grasas) || 0;
-      totalProteina += Number(data.proteina) || 0;
-      totalFibra += Number(data.fibra) || 0;
+    console.log("🚀 ~ dataArray.forEach ~ dataArray:", dataArray)
+    console.log("🚀 ~ dataArray.forEach ~ historialRegistro:", historialRegistro)
+    dataArray.forEach((data,index) => {
+      totalAzucar += Number(data.azucar) * historialRegistro[historialRegistro.length-1-index].cantidad || 0;
+      totalCarbohidratos += Number(data.carbohidratos) * historialRegistro[historialRegistro.length-1-index].cantidad || 0;
+      totalSodio += Number(data.sodio) * historialRegistro[historialRegistro.length-1-index].cantidad || 0;
+      totalGrasas += Number(data.grasas) * historialRegistro[historialRegistro.length-1-index].cantidad || 0;
+      totalGrasasSaturadas += Number(data.grasaSaturada) * historialRegistro[historialRegistro.length-1-index].cantidad || 0;
+      totalProteina += Number(data.proteina) * historialRegistro[historialRegistro.length-1-index].cantidad || 0;
+      totalFibra += Number(data.fibra) * historialRegistro[historialRegistro.length-1-index].cantidad || 0;
     });
     
-    setDatos([totalAzucar, totalCarbohidratos, totalSodio, totalGrasas, totalProteina, totalFibra])
+    setDatos([totalAzucar, totalCarbohidratos, totalSodio, totalGrasas, totalProteina, totalFibra, totalGrasasSaturadas])
   }
   
   useEffect(() => {
@@ -110,7 +114,7 @@ export function GraphCalorias({historial,setLoading}:Props) {
         },}
       } data={
         {
-          labels: ['Azucares', 'Harina', 'Sodio', 'Grasa', 'Vitaminas', 'Minerales'],
+          labels: ['Azucares', 'Carbohidratos', 'Sodio', 'Grasas', 'Proteinas', 'Fibra','Grasas Saturadas'],
           datasets: [
             {
               label: 'g',
@@ -122,6 +126,7 @@ export function GraphCalorias({historial,setLoading}:Props) {
                 'rgba(75, 192, 192, 1)',
                 'rgba(153, 102, 255, 1)',
                 'rgba(255, 159, 64, 1)',
+                'rgba(13, 159, 64, 1)',
               ],
               borderColor: [
                 'rgba(255, 99, 132, 1)',
@@ -130,13 +135,14 @@ export function GraphCalorias({historial,setLoading}:Props) {
                 'rgba(75, 192, 192, 1)',
                 'rgba(153, 102, 255, 1)',
                 'rgba(255, 159, 64, 1)',
+                'rgba(13, 159, 64, 1)',
               ],
               borderWidth: 1,
             },
           ],
         }
       } />}
-      {historial.length === 0 && <label style={{color:'white'}}>UPS! aún no tienes registros</label>}
+      {historial.length === 0 && <label style={{color:'white'}}>Come algo! aún no hay productos aquí.</label>}
     </>
   )
 }
