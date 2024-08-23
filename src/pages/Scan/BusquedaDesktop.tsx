@@ -291,6 +291,7 @@ const BusquedaDesktop = () => {
           <p>Para escanear ingresa desde un dispositivo móvil</p>
         </div>
         <ul>
+          Historial de búsquedas
           {lastBusqueda
             .slice(-5) // Obtiene los últimos 5 elementos del array
             .reverse() // Invierte el orden de los elementos

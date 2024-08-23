@@ -31,6 +31,7 @@
     padding: 1%;
     align-self: flex-end;
     gap: 2svh;
+    cursor: pointer;
 }
 
 .textoInicial{
