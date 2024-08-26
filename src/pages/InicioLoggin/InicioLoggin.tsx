@@ -22,6 +22,8 @@ const InicioLoggin = () => {
   const [limites, setLimites] = useState(false)
   const [openProducto, setOpenProducto] = useState(false)
 
+  const [flechaHover, setFlechaHover] = useState(false);
+
   const infoUser = useSelector((state:any) => state.auth.infoUsuario)
   const modal = useRef(null)
 
@@ -112,8 +114,9 @@ const InicioLoggin = () => {
           </div>
         </div>
       ))}
-      {!limites && <div className={style.flecha} onClick={AumentarIndice}>
-        <img src='/InicioLoggin/flecha.svg'/>
+      {!limites && <div className={style.flecha} onClick={AumentarIndice}
+      onMouseEnter={() => setFlechaHover(true)} onMouseLeave={() => setFlechaHover(false)}>
+        <img src='/InicioLoggin/flecha.svg' style={flechaHover? {transform: "translateY(0.5em)"}:{}}/>
       </div>}
       </>
     )

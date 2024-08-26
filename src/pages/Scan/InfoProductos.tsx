@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { CSSProperties, useEffect, useState } from 'react'
 import Modal from '../../assets/Components/Modal';
 import style from "./Scan.module.css"
 import styleFormPerfil from "../Personal/FormPerfil.module.css"
@@ -9,6 +9,7 @@ import { SimpleSelectorArray } from '../../assets/Components/SelectorArray';
 import { useAppSelector } from '../../redux/store';
 import { formatearTexto, OffData } from '../Tienda/utilTienda';
 import { useNavigate } from 'react-router-dom';
+import { useViewportRezise } from '../../assets/hooks';
 
 const MoreInfo = () => {
     return (
@@ -125,185 +126,226 @@ interface Props{
 }
 
 const InfoProductos = ({openProducto,setOpenProducto,modal,currentProducto,informationProduct}:Props) => {
-  const [cantidadUnidades, setCantidadUnidades] = useState(1)
 
-  const infoUser = useAppSelector((state) => state.auth.infoUsuario)
-  const navigate = useNavigate()
-  const exepcion = ['imagenFrontalUrl']
+    const size = useViewportRezise();
+    const mobileMaxRatio = (1180/860);
 
-  const [infoOpen, setInfoOpen] = useState(false);
+    const [cantidadUnidades, setCantidadUnidades] = useState(1)
+    const [infoOpen, setInfoOpen] = useState(false);
+    const [mobile, setMobile] = useState((size.width/size.height) < mobileMaxRatio)
 
-  console.log("🚀 ~ HandleRegistroRedireccion ~ currentProducto:", currentProducto)
-  const HandleRegistroRedireccion = async (miniTienda:MiniTienda) => {
-    if(currentProducto){
-        let id_product = currentProducto?.ID_producto
-        if(currentProducto?.ID_tienda !== miniTienda.ID_tienda){
-            console.log("🚀 ~ HandleRegistroRedireccion ~ miniTienda:", miniTienda)
-            console.log("🚀 ~ HandleRegistroRedireccion ~ currentProducto true:", currentProducto)
-            // Realiza la petición para obtener el ID_producto
-            try {
-                const res = await fetch(`https://api.nutriscan.com.co/api/productosReferenciaTienda/${currentProducto.referencia}/${miniTienda.ID_tienda}`);
+    useEffect(() => {setMobile((size.width/size.height) < mobileMaxRatio)}, [size]);
 
-                if (!res.ok) {
-                    if (res.status === 404) {
-                      console.log("🚀 ~ ConsultarOpenFoodFact ~ 404 not found");
-                    }
-                    console.log("🚀 ~ ConsultarOpenFoodFact ~ Error:", res.statusText);
-                  }
-              
-                  const data = await res.json();
-                  let array:string[] = []
-                  data.map((element) => {
-                    array.push(element)
-                  })
-                  id_product =  array[0]
-            } catch (error) {
-                console.error("Error obteniendo ID_producto:", error);
-            }
-            console.log("🚀 ~ HandleRegistroRedireccion ~ id_product:", id_product)
-        }
-        navigate(`/app/VerTienda/${miniTienda.ID_tienda}`)
-        GuardarHistorial(infoUser?.uid,{energy: informationProduct?.energia},id_product,0,false,true)
+    const infoUser = useAppSelector((state) => state.auth.infoUsuario)
+    const navigate = useNavigate()
+    const exepcion = ['imagenFrontalUrl']
+
+    const mainDivStyle = (): CSSProperties => {
+        return (mobile)? {gridTemplateColumns: "100%"}:{gridAutoColumns: "50svh", gridAutoFlow: "column",}
     }
-  }
-  
-  return (
-    <Modal isOpen={openProducto} setIsOpen={setOpenProducto} ref={modal} contentStyle={infoOpen?{overflow: "hidden"}:{}}>
-        <div style={{
-            position: 'absolute',
-            right: infoOpen?"2%":"5%",
-            cursor: "pointer",
-            padding: "1.4svh 1svh"
-        }} title='Mas información' onClick={() => setInfoOpen(prev => !prev)}>{infoOpen?"❌":"❔"}</div>
 
-        {
-            infoOpen?
-            <MoreInfo/>:
-            <div>
-                <div style={{
-                    display: 'flex',
-                    alignItems: "center",
+    console.log("🚀 ~ HandleRegistroRedireccion ~ currentProducto:", currentProducto)
+    const HandleRegistroRedireccion = async (miniTienda:MiniTienda) => {
+        if(currentProducto){
+            let id_product = currentProducto?.ID_producto
+            if(currentProducto?.ID_tienda !== miniTienda.ID_tienda){
+                console.log("🚀 ~ HandleRegistroRedireccion ~ miniTienda:", miniTienda)
+                console.log("🚀 ~ HandleRegistroRedireccion ~ currentProducto true:", currentProducto)
+                // Realiza la petición para obtener el ID_producto
+                try {
+                    const res = await fetch(`https://api.nutriscan.com.co/api/productosReferenciaTienda/${currentProducto.referencia}/${miniTienda.ID_tienda}`);
 
-                    color: "white",
-                    padding: "1svh 1rem",
-                    backgroundColor: "#326973",
-                    borderRadius: "0.5svh"
-                }}>
-                    <div style={{marginRight: "1svw", cursor: "pointer"}} onClick={() => setOpenProducto(false)}>
-                        <div style={{fontSize: "2.2rem", lineHeight: "1rem", textAlign: 'center'}}>&lt;</div>
-                        <div style={{fontSize: "0.7rem", fontWeight: "300", marginTop: "4px"}}>cerrar</div>
-                    </div>
-                    <h2>
-                    {currentProducto?.nombre}
-                    </h2>
-                </div>
-                <br/>
-                <div style={{
-                    display: "grid",
-                    gridAutoFlow: "column",
-                    gridAutoColumns: "50svh",
-                    gap: "2svw",
-                    color: "var(--color-6)"
-                }}>
-                    <div>
-                        <img src={currentProducto?.foto} alt='foto producto' style={{
-                            padding: "4px",
-                            border: "solid 2px var(--color-5)",
-                            borderRadius: "1svh",
+                    if (!res.ok) {
+                        if (res.status === 404) {
+                        console.log("🚀 ~ ConsultarOpenFoodFact ~ 404 not found");
+                        }
+                        console.log("🚀 ~ ConsultarOpenFoodFact ~ Error:", res.statusText);
+                    }
+                
+                    const data = await res.json();
+                    let array:string[] = []
+                    data.map((element) => {
+                        array.push(element)
+                    })
+                    id_product =  array[0]
+                } catch (error) {
+                    console.error("Error obteniendo ID_producto:", error);
+                }
+                console.log("🚀 ~ HandleRegistroRedireccion ~ id_product:", id_product)
+            }
+            navigate(`/app/VerTienda/${miniTienda.ID_tienda}`)
+            GuardarHistorial(infoUser?.uid,{energy: informationProduct?.energia},id_product,0,false,true)
+        }
+    }
+    
+    return (
+        <Modal isOpen={openProducto} setIsOpen={setOpenProducto} ref={modal} contentStyle={infoOpen?{overflow: "hidden"}:{}}>
+            <div style={{
+                position: 'absolute',
+                right: infoOpen?"2%":"5%",
+                cursor: "pointer",
+                padding: "1.4svh 1svh"
+            }} title='Mas información' onClick={() => setInfoOpen(prev => !prev)}>{infoOpen?"❌":"❔"}</div>
 
-                            height: "50svh",
-                            width: "50svh",
-                            objectFit: "contain"
-                        }}/>
+            {
+                infoOpen?
+                <MoreInfo/>:
+                <div>
+                    <div style={{
+                        display: 'flex',
+                        alignItems: "center",
 
-                        <p style={{
                         color: "white",
                         padding: "1svh 1rem",
                         backgroundColor: "#326973",
                         borderRadius: "0.5svh"
-                        }}>
-                            {currentProducto?.referencia}
-                        </p>
-                        <br/>
-
-                        <div style={{display: "flex", gap: "2%"}}>
-                            <div style={{width: "20%", display: 'grid'}}>
-                                <label htmlFor='cantidad' style={{textAlign: "center"}}>Cantidad</label>
-                                <input type='number' name='cantidad' id='cantidad' className={style.inputCantidad}
-                                value={cantidadUnidades} onChange={e => setCantidadUnidades(e.target.valueAsNumber)}/>
-                            </div>
-                            <button className={style.calButton}
-                                onClick={() =>
-                                {currentProducto && GuardarHistorial(infoUser?.uid,{energy: informationProduct?.energia},currentProducto?.ID_producto,cantidadUnidades,true)}
-                            }>SUMAR CALORIAS</button>
+                    }}>
+                        <div style={{marginRight: "1svw", cursor: "pointer"}} onClick={() => setOpenProducto(false)}>
+                            <div style={{fontSize: "2.2rem", lineHeight: "1rem", textAlign: 'center'}}>&lt;</div>
+                            <div style={{fontSize: "0.7rem", fontWeight: "300", marginTop: "4px"}}>cerrar</div>
                         </div>
-                        <br/>
-
-                        {currentProducto?.tiendas?.length !== 0 && <label>Lo puedes encontrar en:</label>}
-                        <div style={{display:"flex",flexDirection:'column',gap:'10px',margin:'10px 0 '}}>
-                            {currentProducto?.tiendas?.map((minitienda,_index) => (
-                                <>
-                                    <div style={{height:'4svh',display:'flex',justifyContent:'flex-start',alignItems:'center'}}
-                                    className='estiloButton' onClick={() => {HandleRegistroRedireccion(minitienda)}}>
-                                        <img src={minitienda.fotos} style={{height:'100%'}}></img>
-                                        <p key={_index} style={{fontSize:'3svh'}}
-                                            >{minitienda.nombre}</p>
-                                    </div>
-                                </>
-                            ))}
-                        </div>
+                        <h2>
+                        {currentProducto?.nombre}
+                        </h2>
                     </div>
+                    <br/>
+                    <div style={{
+                        ...mainDivStyle(),
+                        display: "grid",
+                        gap: "2svw",
+                        color: "var(--color-6)"
+                    }}>
+                        <div>
+                            <img src={currentProducto?.foto} alt='foto producto' style={{
+                                padding: "4px",
+                                border: "solid 2px var(--color-5)",
+                                borderRadius: "1svh",
 
-                    <div>
-                        {currentProducto?.nutriscore === "not-applicable"?
-                        <h2>Nutriscore no aplicable</h2>:
-                        <img src={nutriscoreImgs[currentProducto?.nutriscore ?? 'unknown']} alt={`nutriscore grado ${currentProducto?.nutriscore}`} style={{width:"100%"}}/>
-                        }
+                                height: (mobile)?"25svh":"50svh",
+                                width: "100%",
+                                maxWidth: "100%",
+                                objectFit: "contain"
+                            }}/>
 
-                        <p style={{fontWeight: 'lighter', fontSize: ".9rem"}}> *Datos por <strong>100g(ml)</strong> del producto</p>
-                        <div className={style.dataSection} style={{
-                            flex:'1',
-                            display: "grid",
-                            gridTemplateColumns: "1fr 1fr"
-                        }}>
-                            {informationProduct && Object.keys(informationProduct).map((atributo,index,array) => (
-                                !exepcion.includes(atributo) && !atributo.startsWith('unidad') && !isNaN(informationProduct[atributo]) &&
-                                <>
-                                <p className={style.infoExtra}>
-                                    {formatearTexto(atributo)}:
-                                </p>
-                                <p className={style.infoExtra} style={{fontWeight:'600', textAlign: "end"}}>
-                                    {Number(informationProduct[atributo]).toFixed(2)} {' '} {array[index + 1] && informationProduct[array[index + 1]]}
-                                </p>   
-                                </>
-                            ))}
+                            <p style={{
+                            color: "white",
+                            padding: "1svh 1rem",
+                            backgroundColor: "#326973",
+                            borderRadius: "0.5svh"
+                            }}>
+                                {currentProducto?.referencia}
+                            </p>
+                            <br/>
+
+                            <div style={{display: "flex", gap: "5%"}}>
+                                <div style={{width: "20%", display: 'grid'}}>
+                                    <label htmlFor='cantidad' style={{textAlign: "center"}}>Cantidad</label>
+                                    <input type='number' name='cantidad' id='cantidad' className={style.inputCantidad}
+                                    value={cantidadUnidades} onChange={e => setCantidadUnidades(e.target.valueAsNumber)}/>
+                                </div>
+                                <button className={style.calButton}
+                                    onClick={() =>
+                                    {currentProducto && GuardarHistorial(infoUser?.uid,{energy: informationProduct?.energia},currentProducto?.ID_producto,cantidadUnidades,true)}
+                                }>SUMAR CALORIAS</button>
+                            </div>
+                            <br/>
+
+                            {!mobile && currentProducto?.tiendas?.length !== 0 &&
+                            <>
+                                <label>Lo puedes encontrar en:</label>
+                                <div style={{display:"flex",flexDirection:'column',gap:'10px',margin:'10px 0 '}}>
+                                    {currentProducto?.tiendas?.map((minitienda,_index) => (
+                                        <>
+                                            <div style={{height:'4svh',display:'flex',justifyContent:'flex-start',alignItems:'center'}}
+                                            className='estiloButton' onClick={() => {HandleRegistroRedireccion(minitienda)}}>
+                                                <img src={minitienda.fotos} style={{height:'100%'}}></img>
+                                                <p key={_index} style={{fontSize:'3svh'}}
+                                                    >{minitienda.nombre}</p>
+                                            </div>
+                                        </>
+                                    ))}
+                                </div>
+                            </>
+                            }
+                            {mobile &&
+                                (currentProducto?.nutriscore === "not-applicable"?
+                                <h2>Nutriscore no aplicable</h2>:
+                                <img src={nutriscoreImgs[currentProducto?.nutriscore ?? 'unknown']} alt={`nutriscore grado ${currentProducto?.nutriscore}`}
+                                style={{width:"100%", maxHeight: "25svh"}}/>
+                                )
+                            }
                         </div>
 
-                        {informationProduct?.nivelesAltos.length > 0 && <div className={style.dataSection} style={{gridTemplateColumns:'none',width:'100%'}}>
-                            <label style={{
-                                color:"#F04242",
-                                marginRight:'10px',
-                                textAlign:'start',
-                                fontSize:'3svh',
-                                fontWeight:'700'
-                            }}> Cuidado altos niveles de: </label>
-                            <div className='contain_busquedas'>
-                                {informationProduct?.nivelesAltos.map((n) => (
-                                    <p key={n} className='opcionesSelector' style={{borderColor: "var(--color-6)"}}>{n}</p>
+                        <div>
+                            {mobile && currentProducto?.tiendas?.length !== 0 &&
+                            <>
+                                <label>Lo puedes encontrar en:</label>
+                                <div style={{display:"flex",flexDirection:'column',gap:'10px',margin:'10px 0 '}}>
+                                    {currentProducto?.tiendas?.map((minitienda,_index) => (
+                                        <>
+                                            <div style={{height:'4svh',display:'flex',justifyContent:'flex-start',alignItems:'center'}}
+                                            className='estiloButton' onClick={() => {HandleRegistroRedireccion(minitienda)}}>
+                                                <img src={minitienda.fotos} style={{height:'100%'}}></img>
+                                                <p key={_index} style={{fontSize:'3svh'}}
+                                                    >{minitienda.nombre}</p>
+                                            </div>
+                                        </>
+                                    ))}
+                                </div>
+                                <br/>
+                            </>
+                            }
+                            {!mobile &&
+                                (currentProducto?.nutriscore === "not-applicable"?
+                                <h2>Nutriscore no aplicable</h2>:
+                                <img src={nutriscoreImgs[currentProducto?.nutriscore ?? 'unknown']} alt={`nutriscore grado ${currentProducto?.nutriscore}`} style={{width:"100%"}}/>
+                                )
+                            }
+
+                            <p style={{fontWeight: 'lighter', fontSize: ".9rem"}}> *Datos por <strong>100g(ml)</strong> del producto</p>
+                            <div className={style.dataSection} style={{
+                                flex:'1',
+                                display: "grid",
+                                gridTemplateColumns: "1fr 1fr"
+                            }}>
+                                {informationProduct && Object.keys(informationProduct).map((atributo,index,array) => (
+                                    !exepcion.includes(atributo) && !atributo.startsWith('unidad') && !isNaN(informationProduct[atributo]) &&
+                                    <>
+                                    <p className={style.infoExtra}>
+                                        {formatearTexto(atributo)}:
+                                    </p>
+                                    <p className={style.infoExtra} style={{fontWeight:'600', textAlign: "end"}}>
+                                        {Number(informationProduct[atributo]).toFixed(2)} {' '} {array[index + 1] && informationProduct[array[index + 1]]}
+                                    </p>   
+                                    </>
                                 ))}
                             </div>
-                        </div>}
-                        <div className={styleFormPerfil.campo} style={{gridTemplateColumns:'none',width:'100%'}}>
-                            <label htmlFor="Categoría" style={{color:'var(--color-6)',marginRight:'10px',textAlign:'start',fontSize:'3svh',fontWeight:'400'}}> Categorías: </label>
-                            <SimpleSelectorArray placeholder='No hay categorias' color="var(--color-6)"
-                                opciones={currentProducto?.categorias ?? []} current={currentProducto?.categorias ?? []}/>
+
+                            {informationProduct?.nivelesAltos.length > 0 && <div className={style.dataSection} style={{gridTemplateColumns:'none',width:'100%'}}>
+                                <label style={{
+                                    color:"#F04242",
+                                    marginRight:'10px',
+                                    textAlign:'start',
+                                    fontSize:'3svh',
+                                    fontWeight:'700'
+                                }}> Cuidado altos niveles de: </label>
+                                <div className='contain_busquedas'>
+                                    {informationProduct?.nivelesAltos.map((n) => (
+                                        <p key={n} className='opcionesSelector' style={{borderColor: "var(--color-6)"}}>{n}</p>
+                                    ))}
+                                </div>
+                            </div>}
+                            <div className={styleFormPerfil.campo} style={{gridTemplateColumns:'none',width:'100%'}}>
+                                <label htmlFor="Categoría" style={{color:'var(--color-6)',marginRight:'10px',textAlign:'start',fontSize:'3svh',fontWeight:'400'}}> Categorías: </label>
+                                <SimpleSelectorArray placeholder='No hay categorias' color="var(--color-6)"
+                                    opciones={currentProducto?.categorias ?? []} current={currentProducto?.categorias ?? []}/>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        }
-    </Modal>
-  )
+            }
+        </Modal>
+    )
 }
 
 export default InfoProductos

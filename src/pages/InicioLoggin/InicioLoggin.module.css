@@ -68,14 +68,21 @@
 }
 
 .flecha{
-    width: 100%;
+    width: 90%;
+    height: 8svh;
     display: flex;
     justify-content: center;
+    align-items: center;
     position: absolute;
-    bottom: 1.5em;
+    bottom: 1svh;
+    border-radius: 2svh;
+    cursor: pointer;
 }
 .flecha:hover{
-    transform: translateY(-0.5em);
+    background-color: #00000020;
+}
+.flecha img{
+    height: 50%;
 }
 
 .containOpciones{
