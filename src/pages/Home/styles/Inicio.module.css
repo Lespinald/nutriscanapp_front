@@ -1,7 +1,7 @@
 .main{
   display: flex;
   position: relative;
-  max-height: 90svh;
+  max-height: 103svh;
   padding: 4rem 5rem 6rem 5%;
 }
 .mainMobile{

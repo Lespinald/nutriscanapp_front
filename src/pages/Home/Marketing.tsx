@@ -9,12 +9,12 @@ const Marketing = forwardRef<HTMLDivElement>(({}, ref) => {
         <p className={style.quote}>
           "¡Bienvenido a nuestra aplicación de nutrición, tu nueva herramienta
           para comenzar un estilo de vida más saludable! estamos
-          aquí para ayudarte en cada paso. ¡Prepárate para sentirte mejor que nunca!"
+          aquí para ayudarte en cada paso. <strong>¡Registrate y busca todos tus productos!</strong>"
         </p>
       </div>
       <div className={style.right}>
         <p>La Nueva Era de la Nutrición</p>
-        <video src="/Home/Marketing/randomMercado.mp4" controls></video>
+        <video src="/Home/Marketing/UN_NutriScan.mp4" controls></video>
       </div>
   </div>
   );

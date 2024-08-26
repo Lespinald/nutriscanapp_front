@@ -48,10 +48,10 @@ const Home = () => {
     <>
       <Inicio ref={inicio} />
       <Marketing ref={marketing} />
-      <Equipo ref={equipo} />
-      <Objetivos ref={objetivos} />
       <Conocenos ref={conocenos}/>
+      <Objetivos ref={objetivos} />
       <Servicio ref={servicio} />
+      <Equipo ref={equipo} />
     </>
   );
 }
