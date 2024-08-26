@@ -262,12 +262,9 @@ const MenuPerfil = () => {
               <HistorialGrafica historial={historial} itemsPerPage={IsMobile() ? 5 : 4}/>
             )}
           </div>
-          <div className={style.contain_estadistics} style={{gridTemplateColumns:'repeat(4,1fr)'}}>
+          <div className={style.contain_estadistics} style={{gridTemplateColumns:'repeat(3,1fr)'}}>
             <button id="HistorialButton" onClick={() => handleaButtonClick('progreso')}>
               Historial
-            </button>
-            <button id="BusquedaButton" onClick={() => handleaButtonClick('busquedas')}>
-              Sobre tus busquedas
             </button>
             <button id="CaloriasButton" onClick={() => handleaButtonClick('calorias')}>
               Consumo Nutricional

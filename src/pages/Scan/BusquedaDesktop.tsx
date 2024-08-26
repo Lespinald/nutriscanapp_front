@@ -261,6 +261,7 @@ const BusquedaDesktop = () => {
               ID_dia,
               ID_producto: referencia,
               calorias,
+              cantidad:1,
               comido,
               redireccion,
               createdAt,

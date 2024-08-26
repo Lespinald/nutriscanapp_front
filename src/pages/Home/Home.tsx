@@ -10,6 +10,7 @@ import Servicio from "./Servicio";
 import { auth } from "../../firebase";
 import { useDispatch } from "react-redux";
 import { signInWithCustomToken } from "firebase/auth";
+import Conocenos from "./Conocenos";
 
 const Home = () => {
   const dispatch = useDispatch();
@@ -19,6 +20,7 @@ const Home = () => {
   const marketing = useRef<HTMLDivElement>(null);
   const equipo = useRef<HTMLDivElement>(null);
   const servicio = useRef<HTMLDivElement>(null);
+  const conocenos = useRef<HTMLDivElement>(null);
   const objetivos = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -29,6 +31,9 @@ const Home = () => {
       break;
       case("servicios"):
       servicio.current?.scrollIntoView(scrollOpt);
+      break;
+      case("conocenos"):
+      conocenos.current?.scrollIntoView(scrollOpt);
       break;
       case("objetivos"):
       objetivos.current?.scrollIntoView(scrollOpt);
@@ -45,6 +50,7 @@ const Home = () => {
       <Marketing ref={marketing} />
       <Equipo ref={equipo} />
       <Objetivos ref={objetivos} />
+      <Conocenos ref={conocenos}/>
       <Servicio ref={servicio} />
     </>
   );
