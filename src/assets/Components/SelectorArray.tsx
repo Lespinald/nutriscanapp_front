@@ -10,6 +10,7 @@ interface Props{
     }) => void;
     placeholder?:string;
     color?:string;
+    selectable?: boolean;
 }
 
 const SelectorArray = ({opciones,current,setCurrent,placeholder,color}:Props) => {
@@ -61,11 +62,12 @@ const SelectorArray = ({opciones,current,setCurrent,placeholder,color}:Props) =>
 interface SimpleProps{
     opciones: string[];
     current: string[];
-    setCurrent: React.Dispatch<React.SetStateAction<string[]>>
+    setCurrent?: React.Dispatch<React.SetStateAction<string[]>>
     placeholder?:string;
     color?:string;
+    selectable?: boolean;
 }
-const SimpleSelectorArray = ({opciones,current,setCurrent,placeholder,color}:SimpleProps) => {
+const SimpleSelectorArray = ({opciones,current,setCurrent,placeholder,color,selectable}:SimpleProps) => {
     const [open, setOpen] = useState(false);
     const [busqueda, setBusqueda] = useState('');
     const [filteredOptions, setFilteredOptions] = useState<string[]>(
@@ -82,7 +84,7 @@ const SimpleSelectorArray = ({opciones,current,setCurrent,placeholder,color}:Sim
           temporalCurrent = current.filter(item => item !== categoria);
       }
       console.log("🚀 ~ HandleAdd ~ temporalCurrent:", temporalCurrent)
-      setCurrent(temporalCurrent);
+      if(setCurrent) setCurrent(temporalCurrent);
     }
   
     // const filteredOptions = opciones.filter(option =>
@@ -99,7 +101,7 @@ const SimpleSelectorArray = ({opciones,current,setCurrent,placeholder,color}:Sim
   
     return (
         <>
-            <div className="selectorArray" onClick={() => setOpen(true)}>
+            <div className="selectorArray" onClick={() => {if(selectable) setOpen(true)}}>
                 {current.map((current, i) => (
                     <p key={i} style={color?{color:`${color}`}:{}}>{current}</p>
                 ))}

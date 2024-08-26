@@ -199,6 +199,35 @@
   color: white;
 }
 
+.calButton{
+  color: white;
+  font-size: 1.2rem;
+  padding: 0.9rem 0;
+
+  flex-grow: 1;
+  background-color: rgb(68, 169, 242);
+  border: solid 3px rgb(68, 169, 242);
+  border-radius: 0.5svh;
+  cursor: pointer;
+}
+.calButton:hover{
+  border: solid 3px rgb(26, 65, 94);
+  background-color: rgb(26, 65, 94);
+}
+.calButton:active{
+  border: solid 3px rgb(68, 169, 242);
+}
+
+.inputCantidad{
+  width: 100%;
+  padding-left: 15%;
+  border: solid 2px rgb(68, 169, 242);
+  border-radius: 0.5svh;
+}
+.inputCantidad:focus-visible{
+  outline-color: rgb(26, 65, 94);
+}
+
 .infoExtra{
   color: var(--color-6);
   font-weight: 400;
@@ -217,6 +246,13 @@
   margin: 0;
   background: transparent !important;
   color: rgb(68, 169, 242) !important;
+}
+
+.dataSection{
+  padding: 0.5svh 1svh;
+  margin: 0.5svh 0;
+  background-color: #F0F0F0;
+  border-radius: 1svh;
 }
 
 @media (min-aspect-ratio: 9/8) {
