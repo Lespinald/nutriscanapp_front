@@ -259,7 +259,7 @@ const MenuPerfil = () => {
               ) : null // No se renderiza nada si bandera no es busquedas ni calorias ni progreso
             ) : (
               // Mostrar la imagen del mapa conceptual si showGraph es falso
-              <HistorialGrafica historial={historial} itemsPerPage={IsMobile() ? 5 : 2}/>
+              <HistorialGrafica historial={historial} itemsPerPage={IsMobile() ? 5 : 4}/>
             )}
           </div>
           <div className={style.contain_estadistics} style={{gridTemplateColumns:'repeat(4,1fr)'}}>
