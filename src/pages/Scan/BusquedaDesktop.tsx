@@ -15,6 +15,8 @@ import { OffData } from "../Tienda/utilTienda";
 import InfoProductos from "./InfoProductos";
 import { useAppDispatch, useAppSelector } from "../../redux/store";
 import { pushBusqueda } from "../../redux/authSlice";
+import MenuCarga from "../../assets/MenuCarga/MenuCarga";
+import DialogCarga from "../../assets/MenuCarga/DialogCarga";
 
 type Param = {
   idProduct?:string;
@@ -25,6 +27,7 @@ const BusquedaDesktop = () => {
   const dispatch = useAppDispatch()
 
   const {idProduct} = useParams<Param>();
+  const [loading, setLoading] = useState<boolean>(false);
   const [openProducto, setOpenProducto] = useState<boolean>(false);
   const [capturando, setCapturando] = useState<boolean>(false);
   const [busqueda, setBusqueda] = useState<string>(idProduct ?? '');
@@ -49,6 +52,7 @@ const BusquedaDesktop = () => {
   const infoUser = useSelector((state:any) => state.auth.infoUsuario)
 
   const HandleClickProduct = async (producto:Producto) => {
+    setLoading(true)
     let {product, infoProducto: offData} = await ConsultarOpenFoodFact(producto.ID_producto,producto.referencia,infoUser.uid)
     let enlaces = await TraerEnlacesDeProducto(producto.referencia)
     if(product){
@@ -63,6 +67,7 @@ const BusquedaDesktop = () => {
       setCurrentProducto(copy)
     }
     setOpenProducto(true)
+    setLoading(false)
   }
 
   const HandleSearch = (busquedaNueva?: string) => {
@@ -256,6 +261,7 @@ const BusquedaDesktop = () => {
               ID_dia,
               ID_producto: referencia,
               calorias,
+              cantidad:1,
               comido,
               redireccion,
               createdAt,
@@ -276,14 +282,17 @@ const BusquedaDesktop = () => {
 
   return (
     <div className={style.scanMain}>
+      <DialogCarga isOpen={loading} color='--color-5'/>
       <div className={style.barraBuscador}>
-        <input placeholder="Ingresa tu busqueda" value={busqueda} onChange={(e) => setBusqueda(e.target.value)} onBlur={e => HandleSearch()} onKeyDown={(e) => {if(e.key === 'Enter'){HandleSearch()} }}></input>
+        <input placeholder="Ingresa el nombre o codigo de barras" value={busqueda} onChange={(e) => setBusqueda(e.target.value)} onBlur={e => HandleSearch()} onKeyDown={(e) => {if(e.key === 'Enter'){HandleSearch()} }}></input>
+        <p style={{width:'100%',textAlign:'start',fontSize:'0.7em'}}>*Oprime <strong style={{fontWeight:'900',textTransform:'uppercase'}}>enter</strong> para buscar</p>
         <div>
           <img className={`${style.scanTopImg} maintainRatio`} src="\Login\nutriscanLogo.png"/>
           <br></br>
-          <p>Para escanear alimentos ingresa al navegador desde un dispositivo móvil</p>
+          <p>Para escanear ingresa desde un dispositivo móvil</p>
         </div>
         <ul>
+          Historial de búsquedas
           {lastBusqueda
             .slice(-5) // Obtiene los últimos 5 elementos del array
             .reverse() // Invierte el orden de los elementos
@@ -297,13 +306,19 @@ const BusquedaDesktop = () => {
           <img src={element.foto} alt="Foto producto" style={{height:'15svh'}}/>
           <h2 style={{textAlign:'start',alignSelf:'flex-start'}}>
             {element.nombre} <br></br>
-            <span style={{fontWeight:'400'}}>{element.descripcion}</span>
+            <span style={{fontWeight:'400'}}>{element.descripcion !== "" ? element.descripcion : 'De Open Food Facts' }</span>
           </h2>
         </div>
       ))}
       {productos.length === 0 && <div className={style.answerOption}>
-        <h3 style={{textAlign:'start'}}>Resultado de busqueda</h3>
-        <p style={{color:'black',margin:'0',textAlign:'start'}}>No se han encontrado coincidencias</p>
+        {busqueda ? <>
+          <h3 style={{width:'100%',textAlign:'start'}}>Resultado de busqueda</h3>
+          <p style={{width:'100%',color:'black',margin:'0',textAlign:'start'}}>No se han encontrado coincidencias</p>
+          <button className="estiloButton" onClick={() => {navigate(`/Contactanos?mensaje=${encodeURIComponent(`Realice la busqueda y no encontre el producto ${busqueda}`)}`)}}>Ayudanos reportandolo</button>
+        </>: 
+        <>
+          <h3 style={{textAlign:'start'}}>Comienza realizando una busqueda</h3>
+        </>}
       </div>}
       {openProducto && 
         <InfoProductos openProducto={openProducto} setOpenProducto={setOpenProducto} modal={modal}

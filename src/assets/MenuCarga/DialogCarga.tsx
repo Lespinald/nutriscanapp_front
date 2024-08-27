@@ -12,7 +12,7 @@ const DialogCarga = ({isOpen, color = "--color-1"}:Props) => {
   return (
     <div className={style.fondo} style={isOpen?{backgroundColor: "#FFFFFF7F"}:{display:'none'}}>
       <div className={`${style.contain_logo} ${style[`contain_logo${color}`]}`}>
-        <img src={`/logo${color}.png`} alt='Logo' className={style.logo}></img>
+        <img src={`/logo${color}.png`} alt='Logo' style={{height:'19em'}} className={style.logo}></img>
       </div>
       <p className={style.cargando} style={{color: `var(${color})`}}>Cargando</p>
     </div>

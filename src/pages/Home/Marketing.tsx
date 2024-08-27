@@ -44,7 +44,7 @@ const Marketing = forwardRef<HTMLDivElement>(({}, ref) => {
       </div>
       <div className={style.right}>
         <p>La Nueva Era de la Nutrición</p>
-        <video src="/Home/Marketing/randomMercado.mp4" controls></video>
+        <video src="/Home/Marketing/UN_NutriScan.mp4" controls></video>
       </div>
   </div>
   );

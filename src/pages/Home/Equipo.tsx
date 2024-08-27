@@ -6,10 +6,10 @@ const Equipo = forwardRef<HTMLDivElement>(({}, ref) => {
     <div className={style.main} ref={ref}>
       <p>¿Quienes somos?</p>
       <div className={style.members}>
-        <Card url="https://github.com/VoidSpren?tab=repositories" image="/Home/Equipo/JuanRodriguez.jpg" name="Juan Rodriguez" info="Arquiteco de BD & Dev Frontend" />
-        <Card url="https://github.com/Lespinald?tab=repositories" image="/Home/Equipo/Lina.jpeg" name="Lina Espinal" info="UX/UI & Frontend Dev" />
-        <Card url="https://github.com/JuanXo375?tab=repositories" image="/Home/Equipo/JuanAndres.jpeg" name="Juan Carreño" info="DevOps BD & Backend Dev" />
-        <Card url="https://github.com/ojmartinezma?tab=repositories" image="/Home/Equipo/Oscar.png" name="Oscar Martínez" info="QA & Backend Dev" />
+        <Card url="" image="/Home/Equipo/JuanRodriguez.jpg" name="Juan Rodriguez" info="Arquiteco de BD & Dev Frontend" />
+        <Card url="" image="/Home/Equipo/Lina.jpeg" name="Lina Espinal" info="UX/UI & Frontend Dev" />
+        <Card url="https://www.linkedin.com/in/juan-andres-carreño-arevalo-a42a46267/" image="/Home/Equipo/JuanAndres.jpeg" name="Juan Carreño" info="DevOps BD & Backend Dev" />
+        <Card url="" image="/Home/Equipo/Oscar.png" name="Oscar Martínez" info="QA & Backend Dev" />
       </div>
       <Background/>
     </div>

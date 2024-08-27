@@ -51,6 +51,7 @@ const MenuPerfil = () => {
         ID_dia: item?.ID_dia,
         ID_producto: item.producto?.referencia,
         calorias: item?.calorias,
+        cantidad: item?.cantidad,
         comido: item?.comido,
         createdAt: item?.createdAt,
         fecha: item?.fecha,
@@ -58,7 +59,6 @@ const MenuPerfil = () => {
         updatedAt: item?.updatedAt
       }));
   
-      console.log("🚀 ~ consthistorials:Historial[]=res.slice ~ historials:", historials);
       return historials;
     } catch (error) {
       console.error(error);
@@ -69,7 +69,7 @@ const MenuPerfil = () => {
   const fetchHistorial = async () => {
     setLoading(true)
       const historials:Historial[] = await GetHistorial();
-      console.log("🚀 ~ fetchHistorial ~ historials:", historials)
+      //////console.log("🚀 ~ fetchHistorial ~ historials:", historials)
       setHistorial(historials)
     setLoading(false)
   };
@@ -97,7 +97,7 @@ const MenuPerfil = () => {
         updatedAt: item?.updatedAt
       }));
   
-      console.log("🚀 ~ consthistorials:Historial[]=res.slice ~ historials:", historials);
+      //////console.log("🚀 ~ consthistorials:Historial[]=res.slice ~ historials:", historials);
       return historials;
     } catch (error) {
       console.error(error);
@@ -109,7 +109,7 @@ const MenuPerfil = () => {
     if(infoTienda?.ID_tienda){
       setLoading(true)
       const historials:Historial[] = await GetHistorialTienda();
-      console.log("🚀 ~ fetchHistorial ~ historials:", historials)
+      //////console.log("🚀 ~ fetchHistorial ~ historials:", historials)
       setHistorialTienda(historials)
       setLoading(false)
     }else{
@@ -253,21 +253,18 @@ const MenuPerfil = () => {
               ) : bandera === 'calorias' ? (
                 <GraphCalorias historial={historial} setLoading={setLoading}/>
               ) : bandera === 'progreso' ? (
-                <HistorialGrafica historial={historial} itemsPerPage={IsMobile() ? 5 : 2}/>
+                <HistorialGrafica historial={historial} itemsPerPage={IsMobile() ? 5 : 4}/>
               ) : bandera === 'racha' ? (
                 <GraphProgreso/>
               ) : null // No se renderiza nada si bandera no es busquedas ni calorias ni progreso
             ) : (
               // Mostrar la imagen del mapa conceptual si showGraph es falso
-              <HistorialGrafica historial={historial} itemsPerPage={IsMobile() ? 5 : 2}/>
+              <HistorialGrafica historial={historial} itemsPerPage={IsMobile() ? 5 : 4}/>
             )}
           </div>
-          <div className={style.contain_estadistics} style={{gridTemplateColumns:'repeat(4,1fr)'}}>
+          <div className={style.contain_estadistics} style={{gridTemplateColumns:'repeat(3,1fr)'}}>
             <button id="HistorialButton" onClick={() => handleaButtonClick('progreso')}>
               Historial
-            </button>
-            <button id="BusquedaButton" onClick={() => handleaButtonClick('busquedas')}>
-              Sobre tus busquedas
             </button>
             <button id="CaloriasButton" onClick={() => handleaButtonClick('calorias')}>
               Consumo Nutricional

@@ -50,6 +50,9 @@ const Registro = () => {
     const fechaActual = new Date();
     // Calcular el año hace 18 años
     const hace18Anos = fechaActual.getFullYear() - 18;
+
+    // Calcular el año hace 120 años
+    const hace120Anos = fechaActual.getFullYear() - 120;
   
     // Obtener el año de la fecha de nacimiento
     const añoNacimiento = fechaNacimiento.getFullYear();
@@ -57,6 +60,12 @@ const Registro = () => {
     // Verificar si el año de nacimiento es menor al año actual menos 18
     if (añoNacimiento > hace18Anos) {
       ComponenteAlert('Debe ser mayor de 18 años.',2,AlertType.WARNING);
+      return false;
+    }
+
+    // Verificar si tiene menos de 120 años
+    if (añoNacimiento > hace120Anos) {
+      ComponenteAlert('Debe ser menor de 120 años.',2,AlertType.WARNING);
       return false;
     }
 

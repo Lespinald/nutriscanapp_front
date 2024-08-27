@@ -1,21 +1,22 @@
 .main{
   display: flex;
   position: relative;
-
+  max-height: 103svh;
   padding: 4rem 5rem 6rem 5%;
 }
 .mainMobile{
   flex-direction: column;
   padding: 7svh 2rem 10svh;
   font-size: 5svw;
-
+  max-height: none;
 }
 
 .compraImg{
   width: 50%;
 }
 .compraImgMobile{
-  margin: 7svh 0;
+  margin: 1svh 0;
+  height: 100%;
 }
 
 .colRigth{
@@ -46,7 +47,7 @@
 
   text-overflow: clip;
 
-  margin: 4rem 2rem 0;
+  margin: 1rem 0 0;
   padding: 1em 2em;
 
   border-radius: 0.5em;

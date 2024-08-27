@@ -31,6 +31,7 @@
     padding: 1%;
     align-self: flex-end;
     gap: 2svh;
+    cursor: pointer;
 }
 
 .textoInicial{
@@ -67,14 +68,21 @@
 }
 
 .flecha{
-    width: 100%;
+    width: 90%;
+    height: 8svh;
     display: flex;
     justify-content: center;
+    align-items: center;
     position: absolute;
-    bottom: 10svh;
+    bottom: 1svh;
+    border-radius: 2svh;
+    cursor: pointer;
 }
 .flecha:hover{
-    bottom: 11svh;
+    background-color: #00000020;
+}
+.flecha img{
+    height: 50%;
 }
 
 .containOpciones{

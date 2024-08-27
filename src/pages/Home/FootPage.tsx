@@ -29,9 +29,9 @@ const FootPage = () => {
             <div>
                 <h3>Nosotros</h3>
                 <br></br>
-                <p onClick={() =>{ autenticado ? ComponenteAlert("Ya estas registrado",1,AlertType.WARNING) :navigate('/Registro')}}>Comenzar</p>
+                <p onClick={() =>{navigate('/conocenos')}}>¿Quienes Somos?</p>
                 <p onClick={() =>{navigate('/objetivos')}}>Mision</p>
-                <p onClick={() =>{navigate('/equipo')}}>Desarrolladores</p>
+                <p onClick={() =>{navigate('/equipo')}}>Equipo</p>
             </div>
             <div>
                 <h3>Soporte</h3> 

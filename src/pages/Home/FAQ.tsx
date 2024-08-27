@@ -27,7 +27,7 @@ const FAQ = () => {
     <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', padding: '5%' }}>
       <h1 
         className={`${style.titleFAQ}`} 
-        style={{ position: 'sticky', top: 0, zIndex: 1000, backgroundColor: 'white', padding: '10px 0' }}
+        style={{top: 0, zIndex: 1000, backgroundColor: 'white', padding: '10px 0' }}
       >
         Preguntas Frecuentes <span style={{ color: '#55E8A0' }}>NutriScan</span>
       </h1>
