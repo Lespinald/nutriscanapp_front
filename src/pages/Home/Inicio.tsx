@@ -25,7 +25,10 @@ const Inicio = forwardRef<HTMLDivElement>(({}, ref) => {
         <img src="/Home/Inicio/textLogo.png" alt="nutriscan"/>
         <p className={style.info}>
           ¿Estás interesado en mejorar tu salud a través de una alimentación
-          más equilibrada?
+          más equilibrada?"
+        </p>
+        <br></br>
+        <p>¡Te damos la bienvenida a NutriScan!
         </p>
         <Link className={style.button} to="/registro">COMENZAR AHORA</Link>
       </div>
