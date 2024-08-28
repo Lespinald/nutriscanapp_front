@@ -8,6 +8,7 @@ import { Producto } from "../../assets/models/tienda";
 import { useSelector } from "react-redux";
 import { OffData } from "../Tienda/utilTienda";
 import InfoProductos from "./InfoProductos";
+import { TiposCorreo } from "../Home/Contactanos";
 
 const Scan = () => {
 
@@ -203,7 +204,7 @@ const Scan = () => {
         {notFound?
         <>
           <p className={style.textoVerde}>No tenemos datos de este producto aun</p>
-          <button onClick={() => {navigate(`/Contactanos?mensaje=${encodeURIComponent('Esto es una prubea')}`)}}>Ayudanos reportandolo</button>
+          <button onClick={() => {navigate(`/Contactanos?mensaje=${encodeURIComponent(`No encontre el producto con codigo "${codigo}" \n`)}&tipo=${encodeURIComponent(TiposCorreo.sugerencia)}`)}}>Ayudanos reportandolo</button>
         </>
         :
           <InfoProductos openProducto={viewProdcut} setOpenProducto={setViewProduct} modal={modal} currentProducto={currentProducto?.producto} informationProduct={currentProducto?.information} />

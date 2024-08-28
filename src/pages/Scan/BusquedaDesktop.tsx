@@ -17,6 +17,7 @@ import { useAppDispatch, useAppSelector } from "../../redux/store";
 import { pushBusqueda } from "../../redux/authSlice";
 import MenuCarga from "../../assets/MenuCarga/MenuCarga";
 import DialogCarga from "../../assets/MenuCarga/DialogCarga";
+import { TiposCorreo } from "../Home/Contactanos";
 
 type Param = {
   idProduct?:string;
@@ -314,7 +315,7 @@ const BusquedaDesktop = () => {
         {busqueda ? <>
           <h3 style={{width:'100%',textAlign:'start'}}>Resultado de busqueda</h3>
           <p style={{width:'100%',color:'black',margin:'0',textAlign:'start'}}>No se han encontrado coincidencias</p>
-          <button className="estiloButton" onClick={() => {navigate(`/Contactanos?mensaje=${encodeURIComponent(`Realice la busqueda y no encontre el producto ${busqueda}`)}`)}}>Ayudanos reportandolo</button>
+          <button className="estiloButton" onClick={() => {navigate(`/Contactanos?mensaje=${encodeURIComponent(`Realice la busqueda y no encontre el producto "${busqueda}"`)}&tipo=${encodeURIComponent(TiposCorreo.sugerencia)}`)}}>Ayudanos reportandolo</button>
         </>: 
         <>
           <h3 style={{textAlign:'start'}}>Comienza realizando una busqueda</h3>

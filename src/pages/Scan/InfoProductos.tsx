@@ -10,6 +10,7 @@ import { useAppSelector } from '../../redux/store';
 import { formatearTexto, OffData } from '../Tienda/utilTienda';
 import { useNavigate } from 'react-router-dom';
 import { useViewportRezise } from '../../assets/hooks';
+import { TiposCorreo } from '../Home/Contactanos';
 
 const MoreInfo = () => {
     return (
@@ -182,10 +183,24 @@ const InfoProductos = ({openProducto,setOpenProducto,modal,currentProducto,infor
         <Modal isOpen={openProducto} setIsOpen={setOpenProducto} ref={modal} contentStyle={infoOpen?{overflow: "hidden"}:{}}>
             <div style={{
                 position: 'absolute',
-                right: infoOpen?"2%":"5%",
+                right: infoOpen?"2%":"1em",
                 cursor: "pointer",
-                padding: "1.4svh 1svh"
-            }} title='Mas información' onClick={() => setInfoOpen(prev => !prev)}>{infoOpen?"❌":"❔"}</div>
+                color:'white',
+                fontSize:'2em',
+                top:'0.8em',
+            }} title='Mas información' onClick={() => setInfoOpen(prev => !prev)}>{infoOpen?"❌":"?"}</div>
+            <div style={{
+                position: 'absolute',
+                right: infoOpen?"2%":"4em",
+                cursor: "pointer",
+                color:'white',
+                width:'2em',
+                top:'1.8em',
+                aspectRatio:'1/1'
+            }} title='Reportar producto' 
+            onClick={() => {navigate(`/Contactanos?mensaje=${encodeURIComponent(`Hubo un error con el producto "${currentProducto?.referencia}" \n`)}&tipo=${encodeURIComponent(TiposCorreo.reporte)}`)}}>
+                <img src='/Scan/error.png' style={{height:'100%'}}/>
+            </div>
 
             {
                 infoOpen?

@@ -3,7 +3,7 @@
   align-items: center;
   text-align: center;
 
-  grid-template-columns: 1fr 2fr;
+  grid-template-columns: 1fr 1.5fr;
 
   color: var(--color-1);
   background-color: var(--color-6);

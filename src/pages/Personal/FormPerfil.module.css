@@ -43,7 +43,7 @@
     grid-template-columns: 30% 1fr ;
 }
 
-.campo input{
+.campo input, .campo select{
     border-radius: 0.4rem;
     border: none;
     background-color: #D9D9D9;

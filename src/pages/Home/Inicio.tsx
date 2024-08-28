@@ -22,7 +22,7 @@ const Inicio = forwardRef<HTMLDivElement>(({}, ref) => {
     <>
       <img src="/Home/Inicio/compra.png" alt="bolsa de compra" className={`${style.compraImg} maintainRatio`} />
       <div className={style.colRigth}>
-        <img src="/Home/Inicio/textLogo.png" alt="nutriscan"/>
+        <img src="/Home/Inicio/textLogo.png" alt="nutriscan" />
         <p className={style.info}>
           ¿Estás interesado en mejorar tu salud a través de una alimentación
           más equilibrada?"

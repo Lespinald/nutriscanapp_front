@@ -13,8 +13,8 @@ const Conocenos = forwardRef<HTMLDivElement>(({}, ref) => {
     <>
       <img src="/Home/Inicio/textLogo.png" alt="nutriscan" style={{marginBottom:'-1svh'}}/>
       <p className={style.info} style={{color:'var(--color-6)'}}>
-        <strong>NutriScan</strong> es una empresa enfocada en promover la información de calidad nutricional proporcionando herramiento como nuestro escaner 
-        y buscador en la base de datos apoyados por <strong>Open Food Facts</strong> con quienes coolaboramos, graficas de seguimiento para tu proceso 
+        <strong>NutriScan</strong> se enfoca en promover la información de calidad nutricional proporcionando herramiento como nuestro escaner, 
+        buscador en la base de datos apoyados por <strong>Open Food Facts</strong> con quienes coolaboramos, graficas de seguimiento para tu proceso 
         y el <strong>nutriscore</strong> elemento que nos da una calificacin de A-E con codigo de color para mejor entendimiento.
       </p>
       <img src="/Home/Inicio/celular.png" alt="bolsa de compra" className={style.compraImgMobile}/>
@@ -22,8 +22,8 @@ const Conocenos = forwardRef<HTMLDivElement>(({}, ref) => {
     <>
       <div className={style.colRigth}>
         <p className={style.info} style={{color:'var(--color-6)'}}>
-          <strong>NutriScan</strong> es una empresa enfocada en promover la información de calidad nutricional proporcionando herramiento como nuestro escaner 
-          y buscador en la base de datos apoyados por <strong>Open Food Facts</strong> con quienes coolaboramos, graficas de seguimiento para tu proceso 
+          <strong>NutriScan</strong> se enfoca en promover la información de calidad nutricional proporcionando herramiento como nuestro escaner,
+          buscador en la base de datos apoyados por <strong>Open Food Facts</strong> con quienes coolaboramos, graficas de seguimiento para tu proceso 
           y el <strong>nutriscore</strong> elemento que nos da una calificacin de A-E con codigo de color para mejor entendimiento.
         </p>
       </div>
