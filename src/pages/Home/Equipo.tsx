@@ -28,7 +28,7 @@ const Card = ({image, name, info,url}: CardProps) => {
   }
 
   return(
-    <div className={`${style.card} estiloButton`} onClick={redirect}>
+    <div className={`${style.card} estiloButton`} onClick={redirect} title={`Mas informacion de ${name}`}>
       <img src={image} alt={name} />
       <div>
         <h1>{name}</h1>
