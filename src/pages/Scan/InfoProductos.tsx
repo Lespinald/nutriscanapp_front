@@ -188,7 +188,7 @@ const InfoProductos = ({openProducto,setOpenProducto,modal,currentProducto,infor
                 color:'white',
                 fontSize:'2em',
                 top: IsMobile() ?'0.2em':'0.8em',
-            }} title='Mas información' onClick={() => setInfoOpen(prev => !prev)}>{infoOpen?"❌":"?"}</div>
+            }} title={infoOpen ? 'Cerrar' : 'Más información'} onClick={() => setInfoOpen(prev => !prev)}>{infoOpen?"❌":"?"}</div>
             {!infoOpen && <div style={{
                 position: 'absolute',
                 right: infoOpen?"2%":"4em",
