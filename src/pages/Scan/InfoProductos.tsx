@@ -189,6 +189,16 @@ const InfoProductos = ({openProducto,setOpenProducto,modal,currentProducto,infor
     useEffect(() => {
         ConultarEnfermedades()
     }, [])
+
+    useEffect(() => {
+        if(showMoreInfo){
+            const elemento = document.getElementById('miParrafo');
+
+            if (elemento) {
+            elemento.innerHTML = (infoIA ?? '').replace(/\n/g, '<br>');
+            }
+        }
+    }, [showMoreInfo])
     
     
     return (
@@ -358,10 +368,12 @@ const InfoProductos = ({openProducto,setOpenProducto,modal,currentProducto,infor
                                 }}> Cuidado altos niveles de: </label>
                                 <div className='contain_busquedas'>
                                     {informationProduct?.nivelesAltos.map((n) => (
-                                        <p key={n} className='opcionesSelector' onClick={() => setShowMoreInfo(!showMoreInfo)} style={{borderColor: "var(--color-6)"}}>{n}</p>
+                                        <p key={n} className='opcionesSelector' title='Mas informacion' onClick={() => setShowMoreInfo(!showMoreInfo)} style={{borderColor: "var(--color-6)"}}>{n}</p>
                                     ))}
                                 </div>
-                                {showMoreInfo && <p>{infoIA}</p>}
+                                <p style={{fontSize:'0.6em'}}>Haz click y mira las recomendaciones.</p>
+                                <div style={{background:'var(--color-6)',height:'1px',width:'100%'}}></div>
+                                {showMoreInfo && <p id="miParrafo">{infoIA}</p>}
                             </div>}
                             <div className={styleFormPerfil.campo} style={{gridTemplateColumns:'none',width:'100%'}}>
                                 <label htmlFor="Categoría" style={{color:'var(--color-6)',marginRight:'10px',textAlign:'start',fontSize:'3svh',fontWeight:'400'}}> Categorías: </label>

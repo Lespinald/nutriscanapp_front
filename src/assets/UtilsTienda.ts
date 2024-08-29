@@ -1,4 +1,5 @@
 // import axios from "axios";
+import ComponenteAlert, { AlertType } from "./ComponenteAlert";
 import { Producto, Tienda } from "./models/tienda";
 
 export async function TraerInfoTienda(idTienda: string): Promise<Tienda | null> {
@@ -92,6 +93,7 @@ export async function TaerRecomendacion(nivelesAltos: string[]): Promise<string 
     console.log("🚀 ~ TaerRecomendacion ~ respuesta.json():", text)
     return text;
   } catch (error) {
+    ComponenteAlert("Ups error en buscar mas información",1,AlertType.ERROR)
     console.error('Error en la solicitud fetch:', error);
     return null;
   }
