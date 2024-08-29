@@ -69,7 +69,7 @@ export async function ProccessTags(categorias:string[]):Promise<string[]> {
   let categoriasTraducidas:string[] = []
   categorias.forEach(async (tag) => {
     let trad = tag.split(":").map(s => s.trim())
-    let resp = await Traducir(trad[1])
+    let resp = await Traducir(trad[1] ?? trad[0])
     categoriasTraducidas.push(resp)
   })
   return categoriasTraducidas
