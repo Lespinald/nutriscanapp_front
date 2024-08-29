@@ -284,7 +284,7 @@ export async function ConsultarOpenFoodFact(ID_producto:string,referencia: strin
       nombre: data.product.product_name ?? data.product.product_name_es,
       descripcion: "",
       foto: data.product.image_url,
-      categorias: await ProccessTags(data.product.categories_tags as string[]),
+      categorias: await ProccessTags((data.product.categories as string).split(",").map(str => str.trim())),
       nutriscore: data.product.nutriscore_grade
     };
     console.log("🚀 ~ ConsultarOpenFoodFact ~ newProduct:", newProduct)
