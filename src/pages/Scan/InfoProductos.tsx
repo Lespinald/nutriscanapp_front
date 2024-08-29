@@ -3,7 +3,7 @@ import Modal from '../../assets/Components/Modal';
 import style from "./Scan.module.css"
 import styleFormPerfil from "../Personal/FormPerfil.module.css"
 import { MiniTienda } from '../../assets/models/tienda';
-import { GuardarHistorial } from '../../assets/Utils';
+import { GuardarHistorial, IsMobile } from '../../assets/Utils';
 import { nutriscoreImgs } from '../../assets/categorias';
 import { SimpleSelectorArray } from '../../assets/Components/SelectorArray';
 import { useAppSelector } from '../../redux/store';
@@ -181,29 +181,26 @@ const InfoProductos = ({openProducto,setOpenProducto,modal,currentProducto,infor
     
     return (
         <Modal isOpen={openProducto} setIsOpen={setOpenProducto} ref={modal} contentStyle={infoOpen?{overflow: "hidden"}:{}}>
-            <div
-                style={{
-                    position: 'absolute',
-                    right: infoOpen ? "2%" : "1.2em",
-                    cursor: "pointer",
-                    color: 'white',
-                    fontSize: '2em',
-                    top: '1em',
-                }}
-                title={infoOpen ? 'Cerrar' : 'Más información'} onClick={() => setInfoOpen(prev => !prev)} > {infoOpen ? "❌" : "?"}</div>
-            {!infoOpen && (
-            <div
-                style={{
-                    position: 'absolute',
-                    right: "4em",
-                    cursor: "pointer",
-                    color: 'white',
-                    width: '2em',
-                    top: '2.2em',
-                    aspectRatio: '1/1'
-                }}
-                title='Reportar producto' onClick={() => {navigate(`/Contactanos?mensaje=${encodeURIComponent(`Hubo un error con el producto "${currentProducto?.referencia}" \n`)}&tipo=${encodeURIComponent(TiposCorreo.reporte)}`);}}><img src='/Scan/error.png' style={{ height: '100%' }} /></div>
-        )}
+            <div style={{
+                position: 'absolute',
+                right: infoOpen?"2%":"1em",
+                cursor: "pointer",
+                color:'white',
+                fontSize:'2em',
+                top: IsMobile() ?'0.2em':'0.8em',
+            }} title='Mas información' onClick={() => setInfoOpen(prev => !prev)}>{infoOpen?"❌":"?"}</div>
+            {!infoOpen && <div style={{
+                position: 'absolute',
+                right: infoOpen?"2%":"4em",
+                cursor: "pointer",
+                color:'white',
+                width:'2em',
+                top:  IsMobile() ?'0.6em':'1.8em',
+                aspectRatio:'1/1'
+            }} title='Reportar producto' 
+            onClick={() => {navigate(`/Contactanos?mensaje=${encodeURIComponent(`Hubo un error con el producto "${currentProducto?.referencia}" \n`)}&tipo=${encodeURIComponent(TiposCorreo.reporte)}`)}}>
+                <img src='/Scan/error.png' style={{height:'100%'}}/>
+            </div>}
 
             {
                 infoOpen?
