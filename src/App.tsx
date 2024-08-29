@@ -76,23 +76,23 @@ function App() {
         <Route element={autenticado?<AppLayout/>:<Layout/>}>
           <Route path=':section?' element={<>
             <Home/>
-            {autenticado && <FootPage/>}
+            <FootPage/>
           </>}/>
           <Route path='/Contactanos' element={<>
             <Contactanos/>
-            {autenticado && <FootPage/>}
+            <FootPage/>
           </>}/>
           <Route path='/FAQ' element={<>
             <FAQ/>
-            {autenticado && <FootPage/>}
+            <FootPage/>
           </>}/>
           <Route path='/Manual' element={<>
             <ManualDeUsuario/>
-            {autenticado && <FootPage/>}
+            <FootPage/>
           </>}/>
           <Route path='/pago/:info' element={<>
             <Checkout/>
-            {autenticado && <FootPage/>}
+            <FootPage/>
           </>}/>
           <Route path='/responseFactura' element={<>
             <RecivePasarela/>
@@ -100,11 +100,11 @@ function App() {
           </>}/>
           <Route path='/ComprarTienda' element={<>
             <ComprarTienda/>
-            {autenticado && <FootPage/>}
+            <FootPage/>
           </>}/>
           <Route path='Tienda/:idTienda?' element={<>
             <VerUnaTienda/>
-            {autenticado && <FootPage/>}
+            <FootPage/>
           </>}/>
         </Route>
         

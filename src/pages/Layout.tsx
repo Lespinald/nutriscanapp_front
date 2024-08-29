@@ -52,7 +52,6 @@ const Layout = () => {
       <div className={style.outlet} style={{marginTop: `${layoutHeight}px`}}>
         <Outlet context={{size, mobile} satisfies HomeLayoutContext} />
       </div>
-      <FootPage></FootPage>
     </>
   );
 }
