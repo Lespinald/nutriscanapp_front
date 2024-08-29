@@ -52,7 +52,7 @@ const Registro = () => {
     const hace18Anos = fechaActual.getFullYear() - 18;
 
     // Calcular el año hace 120 años
-    const hace120Anos = fechaActual.getFullYear() - 120;
+    const hace90Anos = fechaActual.getFullYear() - 90;
   
     // Obtener el año de la fecha de nacimiento
     const añoNacimiento = fechaNacimiento.getFullYear();
@@ -310,9 +310,9 @@ const Registro = () => {
           <label>Fecha de nacimiento:</label>
           <input autoComplete='true' type='date' id='birthday' placeholder='Fecha de nacimiento' style={{ height: '100%' }} onChange={HandleInputChange('fechaDeNacimiento')}></input>
           <label>Altura:</label>
-          <input autoComplete='true' type='number' id='altura' placeholder='Altura(1.70m)' onChange={HandleInputChange('altura')}></input>
+          <input autoComplete='true' type='number' id='altura' placeholder='Altura en metros (ej: 1.70)' onChange={HandleInputChange('altura')}></input>
           <label>Peso:</label>
-          <input autoComplete='true' type='number' id='peso' placeholder='Peso(Kg)' onChange={HandleInputChange('peso')}></input>
+          <input autoComplete='true' type='number' id='peso' placeholder='Peso en kilogramos (ej: 50)' onChange={HandleInputChange('peso')}></input>
           <div style={{width:'100%'}}>
             <input type="checkbox" onClick={() => setTerminosYCondiciones((prev) =>!prev)} name="condiciones" style={{width:'fit-content',margin:'0.5em'}}/> 
             <label>

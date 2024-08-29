@@ -6,10 +6,10 @@ const Equipo = forwardRef<HTMLDivElement>(({}, ref) => {
     <div className={style.main} ref={ref}>
       <p>¿Quienes somos?</p>
       <div className={style.members}>
-        <Card url="" image="/Home/Equipo/JuanRodriguez.jpg" name="Juan Rodriguez" info="Arquiteco de BD & Dev Frontend" />
+        <Card url="https://www.linkedin.com/in/juanrodrichiquiza/" image="/Home/Equipo/JuanRodriguez.jpg" name="Juan Rodriguez" info="Arquiteco de BD & Dev Frontend" />
         <Card url="https://www.linkedin.com/in/lina-sofia-espinal-daza-78ab34305/" image="/Home/Equipo/Lina.jpeg" name="Lina Espinal" info="UX/UI & Frontend Dev" />
         <Card url="https://www.linkedin.com/in/juan-andres-carreño-arevalo-a42a46267/" image="/Home/Equipo/JuanAndres.jpeg" name="Juan Carreño" info="DevOps BD & Backend Dev" />
-        <Card url="" image="/Home/Equipo/Oscar.png" name="Oscar Martínez" info="QA & Backend Dev" />
+        <Card url="https://github.com/ojmartinezma" image="/Home/Equipo/Oscar.png" name="Oscar Martínez" info="QA & Backend Dev" />
       </div>
       <Background/>
     </div>
@@ -28,7 +28,7 @@ const Card = ({image, name, info,url}: CardProps) => {
   }
 
   return(
-    <div className={`${style.card} estiloButton`} onClick={redirect} title={`Mas informacion de ${name}`}>
+    <div className={`${style.card} estiloButton`} onClick={redirect}>
       <img src={image} alt={name} />
       <div>
         <h1>{name}</h1>
