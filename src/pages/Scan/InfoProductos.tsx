@@ -184,6 +184,7 @@ const InfoProductos = ({openProducto,setOpenProducto,modal,currentProducto,infor
 
     const ConultarEnfermedades = async() => {
         if(
+            currentProducto?.nutriscore != "not-applicable" && 
             currentProducto?.nutriscore != 'a' && 
             currentProducto?.nutriscore != 'b'
         ){
