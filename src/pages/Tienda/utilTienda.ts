@@ -63,6 +63,7 @@ export function OffData(data: any){
 
     return offData;
   }catch(e){
+    console.error(e);
     return undefined
   }
 }

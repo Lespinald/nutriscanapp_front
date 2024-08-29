@@ -143,7 +143,7 @@ const Scan = () => {
       }).then(async res => {
         if(res.product){
           console.log(res);
-          let infoProductos = OffData(res.product); 
+          let infoProductos = OffData(res); 
           let newProduct:Producto = {
             ID_producto: res.product.id,
             referencia: res.product.id,
@@ -154,6 +154,7 @@ const Scan = () => {
             nutriscore: res.product.nutriscore_grade
           }
           setCurrentProducto({producto:newProduct, information:infoProductos})
+          console.log({producto:newProduct, information:infoProductos})
           GuardarRegistro(newProduct).then((ID) => {
             console.log("🚀 ~ GuardarRegistro Then ~ ID:", ID)
           })
