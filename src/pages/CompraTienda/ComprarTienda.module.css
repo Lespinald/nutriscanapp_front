@@ -40,7 +40,7 @@
 }
 
 .button{
-    background-color: var(--color-2);
+    background-color: var(--color-4);
     color: white;
     font-size: 3svh;
     height: fit-content;
@@ -117,7 +117,7 @@
     color: var(--color-1);
     width: 100%;
     height: fit-content;
-    font-size: 5svw;
+    font-size: 2svw;
     text-align: center;
 }
 

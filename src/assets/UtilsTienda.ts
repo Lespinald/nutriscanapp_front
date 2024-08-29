@@ -93,7 +93,7 @@ export async function TaerRecomendacion(nivelesAltos: string[]): Promise<string 
     console.log("🚀 ~ TaerRecomendacion ~ respuesta.json():", text)
     return text;
   } catch (error) {
-    ComponenteAlert("Ups error en buscar mas información",1,AlertType.ERROR)
+    ComponenteAlert("Ups No pudimos consultar la información",1,AlertType.ERROR)
     console.error('Error en la solicitud fetch:', error);
     return null;
   }

@@ -99,7 +99,7 @@ const RecivePasarela = () => {
         </div>
         <div className={style.campo}>
             <label>ESTADO</label>
-            <label>aprovada</label>
+            <label>aprobada</label>
         </div>
         <div className={style.campo}>
             <label>VALOR</label>

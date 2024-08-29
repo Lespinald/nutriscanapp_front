@@ -378,9 +378,10 @@ const InfoProductos = ({openProducto,setOpenProducto,modal,currentProducto,infor
                                         <p key={n} className='opcionesSelector' title='Mas informacion' onClick={() => setShowMoreInfo(!showMoreInfo)} style={{borderColor: "var(--color-6)"}}>{n}</p>
                                     ))}
                                 </div>
-                                <p style={{fontSize:'0.6em'}}>Haz click y mira las recomendaciones.</p>
+                                <p style={{fontSize:'0.6em'}}>Haz click en uno para ver las enfermedades asociadas a su consumo</p>
                                 <div style={{background:'var(--color-6)',height:'1px',width:'100%'}}></div>
                                 {showMoreInfo && <p id="miParrafo" style={{textAlign:'start'}}>{infoIA}</p>}
+                                {showMoreInfo && <p id="miParrafo2" style={{textAlign:'start',fontSize:'0.6em'}}>* Información de referencia, consulta nuestros <a href='https://nutriscan.com.co/terminos_y_condiciones'>términos y condiciones</a>, consulta a tu profesional de la salud </p>}
                             </div>}
                             <div className={styleFormPerfil.campo} style={{gridTemplateColumns:'none',width:'100%'}}>
                                 <label htmlFor="Categoría" style={{color:'var(--color-6)',marginRight:'10px',textAlign:'start',fontSize:'3svh',fontWeight:'400'}}> Categorías: </label>

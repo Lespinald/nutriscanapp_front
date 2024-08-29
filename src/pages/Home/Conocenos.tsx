@@ -15,7 +15,7 @@ const Conocenos = forwardRef<HTMLDivElement>(({}, ref) => {
       <p className={style.info} style={{color:'var(--color-6)'}}>
         <strong>NutriScan</strong> se enfoca en promover la información de calidad nutricional proporcionando herramiento como nuestro escaner, 
         buscador en la base de datos apoyados por <strong>Open Food Facts</strong> con quienes coolaboramos, graficas de seguimiento para tu proceso 
-        y el <strong>nutriscore</strong> elemento que nos da una calificacin de A-E con codigo de color para mejor entendimiento.
+        y el <strong>nutriscore</strong> elemento que nos da una calificación de A-E con codigo de color para mejor entendimiento.
       </p>
       <img src="/Home/Inicio/celular.png" alt="bolsa de compra" className={style.compraImgMobile}/>
     </>:
@@ -24,7 +24,7 @@ const Conocenos = forwardRef<HTMLDivElement>(({}, ref) => {
         <p className={style.info} style={{color:'var(--color-6)'}}>
           <strong>NutriScan</strong> se enfoca en promover la información de calidad nutricional proporcionando herramiento como nuestro escaner,
           buscador en la base de datos apoyados por <strong>Open Food Facts</strong> con quienes coolaboramos, graficas de seguimiento para tu proceso 
-          y el <strong>nutriscore</strong> elemento que nos da una calificacin de A-E con codigo de color para mejor entendimiento.
+          y el <strong>nutriscore</strong> elemento que nos da una calificación de A-E con codigo de color para mejor entendimiento.
         </p>
       </div>
       <img src="/Home/Inicio/desktop.png" alt="bolsa de compra" className={`${style.compraImg} maintainRatio`} />
