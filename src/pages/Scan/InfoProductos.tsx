@@ -192,6 +192,7 @@ const InfoProductos = ({openProducto,setOpenProducto,modal,currentProducto,infor
         }
     }
     useEffect(() => {
+        console.log("informationProduct:", informationProduct);
         ConultarEnfermedades()
     }, [])
 

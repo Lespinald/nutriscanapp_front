@@ -33,7 +33,7 @@ const translations = {
 
 export function OffData(data: any){
   try{
-    const {nutriments, product_quantity, product_quantity_unit, image_url, nutrient_levels} = data.product;
+    const {nutriments, quantity, product_quantity, product_quantity_unit, image_url, nutrient_levels} = data.product;
     console.log("🚀 ~ OffData ~ nutrient_levels:", nutrient_levels)
 
     const offData: OffData = {
@@ -54,7 +54,7 @@ export function OffData(data: any){
       energia: nutriments.energy_value,
       unidadEnergia: nutriments.energy_unit,
       cantidad: product_quantity,
-      unidadCantidad: product_quantity_unit,
+      unidadCantidad: product_quantity_unit ?? getQuantityUnit(quantity),
       imagenFrontalUrl: image_url,
       nivelesAltos: Object.keys(nutrient_levels)
       .filter(key => nutrient_levels[key] === "high")
@@ -65,6 +65,15 @@ export function OffData(data: any){
   }catch(e){
     return undefined
   }
+}
+
+function getQuantityUnit(quantity: string){
+  let list = quantity.split(" ");
+  if(list[1]) return list[1];
+
+  if(quantity.endsWith("ml")) return "ml";
+  if(quantity.endsWith("mg")) return "mg";
+  return quantity.slice(quantity.length-1);
 }
 
 export interface NutriScanDatos {
