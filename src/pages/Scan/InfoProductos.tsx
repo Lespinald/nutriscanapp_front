@@ -261,7 +261,7 @@ const InfoProductos = ({openProducto,setOpenProducto,modal,currentProducto,infor
                                 <button className={style.calButton}
                                     onClick={() =>
                                     {currentProducto && GuardarHistorial(infoUser?.uid,{energy: informationProduct?.energia},currentProducto?.ID_producto,cantidadUnidades,true)}
-                                }>SUMAR CALORIAS</button>
+                                }>AGREGAR A COMIDOS</button>
                             </div>
                             <br/>
 

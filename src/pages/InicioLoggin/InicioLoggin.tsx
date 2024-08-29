@@ -9,6 +9,7 @@ import { ConsultarOpenFoodFact, TraerEnlacesDeProducto } from '../../assets/Util
 import { useSelector } from 'react-redux';
 import InfoProductos from '../Scan/InfoProductos';
 import { OffData } from '../Tienda/utilTienda';
+import DialogCarga from '../../assets/MenuCarga/DialogCarga';
 
 interface Limit{
   startIndex: number;
@@ -20,6 +21,7 @@ const InicioLoggin = () => {
   const [productos, setProductos] = useState<Producto[]>([])
   const [currentProducto, setCurrentProducto] = useState<{ product: Producto | null; infoProducto: OffData | undefined; }>()
   const [limites, setLimites] = useState(false)
+  const [loading, setLoading] = useState(false)
   const [openProducto, setOpenProducto] = useState(false)
 
   const [flechaHover, setFlechaHover] = useState(false);
@@ -40,6 +42,7 @@ const InicioLoggin = () => {
   } as Producto
 
   const HandleClickProduct = async (producto:Producto) => {
+    setLoading(true)
     let res = await ConsultarOpenFoodFact(producto.ID_producto,producto.referencia,infoUser.uid)
     let enlacesPromise = TraerEnlacesDeProducto(producto.referencia)
     console.log("🚀 ~ HandleClickProduct ~ res:", res)
@@ -50,6 +53,7 @@ const InicioLoggin = () => {
     }else{
       setCurrentProducto({product:producto,infoProducto:undefined})
     }
+    setLoading(false)
     setOpenProducto(true)
   }
 
@@ -125,6 +129,7 @@ const InicioLoggin = () => {
 
   return (
     <div className={style.backCirculo}>
+      <DialogCarga isOpen={loading} color='--color-5'/>
       <div className={style.containOpciones} style={limites ? {flexDirection:'row',maxHeight:'none'} : {flexDirection:'row'}}>
         {GetOpciones()}
       </div>

@@ -9,10 +9,12 @@ import { useSelector } from "react-redux";
 import { OffData } from "../Tienda/utilTienda";
 import InfoProductos from "./InfoProductos";
 import { TiposCorreo } from "../Home/Contactanos";
+import DialogCarga from "../../assets/MenuCarga/DialogCarga";
 
 const Scan = () => {
 
   const [capturando, setCapturando] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(false);
 
   const [codigo, setCodigo] = useState<string>("");
   const [currentProducto, setCurrentProducto] = useState<{producto:Producto,information: OffData|undefined}>();
@@ -126,6 +128,7 @@ const Scan = () => {
   useEffect(() => {
     console.log("🚀 ~ useEffect ~ codigo:", codigo)
     if(codigo){
+      setLoading(true)
       fetch(`https://world.openfoodfacts.net/api/v2/product/${codigo.split(" ")[0]}`)/*${codigo.split(" ")[0]} */
       .then(res => {
         if(res.ok){
@@ -160,13 +163,16 @@ const Scan = () => {
         }else{
           setNutriscore("unknown");
         }
+        setLoading(false)
         setViewProduct(true)
       }).catch(err => console.error(err));
+      setLoading(false)
     }
   }, [codigo])
   
   return (
     <div className={style.scanMain} style={{background:'white',alignItems:'center'}}>
+      <DialogCarga isOpen={loading} color='--color-5'/>
 
       {capturando?
         <div className={style.videoDisplay}>
