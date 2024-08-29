@@ -76,18 +76,23 @@ export async function ProccessTags(categorias:string[]):Promise<string[]> {
 } 
 
 export async function Traducir(input:string):Promise<string> {
-  // return await fetch("https://translation.googleapis.com/language/translate/v2", {
-  //   method: "POST",
-  //   body: JSON.stringify({
-  //     q: input,
-  //     source: "en",
-  //     target: "es",
-  //   }),
-  //   headers: { "Content-Type": "application/json" }
-  // }).then((resp) => {return resp.json()})
-  // .then((json) => {return json.data.translations.translatedText})
-  // .catch((error) => {
-  //   console.error('Error al traducir:', error);
     return input;
-  // });
+}
+
+export async function TaerRecomendacion(nivelesAltos: string[]): Promise<string | null> {
+  
+  try {
+    console.log("🚀 ~ TaerRecomendacion ~ nivelesAltos:", nivelesAltos)
+    const respuesta = await fetch(`https://api.nutriscan.com.co/api/enfermedades/${nivelesAltos}`)
+    if (!respuesta.ok) {
+      throw new Error('Error en la solicitud');
+    }
+    let text = await respuesta.json()
+    text = text[0].message.content
+    console.log("🚀 ~ TaerRecomendacion ~ respuesta.json():", text)
+    return text;
+  } catch (error) {
+    console.error('Error en la solicitud fetch:', error);
+    return null;
+  }
 }

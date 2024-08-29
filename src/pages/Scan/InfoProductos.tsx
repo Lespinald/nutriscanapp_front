@@ -11,6 +11,7 @@ import { formatearTexto, OffData } from '../Tienda/utilTienda';
 import { useNavigate } from 'react-router-dom';
 import { useViewportRezise } from '../../assets/hooks';
 import { TiposCorreo } from '../Home/Contactanos';
+import { TaerRecomendacion } from '../../assets/UtilsTienda';
 
 const MoreInfo = () => {
     return (
@@ -132,6 +133,8 @@ const InfoProductos = ({openProducto,setOpenProducto,modal,currentProducto,infor
     const mobileMaxRatio = (1180/860);
 
     const [cantidadUnidades, setCantidadUnidades] = useState(1)
+    const [infoIA, setInfoIA] = useState<string|null>('');
+    const [showMoreInfo, setShowMoreInfo] = useState(false);
     const [infoOpen, setInfoOpen] = useState(false);
     const [mobile, setMobile] = useState((size.width/size.height) < mobileMaxRatio)
 
@@ -178,6 +181,15 @@ const InfoProductos = ({openProducto,setOpenProducto,modal,currentProducto,infor
             GuardarHistorial(infoUser?.uid,{energy: informationProduct?.energia},id_product,0,false,true)
         }
     }
+
+    const ConultarEnfermedades = async() => {
+        let info = await TaerRecomendacion(informationProduct?.nivelesAltos)
+        setInfoIA(info)
+    }
+    useEffect(() => {
+        ConultarEnfermedades()
+    }, [])
+    
     
     return (
         <Modal isOpen={openProducto} setIsOpen={setOpenProducto} ref={modal} contentStyle={infoOpen?{overflow: "hidden"}:{}}>
@@ -346,9 +358,10 @@ const InfoProductos = ({openProducto,setOpenProducto,modal,currentProducto,infor
                                 }}> Cuidado altos niveles de: </label>
                                 <div className='contain_busquedas'>
                                     {informationProduct?.nivelesAltos.map((n) => (
-                                        <p key={n} className='opcionesSelector' style={{borderColor: "var(--color-6)"}}>{n}</p>
+                                        <p key={n} className='opcionesSelector' onClick={() => setShowMoreInfo(!showMoreInfo)} style={{borderColor: "var(--color-6)"}}>{n}</p>
                                     ))}
                                 </div>
+                                {showMoreInfo && <p>{infoIA}</p>}
                             </div>}
                             <div className={styleFormPerfil.campo} style={{gridTemplateColumns:'none',width:'100%'}}>
                                 <label htmlFor="Categoría" style={{color:'var(--color-6)',marginRight:'10px',textAlign:'start',fontSize:'3svh',fontWeight:'400'}}> Categorías: </label>
