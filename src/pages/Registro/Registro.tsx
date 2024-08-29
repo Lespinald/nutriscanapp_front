@@ -63,11 +63,11 @@ const Registro = () => {
       return false;
     }
 
-    // Verificar si tiene menos de 90 años
-    if (añoNacimiento < hace90Anos) {
-      ComponenteAlert('Ingresa una fecha de nacimiento valida',2,AlertType.WARNING);
-      return false;
-    }
+    // Verificar si tiene menos de 120 años
+    // if (añoNacimiento > hace120Anos) {
+    //   ComponenteAlert('Debe ser menor de 120 años.',2,AlertType.WARNING);
+    //   return false;
+    // }
 
     return true;
   }
@@ -92,6 +92,10 @@ const Registro = () => {
       return false
     }
     if (!ValidarEdad(dato.fechaDeNacimiento)) {
+      return false;
+    }
+    if(dato.altura/100 > 3){
+      ComponenteAlert("La Altura debe ser en metros, punto decimal (.)", 2, AlertType.WARNING);
       return false;
     }
     if(dato.telefono === usuarioVacio.telefono){
@@ -147,6 +151,19 @@ const Registro = () => {
   const CrearUsuarioBD = (uid:string,email?:string) => {
     setLoading(true)
     const fechaActual = new Date();
+    console.log( JSON.stringify({ 
+      uid: uid, 
+      nombre: user.nombre,
+      tipoSuscripcion: 'gratis',
+      fechaSuscripcion : formatDate(new Date(fechaActual.getTime() + (15 * 24 * 60 * 60 * 1000))),
+      fechaDeNacimiento : user.fechaDeNacimiento,
+      altura :  Number(user.altura),
+      peso :  Number(user.peso),
+      telefono :  Number(user.telefono),
+      correo :  user.correo ? user.correo : email,
+      ultimoLogueo: fechaActual.toISOString(),
+      racha: 1
+    }))
     // ========EJECUTAR AL VERIFICAR NO DUPLICIDAD===========
     var resp = fetch(`https://api.nutriscan.com.co/api/usuarios`,{
       method: 'POST',
@@ -159,18 +176,18 @@ const Registro = () => {
         tipoSuscripcion: 'gratis',
         fechaSuscripcion : formatDate(new Date(fechaActual.getTime() + (15 * 24 * 60 * 60 * 1000))),
         fechaDeNacimiento : user.fechaDeNacimiento,
-        altura :  user.altura,
-        peso :  user.peso,
+        altura :  Number(user.altura),
+        peso :  Number(user.peso),
         telefono :  Number(user.telefono),
         correo :  user.correo ? user.correo : email,
-        ultimoLogueo: fechaActual.toISOString(),
+        ultimoLogueo: formatDate(new Date(fechaActual)),
         racha: 1
       })
       })
       .then(respuesta => {
         console.log("🚀 ~ HandleRegistro ~ respuesta:", respuesta)
         if (!respuesta.ok) {
-          throw new Error('Error en la solicitud');
+          throw new Error(`'Error en la solicitud', ${respuesta.body}`);
         }
         setLoading(false)
         return respuesta.json()

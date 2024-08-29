@@ -53,6 +53,7 @@ export const toUsuario = (doc : FireBaseDocument) : Usuario => {
 }
 
 export function formatDate(date: Date) {
+    console.log("🚀 ~ formatDate ~ date:", date)
     if (date.getTime() === 0) {
         // Si la fecha es el "epoch", devuelve una fecha a partir del año 2025
         return "2025-01-01 00:00:00";
@@ -63,5 +64,6 @@ export function formatDate(date: Date) {
     const hours = String(date.getHours()).padStart(2, '0');
     const minutes = String(date.getMinutes()).padStart(2, '0');
     const seconds = String(date.getSeconds()).padStart(2, '0');
+    console.log("🚀 ~ formatDate ~ ${year}-${month}-${day} ${hours}:${minutes}:${seconds}:", `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`)
     return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
 }
