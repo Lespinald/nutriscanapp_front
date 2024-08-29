@@ -37,9 +37,10 @@ const Login = () => {
         try {
             setLoading(true)
             console.log("Dirección de correo electrónico:", address, "Contraseña:", password);
-            const result = await signInWithEmailAndPassword(auth, address, password);
-            console.log("Resultado del inicio de sesión:", result);
-            TraerInfoUsuario(result?.user?.uid)
+            const result = await signInWithEmailAndPassword(auth, address, password).then((res) => {
+                console.log("Resultado del inicio de sesión:", res);
+                TraerInfoUsuario(res?.user?.uid)
+            }).catch((e) => console.error(e));
         } catch (error:any) {
             setLoading(false)
             signOut(auth)
@@ -75,7 +76,7 @@ const Login = () => {
             console.log("🚀 ~ HandleGoogle ~ respuesta:", respuesta)
             if (!respuesta.ok) {
                 console.log("🚀 ~ TraerInfoUsuario ~ auth:", auth)
-                if(auth.currentUser) {deleteUser(auth?.currentUser)}
+                if(auth.currentUser) {signOut(auth)}
                 setLoading(false)
                 throw new Error('Error en la solicitud');
             }
