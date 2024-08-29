@@ -285,8 +285,20 @@ const BusquedaDesktop = () => {
     <div className={style.scanMain}>
       <DialogCarga isOpen={loading} color='--color-5'/>
       <div className={style.barraBuscador}>
-        <input placeholder="Ingresa el nombre o codigo de barras" value={busqueda} onChange={(e) => setBusqueda(e.target.value)} onBlur={e => HandleSearch()} onKeyDown={(e) => {if(e.key === 'Enter'){HandleSearch()} }}></input>
-        <p style={{width:'100%',textAlign:'start',fontSize:'0.7em'}}>*Oprime <strong style={{fontWeight:'900',textTransform:'uppercase'}}>enter</strong> para buscar</p>
+  <input 
+    placeholder="Ingresa el nombre o código de barras"
+    value={busqueda}
+    onChange={(e) => setBusqueda(e.target.value)}
+    onBlur={e => HandleSearch()}
+    onKeyDown={(e) => {if(e.key === 'Enter'){HandleSearch()} }}
+    style={{ marginBottom: '10px' }} // Adjust space here
+  />
+  <br />
+  <p style={{ width: '100%', textAlign: 'start', fontSize: '0.7em', marginTop: '10px' }}>
+    *Oprime <strong style={{ fontWeight: '900', textTransform: 'uppercase' }}>enter</strong> para buscar
+  </p>
+</div>
+      <div className={style.barraBuscador}>
         <div>
           <img className={`${style.scanTopImg} maintainRatio`} src="\Login\nutriscanLogo.png"/>
           <br></br>

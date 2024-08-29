@@ -183,19 +183,19 @@ const InfoProductos = ({openProducto,setOpenProducto,modal,currentProducto,infor
         <Modal isOpen={openProducto} setIsOpen={setOpenProducto} ref={modal} contentStyle={infoOpen?{overflow: "hidden"}:{}}>
             <div style={{
                 position: 'absolute',
-                right: infoOpen?"2%":"1em",
+                right: infoOpen?"2%":"1.2em",
                 cursor: "pointer",
                 color:'white',
                 fontSize:'2em',
-                top: IsMobile() ?'0.2em':'0.8em',
+                top: IsMobile() ?'0.4em':'1em',
             }} title={infoOpen ? 'Cerrar' : 'Más información'} onClick={() => setInfoOpen(prev => !prev)}>{infoOpen?"❌":"?"}</div>
             {!infoOpen && <div style={{
                 position: 'absolute',
-                right: infoOpen?"2%":"4em",
+                right: infoOpen?"2%":"4.2em",
                 cursor: "pointer",
                 color:'white',
                 width:'2em',
-                top:  IsMobile() ?'0.6em':'1.8em',
+                top:  IsMobile() ?'1em':'2.2em',
                 aspectRatio:'1/1'
             }} title='Reportar producto' 
             onClick={() => {navigate(`/Contactanos?mensaje=${encodeURIComponent(`Hubo un error con el producto "${currentProducto?.referencia}" \n`)}&tipo=${encodeURIComponent(TiposCorreo.reporte)}`)}}>
