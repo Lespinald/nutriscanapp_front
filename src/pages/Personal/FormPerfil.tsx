@@ -58,7 +58,7 @@ const FormPerfil = () => {
       return false;
     }
 
-    if(datos.altura > 4){
+    if(datos.altura/100 > 4){
       ComponenteAlert("La Altura debe ser en metros", 2, AlertType.WARNING);
       return false;
     }
