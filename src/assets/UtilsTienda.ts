@@ -83,8 +83,8 @@ export async function Traducir(input:string):Promise<string> {
 export async function TaerRecomendacion(nivelesAltos: string[]): Promise<string | null> {
   
   try {
-    console.log("🚀 ~ TaerRecomendacion ~ nivelesAltos:", nivelesAltos)
-    const respuesta = await fetch(`https://api.nutriscan.com.co/api/enfermedades/${nivelesAltos}`)
+    console.log("🚀 ~ TaerRecomendacion ~ https://api.nutriscan.com.co/api/enfermedades/${nivelesAltos}:", `https://api.nutriscan.com.co/api/enfermedades/[${nivelesAltos}]`)
+    const respuesta = await fetch(`https://api.nutriscan.com.co/api/enfermedades/[${nivelesAltos}]`)
     if (!respuesta.ok) {
       throw new Error('Error en la solicitud');
     }

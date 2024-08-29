@@ -183,8 +183,13 @@ const InfoProductos = ({openProducto,setOpenProducto,modal,currentProducto,infor
     }
 
     const ConultarEnfermedades = async() => {
-        let info = await TaerRecomendacion(informationProduct?.nivelesAltos)
-        setInfoIA(info)
+        if(
+            currentProducto?.nutriscore != 'a' && 
+            currentProducto?.nutriscore != 'b'
+        ){
+            let info = await TaerRecomendacion(informationProduct?.nivelesAltos)
+            setInfoIA(info)
+        }
     }
     useEffect(() => {
         ConultarEnfermedades()
@@ -373,7 +378,7 @@ const InfoProductos = ({openProducto,setOpenProducto,modal,currentProducto,infor
                                 </div>
                                 <p style={{fontSize:'0.6em'}}>Haz click y mira las recomendaciones.</p>
                                 <div style={{background:'var(--color-6)',height:'1px',width:'100%'}}></div>
-                                {showMoreInfo && <p id="miParrafo">{infoIA}</p>}
+                                {showMoreInfo && <p id="miParrafo" style={{textAlign:'start'}}>{infoIA}</p>}
                             </div>}
                             <div className={styleFormPerfil.campo} style={{gridTemplateColumns:'none',width:'100%'}}>
                                 <label htmlFor="Categoría" style={{color:'var(--color-6)',marginRight:'10px',textAlign:'start',fontSize:'3svh',fontWeight:'400'}}> Categorías: </label>
