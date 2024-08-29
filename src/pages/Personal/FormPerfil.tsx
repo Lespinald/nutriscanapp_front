@@ -58,6 +58,11 @@ const FormPerfil = () => {
       return false;
     }
 
+    if(datos.altura > 4){
+      ComponenteAlert("La Altura debe ser en metros", 2, AlertType.WARNING);
+      return false;
+    }
+
     if(areObjectsEqual(datos, infoUser)){
       ComponenteAlert("No se cambio ningun dato", 2, AlertType.WARNING);
       return false;
