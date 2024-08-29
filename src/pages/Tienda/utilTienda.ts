@@ -44,7 +44,7 @@ export function OffData(data: any){
       grasaSaturada: nutriments["saturated-fat_value"],
       unidadGrasaSaturada: nutriments["saturated-fat_unit"],
       azucar: nutriments.sugars_value,
-      unidadAzucar: nutriments.sugras_unit,
+      unidadAzucar: nutriments.sugars_unit,
       proteina: nutriments.proteins_value,
       unidadProteina: nutriments.proteins_unit,
       sodio: nutriments.sodium_value,
